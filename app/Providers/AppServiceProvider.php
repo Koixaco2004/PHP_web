@@ -23,7 +23,12 @@ class AppServiceProvider extends ServiceProvider
     {
         // Share categories with specific views for navigation
         View::composer(['layouts.app', 'home', 'posts.*'], function ($view) {
-            $navigationCategories = Category::orderBy('name')->get();
+            $navigationCategories = Category::active()
+                ->withCount(['posts' => function ($query) {
+                    $query->published();
+                }])
+                ->ordered()
+                ->get();
             $view->with('navigationCategories', $navigationCategories);
         });
     }

@@ -58,6 +58,32 @@
     margin: 0 !important;
     margin-bottom: 0 !important;
   }
+  
+  /* Dropdown styles */
+  .dropdown-enter {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  
+  .dropdown-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.2s ease-out;
+  }
+  
+  .categories-dropdown {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    border: 1px solid #e5e7eb;
+  }
+  
+  .category-item {
+    transition: all 0.15s ease;
+  }
+  
+  .category-item:hover {
+    background-color: #f3f4f6;
+    transform: translateX(2px);
+  }
 
 }
 

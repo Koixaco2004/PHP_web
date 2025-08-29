@@ -167,16 +167,86 @@
     <!-- Navigation Bar -->
     <nav class="bg-primary-900 border-b border-primary-800">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center space-x-8 py-3 overflow-x-auto">
-                <a href="{{ route('home') }}" class="text-white hover:text-primary-200 text-sm font-medium whitespace-nowrap transition-colors duration-200 {{ request()->routeIs('home') ? 'text-primary-200' : '' }}">
-                    Trang chủ
-                </a>
-                @foreach($navigationCategories ?? [] as $category)
-                    <a href="{{ route('categories.show', $category) }}" 
-                       class="text-white hover:text-primary-200 text-sm font-medium whitespace-nowrap transition-colors duration-200 {{ request()->route('category')?->id == $category->id ? 'text-primary-200' : '' }}">
-                        {{ $category->name }}
+            <div class="flex items-center justify-between py-3">
+                <div class="flex items-center space-x-8">
+                    <a href="{{ route('home') }}" class="text-white hover:text-primary-200 text-sm font-medium whitespace-nowrap transition-colors duration-200 {{ request()->routeIs('home') ? 'text-primary-200' : '' }}">
+                        Trang chủ
                     </a>
-                @endforeach
+                    
+                    @if(isset($navigationCategories) && $navigationCategories->count() > 0)
+                        @php
+                            $mainCategories = $navigationCategories->take(5); // Show first 5 categories
+                            $moreCategories = $navigationCategories->skip(5); // Remaining categories
+                        @endphp
+                        
+                        @foreach($mainCategories as $category)
+                            <a href="{{ route('categories.show', $category) }}" 
+                               class="text-white hover:text-primary-200 text-sm font-medium whitespace-nowrap transition-colors duration-200 {{ request()->route('category')?->id == $category->id ? 'text-primary-200' : '' }}">
+                                {{ $category->name }}
+                            </a>
+                        @endforeach
+                        
+                        @if($moreCategories->count() > 0)
+                            <!-- More Categories Dropdown -->
+                            <div class="relative">
+                                <button onclick="toggleCategoriesDropdown()" class="flex items-center space-x-1 text-white hover:text-primary-200 text-sm font-medium whitespace-nowrap transition-colors duration-200">
+                                    <span>Thêm chuyên mục</span>
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                                
+                                <div id="categoriesDropdown" class="hidden absolute left-0 mt-2 w-64 bg-white categories-dropdown rounded-lg shadow-lg z-50">
+                                    <div class="py-2 max-h-80 overflow-y-auto">
+                                        @foreach($moreCategories as $category)
+                                            <a href="{{ route('categories.show', $category) }}" 
+                                               class="category-item flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 {{ request()->route('category')?->id == $category->id ? 'bg-primary-50 text-primary-700' : '' }}">
+                                                @if($category->icon)
+                                                    <i class="{{ $category->icon }} w-4 h-4 mr-3 flex-shrink-0" style="color: {{ $category->color ?? '#6B7280' }}"></i>
+                                                @endif
+                                                <div class="flex-1 min-w-0">
+                                                    <span class="font-medium">{{ $category->name }}</span>
+                                                    @if($category->description)
+                                                        <p class="text-xs text-gray-500 truncate mt-0.5">{{ Str::limit($category->description, 40) }}</p>
+                                                    @endif
+                                                </div>
+                                                @if($category->posts_count > 0)
+                                                    <span class="ml-2 inline-flex items-center px-2 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-full">{{ $category->posts_count }}</span>
+                                                @endif
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    @endif
+                </div>
+                
+                <!-- Mobile Menu Toggle -->
+                <div class="md:hidden">
+                    <button onclick="toggleMobileNav()" class="text-white hover:text-primary-200 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile Navigation -->
+            <div id="mobileNav" class="hidden md:hidden pb-3">
+                <div class="flex flex-col space-y-2">
+                    @if(isset($navigationCategories))
+                        @foreach($navigationCategories as $category)
+                            <a href="{{ route('categories.show', $category) }}" 
+                               class="text-white hover:text-primary-200 text-sm font-medium py-2 transition-colors duration-200 {{ request()->route('category')?->id == $category->id ? 'text-primary-200' : '' }}">
+                                @if($category->icon)
+                                    <i class="{{ $category->icon }} w-4 h-4 mr-2"></i>
+                                @endif
+                                {{ $category->name }}
+                            </a>
+                        @endforeach
+                    @endif
+                </div>
             </div>
         </div>
     </nav>
@@ -253,21 +323,50 @@
     <!-- Alpine.js -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     
-    <!-- Profile Dropdown Script -->
+    <!-- Dropdown Scripts -->
     <script>
         function toggleProfileDropdown() {
             const dropdown = document.getElementById('profileDropdown');
             dropdown.classList.toggle('hidden');
         }
 
-        // Close dropdown when clicking outside
+        function toggleCategoriesDropdown() {
+            const dropdown = document.getElementById('categoriesDropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        function toggleMobileNav() {
+            const mobileNav = document.getElementById('mobileNav');
+            mobileNav.classList.toggle('hidden');
+        }
+
+        // Close dropdowns when clicking outside
         document.addEventListener('click', function(event) {
-            const dropdown = document.getElementById('profileDropdown');
-            const button = event.target.closest('[onclick="toggleProfileDropdown()"]');
+            // Profile dropdown
+            const profileDropdown = document.getElementById('profileDropdown');
+            const profileButton = event.target.closest('[onclick="toggleProfileDropdown()"]');
             
-            if (!button && !dropdown.contains(event.target)) {
-                dropdown.classList.add('hidden');
+            if (!profileButton && profileDropdown && !profileDropdown.contains(event.target)) {
+                profileDropdown.classList.add('hidden');
             }
+
+            // Categories dropdown
+            const categoriesDropdown = document.getElementById('categoriesDropdown');
+            const categoriesButton = event.target.closest('[onclick="toggleCategoriesDropdown()"]');
+            
+            if (!categoriesButton && categoriesDropdown && !categoriesDropdown.contains(event.target)) {
+                categoriesDropdown.classList.add('hidden');
+            }
+        });
+
+        // Close mobile nav when clicking on links
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileNavLinks = document.querySelectorAll('#mobileNav a');
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    document.getElementById('mobileNav').classList.add('hidden');
+                });
+            });
         });
     </script>
 </body>
