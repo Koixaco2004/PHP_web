@@ -30,7 +30,16 @@ class UserFactory extends Factory
             'password' => static::$password ??= Hash::make('password'),
             'role' => fake()->randomElement(['admin', 'user', 'subscriber']),
             'google_id' => null,
-            'avatar' => fake()->optional(0.3)->imageUrl(200, 200, 'people'),
+            'avatar' => fake()->optional(0.3)->randomElement([
+                'https://images.unsplash.com/photo-1494790108755-2616b612b526?w=200&h=200&fit=crop&crop=face',
+                'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face',
+                'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=200&h=200&fit=crop&crop=face',
+                'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face',
+                'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=face',
+                'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&h=200&fit=crop&crop=face',
+                'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=face',
+                'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop&crop=face',
+            ]),
             'bio' => fake()->optional(0.5)->paragraph(),
             'location' => fake()->optional(0.4)->city(),
             'website' => fake()->optional(0.2)->url(),
@@ -90,7 +99,11 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'google_id' => fake()->uuid(),
-            'avatar' => fake()->imageUrl(200, 200, 'people'),
+            'avatar' => fake()->randomElement([
+                'https://images.unsplash.com/photo-1566492031773-4f4e44671d66?w=200&h=200&fit=crop&crop=face',
+                'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&h=200&fit=crop&crop=face',
+                'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?w=200&h=200&fit=crop&crop=face',
+            ]),
         ]);
     }
 }
