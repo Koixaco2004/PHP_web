@@ -154,7 +154,7 @@
                 @endif
 
                 <div class="prose prose-lg max-w-none prose-headings:font-heading prose-headings:text-secondary-900 prose-p:text-secondary-700 prose-p:leading-relaxed prose-a:text-primary-600 prose-a:no-underline hover:prose-a:text-primary-700 prose-strong:text-secondary-900 prose-blockquote:border-primary-500 prose-blockquote:bg-primary-50 prose-blockquote:rounded-r-lg">
-                    {!! nl2br(e($post->content)) !!}
+                    {!! $post->content !!}
                 </div>
 
                 <!-- Article Footer -->
