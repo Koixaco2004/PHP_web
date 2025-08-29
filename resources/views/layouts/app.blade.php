@@ -54,12 +54,16 @@
                 <!-- Navigation -->
                 <div class="flex items-center space-x-6">
                     @auth
-                        <a href="{{ route('posts.index') }}" class="text-primary-600 hover:text-primary-900 font-medium text-sm">
-                            Viết bài
-                        </a>
                         @if(auth()->user()->isAdmin())
+                            <a href="{{ route('posts.index') }}" class="text-primary-600 hover:text-primary-900 font-medium text-sm">
+                                Quản lý bài viết
+                            </a>
                             <a href="{{ route('admin.dashboard') }}" class="text-primary-600 hover:text-primary-900 font-medium text-sm">
                                 Dashboard
+                            </a>
+                        @else
+                            <a href="{{ route('posts.create') }}" class="text-primary-600 hover:text-primary-900 font-medium text-sm">
+                                Viết bài
                             </a>
                         @endif
                     @endauth

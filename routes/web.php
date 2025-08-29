@@ -12,14 +12,19 @@ use App\Http\Controllers\PostImageController;
 // Trang chủ
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Routes cho bài viết (cần đăng nhập cho các method quản lý)
+// Routes cho người dùng đăng bài
 Route::middleware(['auth'])->group(function () {
-    Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+    // Route tạo bài viết mới (dành cho user thường)
     Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
     Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
-    Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
-    Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
-    Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+    
+    // Routes quản lý bài viết (chỉ admin)
+    Route::middleware(['admin'])->group(function () {
+        Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+        Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
+        Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
+        Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+    });
     
     // Post Images Routes
     Route::prefix('posts/{post}/images')->name('posts.images.')->group(function () {
