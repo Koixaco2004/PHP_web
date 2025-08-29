@@ -41,9 +41,6 @@ Route::middleware(['auth'])->group(function () {
     // Bình luận
     Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
-    
-    // Phê duyệt bình luận (chỉ admin)
-    Route::patch('/comments/{comment}/approve', [CommentController::class, 'approve'])->name('comments.approve');
 });
 
 // Route xem bài viết (phải đặt sau các route khác để tránh conflict)

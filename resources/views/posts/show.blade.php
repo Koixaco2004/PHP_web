@@ -188,55 +188,56 @@
                     <svg class="w-6 h-6 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                     </svg>
-                    Bình luận ({{ $post->comments->where('is_approved', true)->count() }})
+                    Bình luận ({{ $post->comments->count() }})
                 </h3>
             </div>
             
             <div class="p-6">
                 @auth
-                    <!-- Comment Form -->
+                    <!-- Comment Form for Logged-in Users -->
                     <div class="mb-8 p-6 bg-gradient-to-r from-primary-50 to-primary-100 rounded-xl">
                         <h4 class="text-lg font-semibold text-secondary-900 mb-4">Để lại bình luận của bạn</h4>
                         <form method="POST" action="{{ route('comments.store', $post) }}" class="space-y-4">
                             @csrf
-                            <div>
-                                <label for="content" class="block text-sm font-medium text-secondary-700 mb-2">Nội dung bình luận</label>
-                                <textarea class="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 resize-none @error('content') border-red-500 focus:ring-red-500 focus:border-red-500 @enderror" 
-                                          id="content" name="content" rows="4" placeholder="Nhập bình luận của bạn..." required></textarea>
-                                @error('content')
-                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                @enderror
+                            <div class="flex items-start space-x-4">
+                                <div class="flex-shrink-0">
+                                    <div class="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center">
+                                        <span class="text-white font-semibold">{{ substr(auth()->user()->name, 0, 1) }}</span>
+                                    </div>
+                                </div>
+                                <div class="flex-1">
+                                    <textarea name="content" rows="3" class="w-full px-4 py-2 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500" placeholder="Viết bình luận của bạn..." required></textarea>
+                                    <input type="hidden" name="parent_id" id="parent_id" value="">
+                                    <div class="mt-3 flex justify-end">
+                                        <button type="submit" class="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors duration-200">
+                                            Gửi bình luận
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                            <button type="submit" class="btn-primary flex items-center">
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
-                                </svg>
-                                Gửi bình luận
-                            </button>
                         </form>
                     </div>
                 @else
-                    <div class="mb-8 p-6 bg-secondary-50 rounded-xl border border-secondary-200">
-                        <div class="flex items-center">
-                            <svg class="w-6 h-6 text-secondary-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                    <!-- Login Prompt for Guests -->
+                    <div class="mb-8 p-6 bg-secondary-50 rounded-xl text-center">
+                        <div class="flex flex-col items-center justify-center space-y-2">
+                            <svg class="w-12 h-12 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                             </svg>
-                            <div>
-                                <p class="text-secondary-700 font-medium">Bạn cần đăng nhập để bình luận</p>
-                                <p class="text-secondary-500 text-sm mt-1">
-                                    <a href="{{ route('login') }}" class="text-primary-600 hover:text-primary-700 font-medium">Đăng nhập</a> 
-                                    hoặc 
-                                    <a href="{{ route('register') }}" class="text-primary-600 hover:text-primary-700 font-medium">tạo tài khoản</a> 
-                                    để tham gia thảo luận
-                                </p>
-                            </div>
+                            <p class="text-secondary-700 font-medium">Bạn cần đăng nhập để bình luận</p>
+                            <p class="text-secondary-500 text-sm">
+                                <a href="{{ route('login') }}" class="text-primary-600 hover:text-primary-700 font-medium">Đăng nhập</a> 
+                                hoặc 
+                                <a href="{{ route('register') }}" class="text-primary-600 hover:text-primary-700 font-medium">tạo tài khoản</a> 
+                                để tham gia thảo luận
+                            </p>
                         </div>
                     </div>
                 @endauth
 
                 <!-- Comments List -->
                 <div class="space-y-6">
-                    @forelse($post->comments->where('is_approved', true)->whereNull('parent_id') as $comment)
+                    @forelse($post->comments->whereNull('parent_id') as $comment)
                         <div class="comment-item animate-slide-up" style="animation-delay: {{ $loop->index * 0.1 }}s">
                             <div class="flex space-x-4">
                                 <div class="flex-shrink-0">

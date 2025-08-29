@@ -21,31 +21,17 @@ class CommentController extends Controller
             'parent_id' => 'nullable|exists:comments,id',
         ]);
 
-        $comment = Comment::create([
+        Comment::create([
             'content' => $request->content,
             'post_id' => $post->id,
             'user_id' => auth()->id(),
             'parent_id' => $request->parent_id,
-            'is_approved' => auth()->user()->isAdmin() ? true : false,
+            'is_approved' => true, // Auto-approve all comments
         ]);
 
-        if (auth()->user()->isAdmin()) {
-            return back()->with('success', 'Bình luận đã được đăng thành công!');
-        } else {
-            return back()->with('success', 'Bình luận đã được gửi và đang chờ phê duyệt!');
-        }
+        return back()->with('success', 'Bình luận đã được đăng thành công!');
     }
 
-    /**
-     * Approve a comment (admin only).
-     */
-    public function approve(Comment $comment)
-    {
-        $this->authorize('approve', $comment);
-        
-        $comment->update(['is_approved' => true]);
-        return back()->with('success', 'Bình luận đã được phê duyệt!');
-    }
 
     /**
      * Delete a comment.
