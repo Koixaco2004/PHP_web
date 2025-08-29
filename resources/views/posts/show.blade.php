@@ -18,9 +18,9 @@
     <span class="text-secondary-700 font-medium truncate">{{ $post->title }}</span>
 </nav>
 
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<div class="grid grid-cols-1">
     <!-- Main Article Content -->
-    <div class="lg:col-span-8">
+    <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Article Header -->
         <article class="bg-white rounded-xl shadow-sm border border-secondary-200 overflow-hidden mb-8 animate-slide-up">
             <!-- Category Badge -->
@@ -296,87 +296,6 @@
                     @endforelse
                 </div>
             </div>
-        </div>
-    </div>
-
-    <!-- Sidebar -->
-    <div class="lg:col-span-4 space-y-6">
-        <!-- Related Posts -->
-        @if($relatedPosts->count() > 0)
-            <div class="card animate-slide-up" style="animation-delay: 0.2s">
-                <div class="p-6 border-b border-secondary-200 bg-secondary-50">
-                    <h3 class="text-lg font-heading font-semibold text-secondary-900 flex items-center">
-                        <svg class="w-5 h-5 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2 2 0 00-2-2h-2m-4-3v9M9 3h6v3H9V3z"/>
-                        </svg>
-                        Bài viết liên quan
-                    </h3>
-                </div>
-                <div class="p-6">
-                    <div class="space-y-4">
-                        @foreach($relatedPosts as $relatedPost)
-                            <div class="group">
-                                <div class="flex space-x-3">
-                                    <div class="w-16 h-16 bg-gradient-to-br from-secondary-100 to-secondary-200 rounded-lg flex items-center justify-center flex-shrink-0">
-                                        <svg class="w-6 h-6 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                                        </svg>
-                                    </div>
-                                    <div class="flex-1 min-w-0">
-                                        <h4 class="font-medium text-secondary-900 group-hover:text-primary-600 transition-colors duration-200 line-clamp-2 mb-2">
-                                            <a href="{{ route('posts.show', $relatedPost->slug) }}" class="hover:text-primary-600">
-                                                {{ $relatedPost->title }}
-                                            </a>
-                                        </h4>
-                                        <div class="flex items-center text-xs text-secondary-500 space-x-2">
-                                            <span>{{ $relatedPost->created_at->format('d/m/Y') }}</span>
-                                            <span>•</span>
-                                            <span>{{ $relatedPost->view_count }} lượt xem</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            @if(!$loop->last)
-                                <hr class="border-secondary-200">
-                            @endif
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        @endif
-
-        <!-- Author Info -->
-        <div class="card animate-slide-up" style="animation-delay: 0.3s">
-            <div class="p-6 border-b border-secondary-200 bg-secondary-50">
-                <h3 class="text-lg font-heading font-semibold text-secondary-900 flex items-center">
-                    <svg class="w-5 h-5 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                    </svg>
-                    Về tác giả
-                </h3>
-            </div>
-            <div class="p-6 text-center">
-                <div class="w-20 h-20 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span class="text-white font-bold text-2xl">{{ substr($post->user->name, 0, 1) }}</span>
-                </div>
-                <h4 class="font-semibold text-secondary-900 mb-2">{{ $post->user->name }}</h4>
-                <p class="text-sm text-secondary-600 mb-4">
-                    Tác giả có {{ $post->user->posts->count() }} bài viết được đăng trên website
-                </p>
-                <a href="#" class="btn-secondary text-sm">
-                    Xem tất cả bài viết
-                </a>
-            </div>
-        </div>
-
-        <!-- Back to Top -->
-        <div class="sticky top-8">
-            <button id="backToTop" class="w-full btn-secondary flex items-center justify-center opacity-0 transition-all duration-300">
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"/>
-                </svg>
-                Về đầu trang
-            </button>
         </div>
     </div>
 </div>
