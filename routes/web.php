@@ -19,6 +19,11 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
     Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
     
+    // Post management actions
+    Route::post('/admin/posts/bulk-action', [PostController::class, 'bulkAction'])->name('posts.bulk-action');
+    Route::patch('/posts/{post}/status', [PostController::class, 'changeStatus'])->name('posts.change-status');
+    Route::post('/posts/{post}/duplicate', [PostController::class, 'duplicate'])->name('posts.duplicate');
+    
     // Bình luận
     Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');

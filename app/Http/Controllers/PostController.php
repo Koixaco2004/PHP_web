@@ -12,10 +12,50 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::with(['category', 'user'])->latest()->paginate(10);
-        return view('posts.index', compact('posts'));
+        $query = Post::with(['category', 'user']);
+        
+        // Search functionality
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('content', 'like', "%{$search}%")
+                  ->orWhere('excerpt', 'like', "%{$search}%");
+            });
+        }
+        
+        // Filter by status
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+        
+        // Filter by category
+        if ($request->filled('category')) {
+            $query->where('category_id', $request->category);
+        }
+        
+        // Sorting
+        switch ($request->get('sort', 'newest')) {
+            case 'oldest':
+                $query->oldest();
+                break;
+            case 'title':
+                $query->orderBy('title', 'asc');
+                break;
+            case 'views':
+                $query->orderBy('view_count', 'desc');
+                break;
+            default:
+                $query->latest();
+                break;
+        }
+        
+        $posts = $query->paginate(15);
+        $categories = Category::active()->get();
+        
+        return view('posts.index', compact('posts', 'categories'));
     }
 
     /**
@@ -112,6 +152,79 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $post->delete();
+        
+        if (request()->expectsJson()) {
+            return response()->json(['success' => true]);
+        }
+        
         return redirect()->route('posts.index')->with('success', 'Bài viết đã được xóa thành công!');
+    }
+    
+    /**
+     * Handle bulk actions for posts
+     */
+    public function bulkAction(Request $request)
+    {
+        $request->validate([
+            'action' => 'required|in:publish,draft,delete',
+            'posts' => 'required|array|min:1',
+            'posts.*' => 'exists:posts,id'
+        ]);
+        
+        $postIds = json_decode($request->posts, true);
+        $action = $request->action;
+        
+        try {
+            switch ($action) {
+                case 'publish':
+                    Post::whereIn('id', $postIds)->update(['status' => 'published']);
+                    $message = 'Đã xuất bản ' . count($postIds) . ' bài viết thành công!';
+                    break;
+                    
+                case 'draft':
+                    Post::whereIn('id', $postIds)->update(['status' => 'draft']);
+                    $message = 'Đã chuyển ' . count($postIds) . ' bài viết về trạng thái nháp!';
+                    break;
+                    
+                case 'delete':
+                    Post::whereIn('id', $postIds)->delete();
+                    $message = 'Đã xóa ' . count($postIds) . ' bài viết thành công!';
+                    break;
+            }
+            
+            return response()->json(['success' => true, 'message' => $message]);
+            
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Có lỗi xảy ra: ' . $e->getMessage()]);
+        }
+    }
+    
+    /**
+     * Change post status
+     */
+    public function changeStatus(Post $post, Request $request)
+    {
+        $request->validate([
+            'status' => 'required|in:draft,published,archived'
+        ]);
+        
+        $post->update(['status' => $request->status]);
+        
+        return response()->json(['success' => true]);
+    }
+    
+    /**
+     * Duplicate a post
+     */
+    public function duplicate(Post $post)
+    {
+        $newPost = $post->replicate();
+        $newPost->title = $post->title . ' (Copy)';
+        $newPost->slug = Str::slug($newPost->title);
+        $newPost->status = 'draft';
+        $newPost->view_count = 0;
+        $newPost->save();
+        
+        return response()->json(['success' => true, 'message' => 'Đã nhân bản bài viết thành công!']);
     }
 }
