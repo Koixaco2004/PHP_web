@@ -46,6 +46,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 });
 
+// Routes cho người dùng đã đăng nhập nhưng chưa cần verify email (xem, đọc)
+Route::middleware(['auth'])->group(function () {
+    // Các route không cần verify email có thể thêm ở đây nếu cần
+});
+
 // Route xem bài viết (phải đặt sau các route khác để tránh conflict)
 Route::get('/posts/{slug}', [HomeController::class, 'show'])->name('posts.show');
 
