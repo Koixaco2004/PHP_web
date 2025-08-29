@@ -85,7 +85,7 @@
         <!-- Articles List -->
         <div class="space-y-6">
             @forelse($posts as $index => $post)
-                <article class="card p-6 hover:shadow-md transition-all duration-300 animate-slide-up group" style="animation-delay: {{ $index * 0.1 }}s">
+                <article class="bg-white rounded-lg border border-primary-200 overflow-hidden p-6 hover:shadow-md transition-all duration-300 animate-slide-up group" style="animation-delay: {{ $index * 0.1 }}s">
                     <div class="flex space-x-6">
                         <!-- Article Thumbnail -->
                         <div class="w-32 h-24 bg-gradient-to-br from-secondary-100 to-secondary-200 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:from-primary-100 group-hover:to-primary-200 transition-all duration-300">
@@ -207,8 +207,8 @@
     <!-- Sidebar -->
     <div class="lg:col-span-4 space-y-6">
         <!-- Category Info -->
-        <div class="card animate-slide-up" style="animation-delay: 0.2s">
-            <div class="card-header">
+        <div class="bg-white rounded-lg border border-primary-200 overflow-hidden hover:shadow-sm transition-all duration-200 animate-slide-up" style="animation-delay: 0.2s">
+            <div class="p-6 border-b border-secondary-200 bg-secondary-50">
                 <h3 class="text-lg font-heading font-semibold text-secondary-900 flex items-center">
                     <svg class="w-5 h-5 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -216,7 +216,7 @@
                     Thông tin chuyên mục
                 </h3>
             </div>
-            <div class="card-body space-y-4">
+            <div class="p-6 space-y-4">
                 <div class="flex items-center justify-between p-3 bg-primary-50 rounded-lg">
                     <span class="text-secondary-700 font-medium">Tổng bài viết</span>
                     <span class="text-2xl font-bold text-primary-600">{{ $posts->total() }}</span>
@@ -237,8 +237,8 @@
         </div>
 
         <!-- Quick Navigation -->
-        <div class="card animate-slide-up" style="animation-delay: 0.3s">
-            <div class="card-header">
+        <div class="bg-white rounded-lg border border-primary-200 overflow-hidden hover:shadow-sm transition-all duration-200 animate-slide-up" style="animation-delay: 0.3s">
+            <div class="p-6 border-b border-secondary-200 bg-secondary-50">
                 <h3 class="text-lg font-heading font-semibold text-secondary-900 flex items-center">
                     <svg class="w-5 h-5 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
@@ -246,7 +246,7 @@
                     Điều hướng nhanh
                 </h3>
             </div>
-            <div class="card-body">
+            <div class="p-6">
                 <div class="space-y-2">
                     <a href="{{ route('home') }}" class="flex items-center justify-between p-3 rounded-lg hover:bg-secondary-50 transition-colors duration-200 group">
                         <div class="flex items-center">
