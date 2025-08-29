@@ -6,6 +6,8 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PostImageController;
 
 // Trang chủ
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -18,6 +20,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
     Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
     Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+    
+    // Post Images Routes
+    Route::prefix('posts/{post}/images')->name('posts.images.')->group(function () {
+        Route::get('/', [PostImageController::class, 'index'])->name('index');
+        Route::post('/', [PostImageController::class, 'store'])->name('store');
+        Route::put('/{image}', [PostImageController::class, 'update'])->name('update');
+        Route::delete('/{image}', [PostImageController::class, 'destroy'])->name('destroy');
+        Route::patch('/{image}/featured', [PostImageController::class, 'setFeatured'])->name('featured');
+    });
     
     // Bình luận
     Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');

@@ -77,4 +77,34 @@ class Post extends Model
               ->orWhere('excerpt', 'like', "%{$keyword}%");
         });
     }
+
+    /**
+     * Get the images for the post.
+     */
+    public function images()
+    {
+        return $this->hasMany(PostImage::class)->ordered();
+    }
+
+    /**
+     * Get the featured image for the post.
+     */
+    public function featuredImage()
+    {
+        return $this->hasOne(PostImage::class)->where('is_featured', true);
+    }
+
+    /**
+     * Get the first image as featured if no featured image is set.
+     */
+    public function getMainImageAttribute()
+    {
+        $featured = $this->featuredImage;
+        if ($featured) {
+            return $featured->image_url;
+        }
+        
+        $firstImage = $this->images()->first();
+        return $firstImage ? $firstImage->image_url : $this->featured_image;
+    }
 }
