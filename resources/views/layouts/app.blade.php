@@ -8,6 +8,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Icons - Heroicons -->
     <script src="https://cdn.jsdelivr.net/npm/heroicons@2.0.18/24/outline/index.js"></script>
@@ -28,7 +29,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2 2 0 00-2-2h-2m-4-3v9M9 3h6v3H9V3z"/>
                             </svg>
                         </div>
-                        <span class="text-xl font-heading font-bold text-secondary-900">Tin Tức 24h</span>
+                        <span class="text-xl font-bold text-secondary-900">Tin Tức 24h</span>
                     </a>
                 </div>
 
@@ -147,6 +148,22 @@
 
         @yield('content')
     </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-secondary-200 mt-12">
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+                <div class="text-sm text-secondary-500">
+                    &copy; {{ date('Y') }} Tin Tức 24h. Mọi quyền được bảo lưu.
+                </div>
+                <div class="flex space-x-6">
+                    <a href="{{ route('home') }}" class="text-sm text-secondary-500 hover:text-primary-600 transition-colors">Trang chủ</a>
+                    <a href="#" class="text-sm text-secondary-500 hover:text-primary-600 transition-colors">Giới thiệu</a>
+                    <a href="#" class="text-sm text-secondary-500 hover:text-primary-600 transition-colors">Liên hệ</a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <!-- Alpine.js -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>

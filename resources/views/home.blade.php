@@ -6,7 +6,7 @@
 <!-- Hero Section -->
 <div class="bg-gradient-to-br from-primary-50 to-primary-100 rounded-2xl p-8 mb-8 animate-fade-in">
     <div class="max-w-4xl mx-auto text-center">
-        <h1 class="text-4xl md:text-5xl font-heading font-bold text-secondary-900 mb-4">
+        <h1 class="text-4xl md:text-5xl font-bold text-secondary-900 mb-4">
             Tin Tức <span class="text-primary-600">24h</span>
         </h1>
         <p class="text-lg text-secondary-600 mb-8">
@@ -58,7 +58,7 @@
     <!-- Main Articles Section -->
     <div class="lg:col-span-8">
         <div class="flex items-center justify-between mb-6">
-            <h2 class="text-2xl font-heading font-bold text-secondary-900">Tin tức mới nhất</h2>
+            <h2 class="text-2xl font-bold text-secondary-900">Tin tức mới nhất</h2>
             <div class="flex items-center text-sm text-secondary-500">
                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -91,7 +91,7 @@
                                     </span>
                                 </div>
                                 
-                                <h3 class="text-xl md:text-2xl font-heading font-bold text-secondary-900 mb-3 line-clamp-2">
+                                <h3 class="text-xl md:text-2xl font-bold text-secondary-900 mb-3 line-clamp-2">
                                     <a href="{{ route('posts.show', $post->slug) }}" class="hover:text-primary-600 transition-colors duration-200">
                                         {{ $post->title }}
                                     </a>
@@ -148,7 +148,7 @@
                                     </a>
                                 </div>
                                 
-                                <h3 class="text-lg font-heading font-semibold text-secondary-900 mb-2 line-clamp-2">
+                                <h3 class="text-lg font-semibold text-secondary-900 mb-2 line-clamp-2">
                                     <a href="{{ route('posts.show', $post->slug) }}" class="hover:text-primary-600 transition-colors duration-200">
                                         {{ $post->title }}
                                     </a>
@@ -236,7 +236,7 @@
         <!-- Categories Widget -->
         <div class="card animate-slide-up" style="animation-delay: 0.2s">
             <div class="card-header">
-                <h3 class="text-lg font-heading font-semibold text-secondary-900 flex items-center">
+                <h3 class="text-lg font-semibold text-secondary-900 flex items-center">
                     <svg class="w-5 h-5 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
                     </svg>
@@ -258,34 +258,11 @@
             </div>
         </div>
 
-        <!-- Stats Widget -->
-        <div class="card animate-slide-up" style="animation-delay: 0.3s">
-            <div class="card-header">
-                <h3 class="text-lg font-heading font-semibold text-secondary-900 flex items-center">
-                    <svg class="w-5 h-5 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                    </svg>
-                    Thống kê
-                </h3>
-            </div>
-            <div class="card-body">
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="text-center p-4 bg-primary-50 rounded-lg">
-                        <div class="text-2xl font-bold text-primary-600">{{ $posts->total() }}</div>
-                        <div class="text-sm text-primary-700 font-medium">Tổng bài viết</div>
-                    </div>
-                    <div class="text-center p-4 bg-accent-50 rounded-lg">
-                        <div class="text-2xl font-bold text-accent-600">{{ $categories->count() }}</div>
-                        <div class="text-sm text-accent-700 font-medium">Chuyên mục</div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <!-- Newsletter Widget -->
         <div class="card bg-gradient-to-br from-primary-500 to-primary-600 text-white animate-slide-up" style="animation-delay: 0.4s">
             <div class="card-body">
-                <h3 class="text-lg font-heading font-semibold mb-2 flex items-center">
+                <h3 class="text-lg font-semibold mb-2 flex items-center">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 7.89a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                     </svg>
