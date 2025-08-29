@@ -16,45 +16,9 @@
                         <div class="w-full flex-shrink-0">
                             <div class="relative h-96 flex items-center">
                                 <div class="container mx-auto px-6 lg:px-8">
-                                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                                        <div class="text-white z-10">
-                                            <div class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-white bg-opacity-20 text-white mb-4">
-                                                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
-                                                </svg>
-                                                {{ $post->category->name }}
-                                            </div>
-                                            <h2 class="text-3xl lg:text-4xl font-bold mb-4 leading-tight">
-                                                {{ Str::limit($post->title, 80) }}
-                                            </h2>
-                                            @if($post->excerpt)
-                                                <p class="text-lg text-white text-opacity-90 mb-6 leading-relaxed">
-                                                    {{ Str::limit($post->excerpt, 150) }}
-                                                </p>
-                                            @endif
-                                            <div class="flex items-center space-x-6 mb-6">
-                                                <div class="flex items-center space-x-2">
-                                                    <div class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                                                        <span class="text-sm font-semibold text-white">{{ substr($post->user->name, 0, 1) }}</span>
-                                                    </div>
-                                                    <span class="text-white text-opacity-90">{{ $post->user->name }}</span>
-                                                </div>
-                                                <div class="flex items-center text-white text-opacity-75">
-                                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                                    </svg>
-                                                    {{ $post->created_at->diffForHumans() }}
-                                                </div>
-                                            </div>
-                                            <a href="{{ route('posts.show', $post->slug) }}" class="inline-flex items-center px-6 py-3 bg-white text-primary-700 font-semibold rounded-lg hover:bg-primary-50 transition-all duration-200 transform hover:scale-105">
-                                                Đọc ngay
-                                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                                                </svg>
-                                            </a>
-                                        </div>
-                                        <div class="hidden lg:block">
-                                            <div class="w-full h-64 bg-white bg-opacity-10 rounded-xl overflow-hidden backdrop-blur-sm">
+                                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                                        <div class="lg:col-span-5 hidden lg:block">
+                                            <div class="w-full h-80 bg-white bg-opacity-10 rounded-xl overflow-hidden backdrop-blur-sm shadow-2xl">
                                                 @if($post->featured_image)
                                                     <img src="{{ $post->featured_image }}" alt="{{ $post->title }}" class="w-full h-full object-cover">
                                                 @else
@@ -66,6 +30,42 @@
                                                 @endif
                                             </div>
                                         </div>
+                                        <div class="lg:col-span-7 text-white z-10 pl-8">
+                                            <div class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-white bg-opacity-20 text-white mb-4">
+                                                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                                                </svg>
+                                                {{ $post->category->name }}
+                                            </div>
+                                            <h2 class="text-2xl lg:text-3xl font-bold mb-4 leading-tight">
+                                                {{ Str::limit($post->title, 70) }}
+                                            </h2>
+                                            @if($post->excerpt)
+                                                <p class="text-base text-white text-opacity-90 mb-6 leading-relaxed">
+                                                    {{ Str::limit($post->excerpt, 120) }}
+                                                </p>
+                                            @endif
+                                            <div class="flex items-center space-x-4 mb-6 text-sm">
+                                                <div class="flex items-center space-x-2">
+                                                    <div class="w-7 h-7 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                                                        <span class="text-xs font-semibold text-white">{{ substr($post->user->name, 0, 1) }}</span>
+                                                    </div>
+                                                    <span class="text-white text-opacity-90">{{ $post->user->name }}</span>
+                                                </div>
+                                                <div class="flex items-center text-white text-opacity-75">
+                                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                    </svg>
+                                                    {{ $post->created_at->diffForHumans() }}
+                                                </div>
+                                            </div>
+                                            <a href="{{ route('posts.show', $post->slug) }}" class="inline-flex items-center px-6 py-3 bg-white text-primary-700 font-semibold rounded-lg hover:bg-primary-50 transition-all duration-200 transform hover:scale-105 shadow-lg">
+                                                Đọc ngay
+                                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                                </svg>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -73,18 +73,6 @@
                     @endforeach
                 </div>
             </div>
-            
-            <!-- Navigation Arrows -->
-            <button @click="prevSlide()" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-20 hover:bg-opacity-30 text-white p-2 rounded-full transition-all duration-200">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                </svg>
-            </button>
-            <button @click="nextSlide()" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-20 hover:bg-opacity-30 text-white p-2 rounded-full transition-all duration-200">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                </svg>
-            </button>
             
             <!-- Dots Indicator -->
             <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2">
@@ -112,35 +100,42 @@
         <div class="space-y-6">
             @forelse($posts as $index => $post)
                 <!-- Clean Article Cards -->
-                <article class="bg-white rounded-lg border border-primary-200 hover:shadow-md transition-shadow duration-200">
-                    <div class="p-6">
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-xs font-medium text-primary-600 bg-primary-50 px-2 py-1 rounded">
-                                {{ $post->category->name }}
-                            </span>
-                            <span class="text-xs text-primary-500">{{ $post->created_at->diffForHumans() }}</span>
-                        </div>
-                        
-                        <h2 class="text-lg font-semibold text-primary-900 mb-3 leading-tight">
-                            <a href="{{ route('posts.show', $post->slug) }}" class="hover:text-primary-700">
-                                {{ $post->title }}
-                            </a>
-                        </h2>
-                        
-                        @if($post->excerpt)
-                            <p class="text-primary-600 mb-4 line-clamp-2 text-sm leading-relaxed">{{ $post->excerpt }}</p>
-                        @endif
-                        
-                        <div class="flex items-center justify-between pt-3 border-t border-primary-100">
-                            <div class="flex items-center space-x-2">
-                                <div class="w-6 h-6 bg-primary-900 rounded-full flex items-center justify-center">
-                                    <span class="text-xs font-semibold text-white">{{ substr($post->user->name, 0, 1) }}</span>
-                                </div>
-                                <span class="text-sm text-primary-700">{{ $post->user->name }}</span>
+                <article class="bg-white rounded-lg border border-primary-200 hover:shadow-md transition-shadow duration-200 overflow-hidden">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-0">
+                        @if($post->featured_image)
+                            <div class="md:col-span-1 h-48 md:h-auto overflow-hidden">
+                                <img src="{{ $post->featured_image }}" alt="{{ $post->title }}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
                             </div>
-                            <a href="{{ route('posts.show', $post->slug) }}" class="text-primary-600 hover:text-primary-900 text-sm font-medium">
-                                Đọc tiếp →
-                            </a>
+                        @endif
+                        <div class="md:col-span-2 p-6">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-medium text-primary-600 bg-primary-50 px-2 py-1 rounded">
+                                    {{ $post->category->name }}
+                                </span>
+                                <span class="text-xs text-primary-500">{{ $post->created_at->diffForHumans() }}</span>
+                            </div>
+                            
+                            <h2 class="text-lg font-semibold text-primary-900 mb-3 leading-tight">
+                                <a href="{{ route('posts.show', $post->slug) }}" class="hover:text-primary-700">
+                                    {{ $post->title }}
+                                </a>
+                            </h2>
+                            
+                            @if($post->excerpt)
+                                <p class="text-primary-600 mb-4 line-clamp-2 text-sm leading-relaxed">{{ $post->excerpt }}</p>
+                            @endif
+                            
+                            <div class="flex items-center justify-between pt-3 border-t border-primary-100">
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-6 h-6 bg-primary-900 rounded-full flex items-center justify-center">
+                                        <span class="text-xs font-semibold text-white">{{ substr($post->user->name, 0, 1) }}</span>
+                                    </div>
+                                    <span class="text-sm text-primary-700">{{ $post->user->name }}</span>
+                                </div>
+                                <a href="{{ route('posts.show', $post->slug) }}" class="text-primary-600 hover:text-primary-900 text-sm font-medium">
+                                    Đọc tiếp →
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </article>

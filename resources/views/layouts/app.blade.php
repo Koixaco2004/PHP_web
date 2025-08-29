@@ -38,7 +38,7 @@
                     <form method="GET" action="{{ route('home') }}" class="w-full">
                         <div class="relative">
                             <input type="text" name="search" 
-                                   class="w-full pl-4 pr-10 py-2 border border-primary-300 rounded-lg focus:ring-2 focus:ring-primary-900 focus:border-primary-900 text-sm" 
+                                   class="w-full pl-4 pr-10 py-2.5 border border-primary-300 rounded-lg focus:ring-2 focus:ring-primary-900 focus:border-primary-900 text-sm" 
                                    placeholder="Tìm kiếm..." 
                                    value="{{ request('search') }}">
                             <button type="submit" class="absolute inset-y-0 right-0 pr-3 flex items-center">
