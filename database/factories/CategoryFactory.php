@@ -17,13 +17,20 @@ class CategoryFactory extends Factory
      */
     public function definition(): array
     {
-        $name = $this->faker->unique()->word();
+        $name = $this->faker->unique()->words(2, true);
         
         return [
-            'name' => ucfirst($name),
+            'name' => ucwords($name),
             'slug' => Str::slug($name),
-            'description' => $this->faker->sentence(),
+            'description' => $this->faker->paragraph(),
+            'color' => $this->faker->hexColor(),
+            'icon' => $this->faker->randomElement([
+                'fas fa-laptop-code', 'fas fa-mobile-alt', 'fas fa-palette',
+                'fas fa-chart-line', 'fas fa-cogs', 'fas fa-lightbulb',
+                'fas fa-rocket', 'fas fa-shield-alt'
+            ]),
             'is_active' => $this->faker->boolean(80), // 80% chance of being active
+            'sort_order' => $this->faker->numberBetween(0, 100),
         ];
     }
 

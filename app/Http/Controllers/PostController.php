@@ -7,6 +7,7 @@ use App\Models\PostImage;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -40,7 +41,6 @@ class PostController extends Controller
             'excerpt' => 'nullable|max:500',
             'status' => 'required|in:draft,published',
             'uploaded_images' => 'nullable|json',
-            'featured_image' => 'nullable|url',
         ]);
 
         $post = Post::create([
@@ -50,24 +50,26 @@ class PostController extends Controller
             'excerpt' => $request->excerpt,
             'status' => $request->status,
             'category_id' => $request->category_id,
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
+            'published_at' => $request->status === 'published' ? now() : null,
         ]);
 
         // Handle uploaded images
         if ($request->uploaded_images) {
             $uploadedImages = json_decode($request->uploaded_images, true);
-            $featuredImageUrl = $request->featured_image;
             
             foreach ($uploadedImages as $index => $imageData) {
                 PostImage::create([
                     'post_id' => $post->id,
                     'image_url' => $imageData['image_url'],
                     'delete_url' => $imageData['delete_url'] ?? null,
+                    'alt_text' => $imageData['alt_text'] ?? null,
+                    'caption' => $imageData['caption'] ?? null,
                     'width' => $imageData['width'] ?? null,
                     'height' => $imageData['height'] ?? null,
                     'file_size' => $imageData['file_size'] ?? null,
                     'sort_order' => $index,
-                    'is_featured' => $imageData['image_url'] === $featuredImageUrl,
+                    'is_featured' => ($imageData['is_featured'] ?? false) || $index === 0, // First image is featured by default
                 ]);
             }
         }
@@ -122,7 +124,6 @@ class PostController extends Controller
             'status' => 'required|in:draft,published',
             'uploaded_images' => 'nullable|json',
             'deleted_images' => 'nullable|json',
-            'featured_image' => 'nullable|url',
         ]);
 
         $post->update([
@@ -132,7 +133,7 @@ class PostController extends Controller
             'excerpt' => $request->excerpt,
             'status' => $request->status,
             'category_id' => $request->category_id,
-            'featured_image' => $request->featured_image,
+            'published_at' => $request->status === 'published' && !$post->published_at ? now() : $post->published_at,
         ]);
 
         // Handle deleted images
@@ -149,24 +150,20 @@ class PostController extends Controller
         if ($request->uploaded_images) {
             $uploadedImages = json_decode($request->uploaded_images, true);
             if (is_array($uploadedImages)) {
-                foreach ($uploadedImages as $imageData) {
+                foreach ($uploadedImages as $index => $imageData) {
                     $post->images()->create([
                         'image_url' => $imageData['image_url'],
+                        'delete_url' => $imageData['delete_url'] ?? null,
                         'alt_text' => $imageData['alt_text'] ?? '',
-                        'is_featured' => ($imageData['image_url'] === $request->featured_image),
+                        'caption' => $imageData['caption'] ?? null,
+                        'sort_order' => $post->images()->count() + $index,
+                        'is_featured' => $imageData['is_featured'] ?? false,
+                        'width' => $imageData['width'] ?? null,
+                        'height' => $imageData['height'] ?? null,
+                        'file_size' => $imageData['file_size'] ?? null,
                     ]);
                 }
             }
-        }
-
-        // Update featured image status for existing images
-        if ($request->featured_image) {
-            // Reset all images to not featured
-            $post->images()->update(['is_featured' => false]);
-            
-            // Set the selected image as featured
-            $post->images()->where('image_url', $request->featured_image)
-                ->update(['is_featured' => true]);
         }
 
         return redirect()->route('posts.show', $post->slug)->with('success', 'Bài viết đã được cập nhật thành công!');

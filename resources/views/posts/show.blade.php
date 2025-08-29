@@ -316,9 +316,9 @@
         
         @forelse($relatedPosts as $relatedPost)
             <article class="bg-white rounded-lg border border-primary-200 hover:shadow-md transition-shadow duration-200 overflow-hidden">
-                @if($relatedPost->featured_image)
+                @if($relatedPost->main_image)
                     <div class="h-48 overflow-hidden">
-                        <img src="{{ $relatedPost->featured_image }}" alt="{{ $relatedPost->title }}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                        <img src="{{ $relatedPost->main_image }}" alt="{{ $relatedPost->title }}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
                     </div>
                 @endif
                 <div class="p-4">

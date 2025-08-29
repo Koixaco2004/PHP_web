@@ -186,9 +186,9 @@
                                             <span>{{ $post->comments->count() }} bình luận</span>
                                         </div>
                                     </div>
-                                    @if($post->featured_image)
+                                    @if($post->main_image)
                                         <div class="ml-4 flex-shrink-0">
-                                            <img src="{{ $post->featured_image }}" alt="" class="w-20 h-20 object-cover rounded-lg">
+                                            <img src="{{ $post->main_image }}" alt="" class="w-20 h-20 object-cover rounded-lg">
                                         </div>
                                     @endif
                                 </div>

@@ -46,7 +46,6 @@
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="uploaded_images" id="uploadedImages" value="{{ json_encode($post->images->map(function($img) { return ['image_url' => $img->image_url, 'delete_url' => $img->delete_url, 'alt_text' => $img->alt_text, 'caption' => $img->caption, 'is_featured' => $img->is_featured]; })) }}">
-                <input type="hidden" name="featured_image" id="featuredImageInput" value="{{ $post->featuredImage ? $post->featuredImage->image_url : '' }}">
                 <input type="hidden" name="deleted_images" id="deletedImages" value="[]">
                 
                 <!-- Post Title -->

@@ -20,6 +20,7 @@ class PostImage extends Model
         'file_size',
         'width',
         'height',
+        'mime_type',
     ];
 
     protected $casts = [

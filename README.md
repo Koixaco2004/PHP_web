@@ -1,176 +1,171 @@
 # Website Tin Tức Laravel
 
-Website tin tức được xây dựng bằng Laravel 11 với các chức năng đầy đủ cho việc quản lý nội dung.
+Website tin tức được xây dựng bằng Laravel 11 với đầy đủ chức năng quản lý nội dung và hệ thống bình luận.
 
 ## 🚀 Tính năng chính
 
-### Cho người dùng:
-- ✅ Xem danh sách bài viết
-- ✅ Tìm kiếm bài viết theo từ khóa
-- ✅ Lọc bài viết theo chuyên mục
-- ✅ Xem chi tiết bài viết
-- ✅ Đăng ký và đăng nhập tài khoản
-- ✅ Bình luận bài viết (cần đăng nhập)
-- ✅ Trả lời bình luận
+### Người dùng:
 
-### Cho Admin:
-- ✅ Dashboard thống kê tổng quan
-- ✅ Quản lý bài viết (CRUD)
-- ✅ Quản lý chuyên mục (CRUD)
-- ✅ Phê duyệt bình luận
-- ✅ Xóa bình luận
-- ✅ Quản lý người dùng
+-   Xem danh sách bài viết theo chuyên mục
+-   Tìm kiếm bài viết theo từ khóa
+-   Đọc chi tiết bài viết
+-   Đăng ký/đăng nhập tài khoản
+-   Bình luận và trả lời bình luận
+-   Đăng nhập qua Google OAuth
+
+### Admin:
+
+-   Dashboard thống kê tổng quan
+-   Quản lý bài viết (thêm, sửa, xóa)
+-   Quản lý chuyên mục
+-   Phê duyệt và xóa bình luận
+-   Quản lý người dùng
 
 ## 🛠️ Công nghệ sử dụng
 
-- **Backend:** Laravel 11
-- **Database:** MySQL
-- **Frontend:** Bootstrap 5 + Blade Templates
-- **Authentication:** Laravel Auth
-- **Authorization:** Policies & Middleware
+-   **Backend:** Laravel 11 (PHP 8.2+)
+-   **Database:** MySQL
+-   **Frontend:** TailwindCSS + Blade Templates
+-   **Authentication:** Laravel Auth + Google OAuth
+-   **Image Upload:** ImgBB API
 
-## 📋 Yêu cầu hệ thống
+## ⚙️ Yêu cầu hệ thống
 
-- PHP >= 8.2
-- Composer
-- MySQL
-- XAMPP/WAMP (khuyến nghị)
+-   PHP >= 8.2
+-   Composer
+-   MySQL (khuyến nghị XAMPP)
+-   Node.js >= 18.x
 
-## ⚙️ Cài đặt
+## 🚀 Hướng dẫn setup
 
-1. **Clone repository:**
+### 1. Cài đặt dependencies
+
 ```bash
-git clone <repository-url>
-cd blog-laravel
-```
+# Clone repository
+git clone <repo-url>
+cd PHP_web
 
-2. **Cài đặt dependencies:**
-```bash
+# Cài đặt PHP packages
 composer install
+
+# Cài đặt Node.js packages
+npm install
 ```
 
-3. **Cấu hình database:**
-- Tạo database MySQL
-- Copy file `.env.example` thành `.env`
-- Cập nhật thông tin database trong `.env`
+### 2. Cấu hình môi trường
 
-4. **Chạy migration và seeder:**
 ```bash
-php artisan migrate
-php artisan db:seed
+# Copy file môi trường
+copy .env.example .env
+
+# Generate application key
+php artisan key:generate
 ```
 
-5. **Khởi chạy server:**
+### 3. Cấu hình database
+
+Mở file `.env` và cập nhật thông tin MySQL:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=php_web
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+### 4. Tạo database
+
+-   Khởi động XAMPP (Apache + MySQL)
+-   Truy cập http://localhost/phpmyadmin
+-   Tạo database mới tên `php_web`
+
+### 5. Chạy migrations và seed data
+
+```bash
+# Tạo bảng và dữ liệu mẫu
+php artisan migrate:fresh --seed
+```
+
+### 6. Build frontend assets
+
+```bash
+npm run build
+```
+
+### 7. Chạy ứng dụng
+
 ```bash
 php artisan serve
 ```
 
-## 👤 Tài khoản mẫu
+Truy cập: **http://localhost:8000**
 
-### Admin:
-- **Email:** admin@example.com
-- **Password:** password
+## 🔑 Tài khoản mặc định
 
-### User thường:
-- **Email:** user@example.com
-- **Password:** password
+Sau khi seed data:
+
+-   **Admin:** admin@example.com / password
+-   **User:** user@example.com / password
+
+## 📊 Dữ liệu mẫu
+
+-   **5 chuyên mục:** Công nghệ, Thể thao, Giải trí, Kinh tế, Giáo dục
+-   **Bài viết mẫu** cho từng chuyên mục
+-   **7 users** (admin + user + 5 users ngẫu nhiên)
+
+## 🔧 Cấu hình thêm (tùy chọn)
+
+### Google OAuth
+
+Thêm vào `.env`:
+
+```env
+GOOGLE_CLIENT_ID=your_client_id
+GOOGLE_CLIENT_SECRET=your_client_secret
+GOOGLE_REDIRECT_URI=http://localhost:8000/auth/google/callback
+```
+
+### ImgBB Upload
+
+Thêm vào `.env`:
+
+```env
+IMGBB_API_KEY=your_imgbb_api_key
+```
 
 ## 📁 Cấu trúc dự án
 
 ```
-blog-laravel/
-├── app/
-│   ├── Http/Controllers/
-│   │   ├── Auth/           # Controllers xử lý đăng nhập/đăng ký
-│   │   ├── AdminController.php
-│   │   ├── CategoryController.php
-│   │   ├── CommentController.php
-│   │   ├── HomeController.php
-│   │   └── PostController.php
-│   ├── Models/             # Eloquent Models
-│   ├── Policies/           # Authorization Policies
-│   └── Providers/          # Service Providers
-├── database/
-│   ├── migrations/         # Database migrations
-│   ├── seeders/           # Database seeders
-│   └── factories/         # Model factories
-├── resources/views/       # Blade templates
-│   ├── admin/            # Views cho admin
-│   ├── auth/             # Views đăng nhập/đăng ký
-│   ├── categories/       # Views chuyên mục
-│   ├── layouts/          # Layout templates
-│   └── posts/            # Views bài viết
-└── routes/
-    ├── web.php           # Web routes
-    └── auth.php          # Authentication routes
+app/
+├── Http/Controllers/    # Xử lý logic
+├── Models/             # Models (User, Post, Category, Comment)
+├── Policies/           # Authorization policies
+└── Services/           # Business logic
+
+database/
+├── migrations/         # Database schema
+├── seeders/           # Dữ liệu mẫu
+└── factories/         # Model factories
+
+resources/
+└── views/             # Blade templates
 ```
 
-## 🔐 Phân quyền
+## 🔄 Lệnh hữu ích
 
-### Role: Admin
-- Quản lý tất cả bài viết
-- Quản lý chuyên mục
-- Phê duyệt/xóa bình luận
-- Truy cập dashboard admin
-
-### Role: User
-- Xem bài viết
-- Bình luận bài viết
-- Trả lời bình luận
-
-## 🎯 Các chức năng chính
-
-### 1. Quản lý bài viết
-- Tạo, sửa, xóa bài viết
-- Xuất bản/bản nháp
-- Phân trang
-- Tìm kiếm và lọc
-
-### 2. Quản lý chuyên mục
-- Tạo, sửa, xóa chuyên mục
-- Kích hoạt/vô hiệu hóa
-- Hiển thị số bài viết
-
-### 3. Hệ thống bình luận
-- Bình luận đa cấp (reply)
-- Phê duyệt bình luận
-- Hiển thị avatar người dùng
-
-### 4. Dashboard Admin
-- Thống kê tổng quan
-- Bài viết gần đây
-- Bình luận chờ duyệt
-- Hành động nhanh
-
-## 🚀 Deploy
-
-1. **Production environment:**
 ```bash
-composer install --optimize-autoloader --no-dev
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
+# Reset database với dữ liệu mẫu
+php artisan migrate:fresh --seed
+
+# Clear cache
+php artisan cache:clear
+php artisan config:clear
+
+# Chạy tests
+php artisan test
+
+# Watch mode cho development
+npm run dev
 ```
-
-2. **Cấu hình web server (Apache/Nginx)**
-3. **Cấu hình database production**
-4. **Cấu hình file .env cho production**
-
-## 📝 Ghi chú
-
-- Website sử dụng Bootstrap 5 cho responsive design
-- Tất cả bình luận của user thường cần được admin phê duyệt
-- Admin có thể bình luận mà không cần phê duyệt
-- Hệ thống sử dụng slug cho URL thân thiện SEO
-
-## 🤝 Đóng góp
-
-1. Fork dự án
-2. Tạo feature branch
-3. Commit changes
-4. Push to branch
-5. Tạo Pull Request
-
-## 📄 License
-
-Dự án này được phát hành dưới MIT License.
