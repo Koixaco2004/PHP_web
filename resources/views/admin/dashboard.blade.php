@@ -75,35 +75,7 @@
         </div>
     </div>
 
-    <!-- Pending Comments -->
-    <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6 animate-slide-up hover:shadow-lg transition-shadow duration-300" style="animation-delay: 0.3s">
-        <div class="flex items-center">
-            <div class="w-12 h-12 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-lg flex items-center justify-center mr-4">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-                </svg>
-            </div>
-            <div class="flex-1">
-                <p class="text-sm text-secondary-600 mb-1">Bình luận chờ duyệt</p>
-                <p class="text-2xl font-bold text-secondary-900">{{ $stats['pending_comments'] }}</p>
-            </div>
-        </div>
-        <div class="mt-4 pt-4 border-t border-secondary-100">
-            @if($stats['pending_comments'] > 0)
-                <div class="flex items-center text-sm">
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                        Cần xử lý
-                    </span>
-                </div>
-            @else
-                <div class="flex items-center text-sm">
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                        Đã xử lý hết
-                    </span>
-                </div>
-            @endif
-        </div>
-    </div>
+
 
     <!-- Total Users -->
     <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6 animate-slide-up hover:shadow-lg transition-shadow duration-300" style="animation-delay: 0.4s">
@@ -128,9 +100,9 @@
 </div>
 
 <!-- Content Grid -->
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
     <!-- Recent Posts -->
-    <div class="lg:col-span-2">
+    <div class="lg:col-span-1">
         <div class="bg-white rounded-xl shadow-sm border border-secondary-200 animate-slide-up" style="animation-delay: 0.5s">
             <div class="px-6 py-4 border-b border-secondary-200">
                 <div class="flex items-center justify-between">
@@ -191,18 +163,16 @@
         </div>
     </div>
 
-    <!-- Sidebar -->
-    <div class="space-y-6">
-        <!-- Quick Actions -->
-        <div class="bg-white rounded-xl shadow-sm border border-secondary-200 animate-slide-up" style="animation-delay: 0.6s">
-            <div class="px-6 py-4 border-b border-secondary-200">
-                <h2 class="text-xl font-semibold text-secondary-900 flex items-center">
-                    <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                    </svg>
-                    Hành động nhanh
-                </h2>
-            </div>
+    <!-- Quick Actions -->
+    <div class="bg-white rounded-xl shadow-sm border border-secondary-200 animate-slide-up" style="animation-delay: 0.6s">
+        <div class="px-6 py-4 border-b border-secondary-200">
+            <h2 class="text-xl font-semibold text-secondary-900 flex items-center">
+                <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+                Hành động nhanh
+            </h2>
+        </div>
             <div class="p-6">
                 <div class="space-y-3">
                     <a href="{{ route('posts.create') }}" class="flex items-center w-full p-3 text-left bg-gradient-to-r from-primary-50 to-primary-100 hover:from-primary-100 hover:to-primary-200 rounded-lg transition-all duration-200 group">
@@ -256,134 +226,11 @@
                 </div>
             </div>
         </div>
-
-        <!-- Pending Comments -->
-        <div class="bg-white rounded-xl shadow-sm border border-secondary-200 animate-slide-up" style="animation-delay: 0.7s">
-            <div class="px-6 py-4 border-b border-secondary-200">
-                <div class="flex items-center justify-between">
-                    <h2 class="text-xl font-semibold text-secondary-900 flex items-center">
-                        <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-                        </svg>
-                        Bình luận chờ duyệt
-                        @if($stats['pending_comments'] > 0)
-                            <span class="ml-2 inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                {{ $stats['pending_comments'] }}
-                            </span>
-                        @endif
-                    </h2>
-                </div>
-            </div>
-            <div class="p-6">
-                @forelse($pendingComments as $index => $comment)
-                    <div class="mb-4 last:mb-0 p-4 bg-secondary-50 rounded-lg animate-fade-in" style="animation-delay: {{ 0.1 * ($index + 1) }}s">
-                        <div class="flex items-start justify-between mb-3">
-                            <div class="flex items-center">
-                                <div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center mr-3">
-                                    <span class="text-white text-sm font-medium">
-                                        {{ substr($comment->user->name, 0, 1) }}
-                                    </span>
-                                </div>
-                                <div>
-                                    <p class="font-medium text-secondary-900 text-sm">{{ $comment->user->name }}</p>
-                                    <p class="text-xs text-secondary-600">{{ $comment->created_at->format('d/m/Y H:i') }}</p>
-                                </div>
-                            </div>
-                            <form method="POST" action="{{ route('comments.approve', $comment) }}" style="display: inline;">
-                                @csrf
-                                @method('PATCH')
-                                <button type="submit" class="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-white bg-green-600 hover:bg-green-700 transition-colors duration-200">
-                                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                                    </svg>
-                                    Duyệt
-                                </button>
-                            </form>
-                        </div>
-                        <p class="text-sm text-secondary-800 mb-2">{{ Str::limit($comment->content, 100) }}</p>
-                        <p class="text-xs text-secondary-600">
-                            Trong bài: <a href="{{ route('posts.show', $comment->post->slug) }}" class="text-primary-600 hover:text-primary-800 font-medium">
-                                {{ Str::limit($comment->post->title, 40) }}
-                            </a>
-                        </p>
-                    </div>
-                @empty
-                    <div class="text-center py-8">
-                        <svg class="w-12 h-12 text-secondary-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-                        </svg>
-                        <p class="text-secondary-600">Không có bình luận nào chờ duyệt.</p>
-                        <p class="text-sm text-secondary-500 mt-1">Tất cả bình luận đã được xử lý!</p>
-                    </div>
-                @endforelse
-            </div>
-        </div>
-
-        <!-- Detailed Statistics -->
-        <div class="bg-gradient-to-br from-secondary-50 to-secondary-100 rounded-xl p-6 animate-slide-up" style="animation-delay: 0.8s">
-            <div class="flex items-center mb-4">
-                <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                </svg>
-                <h2 class="text-lg font-semibold text-secondary-900">Thống kê chi tiết</h2>
-            </div>
-            
-            <div class="space-y-4 text-sm">
-                <div class="flex items-center justify-between py-2 border-b border-secondary-200">
-                    <span class="text-secondary-700">📝 Bài viết:</span>
-                    <span class="font-medium text-secondary-900">
-                        {{ $stats['total_posts'] }} 
-                        <span class="text-xs text-secondary-600">
-                            ({{ $stats['published_posts'] }} đã xuất bản, {{ ($stats['draft_posts'] ?? $stats['total_posts'] - $stats['published_posts']) }} nháp)
-                        </span>
-                    </span>
-                </div>
-                
-                <div class="flex items-center justify-between py-2 border-b border-secondary-200">
-                    <span class="text-secondary-700">📁 Chuyên mục:</span>
-                    <span class="font-medium text-secondary-900">
-                        {{ $stats['total_categories'] ?? 'N/A' }}
-                        <span class="text-xs text-secondary-600">
-                            ({{ $stats['active_categories'] ?? 'N/A' }} hoạt động)
-                        </span>
-                    </span>
-                </div>
-                
-                <div class="flex items-center justify-between py-2 border-b border-secondary-200">
-                    <span class="text-secondary-700">💬 Bình luận:</span>
-                    <span class="font-medium text-secondary-900">
-                        {{ $stats['total_comments'] ?? 'N/A' }}
-                        <span class="text-xs text-secondary-600">
-                            ({{ $stats['pending_comments'] }} chờ duyệt)
-                        </span>
-                    </span>
-                </div>
-                
-                <div class="flex items-center justify-between py-2">
-                    <span class="text-secondary-700">👥 Người dùng:</span>
-                    <span class="font-medium text-secondary-900">
-                        {{ $stats['total_users'] }}
-                        <span class="text-xs text-secondary-600">
-                            ({{ $stats['admin_users'] ?? 0 }} admin)
-                        </span>
-                    </span>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Auto-refresh pending comments count
-    function refreshPendingComments() {
-        // This could be implemented with AJAX to refresh the pending comments
-        console.log('Checking for new pending comments...');
-    }
-    
-    // Check for new content every 5 minutes
-    setInterval(refreshPendingComments, 300000);
-    
     // Add click animation to action cards
     const actionCards = document.querySelectorAll('[href*="route"]');
     actionCards.forEach(card => {
