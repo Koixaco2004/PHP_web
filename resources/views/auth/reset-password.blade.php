@@ -1,56 +1,28 @@
 @extends('layouts.app')
 
-@section('title', 'Đăng ký')
+@section('title', 'Đặt lại mật khẩu')
 
 @section('content')
-<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-accent-50 via-white to-primary-50 py-12 px-4 sm:px-6 lg:px-8">
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 via-white to-accent-50 py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-md w-full space-y-8 animate-fade-in">
         <!-- Logo & Header -->
         <div class="text-center">
-            <div class="mx-auto h-20 w-20 bg-gradient-to-br from-accent-600 to-accent-700 rounded-2xl flex items-center justify-center shadow-lg animate-bounce-subtle">
+            <div class="mx-auto h-20 w-20 bg-gradient-to-br from-primary-600 to-primary-700 rounded-2xl flex items-center justify-center shadow-lg animate-bounce-subtle">
                 <svg class="h-10 w-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-11.255 3M5 10a2 2 0 012-2m6 4a2 2 0 100-4m0 4a2 2 0 100 4m0-4v8a2 2 0 002 2h8a2 2 0 002-2v-8m0 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v1"/>
                 </svg>
             </div>
-            <h2 class="mt-6 text-3xl font-heading font-bold text-secondary-900">Tạo tài khoản mới</h2>
-            <p class="mt-2 text-sm text-secondary-600">Tham gia cộng đồng và khám phá nội dung tuyệt vời</p>
+            <h2 class="mt-6 text-3xl font-heading font-bold text-secondary-900">Đặt lại mật khẩu</h2>
+            <p class="mt-2 text-sm text-secondary-600">Tạo mật khẩu mới cho tài khoản của bạn</p>
         </div>
 
-        <!-- Register Form -->
+        <!-- Reset Password Form -->
         <div class="bg-white rounded-2xl shadow-xl border border-secondary-100 p-8 animate-slide-up" style="animation-delay: 0.1s">
-            <form method="POST" action="{{ route('register') }}" class="space-y-6" id="registerForm">
+            <form method="POST" action="{{ route('password.store') }}" class="space-y-6" id="resetForm">
                 @csrf
+                <input type="hidden" name="token" value="{{ $request->route('token') }}">
                 
-                <!-- Name Field -->
-                <div>
-                    <label for="name" class="block text-sm font-medium text-secondary-700 mb-2">
-                        Họ và tên
-                    </label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <svg class="h-5 w-5 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                            </svg>
-                        </div>
-                        <input type="text" 
-                               class="block w-full pl-10 pr-3 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 transition-colors duration-200 @error('name') border-red-500 focus:ring-red-500 focus:border-red-500 bg-red-50 @enderror" 
-                               id="name" 
-                               name="name" 
-                               value="{{ old('name') }}" 
-                               placeholder="Nhập họ và tên của bạn"
-                               required>
-                    </div>
-                    @error('name')
-                        <p class="mt-2 text-sm text-red-600 flex items-center">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                            {{ $message }}
-                        </p>
-                    @enderror
-                </div>
-
-                <!-- Email Field -->
+                <!-- Email Field (Read-only) -->
                 <div>
                     <label for="email" class="block text-sm font-medium text-secondary-700 mb-2">
                         Địa chỉ email
@@ -62,12 +34,11 @@
                             </svg>
                         </div>
                         <input type="email" 
-                               class="block w-full pl-10 pr-3 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 transition-colors duration-200 @error('email') border-red-500 focus:ring-red-500 focus:border-red-500 bg-red-50 @enderror" 
+                               class="block w-full pl-10 pr-3 py-3 border border-secondary-300 rounded-lg bg-secondary-50 text-secondary-600 cursor-not-allowed @error('email') border-red-500 bg-red-50 @enderror" 
                                id="email" 
                                name="email" 
-                               value="{{ old('email') }}" 
-                               placeholder="Nhập địa chỉ email của bạn"
-                               required>
+                               value="{{ old('email', $request->email) }}" 
+                               readonly>
                     </div>
                     @error('email')
                         <p class="mt-2 text-sm text-red-600 flex items-center">
@@ -79,10 +50,10 @@
                     @enderror
                 </div>
 
-                <!-- Password Field -->
+                <!-- New Password Field -->
                 <div>
                     <label for="password" class="block text-sm font-medium text-secondary-700 mb-2">
-                        Mật khẩu
+                        Mật khẩu mới
                     </label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -91,10 +62,10 @@
                             </svg>
                         </div>
                         <input type="password" 
-                               class="block w-full pl-10 pr-12 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 transition-colors duration-200 @error('password') border-red-500 focus:ring-red-500 focus:border-red-500 bg-red-50 @enderror" 
+                               class="block w-full pl-10 pr-12 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 @error('password') border-red-500 focus:ring-red-500 focus:border-red-500 bg-red-50 @enderror" 
                                id="password" 
                                name="password" 
-                               placeholder="Tạo mật khẩu mạnh"
+                               placeholder="Nhập mật khẩu mới"
                                required>
                         <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
                             <button type="button" class="text-secondary-400 hover:text-secondary-600 transition-colors duration-200" onclick="togglePassword('password')">
@@ -129,7 +100,7 @@
                 <!-- Confirm Password Field -->
                 <div>
                     <label for="password_confirmation" class="block text-sm font-medium text-secondary-700 mb-2">
-                        Xác nhận mật khẩu
+                        Xác nhận mật khẩu mới
                     </label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -138,10 +109,10 @@
                             </svg>
                         </div>
                         <input type="password" 
-                               class="block w-full pl-10 pr-12 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 transition-colors duration-200" 
+                               class="block w-full pl-10 pr-12 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200" 
                                id="password_confirmation" 
                                name="password_confirmation" 
-                               placeholder="Nhập lại mật khẩu"
+                               placeholder="Nhập lại mật khẩu mới"
                                required>
                         <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
                             <button type="button" class="text-secondary-400 hover:text-secondary-600 transition-colors duration-200" onclick="togglePassword('password_confirmation')">
@@ -157,82 +128,75 @@
                     </div>
                 </div>
 
-                <!-- Terms & Conditions -->
-                <div class="flex items-start">
-                    <div class="flex items-center h-5">
-                        <input type="checkbox" 
-                               class="h-4 w-4 text-accent-600 focus:ring-accent-500 border-secondary-300 rounded transition-colors duration-200" 
-                               id="terms" 
-                               name="terms" 
-                               required>
-                    </div>
-                    <div class="ml-3 text-sm">
-                        <label for="terms" class="text-secondary-700 cursor-pointer">
-                            Tôi đồng ý với 
-                            <a href="#" class="text-accent-600 hover:text-accent-700 font-medium">Điều khoản sử dụng</a> 
-                            và 
-                            <a href="#" class="text-accent-600 hover:text-accent-700 font-medium">Chính sách bảo mật</a>
-                        </label>
+                <!-- Security Tips -->
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <svg class="h-5 w-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-sm font-medium text-blue-800">Mẹo tạo mật khẩu mạnh:</h3>
+                            <div class="mt-2 text-sm text-blue-700">
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li>Ít nhất 8 ký tự</li>
+                                    <li>Kết hợp chữ hoa, chữ thường</li>
+                                    <li>Có chữ số và ký tự đặc biệt</li>
+                                    <li>Không sử dụng thông tin cá nhân</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Submit Button -->
                 <div>
                     <button type="submit" 
-                            class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-accent-600 to-accent-700 hover:from-accent-700 hover:to-accent-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                            class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                             id="submit-btn">
                         <span class="absolute left-0 inset-y-0 flex items-center pl-3">
-                            <svg class="h-5 w-5 text-accent-200 group-hover:text-accent-100 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                            <svg class="h-5 w-5 text-primary-200 group-hover:text-primary-100 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
                         </span>
-                        Tạo tài khoản
+                        Cập nhật mật khẩu
                     </button>
                 </div>
             </form>
         </div>
 
-        <!-- Social Register -->
+        <!-- Security Note -->
         <div class="bg-white rounded-2xl shadow-xl border border-secondary-100 p-6 animate-slide-up" style="animation-delay: 0.2s">
-            <div class="relative">
-                <div class="absolute inset-0 flex items-center">
-                    <div class="w-full border-t border-secondary-300"></div>
-                </div>
-                <div class="relative flex justify-center text-sm">
-                    <span class="px-2 bg-white text-secondary-500">Hoặc đăng ký với</span>
-                </div>
-            </div>
-
-            <div class="mt-6 grid grid-cols-2 gap-3">
-                <button class="w-full inline-flex justify-center py-3 px-4 border border-secondary-300 rounded-lg shadow-sm bg-white text-sm font-medium text-secondary-700 hover:bg-secondary-50 transition-colors duration-200">
-                    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M10 0C4.477 0 0 4.484 0 10.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0110 4.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0020 10.017C20 4.484 15.522 0 10 0z" clip-rule="evenodd"/>
+            <div class="text-center">
+                <div class="flex items-center justify-center mb-3">
+                    <svg class="w-5 h-5 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.018-.554l-1.54.687M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
-                    <span class="ml-2">Github</span>
-                </button>
-
-                <button class="w-full inline-flex justify-center py-3 px-4 border border-secondary-300 rounded-lg shadow-sm bg-white text-sm font-medium text-secondary-700 hover:bg-secondary-50 transition-colors duration-200">
-                    <svg class="h-5 w-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M20 10.5C20 16.29 16.29 20 10.5 20S1 16.29 1 10.5 4.71 1 10.5 1 20 4.71 20 10.5zm-5.5-.5c0 2.5-1 3.5-2.5 3.5S9.5 12.5 9.5 10s1-3.5 2.5-3.5S14.5 7.5 14.5 10z" clip-rule="evenodd"/>
-                    </svg>
-                    <span class="ml-2">Google</span>
-                </button>
+                    <h3 class="text-lg font-semibold text-secondary-900">Bảo mật tài khoản</h3>
+                </div>
+                <p class="text-sm text-secondary-600">
+                    Sau khi đặt lại mật khẩu thành công, bạn sẽ được đăng nhập tự động. 
+                    Tất cả phiên đăng nhập khác sẽ bị đăng xuất để đảm bảo bảo mật.
+                </p>
             </div>
         </div>
 
-        <!-- Login Link -->
+        <!-- Back to Login -->
         <div class="text-center animate-slide-up" style="animation-delay: 0.3s">
             <p class="text-sm text-secondary-600">
-                Đã có tài khoản? 
-                <a href="{{ route('login') }}" class="text-accent-600 hover:text-accent-700 font-medium transition-colors duration-200">
-                    Đăng nhập ngay
+                <a href="{{ route('login') }}" class="text-primary-600 hover:text-primary-700 font-medium transition-colors duration-200 inline-flex items-center">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12"/>
+                    </svg>
+                    Quay lại đăng nhập
                 </a>
             </p>
         </div>
 
         <!-- Footer -->
         <div class="text-center text-xs text-secondary-500 animate-slide-up" style="animation-delay: 0.4s">
-            <p>© 2025 News Portal. Cam kết bảo vệ thông tin cá nhân của bạn.</p>
+            <p>© 2025 News Portal. Mật khẩu của bạn được bảo mật.</p>
         </div>
     </div>
 </div>
@@ -301,7 +265,6 @@ function checkPasswordMatch() {
 document.addEventListener('DOMContentLoaded', function() {
     const passwordField = document.getElementById('password');
     const confirmationField = document.getElementById('password_confirmation');
-    const termsCheckbox = document.getElementById('terms');
     const submitButton = document.getElementById('submit-btn');
     
     passwordField.addEventListener('input', function() {
@@ -315,16 +278,13 @@ document.addEventListener('DOMContentLoaded', function() {
         updateSubmitButton();
     });
     
-    termsCheckbox.addEventListener('change', updateSubmitButton);
-    
     function updateSubmitButton() {
         const password = passwordField.value;
         const confirmation = confirmationField.value;
-        const termsAccepted = termsCheckbox.checked;
         const passwordStrong = checkPasswordStrength(password) >= 3;
         const passwordsMatch = password === confirmation && password.length > 0;
         
-        if (passwordStrong && passwordsMatch && termsAccepted) {
+        if (passwordStrong && passwordsMatch) {
             submitButton.disabled = false;
             submitButton.classList.remove('opacity-50', 'cursor-not-allowed');
         } else {
@@ -335,6 +295,21 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initial state
     updateSubmitButton();
+    
+    // Form submission feedback
+    const form = document.getElementById('resetForm');
+    form.addEventListener('submit', function() {
+        const originalText = submitButton.innerHTML;
+        
+        submitButton.innerHTML = `
+            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Đang cập nhật...
+        `;
+        submitButton.disabled = true;
+    });
 });
 </script>
 @endsection
