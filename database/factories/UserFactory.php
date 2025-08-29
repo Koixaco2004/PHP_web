@@ -35,7 +35,7 @@ class UserFactory extends Factory
             'location' => fake()->optional(0.4)->city(),
             'website' => fake()->optional(0.2)->url(),
             'phone' => fake()->optional(0.3)->phoneNumber(),
-            'date_of_birth' => fake()->optional(0.6)->dateTimeBetween('-60 years', '-18 years')->format('Y-m-d'),
+            'date_of_birth' => fake()->optional(0.6)->dateTimeBetween('-60 years', '-18 years')?->format('Y-m-d'),
             'profile_views' => fake()->numberBetween(0, 1000),
             'is_private' => fake()->boolean(20), // 20% chance of being private
             'remember_token' => Str::random(10),
