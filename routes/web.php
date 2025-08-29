@@ -10,6 +10,7 @@ use App\Http\Controllers\PostImageController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\NewsletterController;
+use App\Http\Controllers\ProfileController;
 
 // Trang chủ
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -92,6 +93,21 @@ Route::middleware('auth')->group(function () {
 // Newsletter Routes
 Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
 Route::post('/newsletter/unsubscribe', [NewsletterController::class, 'unsubscribe'])->name('newsletter.unsubscribe');
+
+// Profile Routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/profile/avatar', [ProfileController::class, 'uploadAvatar'])->name('profile.avatar');
+    Route::get('/profile/settings', [ProfileController::class, 'settings'])->name('profile.settings');
+    Route::put('/profile/password', [ProfileController::class, 'changePassword'])->name('profile.password');
+    Route::get('/profile/posts', [ProfileController::class, 'posts'])->name('profile.posts');
+    Route::get('/profile/activities', [ProfileController::class, 'activities'])->name('profile.activities');
+});
+
+// Public Profile Routes
+Route::get('/users/{user}', [ProfileController::class, 'showPublic'])->name('users.show');
 
 // Authentication routes (nếu chưa có)
 require __DIR__ . '/auth.php';

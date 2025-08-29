@@ -24,6 +24,13 @@ class User extends Authenticatable implements MustVerifyEmail
         'role',
         'google_id',
         'avatar',
+        'bio',
+        'location',
+        'website',
+        'phone',
+        'date_of_birth',
+        'profile_views',
+        'is_private',
     ];
 
     /**
@@ -46,6 +53,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'date_of_birth' => 'date',
+            'is_private' => 'boolean',
         ];
     }
 
