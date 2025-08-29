@@ -269,7 +269,7 @@
         <!-- Related Posts -->
         @if($relatedPosts->count() > 0)
             <div class="card animate-slide-up" style="animation-delay: 0.2s">
-                <div class="card-header">
+                <div class="p-6 border-b border-secondary-200 bg-secondary-50">
                     <h3 class="text-lg font-heading font-semibold text-secondary-900 flex items-center">
                         <svg class="w-5 h-5 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2 2 0 00-2-2h-2m-4-3v9M9 3h6v3H9V3z"/>
@@ -277,7 +277,7 @@
                         Bài viết liên quan
                     </h3>
                 </div>
-                <div class="card-body">
+                <div class="p-6">
                     <div class="space-y-4">
                         @foreach($relatedPosts as $relatedPost)
                             <div class="group">
@@ -312,7 +312,7 @@
 
         <!-- Author Info -->
         <div class="card animate-slide-up" style="animation-delay: 0.3s">
-            <div class="card-header">
+            <div class="p-6 border-b border-secondary-200 bg-secondary-50">
                 <h3 class="text-lg font-heading font-semibold text-secondary-900 flex items-center">
                     <svg class="w-5 h-5 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
@@ -320,7 +320,7 @@
                     Về tác giả
                 </h3>
             </div>
-            <div class="card-body text-center">
+            <div class="p-6 text-center">
                 <div class="w-20 h-20 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span class="text-white font-bold text-2xl">{{ substr($post->user->name, 0, 1) }}</span>
                 </div>
@@ -343,6 +343,65 @@
                 Về đầu trang
             </button>
         </div>
+    </div>
+</div>
+
+<!-- Related Posts Section -->
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h3 class="text-2xl font-bold text-primary-900 mb-6">Tin tức liên quan</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        @php
+            $relatedPosts = \App\Models\Post::where('category_id', $post->category_id)
+                ->where('id', '!=', $post->id)
+                ->where('status', 'published')
+                ->latest()
+                ->take(3)
+                ->get();
+        @endphp
+        
+        @forelse($relatedPosts as $relatedPost)
+            <article class="bg-white rounded-lg border border-primary-200 hover:shadow-md transition-shadow duration-200 overflow-hidden">
+                @if($relatedPost->featured_image)
+                    <div class="h-48 overflow-hidden">
+                        <img src="{{ $relatedPost->featured_image }}" alt="{{ $relatedPost->title }}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                    </div>
+                @endif
+                <div class="p-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-medium text-primary-600 bg-primary-50 px-2 py-1 rounded">
+                            {{ $relatedPost->category->name }}
+                        </span>
+                        <span class="text-xs text-primary-500">{{ $relatedPost->created_at->diffForHumans() }}</span>
+                    </div>
+                    
+                    <h4 class="text-lg font-semibold text-primary-900 mb-2 leading-tight">
+                        <a href="{{ route('posts.show', $relatedPost->slug) }}" class="hover:text-primary-700">
+                            {{ Str::limit($relatedPost->title, 60) }}
+                        </a>
+                    </h4>
+                    
+                    @if($relatedPost->excerpt)
+                        <p class="text-primary-600 mb-3 line-clamp-2 text-sm leading-relaxed">{{ Str::limit($relatedPost->excerpt, 100) }}</p>
+                    @endif
+                    
+                    <div class="flex items-center justify-between pt-2 border-t border-primary-100">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-5 h-5 bg-primary-900 rounded-full flex items-center justify-center">
+                                <span class="text-xs font-semibold text-white">{{ substr($relatedPost->user->name, 0, 1) }}</span>
+                            </div>
+                            <span class="text-xs text-primary-700">{{ $relatedPost->user->name }}</span>
+                        </div>
+                        <a href="{{ route('posts.show', $relatedPost->slug) }}" class="text-primary-600 hover:text-primary-900 text-xs font-medium">
+                            Đọc tiếp →
+                        </a>
+                    </div>
+                </div>
+            </article>
+        @empty
+            <div class="col-span-full text-center py-8">
+                <p class="text-primary-500">Không có tin tức liên quan.</p>
+            </div>
+        @endforelse
     </div>
 </div>
 

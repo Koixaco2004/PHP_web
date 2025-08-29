@@ -41,6 +41,23 @@
   .article-card {
     @apply bg-white rounded-lg p-6 border border-primary-200 hover:border-primary-300 transition-all duration-200;
   }
+
+  /* Fix search bar alignment */
+  header .flex.items-center.justify-between {
+    align-items: center !important;
+  }
+  
+  header input[name="search"] {
+    vertical-align: middle !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+    margin-bottom: 0 !important;
+  }
+  
+  header form {
+    margin: 0 !important;
+    margin-bottom: 0 !important;
+  }
 }
 
 /* Custom utilities */

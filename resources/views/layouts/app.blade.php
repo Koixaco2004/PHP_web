@@ -20,7 +20,7 @@
     <!-- Clean Header -->
     <header class="bg-white border-b border-primary-200 sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
+            <div class="flex items-center justify-between h-16" style="align-items: center;">
                 <!-- Logo -->
                 <div class="flex items-center">
                     <a href="{{ route('home') }}" class="flex items-center space-x-3">
@@ -34,14 +34,14 @@
                 </div>
 
                 <!-- Search -->
-                <div class="hidden md:flex flex-1 max-w-md mx-8">
-                    <form method="GET" action="{{ route('home') }}" class="w-full">
-                        <div class="relative">
+                <div class="flex-1 max-w-md mx-8 hidden md:flex items-center justify-center">
+                    <form method="GET" action="{{ route('home') }}" class="w-full flex items-center">
+                        <div class="relative w-full flex items-center">
                             <input type="text" name="search" 
-                                   class="w-full pl-4 pr-10 py-2.5 border border-primary-300 rounded-lg focus:ring-2 focus:ring-primary-900 focus:border-primary-900 text-sm" 
+                                   class="w-full h-10 pl-4 pr-10 border border-primary-300 rounded-lg focus:ring-2 focus:ring-primary-900 focus:border-primary-900 text-sm bg-white flex-shrink-0" 
                                    placeholder="Tìm kiếm..." 
                                    value="{{ request('search') }}">
-                            <button type="submit" class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                            <button type="submit" class="absolute right-3 top-1/2 transform -translate-y-1/2 p-1 hover:bg-gray-100 rounded flex items-center justify-center">
                                 <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                                 </svg>
@@ -89,6 +89,23 @@
             </div>
         </div>
     </header>
+
+    <!-- Navigation Bar -->
+    <nav class="bg-primary-900 border-b border-primary-800">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center space-x-8 py-3 overflow-x-auto">
+                <a href="{{ route('home') }}" class="text-white hover:text-primary-200 text-sm font-medium whitespace-nowrap transition-colors duration-200 {{ request()->routeIs('home') ? 'text-primary-200' : '' }}">
+                    Trang chủ
+                </a>
+                @foreach($categories ?? [] as $category)
+                    <a href="{{ route('categories.show', $category) }}" 
+                       class="text-white hover:text-primary-200 text-sm font-medium whitespace-nowrap transition-colors duration-200 {{ request()->route('category')?->id == $category->id ? 'text-primary-200' : '' }}">
+                        {{ $category->name }}
+                    </a>
+                @endforeach
+            </div>
+        </div>
+    </nav>
 
     <!-- Main Content -->
     <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
