@@ -281,8 +281,9 @@
 </div>
 
 <!-- Delete Confirmation Modal -->
-<div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden" style="display: flex; align-items: center; justify-content: center;">
-    <div class="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 animate-slide-up">
+<div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+    <div class="flex items-center justify-center min-h-screen px-4">
+        <div class="bg-white rounded-xl shadow-2xl max-w-md w-full animate-slide-up">
         <div class="p-6">
             <div class="flex items-center mb-4">
                 <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mr-4">
@@ -311,6 +312,7 @@
                     Xóa
                 </button>
             </div>
+        </div>
         </div>
     </div>
 </div>
@@ -343,12 +345,10 @@ document.addEventListener('DOMContentLoaded', function() {
         deleteFormId = categoryId;
         document.getElementById('categoryName').textContent = categoryName;
         document.getElementById('deleteModal').classList.remove('hidden');
-        document.getElementById('deleteModal').style.display = 'flex';
     };
     
     window.closeDeleteModal = function() {
         document.getElementById('deleteModal').classList.add('hidden');
-        document.getElementById('deleteModal').style.display = 'none';
         deleteFormId = null;
     };
     

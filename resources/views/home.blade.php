@@ -3,6 +3,102 @@
 @section('title', 'Trang chủ - Website Tin Tức')
 
 @section('content')
+<!-- Hero Carousel Section -->
+<div class="mb-12">
+    <div class="relative bg-gradient-to-r from-primary-600 to-primary-800 rounded-2xl overflow-hidden shadow-xl">
+        <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+        
+        <!-- Carousel Container -->
+        <div class="relative" x-data="carousel()">
+            <div class="overflow-hidden">
+                <div class="flex transition-transform duration-500 ease-in-out" :style="`transform: translateX(-${currentSlide * 100}%)`">
+                    @foreach($posts->take(5) as $index => $post)
+                        <div class="w-full flex-shrink-0">
+                            <div class="relative h-96 flex items-center">
+                                <div class="container mx-auto px-6 lg:px-8">
+                                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                                        <div class="text-white z-10">
+                                            <div class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-white bg-opacity-20 text-white mb-4">
+                                                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                                                </svg>
+                                                {{ $post->category->name }}
+                                            </div>
+                                            <h2 class="text-3xl lg:text-4xl font-bold mb-4 leading-tight">
+                                                {{ Str::limit($post->title, 80) }}
+                                            </h2>
+                                            @if($post->excerpt)
+                                                <p class="text-lg text-white text-opacity-90 mb-6 leading-relaxed">
+                                                    {{ Str::limit($post->excerpt, 150) }}
+                                                </p>
+                                            @endif
+                                            <div class="flex items-center space-x-6 mb-6">
+                                                <div class="flex items-center space-x-2">
+                                                    <div class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                                                        <span class="text-sm font-semibold text-white">{{ substr($post->user->name, 0, 1) }}</span>
+                                                    </div>
+                                                    <span class="text-white text-opacity-90">{{ $post->user->name }}</span>
+                                                </div>
+                                                <div class="flex items-center text-white text-opacity-75">
+                                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                    </svg>
+                                                    {{ $post->created_at->diffForHumans() }}
+                                                </div>
+                                            </div>
+                                            <a href="{{ route('posts.show', $post->slug) }}" class="inline-flex items-center px-6 py-3 bg-white text-primary-700 font-semibold rounded-lg hover:bg-primary-50 transition-all duration-200 transform hover:scale-105">
+                                                Đọc ngay
+                                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                                </svg>
+                                            </a>
+                                        </div>
+                                        <div class="hidden lg:block">
+                                            <div class="w-full h-64 bg-white bg-opacity-10 rounded-xl overflow-hidden backdrop-blur-sm">
+                                                @if($post->featured_image)
+                                                    <img src="{{ $post->featured_image }}" alt="{{ $post->title }}" class="w-full h-full object-cover">
+                                                @else
+                                                    <div class="w-full h-full flex items-center justify-center">
+                                                        <svg class="w-20 h-20 text-white text-opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                                        </svg>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+            
+            <!-- Navigation Arrows -->
+            <button @click="prevSlide()" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-20 hover:bg-opacity-30 text-white p-2 rounded-full transition-all duration-200">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+            </button>
+            <button @click="nextSlide()" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-20 hover:bg-opacity-30 text-white p-2 rounded-full transition-all duration-200">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </button>
+            
+            <!-- Dots Indicator -->
+            <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                @foreach($posts->take(5) as $index => $post)
+                    <button @click="currentSlide = {{ $index }}" 
+                            class="w-3 h-3 rounded-full transition-all duration-200"
+                            :class="currentSlide === {{ $index }} ? 'bg-white' : 'bg-white bg-opacity-50'">
+                    </button>
+                @endforeach
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Main Content Grid -->
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
     <!-- Main Articles Section -->
@@ -114,3 +210,27 @@
 </div>
 
 @endsection
+
+<script>
+function carousel() {
+    return {
+        currentSlide: 0,
+        totalSlides: {{ $posts->take(5)->count() }},
+        
+        nextSlide() {
+            this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
+        },
+        
+        prevSlide() {
+            this.currentSlide = this.currentSlide === 0 ? this.totalSlides - 1 : this.currentSlide - 1;
+        },
+        
+        init() {
+            // Auto-play carousel every 5 seconds
+            setInterval(() => {
+                this.nextSlide();
+            }, 5000);
+        }
+    }
+}
+</script>

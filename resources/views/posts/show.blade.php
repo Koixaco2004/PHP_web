@@ -348,8 +348,9 @@
 
 <!-- Reply Modal -->
 @auth
-<div id="replyModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden" style="display: flex; align-items: center; justify-content: center;">
-    <div class="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 animate-slide-up">
+<div id="replyModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+    <div class="flex items-center justify-center min-h-screen px-4">
+        <div class="bg-white rounded-xl shadow-2xl max-w-md w-full animate-slide-up">
         <div class="p-6">
             <div class="flex items-center justify-between mb-4">
                 <h3 class="text-lg font-heading font-semibold text-secondary-900">Trả lời bình luận</h3>
@@ -374,6 +375,7 @@
                 </div>
             </form>
         </div>
+        </div>
     </div>
 </div>
 
@@ -392,14 +394,12 @@ document.addEventListener('DOMContentLoaded', function() {
             parentIdInput.value = commentId;
             replyContent.value = '';
             replyModal.classList.remove('hidden');
-            replyModal.style.display = 'flex';
         });
     });
 
     closeModalButtons.forEach(button => {
         button.addEventListener('click', function() {
             replyModal.classList.add('hidden');
-            replyModal.style.display = 'none';
         });
     });
 
@@ -407,7 +407,6 @@ document.addEventListener('DOMContentLoaded', function() {
     replyModal.addEventListener('click', function(e) {
         if (e.target === replyModal) {
             replyModal.classList.add('hidden');
-            replyModal.style.display = 'none';
         }
     });
 
