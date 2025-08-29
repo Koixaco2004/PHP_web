@@ -35,8 +35,10 @@
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <!-- Main Content -->
         <div class="lg:col-span-3">
-            <form method="POST" action="{{ route('posts.store') }}" class="space-y-6" id="postForm">
+            <form method="POST" action="{{ route('posts.store') }}" class="space-y-6" id="postForm" enctype="multipart/form-data">
                 @csrf
+                <input type="hidden" name="uploaded_images" id="uploadedImages" value="[]">
+                <input type="hidden" name="featured_image" id="featuredImageInput" value="">
                 
                 <!-- Post Title -->
                 <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6 animate-slide-up" style="animation-delay: 0.1s">
@@ -183,8 +185,49 @@
                     </div>
                 </div>
 
-                <!-- Content Editor -->
+                <!-- Image Upload -->
                 <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6 animate-slide-up" style="animation-delay: 0.5s">
+                    <div class="flex items-center mb-4">
+                        <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                        <h3 class="text-lg font-semibold text-secondary-900">Hình ảnh bài viết</h3>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-secondary-700 mb-2">
+                            Upload hình ảnh (tối đa 10 ảnh)
+                        </label>
+                        
+                        <!-- Upload Area -->
+                        <div class="border-2 border-dashed border-secondary-300 rounded-lg p-6 text-center hover:border-primary-400 transition-colors duration-200" id="uploadArea">
+                            <input type="file" id="imageInput" multiple accept="image/*" class="hidden">
+                            <svg class="w-12 h-12 text-secondary-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                            </svg>
+                            <p class="text-secondary-600 mb-2">Kéo thả ảnh vào đây hoặc</p>
+                            <button type="button" class="btn-secondary" onclick="document.getElementById('imageInput').click()">
+                                Chọn ảnh
+                            </button>
+                            <p class="text-xs text-secondary-500 mt-2">Hỗ trợ JPG, PNG, GIF. Tối đa 5MB/ảnh</p>
+                        </div>
+                        
+                        <!-- Preview Area -->
+                        <div id="imagePreview" class="mt-4 gap-4" style="display: none;">
+                        </div>
+                        
+                        <!-- Upload Progress -->
+                        <div id="uploadProgress" class="mt-4 hidden">
+                            <div class="bg-secondary-200 rounded-full h-2">
+                                <div id="progressBar" class="bg-primary-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                            </div>
+                            <p class="text-sm text-secondary-600 mt-1" id="progressText">Đang upload...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Editor -->
+                <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6 animate-slide-up" style="animation-delay: 0.6s">
                     <div class="flex items-center mb-4">
                         <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
@@ -217,7 +260,7 @@
                 </div>
 
                 <!-- Form Actions -->
-                <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6 animate-slide-up" style="animation-delay: 0.6s">
+                <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6 animate-slide-up" style="animation-delay: 0.7s">
                     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
                         <div class="flex items-center text-sm text-secondary-600">
                             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -363,6 +406,194 @@ document.addEventListener('DOMContentLoaded', function() {
     
     contentInput.addEventListener('input', updateStats);
     updateStats();
+    
+    // Image upload functionality
+    const imageInput = document.getElementById('imageInput');
+    const uploadArea = document.getElementById('uploadArea');
+    const imagePreview = document.getElementById('imagePreview');
+    const uploadProgress = document.getElementById('uploadProgress');
+    const progressBar = document.getElementById('progressBar');
+    const progressText = document.getElementById('progressText');
+    const uploadedImagesInput = document.getElementById('uploadedImages');
+    
+    let uploadedImages = [];
+    
+    // Drag and drop functionality
+    uploadArea.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        uploadArea.classList.add('border-primary-400', 'bg-primary-50');
+    });
+    
+    uploadArea.addEventListener('dragleave', function(e) {
+        e.preventDefault();
+        uploadArea.classList.remove('border-primary-400', 'bg-primary-50');
+    });
+    
+    uploadArea.addEventListener('drop', function(e) {
+        e.preventDefault();
+        uploadArea.classList.remove('border-primary-400', 'bg-primary-50');
+        const files = Array.from(e.dataTransfer.files).filter(file => file.type.startsWith('image/'));
+        handleFiles(files);
+    });
+    
+    // File input change
+    imageInput.addEventListener('change', function(e) {
+        const files = Array.from(e.target.files);
+        handleFiles(files);
+    });
+    
+    function handleFiles(files) {
+        if (files.length === 0) return;
+        
+        // Validate file count
+        if (uploadedImages.length + files.length > 10) {
+            alert('Chỉ có thể upload tối đa 10 ảnh');
+            return;
+        }
+        
+        // Validate file size and type
+        const validFiles = files.filter(file => {
+            if (!file.type.startsWith('image/')) {
+                alert(`File ${file.name} không phải là hình ảnh`);
+                return false;
+            }
+            if (file.size > 5 * 1024 * 1024) { // 5MB
+                alert(`File ${file.name} quá lớn (tối đa 5MB)`);
+                return false;
+            }
+            return true;
+        });
+        
+        if (validFiles.length === 0) return;
+        
+        // Show progress
+        uploadProgress.classList.remove('hidden');
+        progressBar.style.width = '0%';
+        progressText.textContent = 'Đang upload...';
+        
+        // Upload files
+        uploadFiles(validFiles);
+    }
+    
+    async function uploadFiles(files) {
+        const totalFiles = files.length;
+        let completedFiles = 0;
+        
+        for (const file of files) {
+            try {
+                const formData = new FormData();
+                formData.append('image', file);
+                
+                const response = await fetch('/api/upload-temp-image', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.success) {
+                        uploadedImages.push(result.data);
+                        addImagePreview(result.data, file);
+                    }
+                }
+                
+                completedFiles++;
+                const progress = (completedFiles / totalFiles) * 100;
+                progressBar.style.width = progress + '%';
+                progressText.textContent = `Đã upload ${completedFiles}/${totalFiles} ảnh`;
+                
+            } catch (error) {
+                console.error('Upload error:', error);
+                alert(`Lỗi upload file ${file.name}`);
+            }
+        }
+        
+        // Hide progress after completion
+        setTimeout(() => {
+            uploadProgress.classList.add('hidden');
+        }, 1000);
+        
+        // Update hidden input
+        uploadedImagesInput.value = JSON.stringify(uploadedImages);
+    }
+    
+    function addImagePreview(imageData, file) {
+        if (uploadedImages.length === 1) {
+            imagePreview.style.display = 'grid';
+            imagePreview.className = 'mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4';
+        }
+        
+        const previewItem = document.createElement('div');
+        previewItem.className = 'relative group';
+        previewItem.innerHTML = `
+            <img src="${imageData.image_url}" alt="Preview" class="w-full h-24 object-cover rounded-lg">
+            <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-200 rounded-lg flex items-center justify-center">
+                <button type="button" class="opacity-0 group-hover:opacity-100 bg-red-500 text-white p-1 rounded-full hover:bg-red-600 transition-all duration-200" onclick="removeImage('${imageData.image_url}')">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="absolute top-1 left-1">
+                <label class="flex items-center">
+                    <input type="radio" name="featured_image" value="${imageData.image_url}" class="sr-only">
+                    <span class="w-5 h-5 bg-white border-2 border-gray-300 rounded-full flex items-center justify-center cursor-pointer hover:border-primary-500">
+                        <span class="w-2 h-2 bg-primary-500 rounded-full hidden"></span>
+                    </span>
+                </label>
+            </div>
+        `;
+        
+        imagePreview.appendChild(previewItem);
+        
+        // Set first image as featured by default
+        if (uploadedImages.length === 1) {
+            const radio = previewItem.querySelector('input[type="radio"]');
+            radio.checked = true;
+            const indicator = previewItem.querySelector('span span');
+            indicator.classList.remove('hidden');
+            
+            // Update hidden input
+            document.getElementById('featuredImageInput').value = imageData.image_url;
+        }
+    }
+    
+    // Remove image function
+    window.removeImage = function(imageUrl) {
+        uploadedImages = uploadedImages.filter(img => img.image_url !== imageUrl);
+        uploadedImagesInput.value = JSON.stringify(uploadedImages);
+        
+        // Remove preview
+        const previews = imagePreview.querySelectorAll('img');
+        previews.forEach(img => {
+            if (img.src === imageUrl) {
+                img.closest('.relative').remove();
+            }
+        });
+        
+        // Hide preview area if no images
+        if (uploadedImages.length === 0) {
+            imagePreview.style.display = 'none';
+        }
+    };
+    
+    // Featured image selection
+    imagePreview.addEventListener('change', function(e) {
+        if (e.target.type === 'radio') {
+            // Update visual indicators
+            const allIndicators = imagePreview.querySelectorAll('span span');
+            allIndicators.forEach(indicator => indicator.classList.add('hidden'));
+            
+            const selectedIndicator = e.target.closest('label').querySelector('span span');
+            selectedIndicator.classList.remove('hidden');
+            
+            // Update hidden input
+            document.getElementById('featuredImageInput').value = e.target.value;
+        }
+    });
     
     // Form submission handling
     document.getElementById('postForm').addEventListener('submit', function(e) {

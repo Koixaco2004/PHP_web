@@ -30,6 +30,9 @@ Route::middleware(['auth'])->group(function () {
         Route::patch('/{image}/featured', [PostImageController::class, 'setFeatured'])->name('featured');
     });
     
+    // Temporary image upload API
+    Route::post('/api/upload-temp-image', [\App\Http\Controllers\Api\TempImageController::class, 'upload'])->name('api.temp-image.upload');
+    
     // Bình luận
     Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');

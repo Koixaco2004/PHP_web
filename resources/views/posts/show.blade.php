@@ -110,11 +110,46 @@
                 </div>
             </div>
 
+            <!-- Featured Image -->
+            @if($post->main_image)
+                <div class="mb-6">
+                    <img src="{{ $post->main_image }}" 
+                         alt="{{ $post->title }}" 
+                         class="w-full h-64 md:h-80 object-cover rounded-lg shadow-sm">
+                </div>
+            @endif
+
             <!-- Article Content -->
             <div class="p-6">
                 @if($post->excerpt)
                     <div class="text-lg text-secondary-600 font-medium mb-8 p-4 bg-secondary-50 rounded-lg border-l-4 border-primary-500">
                         {{ $post->excerpt }}
+                    </div>
+                @endif
+
+                <!-- Post Images Gallery -->
+                @if($post->images && $post->images->count() > 1)
+                    <div class="mb-8">
+                        <h3 class="text-lg font-semibold text-secondary-900 mb-4">Hình ảnh bài viết</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                            @foreach($post->images->sortBy('sort_order') as $image)
+                                <div class="relative group cursor-pointer" onclick="openImageModal('{{ $image->image_url }}', '{{ $image->alt_text ?? $post->title }}')">
+                                    <img src="{{ $image->image_url }}" 
+                                         alt="{{ $image->alt_text ?? $post->title }}" 
+                                         class="w-full h-32 object-cover rounded-lg shadow-sm group-hover:shadow-md transition-shadow duration-200">
+                                    @if($image->is_featured)
+                                        <div class="absolute top-2 left-2">
+                                            <span class="bg-primary-600 text-white text-xs px-2 py-1 rounded-full">Ảnh đại diện</span>
+                                        </div>
+                                    @endif
+                                    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-200 rounded-lg flex items-center justify-center">
+                                        <svg class="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                 @endif
 
@@ -495,6 +530,50 @@ document.addEventListener('DOMContentLoaded', function() {
             // Show success message (you can implement a toast notification here)
             alert('Đã sao chép liên kết!');
         });
+    };
+
+    // Image modal functionality
+    window.openImageModal = function(imageUrl, altText) {
+        // Create modal if it doesn't exist
+        let modal = document.getElementById('imageModal');
+        if (!modal) {
+            modal = document.createElement('div');
+            modal.id = 'imageModal';
+            modal.className = 'fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-4';
+            modal.innerHTML = `
+                <div class="relative max-w-4xl max-h-full">
+                    <img id="modalImage" src="" alt="" class="max-w-full max-h-full object-contain rounded-lg">
+                    <button onclick="closeImageModal()" class="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors duration-200">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            
+            // Close on click outside
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeImageModal();
+                }
+            });
+        }
+        
+        // Update image and show modal
+        const modalImage = document.getElementById('modalImage');
+        modalImage.src = imageUrl;
+        modalImage.alt = altText;
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    };
+
+    window.closeImageModal = function() {
+        const modal = document.getElementById('imageModal');
+        if (modal) {
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
     };
 
     // Back to top functionality

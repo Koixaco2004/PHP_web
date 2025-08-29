@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\PostImage;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -38,6 +39,8 @@ class PostController extends Controller
             'category_id' => 'required|exists:categories,id',
             'excerpt' => 'nullable|max:500',
             'status' => 'required|in:draft,published',
+            'uploaded_images' => 'nullable|json',
+            'featured_image' => 'nullable|url',
         ]);
 
         $post = Post::create([
@@ -49,6 +52,25 @@ class PostController extends Controller
             'category_id' => $request->category_id,
             'user_id' => auth()->id(),
         ]);
+
+        // Handle uploaded images
+        if ($request->uploaded_images) {
+            $uploadedImages = json_decode($request->uploaded_images, true);
+            $featuredImageUrl = $request->featured_image;
+            
+            foreach ($uploadedImages as $index => $imageData) {
+                PostImage::create([
+                    'post_id' => $post->id,
+                    'image_url' => $imageData['image_url'],
+                    'delete_url' => $imageData['delete_url'] ?? null,
+                    'width' => $imageData['width'] ?? null,
+                    'height' => $imageData['height'] ?? null,
+                    'file_size' => $imageData['file_size'] ?? null,
+                    'sort_order' => $index,
+                    'is_featured' => $imageData['image_url'] === $featuredImageUrl,
+                ]);
+            }
+        }
 
         return redirect()->route('posts.show', $post->slug)->with('success', 'Bài viết đã được tạo thành công!');
     }

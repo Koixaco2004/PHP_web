@@ -15,6 +15,7 @@
                 <table class="min-w-full divide-y divide-primary-200">
                     <thead class="bg-primary-50">
                         <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-primary-500 uppercase tracking-wider">Ảnh</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-primary-500 uppercase tracking-wider">Tiêu đề</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-primary-500 uppercase tracking-wider">Chuyên mục</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-primary-500 uppercase tracking-wider">Tác giả</th>
@@ -27,6 +28,19 @@
                     <tbody class="bg-white divide-y divide-primary-200">
                         @foreach($posts as $post)
                             <tr class="hover:bg-primary-50">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="w-16 h-12 rounded-lg overflow-hidden bg-primary-100 flex items-center justify-center">
+                                        @if($post->main_image)
+                                            <img src="{{ $post->main_image }}" 
+                                                 alt="{{ $post->title }}" 
+                                                 class="w-full h-full object-cover">
+                                        @else
+                                            <svg class="w-6 h-6 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4a2 2 0 012-2z"/>
+                                            </svg>
+                                        @endif
+                                    </div>
+                                </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <a href="{{ route('posts.show', $post->slug) }}" target="_blank" class="text-primary-600 hover:text-primary-900 font-medium">
                                         {{ $post->title }}
