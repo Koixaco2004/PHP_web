@@ -100,6 +100,12 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         $categories = Category::active()->get();
+        
+        // Load images and remove duplicates by URL
+        $post->load('images');
+        $uniqueImages = $post->images->unique('image_url');
+        $post->setRelation('images', $uniqueImages);
+        
         return view('posts.edit', compact('post', 'categories'));
     }
 
@@ -114,6 +120,9 @@ class PostController extends Controller
             'category_id' => 'required|exists:categories,id',
             'excerpt' => 'nullable|max:500',
             'status' => 'required|in:draft,published',
+            'uploaded_images' => 'nullable|json',
+            'deleted_images' => 'nullable|json',
+            'featured_image' => 'nullable|url',
         ]);
 
         $post->update([
@@ -123,7 +132,42 @@ class PostController extends Controller
             'excerpt' => $request->excerpt,
             'status' => $request->status,
             'category_id' => $request->category_id,
+            'featured_image' => $request->featured_image,
         ]);
+
+        // Handle deleted images
+        if ($request->deleted_images) {
+            $deletedImages = json_decode($request->deleted_images, true);
+            if (is_array($deletedImages)) {
+                foreach ($deletedImages as $imageUrl) {
+                    $post->images()->where('image_url', $imageUrl)->delete();
+                }
+            }
+        }
+
+        // Handle new uploaded images
+        if ($request->uploaded_images) {
+            $uploadedImages = json_decode($request->uploaded_images, true);
+            if (is_array($uploadedImages)) {
+                foreach ($uploadedImages as $imageData) {
+                    $post->images()->create([
+                        'image_url' => $imageData['image_url'],
+                        'alt_text' => $imageData['alt_text'] ?? '',
+                        'is_featured' => ($imageData['image_url'] === $request->featured_image),
+                    ]);
+                }
+            }
+        }
+
+        // Update featured image status for existing images
+        if ($request->featured_image) {
+            // Reset all images to not featured
+            $post->images()->update(['is_featured' => false]);
+            
+            // Set the selected image as featured
+            $post->images()->where('image_url', $request->featured_image)
+                ->update(['is_featured' => true]);
+        }
 
         return redirect()->route('posts.show', $post->slug)->with('success', 'Bài viết đã được cập nhật thành công!');
     }

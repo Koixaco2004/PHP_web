@@ -42,9 +42,12 @@
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <!-- Main Content -->
         <div class="lg:col-span-3">
-            <form method="POST" action="{{ route('posts.update', $post) }}" class="space-y-6" id="editForm">
+            <form method="POST" action="{{ route('posts.update', $post) }}" class="space-y-6" id="editForm" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
+                <input type="hidden" name="uploaded_images" id="uploadedImages" value="{{ json_encode($post->images->map(function($img) { return ['image_url' => $img->image_url, 'delete_url' => $img->delete_url, 'alt_text' => $img->alt_text, 'caption' => $img->caption, 'is_featured' => $img->is_featured]; })) }}">
+                <input type="hidden" name="featured_image" id="featuredImageInput" value="{{ $post->featuredImage ? $post->featuredImage->image_url : '' }}">
+                <input type="hidden" name="deleted_images" id="deletedImages" value="[]">
                 
                 <!-- Post Title -->
                 <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6 animate-slide-up" style="animation-delay: 0.1s">
@@ -191,6 +194,79 @@
                     </div>
                 </div>
 
+                <!-- Image Management -->
+                <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6 animate-slide-up" style="animation-delay: 0.45s">
+                    <div class="flex items-center mb-4">
+                        <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4a2 2 0 012-2z"/>
+                        </svg>
+                        <h3 class="text-lg font-semibold text-secondary-900">Hình ảnh bài viết</h3>
+                    </div>
+
+                    <!-- Current Images -->
+                    @if($post->images && $post->images->count() > 0)
+                        <div class="mb-6">
+                            <h4 class="text-sm font-medium text-secondary-700 mb-3">Hình ảnh hiện tại</h4>
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-4" id="currentImages">
+                                @foreach($post->images as $image)
+                                    <div class="relative group" data-image-id="{{ $image->id }}" data-image-url="{{ $image->image_url }}">
+                                        <img src="{{ $image->image_url }}" alt="{{ $image->alt_text }}" class="w-full h-24 object-cover rounded-lg">
+                                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-200 rounded-lg flex items-center justify-center">
+                                            <button type="button" onclick="removeExistingImage('{{ $image->image_url }}', this)" class="opacity-0 group-hover:opacity-100 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-all duration-200">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        @if($image->is_featured)
+                                            <div class="absolute top-2 left-2">
+                                                <span class="bg-primary-600 text-white text-xs px-2 py-1 rounded-full">Ảnh đại diện</span>
+                                            </div>
+                                        @endif
+                                        <label class="absolute top-2 right-2">
+                                            <input type="radio" name="existing_featured" value="{{ $image->image_url }}" {{ $image->is_featured ? 'checked' : '' }} class="sr-only">
+                                            <span class="block w-6 h-6 bg-white rounded-full border-2 border-primary-300 cursor-pointer hover:border-primary-500 transition-colors duration-200">
+                                                <span class="block w-3 h-3 bg-primary-600 rounded-full m-0.5 {{ $image->is_featured ? '' : 'hidden' }}"></span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+
+                    <!-- Upload New Images -->
+                    <div>
+                        <label class="block text-sm font-medium text-secondary-700 mb-3">Thêm hình ảnh mới</label>
+                        <div class="border-2 border-dashed border-secondary-300 rounded-lg p-6 text-center hover:border-primary-400 transition-colors duration-200" id="imageDropZone">
+                            <svg class="mx-auto h-12 w-12 text-secondary-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                            </svg>
+                            <div class="text-sm text-secondary-600">
+                                <label for="imageFiles" class="relative cursor-pointer bg-white rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500">
+                                    <span>Tải lên hình ảnh</span>
+                                    <input id="imageFiles" name="imageFiles[]" type="file" class="sr-only" multiple accept="image/*">
+                                </label>
+                                <p class="pl-1">hoặc kéo thả vào đây</p>
+                            </div>
+                            <p class="text-xs text-secondary-500 mt-2">PNG, JPG, GIF tối đa 5MB mỗi file, tối đa 10 file</p>
+                        </div>
+
+                        <!-- Upload Progress -->
+                        <div id="uploadProgress" class="hidden mt-4">
+                            <div class="bg-secondary-200 rounded-full h-2">
+                                <div class="bg-primary-600 h-2 rounded-full transition-all duration-300" style="width: 0%" id="progressBar"></div>
+                            </div>
+                            <p class="text-sm text-secondary-600 mt-2" id="progressText">Đang tải lên...</p>
+                        </div>
+
+                        <!-- New Images Preview -->
+                        <div id="newImagePreview" class="mt-4 hidden">
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-4"></div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Content Editor -->
                 <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6 animate-slide-up" style="animation-delay: 0.5s">
                     <div class="flex items-center mb-4">
@@ -204,8 +280,55 @@
                         <label for="content" class="block text-sm font-medium text-secondary-700 mb-2">
                             Nội dung chi tiết <span class="text-red-500">*</span>
                         </label>
+                        
+                        <!-- Editor Toolbar -->
+                        <div class="border border-secondary-300 rounded-t-lg bg-secondary-50 p-2 flex items-center gap-2 flex-wrap">
+                            <!-- Text Formatting -->
+                            <div class="flex items-center gap-1 border-r border-secondary-300 pr-2">
+                                <button type="button" onclick="formatText('bold')" class="p-1.5 rounded hover:bg-secondary-200 transition-colors" title="Đậm">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 4h8a4 4 0 014 4 4 4 0 01-4 4H6z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12h9a4 4 0 014 4 4 4 0 01-4 4H6z"/>
+                                    </svg>
+                                </button>
+                                <button type="button" onclick="formatText('italic')" class="p-1.5 rounded hover:bg-secondary-200 transition-colors" title="Nghiêng">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 4l4 16m-4-8h8"/>
+                                    </svg>
+                                </button>
+                                <button type="button" onclick="formatText('link')" class="p-1.5 rounded hover:bg-secondary-200 transition-colors" title="Liên kết">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Image Tools -->
+                            <div class="flex items-center gap-1 border-r border-secondary-300 pr-2">
+                                <button type="button" onclick="openImageGallery()" class="p-1.5 rounded hover:bg-secondary-200 transition-colors bg-primary-100 text-primary-600" title="Chèn ảnh">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4a2 2 0 012-2z"/>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Lists -->
+                            <div class="flex items-center gap-1">
+                                <button type="button" onclick="formatText('ul')" class="p-1.5 rounded hover:bg-secondary-200 transition-colors" title="Danh sách">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
+                                    </svg>
+                                </button>
+                                <button type="button" onclick="formatText('ol')" class="p-1.5 rounded hover:bg-secondary-200 transition-colors" title="Danh sách số">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
                         <div class="relative">
-                            <textarea class="block w-full px-4 py-4 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 resize-none @error('content') border-red-500 focus:ring-red-500 focus:border-red-500 @enderror" 
+                            <textarea class="block w-full px-4 py-4 border border-secondary-300 border-t-0 rounded-b-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 resize-none @error('content') border-red-500 focus:ring-red-500 focus:border-red-500 @enderror" 
                                       id="content" 
                                       name="content" 
                                       rows="15" 
@@ -220,7 +343,7 @@
                                 {{ $message }}
                             </p>
                         @enderror
-                        <p class="mt-1 text-xs text-secondary-500">Hỗ trợ Markdown và HTML. Sử dụng các thẻ để định dạng nội dung</p>
+                        <p class="mt-1 text-xs text-secondary-500">Hỗ trợ Markdown và HTML. Sử dụng toolbar để chèn ảnh và định dạng nội dung</p>
                     </div>
                 </div>
 
@@ -347,6 +470,79 @@
     </div>
 </div>
 
+<!-- Image Gallery Modal -->
+<div id="imageGalleryModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+    <div class="flex items-center justify-center p-4 min-h-full">
+    <div class="bg-white rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+        <div class="flex items-center justify-between p-6 border-b border-secondary-200">
+            <h3 class="text-lg font-semibold text-secondary-900">Chọn hình ảnh để chèn</h3>
+            <button type="button" onclick="closeImageGallery()" class="text-secondary-400 hover:text-secondary-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+        
+        <div class="p-6 overflow-y-auto max-h-[60vh]">
+            <div id="galleryImageGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <!-- Images will be populated here -->
+            </div>
+            <div id="noImagesMessage" class="text-center py-8 text-secondary-500 hidden">
+                <svg class="w-12 h-12 mx-auto mb-4 text-secondary-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4a2 2 0 012-2z"/>
+                </svg>
+                <p>Chưa có hình ảnh nào. Hãy upload ảnh trước khi chèn vào nội dung.</p>
+            </div>
+        </div>
+        
+        <div id="imageOptionsPanel" class="hidden border-t border-secondary-200 p-6 bg-secondary-50">
+            <div class="flex items-center justify-between mb-4">
+                <h4 class="font-medium text-secondary-900">Tùy chọn hiển thị</h4>
+                <img id="selectedImagePreview" class="w-16 h-16 object-cover rounded-lg" src="" alt="">
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Size Options -->
+                <div>
+                    <label class="block text-sm font-medium text-secondary-700 mb-2">Kích thước</label>
+                    <select id="imageSize" class="w-full px-3 py-2 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                        <option value="small">Nhỏ (300px)</option>
+                        <option value="medium" selected>Vừa (500px)</option>
+                        <option value="large">Lớn (700px)</option>
+                        <option value="full">Toàn bộ (100%)</option>
+                    </select>
+                </div>
+                
+                <!-- Alignment Options -->
+                <div>
+                    <label class="block text-sm font-medium text-secondary-700 mb-2">Căn lề</label>
+                    <select id="imageAlign" class="w-full px-3 py-2 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                        <option value="left">Trái</option>
+                        <option value="center" selected>Giữa</option>
+                        <option value="right">Phải</option>
+                    </select>
+                </div>
+                
+                <!-- Caption -->
+                <div>
+                    <label class="block text-sm font-medium text-secondary-700 mb-2">Chú thích (tùy chọn)</label>
+                    <input type="text" id="imageCaption" placeholder="Nhập chú thích..." class="w-full px-3 py-2 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                </div>
+            </div>
+            
+            <div class="flex justify-end gap-3 mt-6">
+                <button type="button" onclick="closeImageGallery()" class="px-4 py-2 text-secondary-600 hover:text-secondary-800 transition-colors">
+                    Hủy
+                </button>
+                <button type="button" onclick="insertSelectedImage()" class="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
+                    Chèn ảnh
+                </button>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Writing statistics
@@ -393,6 +589,409 @@ document.addEventListener('DOMContentLoaded', function() {
     [titleInput, contentInput, excerptInput].forEach(input => {
         input.addEventListener('input', autoSave);
     });
+
+    // Image management functionality
+    let uploadedImages = JSON.parse(document.getElementById('uploadedImages').value || '[]');
+    let deletedImages = JSON.parse(document.getElementById('deletedImages').value || '[]');
+    const uploadedImagesInput = document.getElementById('uploadedImages');
+    const deletedImagesInput = document.getElementById('deletedImages');
+    const featuredImageInput = document.getElementById('featuredImageInput');
+    const imageDropZone = document.getElementById('imageDropZone');
+    const imageFiles = document.getElementById('imageFiles');
+    const uploadProgress = document.getElementById('uploadProgress');
+    const progressBar = document.getElementById('progressBar');
+    const progressText = document.getElementById('progressText');
+    const newImagePreview = document.getElementById('newImagePreview');
+
+    // File input change handler
+    imageFiles.addEventListener('change', function(e) {
+        handleFiles(e.target.files);
+    });
+
+    // Drag and drop handlers
+    imageDropZone.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        imageDropZone.classList.add('border-primary-500', 'bg-primary-50');
+    });
+
+    imageDropZone.addEventListener('dragleave', function(e) {
+        e.preventDefault();
+        imageDropZone.classList.remove('border-primary-500', 'bg-primary-50');
+    });
+
+    imageDropZone.addEventListener('drop', function(e) {
+        e.preventDefault();
+        imageDropZone.classList.remove('border-primary-500', 'bg-primary-50');
+        handleFiles(e.dataTransfer.files);
+    });
+
+    function handleFiles(files) {
+        if (files.length + uploadedImages.length > 10) {
+            alert('Tối đa 10 hình ảnh cho mỗi bài viết');
+            return;
+        }
+
+        Array.from(files).forEach(file => {
+            if (file.size > 5 * 1024 * 1024) {
+                alert(`File ${file.name} quá lớn. Tối đa 5MB.`);
+                return;
+            }
+            uploadImage(file);
+        });
+    }
+
+    function uploadImage(file) {
+        const formData = new FormData();
+        formData.append('image', file);
+        formData.append('_token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+
+        uploadProgress.classList.remove('hidden');
+        progressBar.style.width = '0%';
+        progressText.textContent = 'Đang tải lên...';
+
+        fetch('/api/upload-temp-image', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                uploadedImages.push(data.data);
+                uploadedImagesInput.value = JSON.stringify(uploadedImages);
+                addImagePreview(data.data);
+                
+                // Set first image as featured if no featured image exists
+                if (uploadedImages.length === 1 && !featuredImageInput.value) {
+                    featuredImageInput.value = data.data.image_url;
+                    updateFeaturedImageDisplay();
+                }
+            } else {
+                alert('Lỗi upload: ' + (data.message || 'Unknown error'));
+            }
+        })
+        .catch(error => {
+            console.error('Upload error:', error);
+            alert('Có lỗi xảy ra khi upload ảnh');
+        })
+        .finally(() => {
+            uploadProgress.classList.add('hidden');
+        });
+    }
+
+    function addImagePreview(imageData) {
+        const previewContainer = newImagePreview.querySelector('.grid');
+        const previewItem = document.createElement('div');
+        previewItem.className = 'relative group';
+        previewItem.innerHTML = `
+            <img src="${imageData.image_url}" alt="Preview" class="w-full h-24 object-cover rounded-lg">
+            <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-200 rounded-lg flex items-center justify-center">
+                <button type="button" onclick="removeNewImage('${imageData.image_url}', this)" class="opacity-0 group-hover:opacity-100 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-all duration-200">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                    </svg>
+                </button>
+            </div>
+            <label class="absolute top-2 right-2">
+                <input type="radio" name="new_featured" value="${imageData.image_url}" class="sr-only">
+                <span class="block w-6 h-6 bg-white rounded-full border-2 border-primary-300 cursor-pointer hover:border-primary-500 transition-colors duration-200">
+                    <span class="block w-3 h-3 bg-primary-600 rounded-full m-0.5 hidden"></span>
+                </span>
+            </label>
+        `;
+        
+        previewContainer.appendChild(previewItem);
+        newImagePreview.classList.remove('hidden');
+    }
+
+    // Remove existing image
+    window.removeExistingImage = function(imageUrl, button) {
+        if (confirm('Bạn có chắc muốn xóa ảnh này?')) {
+            deletedImages.push(imageUrl);
+            deletedImagesInput.value = JSON.stringify(deletedImages);
+            button.closest('[data-image-url]').remove();
+            
+            // Update featured image if deleted image was featured
+            if (featuredImageInput.value === imageUrl) {
+                featuredImageInput.value = '';
+                updateFeaturedImageDisplay();
+            }
+        }
+    };
+
+    // Remove new image
+    window.removeNewImage = function(imageUrl, button) {
+        uploadedImages = uploadedImages.filter(img => img.image_url !== imageUrl);
+        uploadedImagesInput.value = JSON.stringify(uploadedImages);
+        button.closest('.relative').remove();
+        
+        if (newImagePreview.querySelector('.grid').children.length === 0) {
+            newImagePreview.classList.add('hidden');
+        }
+        
+        // Update featured image if deleted image was featured
+        if (featuredImageInput.value === imageUrl) {
+            featuredImageInput.value = '';
+            updateFeaturedImageDisplay();
+        }
+    };
+
+    // Featured image selection for existing images
+    document.addEventListener('change', function(e) {
+        if (e.target.name === 'existing_featured') {
+            featuredImageInput.value = e.target.value;
+            updateFeaturedImageDisplay();
+        }
+        if (e.target.name === 'new_featured') {
+            featuredImageInput.value = e.target.value;
+            updateFeaturedImageDisplay();
+        }
+    });
+
+    function updateFeaturedImageDisplay() {
+        // Update existing images
+        document.querySelectorAll('input[name="existing_featured"]').forEach(radio => {
+            const indicator = radio.closest('label').querySelector('span span');
+            if (radio.value === featuredImageInput.value) {
+                radio.checked = true;
+                indicator.classList.remove('hidden');
+            } else {
+                radio.checked = false;
+                indicator.classList.add('hidden');
+            }
+        });
+
+        // Update new images
+        document.querySelectorAll('input[name="new_featured"]').forEach(radio => {
+            const indicator = radio.closest('label').querySelector('span span');
+            if (radio.value === featuredImageInput.value) {
+                radio.checked = true;
+                indicator.classList.remove('hidden');
+            } else {
+                radio.checked = false;
+                indicator.classList.add('hidden');
+            }
+        });
+    }
+
+    // Editor toolbar functions
+    let selectedImageUrl = '';
+    let cursorPosition = 0;
+
+    // Track cursor position in content textarea
+    contentInput.addEventListener('selectionchange', function() {
+        cursorPosition = contentInput.selectionStart;
+    });
+
+    contentInput.addEventListener('click', function() {
+        cursorPosition = contentInput.selectionStart;
+    });
+
+    contentInput.addEventListener('keyup', function() {
+        cursorPosition = contentInput.selectionStart;
+    });
 });
+
+// Text formatting functions
+function formatText(type) {
+    const contentTextarea = document.getElementById('content');
+    const start = contentTextarea.selectionStart;
+    const end = contentTextarea.selectionEnd;
+    const selectedText = contentTextarea.value.substring(start, end);
+    let replacement = '';
+
+    switch(type) {
+        case 'bold':
+            replacement = selectedText ? `**${selectedText}**` : '**text**';
+            break;
+        case 'italic':
+            replacement = selectedText ? `*${selectedText}*` : '*text*';
+            break;
+        case 'link':
+            const url = prompt('Nhập URL:');
+            if (url) {
+                replacement = selectedText ? `[${selectedText}](${url})` : `[link text](${url})`;
+            } else {
+                return;
+            }
+            break;
+        case 'ul':
+            replacement = selectedText ? `- ${selectedText}` : '- List item';
+            break;
+        case 'ol':
+            replacement = selectedText ? `1. ${selectedText}` : '1. List item';
+            break;
+    }
+
+    // Insert the formatted text
+    const newValue = contentTextarea.value.substring(0, start) + replacement + contentTextarea.value.substring(end);
+    contentTextarea.value = newValue;
+    
+    // Set cursor position after the inserted text
+    const newCursorPos = start + replacement.length;
+    contentTextarea.setSelectionRange(newCursorPos, newCursorPos);
+    contentTextarea.focus();
+}
+
+// Image gallery functions
+function openImageGallery() {
+    const modal = document.getElementById('imageGalleryModal');
+    const grid = document.getElementById('galleryImageGrid');
+    const noImagesMsg = document.getElementById('noImagesMessage');
+    
+    // Clear previous content
+    grid.innerHTML = '';
+    
+    // Get all available images (existing + new uploaded)
+    const existingImages = [];
+    const deletedImageUrls = JSON.parse(document.getElementById('deletedImages').value || '[]');
+    
+    // Get existing images that haven't been deleted
+    document.querySelectorAll('#currentImages [data-image-url]').forEach(item => {
+        const imageUrl = item.dataset.imageUrl;
+        if (!deletedImageUrls.includes(imageUrl)) {
+            existingImages.push({
+                url: imageUrl,
+                alt: item.querySelector('img').alt || ''
+            });
+        }
+    });
+    
+    // Get new uploaded images
+    const newImages = JSON.parse(document.getElementById('uploadedImages').value || '[]');
+    
+    // Combine and deduplicate images
+    const imageMap = new Map();
+    
+    // Add existing images
+    existingImages.forEach(img => {
+        imageMap.set(img.url, img);
+    });
+    
+    // Add new images (will overwrite if same URL)
+    newImages.forEach(img => {
+        imageMap.set(img.image_url, {
+            url: img.image_url,
+            alt: img.alt_text || ''
+        });
+    });
+    
+    const allImages = Array.from(imageMap.values());
+    
+    if (allImages.length === 0) {
+        noImagesMsg.classList.remove('hidden');
+        grid.classList.add('hidden');
+    } else {
+        noImagesMsg.classList.add('hidden');
+        grid.classList.remove('hidden');
+        
+        allImages.forEach(image => {
+            const imageItem = document.createElement('div');
+            imageItem.className = 'relative cursor-pointer group';
+            imageItem.innerHTML = `
+                <img src="${image.url}" alt="${image.alt}" class="w-full h-24 object-cover rounded-lg border-2 border-transparent group-hover:border-primary-300 transition-colors">
+                <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-200 rounded-lg"></div>
+            `;
+            
+            imageItem.addEventListener('click', () => selectImageForInsertion(image.url));
+            grid.appendChild(imageItem);
+        });
+    }
+    
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function selectImageForInsertion(imageUrl) {
+    selectedImageUrl = imageUrl;
+    
+    // Update UI to show selected image
+    document.querySelectorAll('#galleryImageGrid .relative').forEach(item => {
+        const img = item.querySelector('img');
+        if (img.src === imageUrl) {
+            img.classList.add('border-primary-500');
+        } else {
+            img.classList.remove('border-primary-500');
+        }
+    });
+    
+    // Show options panel
+    const optionsPanel = document.getElementById('imageOptionsPanel');
+    const preview = document.getElementById('selectedImagePreview');
+    
+    preview.src = imageUrl;
+    optionsPanel.classList.remove('hidden');
+}
+
+function insertSelectedImage() {
+    if (!selectedImageUrl) return;
+    
+    const size = document.getElementById('imageSize').value;
+    const align = document.getElementById('imageAlign').value;
+    const caption = document.getElementById('imageCaption').value;
+    
+    // Generate image HTML based on options
+    let imageHtml = '';
+    let sizeClass = '';
+    
+    switch(size) {
+        case 'small': sizeClass = 'max-w-xs'; break;
+        case 'medium': sizeClass = 'max-w-md'; break;
+        case 'large': sizeClass = 'max-w-2xl'; break;
+        case 'full': sizeClass = 'w-full'; break;
+    }
+    
+    let alignClass = '';
+    switch(align) {
+        case 'left': alignClass = 'float-left mr-4 mb-4'; break;
+        case 'center': alignClass = 'mx-auto block'; break;
+        case 'right': alignClass = 'float-right ml-4 mb-4'; break;
+    }
+    
+    if (caption) {
+        imageHtml = `
+<figure class="${align === 'center' ? 'text-center' : ''} my-4">
+    <img src="${selectedImageUrl}" alt="${caption}" class="${sizeClass} ${alignClass} rounded-lg shadow-sm">
+    <figcaption class="text-sm text-gray-600 mt-2 italic">${caption}</figcaption>
+</figure>
+
+`;
+    } else {
+        imageHtml = `
+<img src="${selectedImageUrl}" alt="Image" class="${sizeClass} ${alignClass} rounded-lg shadow-sm my-4">
+
+`;
+    }
+    
+    // Insert at cursor position
+    const contentTextarea = document.getElementById('content');
+    const currentPos = contentTextarea.selectionStart || 0;
+    const textBefore = contentTextarea.value.substring(0, currentPos);
+    const textAfter = contentTextarea.value.substring(currentPos);
+    
+    contentTextarea.value = textBefore + imageHtml + textAfter;
+    
+    // Set cursor after inserted image
+    const newPos = currentPos + imageHtml.length;
+    contentTextarea.setSelectionRange(newPos, newPos);
+    contentTextarea.focus();
+    
+    // Close modal
+    closeImageGallery();
+}
+
+function closeImageGallery() {
+    const modal = document.getElementById('imageGalleryModal');
+    const optionsPanel = document.getElementById('imageOptionsPanel');
+    
+    modal.classList.add('hidden');
+    optionsPanel.classList.add('hidden');
+    document.body.style.overflow = '';
+    
+    // Reset form
+    document.getElementById('imageSize').value = 'medium';
+    document.getElementById('imageAlign').value = 'center';
+    document.getElementById('imageCaption').value = '';
+    selectedImageUrl = '';
+}
 </script>
 @endsection
