@@ -8,12 +8,15 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostImageController;
+use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\NewsletterController;
 
 // Trang chủ
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Routes cho người dùng đăng bài
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     // Route tạo bài viết mới (dành cho user thường)
     Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
     Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
@@ -60,6 +63,26 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
 // Route xem chuyên mục (phải đặt sau các route khác để tránh conflict)
 Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
+
+// Google OAuth Routes
+Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.redirect');
+Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('google.callback');
+
+// Email Verification Routes
+Route::middleware('auth')->group(function () {
+    Route::get('/email/verify', [VerificationController::class, 'notice'])
+        ->name('verification.notice');
+    Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
+        ->middleware(['signed'])
+        ->name('verification.verify');
+    Route::post('/email/verification-notification', [VerificationController::class, 'send'])
+        ->middleware(['throttle:6,1'])
+        ->name('verification.send');
+});
+
+// Newsletter Routes
+Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
+Route::post('/newsletter/unsubscribe', [NewsletterController::class, 'unsubscribe'])->name('newsletter.unsubscribe');
 
 // Authentication routes (nếu chưa có)
 require __DIR__.'/auth.php';
