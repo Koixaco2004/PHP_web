@@ -13,7 +13,7 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Post::with(['category', 'user'])->published();
+        $query = Post::with(['category', 'user', 'images'])->published();
 
         // Tìm kiếm theo từ khóa
         if ($request->has('search') && $request->search) {

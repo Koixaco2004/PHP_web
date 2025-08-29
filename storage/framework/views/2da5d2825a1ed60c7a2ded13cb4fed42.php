@@ -17,8 +17,8 @@
                                     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                                         <div class="lg:col-span-5 hidden lg:block">
                                             <div class="w-full h-80 bg-white bg-opacity-10 rounded-xl overflow-hidden backdrop-blur-sm shadow-2xl">
-                                                <?php if($post->featured_image): ?>
-                                                    <img src="<?php echo e($post->featured_image); ?>" alt="<?php echo e($post->title); ?>" class="w-full h-full object-cover">
+                                                <?php if($post->main_image): ?>
+                                                    <img src="<?php echo e($post->main_image); ?>" alt="<?php echo e($post->title); ?>" class="w-full h-full object-cover">
                                                 <?php else: ?>
                                                     <div class="w-full h-full flex items-center justify-center">
                                                         <svg class="w-20 h-20 text-white text-opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -104,9 +104,9 @@
                 <!-- Clean Article Cards -->
                 <article class="bg-white rounded-lg border border-primary-200 hover:shadow-md transition-shadow duration-200 overflow-hidden">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-0">
-                        <?php if($post->featured_image): ?>
+                        <?php if($post->main_image): ?>
                             <div class="md:col-span-1 h-48 md:h-auto overflow-hidden">
-                                <img src="<?php echo e($post->featured_image); ?>" alt="<?php echo e($post->title); ?>" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                                <img src="<?php echo e($post->main_image); ?>" alt="<?php echo e($post->title); ?>" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
                             </div>
                         <?php endif; ?>
                         <div class="md:col-span-2 p-6">
