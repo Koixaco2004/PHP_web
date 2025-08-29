@@ -33,7 +33,7 @@
                             </svg>
                         </div>
                         <input type="email" 
-                               class="block w-full pl-10 pr-3 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 @error('email') border-red-500 focus:ring-red-500 focus:border-red-500 bg-red-50 @enderror" 
+                               class="block w-full pl-10 pr-3 py-3 border rounded-lg transition-colors duration-200 @error('email') border-red-500 focus:ring-red-500 focus:border-red-500 bg-red-50 @else border-secondary-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 @enderror" 
                                id="email" 
                                name="email" 
                                value="{{ old('email') }}" 
@@ -62,7 +62,7 @@
                             </svg>
                         </div>
                         <input type="password" 
-                               class="block w-full pl-10 pr-12 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 @error('password') border-red-500 focus:ring-red-500 focus:border-red-500 bg-red-50 @enderror" 
+                               class="block w-full pl-10 pr-12 py-3 border rounded-lg transition-colors duration-200 @error('password') border-red-500 focus:ring-red-500 focus:border-red-500 bg-red-50 @else border-secondary-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 @enderror" 
                                id="password" 
                                name="password" 
                                placeholder="Nhập mật khẩu của bạn"

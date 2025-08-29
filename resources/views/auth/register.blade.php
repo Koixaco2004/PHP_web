@@ -33,7 +33,7 @@
                             </svg>
                         </div>
                         <input type="text" 
-                               class="block w-full pl-10 pr-3 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 transition-colors duration-200 @error('name') border-red-500 focus:ring-red-500 focus:border-red-500 bg-red-50 @enderror" 
+                               class="block w-full pl-10 pr-3 py-3 border rounded-lg transition-colors duration-200 @error('name') border-red-500 focus:ring-red-500 focus:border-red-500 bg-red-50 @else border-secondary-300 focus:ring-2 focus:ring-accent-500 focus:border-accent-500 @enderror" 
                                id="name" 
                                name="name" 
                                value="{{ old('name') }}" 
