@@ -180,7 +180,7 @@
         <div class="bg-white rounded-lg border border-primary-200 p-6 mb-6">
             <h3 class="text-lg font-semibold text-primary-900 mb-4">Chuyên mục</h3>
             <div class="space-y-2">
-                @foreach($categories->take(6) as $category)
+                @foreach($navigationCategories->take(6) as $category)
                     <a href="{{ route('categories.show', $category) }}" 
                        class="block text-primary-600 hover:text-primary-900 text-sm py-1">
                         {{ $category->name }}

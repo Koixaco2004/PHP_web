@@ -21,10 +21,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Share categories with all views for navigation
-        View::composer('*', function ($view) {
-            $categories = Category::orderBy('name')->get();
-            $view->with('categories', $categories);
+        // Share categories with specific views for navigation
+        View::composer(['layouts.app', 'home', 'posts.*'], function ($view) {
+            $navigationCategories = Category::orderBy('name')->get();
+            $view->with('navigationCategories', $navigationCategories);
         });
     }
 }

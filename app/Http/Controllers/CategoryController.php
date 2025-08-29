@@ -13,7 +13,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::withCount('posts')->latest()->paginate(10);
+        $categories = Category::withCount('posts')
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
         return view('categories.index', compact('categories'));
     }
 

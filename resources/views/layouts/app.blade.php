@@ -97,7 +97,7 @@
                 <a href="{{ route('home') }}" class="text-white hover:text-primary-200 text-sm font-medium whitespace-nowrap transition-colors duration-200 {{ request()->routeIs('home') ? 'text-primary-200' : '' }}">
                     Trang chủ
                 </a>
-                @foreach($categories ?? [] as $category)
+                @foreach($navigationCategories ?? [] as $category)
                     <a href="{{ route('categories.show', $category) }}" 
                        class="text-white hover:text-primary-200 text-sm font-medium whitespace-nowrap transition-colors duration-200 {{ request()->route('category')?->id == $category->id ? 'text-primary-200' : '' }}">
                         {{ $category->name }}
