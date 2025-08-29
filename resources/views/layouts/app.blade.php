@@ -15,9 +15,10 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ asset('css/layouts/app.css') }}">
+    @stack('styles')
     @yield('additional_css')
 </head>
-<body>
+<body class="@yield('body_class')">
     <!-- Header -->
     <header class="main-header">
         <div class="header-container">

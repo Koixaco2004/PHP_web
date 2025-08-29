@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title', 'Admin Dashboard')
 
@@ -223,7 +223,7 @@
                             <i class="bi bi-tags"></i>
                             Quản lý danh mục
                         </a>
-                        <a href="{{ route('users.index') }}" class="quick-action-btn">
+                        <a href="#" class="quick-action-btn disabled">
                             <i class="bi bi-people"></i>
                             Quản lý người dùng
                         </a>

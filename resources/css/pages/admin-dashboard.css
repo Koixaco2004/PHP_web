@@ -1,4 +1,26 @@
 /* ==================== ADMIN DASHBOARD STYLES ==================== */
+/* Override main content layout for admin pages */
+body.admin-page .main-content {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    display: block;
+    grid-template-columns: none;
+    gap: 0;
+}
+
+body.admin-page .main-content .content-area {
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: visible;
+    padding: 0;
+}
+
+body.admin-page .main-content .sidebar {
+    display: none;
+}
+
 .admin-dashboard {
     padding: 0;
 }
@@ -441,6 +463,13 @@
     background-color: rgba(49, 130, 206, 0.05);
     color: var(--accent-color);
     transform: translateY(-2px);
+}
+
+.quick-action-btn.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+    background-color: var(--bg-light);
 }
 
 .quick-action-btn i {

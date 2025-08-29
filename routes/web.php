@@ -45,6 +45,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
     Route::put('/categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+    Route::patch('/categories/{category}/toggle', [CategoryController::class, 'toggle'])->name('categories.toggle');
+    Route::post('/categories/reorder', [CategoryController::class, 'reorder'])->name('categories.reorder');
 });
 
 // Route xem chuyên mục (phải đặt sau các route khác để tránh conflict)
