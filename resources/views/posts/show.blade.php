@@ -3,161 +3,374 @@
 @section('title', $post->title)
 
 @section('content')
-<div class="row">
-    <div class="col-md-8">
-        <!-- Bài viết -->
-        <article class="card mb-4">
-            <div class="card-body">
-                <h1 class="card-title">{{ $post->title }}</h1>
-                
-                <div class="text-muted mb-3">
-                    <small>
-                        <i class="bi bi-person"></i> {{ $post->user->name }} | 
-                        <i class="bi bi-folder"></i> {{ $post->category->name }} | 
-                        <i class="bi bi-calendar"></i> {{ $post->created_at->format('d/m/Y H:i') }} |
-                        <i class="bi bi-eye"></i> {{ $post->view_count }} lượt xem
-                    </small>
+<!-- Breadcrumb Navigation -->
+<nav class="flex items-center space-x-2 text-sm text-secondary-500 mb-6 animate-fade-in">
+    <a href="{{ route('home') }}" class="hover:text-primary-600 transition-colors duration-200">Trang chủ</a>
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+    </svg>
+    <a href="{{ route('categories.show', $post->category) }}" class="hover:text-primary-600 transition-colors duration-200">
+        {{ $post->category->name }}
+    </a>
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+    </svg>
+    <span class="text-secondary-700 font-medium truncate">{{ $post->title }}</span>
+</nav>
+
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <!-- Main Article Content -->
+    <div class="lg:col-span-8">
+        <!-- Article Header -->
+        <article class="bg-white rounded-xl shadow-sm border border-secondary-200 overflow-hidden mb-8 animate-slide-up">
+            <!-- Category Badge -->
+            <div class="p-6 pb-0">
+                <div class="flex items-center justify-between mb-4">
+                    <a href="{{ route('categories.show', $post->category) }}" 
+                       class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-primary-100 text-primary-800 hover:bg-primary-200 transition-colors duration-200">
+                        <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                        </svg>
+                        {{ $post->category->name }}
+                    </a>
+                    
+                    <!-- Social Share Buttons -->
+                    <div class="flex items-center space-x-2">
+                        <button class="p-2 text-secondary-500 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-all duration-200" 
+                                onclick="sharePost('facebook')" title="Chia sẻ Facebook">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </button>
+                        <button class="p-2 text-secondary-500 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-all duration-200" 
+                                onclick="sharePost('twitter')" title="Chia sẻ Twitter">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                            </svg>
+                        </button>
+                        <button class="p-2 text-secondary-500 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-all duration-200" 
+                                onclick="copyLink()" title="Sao chép liên kết">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
 
+                <!-- Article Title -->
+                <h1 class="text-3xl md:text-4xl font-heading font-bold text-secondary-900 mb-6 leading-tight">
+                    {{ $post->title }}
+                </h1>
+
+                <!-- Article Meta -->
+                <div class="flex items-center justify-between pb-6 border-b border-secondary-200">
+                    <div class="flex items-center space-x-6">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center">
+                                <span class="text-white font-semibold">{{ substr($post->user->name, 0, 1) }}</span>
+                            </div>
+                            <div>
+                                <div class="font-medium text-secondary-900">{{ $post->user->name }}</div>
+                                <div class="text-sm text-secondary-500">Tác giả</div>
+                            </div>
+                        </div>
+                        
+                        <div class="hidden md:flex items-center space-x-4 text-sm text-secondary-500">
+                            <div class="flex items-center">
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                {{ $post->created_at->format('d/m/Y H:i') }}
+                            </div>
+                            <span>•</span>
+                            <div class="flex items-center">
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                </svg>
+                                {{ $post->view_count }} lượt xem
+                            </div>
+                            <span>•</span>
+                            <div class="flex items-center">
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                                </svg>
+                                {{ $post->comments->where('is_approved', true)->count() }} bình luận
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Reading Time Estimate -->
+                    <div class="text-sm text-secondary-500 bg-secondary-50 px-3 py-1 rounded-full">
+                        <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                        </svg>
+                        {{ ceil(str_word_count(strip_tags($post->content)) / 200) }} phút đọc
+                    </div>
+                </div>
+            </div>
+
+            <!-- Article Content -->
+            <div class="p-6">
                 @if($post->excerpt)
-                    <div class="lead mb-3">{{ $post->excerpt }}</div>
+                    <div class="text-lg text-secondary-600 font-medium mb-8 p-4 bg-secondary-50 rounded-lg border-l-4 border-primary-500">
+                        {{ $post->excerpt }}
+                    </div>
                 @endif
 
-                <div class="post-content">
+                <div class="prose prose-lg max-w-none prose-headings:font-heading prose-headings:text-secondary-900 prose-p:text-secondary-700 prose-p:leading-relaxed prose-a:text-primary-600 prose-a:no-underline hover:prose-a:text-primary-700 prose-strong:text-secondary-900 prose-blockquote:border-primary-500 prose-blockquote:bg-primary-50 prose-blockquote:rounded-r-lg">
                     {!! nl2br(e($post->content)) !!}
+                </div>
+
+                <!-- Article Footer -->
+                <div class="mt-8 pt-6 border-t border-secondary-200">
+                    <div class="flex items-center justify-between">
+                        <div class="text-sm text-secondary-500">
+                            Bài viết được đăng lúc {{ $post->created_at->format('H:i, d/m/Y') }}
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-sm text-secondary-500">Chia sẻ:</span>
+                            <button onclick="sharePost('facebook')" class="p-1.5 text-secondary-400 hover:text-blue-600 transition-colors duration-200">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                </svg>
+                            </button>
+                            <button onclick="sharePost('twitter')" class="p-1.5 text-secondary-400 hover:text-blue-400 transition-colors duration-200">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </article>
 
-        <!-- Bình luận -->
-        <div class="card">
-            <div class="card-header">
-                <h5 class="mb-0">Bình luận ({{ $post->comments->where('is_approved', true)->count() }})</h5>
+        <!-- Comments Section -->
+        <div class="bg-white rounded-xl shadow-sm border border-secondary-200 overflow-hidden animate-slide-up" style="animation-delay: 0.1s">
+            <div class="p-6 border-b border-secondary-200 bg-secondary-50">
+                <h3 class="text-xl font-heading font-semibold text-secondary-900 flex items-center">
+                    <svg class="w-6 h-6 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                    </svg>
+                    Bình luận ({{ $post->comments->where('is_approved', true)->count() }})
+                </h3>
             </div>
-            <div class="card-body">
+            
+            <div class="p-6">
                 @auth
-                    <!-- Form bình luận -->
-                    <form method="POST" action="{{ route('comments.store', $post) }}" class="mb-4">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="content" class="form-label">Bình luận của bạn</label>
-                            <textarea class="form-control @error('content') is-invalid @enderror" 
-                                      id="content" name="content" rows="3" required></textarea>
-                            @error('content')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <button type="submit" class="btn btn-primary">Gửi bình luận</button>
-                    </form>
+                    <!-- Comment Form -->
+                    <div class="mb-8 p-6 bg-gradient-to-r from-primary-50 to-primary-100 rounded-xl">
+                        <h4 class="text-lg font-semibold text-secondary-900 mb-4">Để lại bình luận của bạn</h4>
+                        <form method="POST" action="{{ route('comments.store', $post) }}" class="space-y-4">
+                            @csrf
+                            <div>
+                                <label for="content" class="block text-sm font-medium text-secondary-700 mb-2">Nội dung bình luận</label>
+                                <textarea class="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 resize-none @error('content') border-red-500 focus:ring-red-500 focus:border-red-500 @enderror" 
+                                          id="content" name="content" rows="4" placeholder="Nhập bình luận của bạn..." required></textarea>
+                                @error('content')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <button type="submit" class="btn-primary flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                                </svg>
+                                Gửi bình luận
+                            </button>
+                        </form>
+                    </div>
                 @else
-                    <div class="alert alert-info">
-                        Vui lòng <a href="{{ route('login') }}">đăng nhập</a> để bình luận.
+                    <div class="mb-8 p-6 bg-secondary-50 rounded-xl border border-secondary-200">
+                        <div class="flex items-center">
+                            <svg class="w-6 h-6 text-secondary-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                            </svg>
+                            <div>
+                                <p class="text-secondary-700 font-medium">Bạn cần đăng nhập để bình luận</p>
+                                <p class="text-secondary-500 text-sm mt-1">
+                                    <a href="{{ route('login') }}" class="text-primary-600 hover:text-primary-700 font-medium">Đăng nhập</a> 
+                                    hoặc 
+                                    <a href="{{ route('register') }}" class="text-primary-600 hover:text-primary-700 font-medium">tạo tài khoản</a> 
+                                    để tham gia thảo luận
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 @endauth
 
-                <!-- Danh sách bình luận -->
-                <div class="comments-list">
+                <!-- Comments List -->
+                <div class="space-y-6">
                     @forelse($post->comments->where('is_approved', true)->whereNull('parent_id') as $comment)
-                        <div class="comment mb-3">
-                            <div class="d-flex">
+                        <div class="comment-item animate-slide-up" style="animation-delay: {{ $loop->index * 0.1 }}s">
+                            <div class="flex space-x-4">
                                 <div class="flex-shrink-0">
-                                    <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" 
-                                         style="width: 40px; height: 40px;">
-                                        {{ substr($comment->user->name, 0, 1) }}
+                                    <div class="w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center">
+                                        <span class="text-white font-semibold text-lg">{{ substr($comment->user->name, 0, 1) }}</span>
                                     </div>
                                 </div>
-                                <div class="flex-grow-1 ms-3">
-                                    <div class="d-flex justify-content-between">
-                                        <h6 class="mb-1">{{ $comment->user->name }}</h6>
-                                        <small class="text-muted">{{ $comment->created_at->format('d/m/Y H:i') }}</small>
+                                <div class="flex-1 bg-secondary-50 rounded-xl p-4">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <h5 class="font-semibold text-secondary-900">{{ $comment->user->name }}</h5>
+                                        <time class="text-sm text-secondary-500">{{ $comment->created_at->format('d/m/Y H:i') }}</time>
                                     </div>
-                                    <p class="mb-1">{{ $comment->content }}</p>
+                                    <p class="text-secondary-700 mb-3">{{ $comment->content }}</p>
                                     
                                     @auth
-                                        <button class="btn btn-sm btn-outline-primary reply-btn" 
+                                        <button class="reply-btn text-sm text-primary-600 hover:text-primary-700 font-medium flex items-center transition-colors duration-200" 
                                                 data-comment-id="{{ $comment->id }}">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/>
+                                            </svg>
                                             Trả lời
                                         </button>
                                     @endauth
 
-                                    <!-- Bình luận con -->
-                                    @foreach($comment->children->where('is_approved', true) as $reply)
-                                        <div class="reply mt-3 ms-4">
-                                            <div class="d-flex">
-                                                <div class="flex-shrink-0">
-                                                    <div class="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center" 
-                                                         style="width: 30px; height: 30px;">
-                                                        {{ substr($reply->user->name, 0, 1) }}
+                                    <!-- Replies -->
+                                    @if($comment->children->where('is_approved', true)->count() > 0)
+                                        <div class="mt-4 space-y-3">
+                                            @foreach($comment->children->where('is_approved', true) as $reply)
+                                                <div class="flex space-x-3 ml-4">
+                                                    <div class="flex-shrink-0">
+                                                        <div class="w-8 h-8 bg-gradient-to-br from-secondary-500 to-secondary-600 rounded-full flex items-center justify-center">
+                                                            <span class="text-white font-medium text-sm">{{ substr($reply->user->name, 0, 1) }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex-1 bg-white rounded-lg p-3 shadow-sm">
+                                                        <div class="flex items-center justify-between mb-1">
+                                                            <h6 class="font-medium text-secondary-900 text-sm">{{ $reply->user->name }}</h6>
+                                                            <time class="text-xs text-secondary-500">{{ $reply->created_at->format('d/m/Y H:i') }}</time>
+                                                        </div>
+                                                        <p class="text-secondary-700 text-sm">{{ $reply->content }}</p>
                                                     </div>
                                                 </div>
-                                                <div class="flex-grow-1 ms-2">
-                                                    <div class="d-flex justify-content-between">
-                                                        <h6 class="mb-1 small">{{ $reply->user->name }}</h6>
-                                                        <small class="text-muted">{{ $reply->created_at->format('d/m/Y H:i') }}</small>
-                                                    </div>
-                                                    <p class="mb-1 small">{{ $reply->content }}</p>
-                                                </div>
-                                            </div>
+                                            @endforeach
                                         </div>
-                                    @endforeach
+                                    @endif
                                 </div>
                             </div>
                         </div>
                     @empty
-                        <p class="text-muted">Chưa có bình luận nào.</p>
+                        <div class="text-center py-8">
+                            <svg class="w-16 h-16 text-secondary-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                            </svg>
+                            <h4 class="text-lg font-medium text-secondary-900 mb-2">Chưa có bình luận nào</h4>
+                            <p class="text-secondary-500">Hãy là người đầu tiên bình luận về bài viết này!</p>
+                        </div>
                     @endforelse
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="col-md-4">
-        <!-- Bài viết liên quan -->
+    <!-- Sidebar -->
+    <div class="lg:col-span-4 space-y-6">
+        <!-- Related Posts -->
         @if($relatedPosts->count() > 0)
-            <div class="card">
+            <div class="card animate-slide-up" style="animation-delay: 0.2s">
                 <div class="card-header">
-                    <h5 class="mb-0">Bài viết liên quan</h5>
+                    <h3 class="text-lg font-heading font-semibold text-secondary-900 flex items-center">
+                        <svg class="w-5 h-5 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2 2 0 00-2-2h-2m-4-3v9M9 3h6v3H9V3z"/>
+                        </svg>
+                        Bài viết liên quan
+                    </h3>
                 </div>
                 <div class="card-body">
-                    @foreach($relatedPosts as $relatedPost)
-                        <div class="mb-3">
-                            <h6>
-                                <a href="{{ route('posts.show', $relatedPost->slug) }}" class="text-decoration-none">
-                                    {{ $relatedPost->title }}
-                                </a>
-                            </h6>
-                            <small class="text-muted">
-                                {{ $relatedPost->created_at->format('d/m/Y') }}
-                            </small>
-                        </div>
-                    @endforeach
+                    <div class="space-y-4">
+                        @foreach($relatedPosts as $relatedPost)
+                            <div class="group">
+                                <div class="flex space-x-3">
+                                    <div class="w-16 h-16 bg-gradient-to-br from-secondary-100 to-secondary-200 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-6 h-6 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <h4 class="font-medium text-secondary-900 group-hover:text-primary-600 transition-colors duration-200 line-clamp-2 mb-2">
+                                            <a href="{{ route('posts.show', $relatedPost->slug) }}" class="hover:text-primary-600">
+                                                {{ $relatedPost->title }}
+                                            </a>
+                                        </h4>
+                                        <div class="flex items-center text-xs text-secondary-500 space-x-2">
+                                            <span>{{ $relatedPost->created_at->format('d/m/Y') }}</span>
+                                            <span>•</span>
+                                            <span>{{ $relatedPost->view_count }} lượt xem</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @if(!$loop->last)
+                                <hr class="border-secondary-200">
+                            @endif
+                        @endforeach
+                    </div>
                 </div>
             </div>
         @endif
+
+        <!-- Author Info -->
+        <div class="card animate-slide-up" style="animation-delay: 0.3s">
+            <div class="card-header">
+                <h3 class="text-lg font-heading font-semibold text-secondary-900 flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                    </svg>
+                    Về tác giả
+                </h3>
+            </div>
+            <div class="card-body text-center">
+                <div class="w-20 h-20 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-white font-bold text-2xl">{{ substr($post->user->name, 0, 1) }}</span>
+                </div>
+                <h4 class="font-semibold text-secondary-900 mb-2">{{ $post->user->name }}</h4>
+                <p class="text-sm text-secondary-600 mb-4">
+                    Tác giả có {{ $post->user->posts->count() }} bài viết được đăng trên website
+                </p>
+                <a href="#" class="btn-secondary text-sm">
+                    Xem tất cả bài viết
+                </a>
+            </div>
+        </div>
+
+        <!-- Back to Top -->
+        <div class="sticky top-8">
+            <button id="backToTop" class="w-full btn-secondary flex items-center justify-center opacity-0 transition-all duration-300">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"/>
+                </svg>
+                Về đầu trang
+            </button>
+        </div>
     </div>
 </div>
 
-<!-- Modal trả lời bình luận -->
+<!-- Reply Modal -->
 @auth
-<div class="modal fade" id="replyModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Trả lời bình luận</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+<div id="replyModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden" style="display: flex; align-items: center; justify-content: center;">
+    <div class="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 animate-slide-up">
+        <div class="p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-heading font-semibold text-secondary-900">Trả lời bình luận</h3>
+                <button type="button" class="close-modal text-secondary-400 hover:text-secondary-600 transition-colors duration-200">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
             </div>
-            <form method="POST" action="{{ route('comments.store', $post) }}">
+            
+            <form method="POST" action="{{ route('comments.store', $post) }}" class="space-y-4">
                 @csrf
                 <input type="hidden" name="parent_id" id="parent_id">
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="reply_content" class="form-label">Nội dung trả lời</label>
-                        <textarea class="form-control" id="reply_content" name="content" rows="3" required></textarea>
-                    </div>
+                <div>
+                    <label for="reply_content" class="block text-sm font-medium text-secondary-700 mb-2">Nội dung trả lời</label>
+                    <textarea class="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 resize-none" 
+                              id="reply_content" name="content" rows="4" placeholder="Nhập phản hồi của bạn..." required></textarea>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <button type="submit" class="btn btn-primary">Gửi trả lời</button>
+                <div class="flex space-x-3">
+                    <button type="button" class="close-modal btn-secondary flex-1">Hủy</button>
+                    <button type="submit" class="btn-primary flex-1">Gửi trả lời</button>
                 </div>
             </form>
         </div>
@@ -166,8 +379,10 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Reply Modal functionality
     const replyButtons = document.querySelectorAll('.reply-btn');
-    const replyModal = new bootstrap.Modal(document.getElementById('replyModal'));
+    const replyModal = document.getElementById('replyModal');
+    const closeModalButtons = document.querySelectorAll('.close-modal');
     const parentIdInput = document.getElementById('parent_id');
     const replyContent = document.getElementById('reply_content');
 
@@ -176,7 +391,71 @@ document.addEventListener('DOMContentLoaded', function() {
             const commentId = this.getAttribute('data-comment-id');
             parentIdInput.value = commentId;
             replyContent.value = '';
-            replyModal.show();
+            replyModal.classList.remove('hidden');
+            replyModal.style.display = 'flex';
+        });
+    });
+
+    closeModalButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            replyModal.classList.add('hidden');
+            replyModal.style.display = 'none';
+        });
+    });
+
+    // Close modal when clicking outside
+    replyModal.addEventListener('click', function(e) {
+        if (e.target === replyModal) {
+            replyModal.classList.add('hidden');
+            replyModal.style.display = 'none';
+        }
+    });
+
+    // Social sharing functions
+    window.sharePost = function(platform) {
+        const url = encodeURIComponent(window.location.href);
+        const title = encodeURIComponent(document.title);
+        
+        let shareUrl = '';
+        switch(platform) {
+            case 'facebook':
+                shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+                break;
+            case 'twitter':
+                shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${title}`;
+                break;
+        }
+        
+        if (shareUrl) {
+            window.open(shareUrl, '_blank', 'width=600,height=400');
+        }
+    };
+
+    // Copy link function
+    window.copyLink = function() {
+        navigator.clipboard.writeText(window.location.href).then(function() {
+            // Show success message (you can implement a toast notification here)
+            alert('Đã sao chép liên kết!');
+        });
+    };
+
+    // Back to top functionality
+    const backToTopBtn = document.getElementById('backToTop');
+    
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 500) {
+            backToTopBtn.classList.remove('opacity-0');
+            backToTopBtn.classList.add('opacity-100');
+        } else {
+            backToTopBtn.classList.add('opacity-0');
+            backToTopBtn.classList.remove('opacity-100');
+        }
+    });
+
+    backToTopBtn.addEventListener('click', function() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
         });
     });
 });
