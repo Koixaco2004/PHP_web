@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -36,15 +37,23 @@ class HomeController extends Controller
      */
     public function show($slug)
     {
-        $post = Post::with(['category', 'user', 'comments.user'])
-            ->where('slug', $slug)
-            ->published()
-            ->firstOrFail();
+        $query = Post::with(['category', 'user', 'comments.user'])->where('slug', $slug);
+        
+        // If user is authenticated and is admin or author, show draft posts too
+        if (Auth::check() && (Auth::user()->role === 'admin' || 
+            $query->clone()->where('user_id', Auth::id())->exists())) {
+            $post = $query->firstOrFail();
+        } else {
+            // For public users, only show published posts
+            $post = $query->published()->firstOrFail();
+        }
 
-        // Tăng lượt xem
-        $post->increment('view_count');
+        // Only increment view count for published posts
+        if ($post->status === 'published') {
+            $post->increment('view_count');
+        }
 
-        // Lấy bài viết liên quan
+        // Lấy bài viết liên quan (chỉ published)
         $relatedPosts = Post::with(['category', 'user'])
             ->where('category_id', $post->category_id)
             ->where('id', '!=', $post->id)

@@ -3,6 +3,26 @@
 @section('title', $post->title)
 
 @section('content')
+<!-- Draft Status Alert -->
+@if($post->status === 'draft')
+    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6 animate-fade-in">
+        <div class="flex items-center">
+            <svg class="w-5 h-5 text-yellow-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+            </svg>
+            <div>
+                <p class="text-yellow-800 font-medium">Bài viết ở trạng thái bản nháp</p>
+                <p class="text-yellow-700 text-sm">Chỉ bạn và quản trị viên có thể xem bài viết này. Công chúng chưa thể truy cập.</p>
+            </div>
+            @if(auth()->check() && (auth()->user()->id === $post->user_id || auth()->user()->role === 'admin'))
+                <a href="{{ route('posts.edit', $post) }}" class="ml-auto btn-secondary text-sm">
+                    Chỉnh sửa
+                </a>
+            @endif
+        </div>
+    </div>
+@endif
+
 <!-- Breadcrumb Navigation -->
 <nav class="flex items-center space-x-2 text-sm text-secondary-500 mb-6 animate-fade-in">
     <a href="{{ route('home') }}" class="hover:text-primary-600 transition-colors duration-200">Trang chủ</a>

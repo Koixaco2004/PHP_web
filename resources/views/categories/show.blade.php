@@ -88,10 +88,16 @@
                 <article class="bg-white rounded-lg border border-primary-200 overflow-hidden p-6 hover:shadow-md transition-all duration-300 animate-slide-up group" style="animation-delay: {{ $index * 0.1 }}s">
                     <div class="flex space-x-6">
                         <!-- Article Thumbnail -->
-                        <div class="w-32 h-24 bg-gradient-to-br from-secondary-100 to-secondary-200 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:from-primary-100 group-hover:to-primary-200 transition-all duration-300">
-                            <svg class="w-8 h-8 text-secondary-400 group-hover:text-primary-500 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                            </svg>
+                        <div class="w-32 h-24 bg-gradient-to-br from-secondary-100 to-secondary-200 rounded-lg overflow-hidden flex-shrink-0 group-hover:shadow-md transition-all duration-300">
+                            @if($post->main_image)
+                                <img src="{{ $post->main_image }}" alt="{{ $post->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            @else
+                                <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-secondary-100 to-secondary-200 group-hover:from-primary-100 group-hover:to-primary-200 transition-all duration-300">
+                                    <svg class="w-8 h-8 text-secondary-400 group-hover:text-primary-500 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                    </svg>
+                                </div>
+                            @endif
                         </div>
                         
                         <!-- Article Content -->
@@ -205,109 +211,55 @@
     </div>
 
     <!-- Sidebar -->
-    <div class="lg:col-span-4 space-y-6">
+    <div class="lg:col-span-4">
         <!-- Category Info -->
-        <div class="bg-white rounded-lg border border-primary-200 overflow-hidden hover:shadow-sm transition-all duration-200 animate-slide-up" style="animation-delay: 0.2s">
-            <div class="p-6 border-b border-secondary-200 bg-secondary-50">
-                <h3 class="text-lg font-heading font-semibold text-secondary-900 flex items-center">
-                    <svg class="w-5 h-5 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    Thông tin chuyên mục
-                </h3>
-            </div>
-            <div class="p-6 space-y-4">
-                <div class="flex items-center justify-between p-3 bg-primary-50 rounded-lg">
-                    <span class="text-secondary-700 font-medium">Tổng bài viết</span>
-                    <span class="text-2xl font-bold text-primary-600">{{ $posts->total() }}</span>
-                </div>
-                
-                <div class="flex items-center justify-between p-3 bg-accent-50 rounded-lg">
-                    <span class="text-secondary-700 font-medium">Tổng lượt xem</span>
-                    <span class="text-2xl font-bold text-accent-600">{{ $posts->sum('view_count') }}</span>
-                </div>
-                
-                @if($category->description)
-                    <div class="p-4 bg-secondary-50 rounded-lg">
-                        <h4 class="font-semibold text-secondary-900 mb-2">Mô tả</h4>
-                        <p class="text-secondary-600 text-sm leading-relaxed">{{ $category->description }}</p>
-                    </div>
-                @endif
-            </div>
-        </div>
-
-        <!-- Quick Navigation -->
-        <div class="bg-white rounded-lg border border-primary-200 overflow-hidden hover:shadow-sm transition-all duration-200 animate-slide-up" style="animation-delay: 0.3s">
-            <div class="p-6 border-b border-secondary-200 bg-secondary-50">
-                <h3 class="text-lg font-heading font-semibold text-secondary-900 flex items-center">
-                    <svg class="w-5 h-5 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                    </svg>
-                    Điều hướng nhanh
-                </h3>
-            </div>
-            <div class="p-6">
-                <div class="space-y-2">
-                    <a href="{{ route('home') }}" class="flex items-center justify-between p-3 rounded-lg hover:bg-secondary-50 transition-colors duration-200 group">
-                        <div class="flex items-center">
-                            <svg class="w-4 h-4 text-secondary-400 group-hover:text-primary-500 mr-3 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-                            </svg>
-                            <span class="text-secondary-700 group-hover:text-primary-600 font-medium">Trang chủ</span>
-                        </div>
-                        <svg class="w-4 h-4 text-secondary-400 group-hover:text-primary-500 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </a>
-                    
-                    <a href="{{ route('home') }}#categories" class="flex items-center justify-between p-3 rounded-lg hover:bg-secondary-50 transition-colors duration-200 group">
-                        <div class="flex items-center">
-                            <svg class="w-4 h-4 text-secondary-400 group-hover:text-primary-500 mr-3 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
-                            </svg>
-                            <span class="text-secondary-700 group-hover:text-primary-600 font-medium">Tất cả chuyên mục</span>
-                        </div>
-                        <svg class="w-4 h-4 text-secondary-400 group-hover:text-primary-500 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Back to Top -->
-        <div class="sticky top-8">
-            <button id="backToTop" class="w-full btn-secondary flex items-center justify-center opacity-0 transition-all duration-300">
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"/>
+        <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6 mb-6 animate-slide-up" style="animation-delay: 0.2s">
+            <div class="flex items-center mb-4">
+                <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
-                Về đầu trang
-            </button>
+                <h3 class="text-lg font-heading font-semibold text-secondary-900">Thông tin chuyên mục</h3>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="flex items-center justify-between py-2 border-b border-secondary-100">
+                    <span class="text-secondary-600">Tổng bài viết</span>
+                    <span class="font-semibold text-secondary-900">{{ $posts->total() }}</span>
+                </div>
+                <div class="flex items-center justify-between py-2 border-b border-secondary-100">
+                    <span class="text-secondary-600">Tổng lượt xem</span>
+                    <span class="font-semibold text-secondary-900">{{ number_format($posts->sum('view_count')) }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Categories -->
+        <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6 animate-slide-up" style="animation-delay: 0.4s">
+            <div class="flex items-center mb-4">
+                <svg class="w-5 h-5 text-accent-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                </svg>
+                <h3 class="text-lg font-heading font-semibold text-secondary-900">Chuyên mục khác</h3>
+            </div>
+            
+            <div class="space-y-3">
+                @php
+                    $otherCategories = \App\Models\Category::where('id', '!=', $category->id)->withCount('posts')->take(5)->get();
+                @endphp
+                
+                @foreach($otherCategories as $otherCategory)
+                    <a href="{{ route('categories.show', $otherCategory) }}" class="flex items-center justify-between p-3 rounded-lg hover:bg-accent-50 transition-colors duration-200 group">
+                        <div class="flex items-center">
+                            <svg class="w-4 h-4 text-accent-600 mr-2 group-hover:text-accent-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                            <span class="text-secondary-700 group-hover:text-accent-700 font-medium">{{ $otherCategory->name }}</span>
+                        </div>
+                        <span class="text-xs text-secondary-500 bg-secondary-100 px-2 py-1 rounded-full">{{ $otherCategory->posts_count }}</span>
+                    </a>
+                @endforeach
+            </div>
         </div>
     </div>
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Back to top functionality
-    const backToTopBtn = document.getElementById('backToTop');
-    
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 500) {
-            backToTopBtn.classList.remove('opacity-0');
-            backToTopBtn.classList.add('opacity-100');
-        } else {
-            backToTopBtn.classList.add('opacity-0');
-            backToTopBtn.classList.remove('opacity-100');
-        }
-    });
-
-    backToTopBtn.addEventListener('click', function() {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
-});
-</script>
 @endsection

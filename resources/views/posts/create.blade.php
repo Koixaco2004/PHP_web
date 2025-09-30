@@ -132,7 +132,7 @@
                             <div class="relative">
                                 <select class="block w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 @error('status') border-red-500 focus:ring-red-500 focus:border-red-500 @enderror appearance-none bg-white" 
                                         id="status" name="status" required>
-                                    <option value="draft" {{ old('status') == 'draft' ? 'selected' : '' }}>📝 Bản nháp</option>
+                                    <option value="draft" {{ old('status', 'draft') == 'draft' ? 'selected' : '' }}>📝 Bản nháp</option>
                                     <option value="published" {{ old('status') == 'published' ? 'selected' : '' }}>🚀 Xuất bản</option>
                                 </select>
                                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
@@ -599,7 +599,12 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('postForm').addEventListener('submit', function(e) {
         const submitButton = e.submitter;
         if (submitButton && submitButton.name === 'action') {
-            document.getElementById('status').value = submitButton.value === 'publish' ? 'published' : 'draft';
+            // Set status based on button clicked
+            if (submitButton.value === 'publish') {
+                document.getElementById('status').value = 'published';
+            } else if (submitButton.value === 'draft') {
+                document.getElementById('status').value = 'draft';
+            }
         }
     });
     

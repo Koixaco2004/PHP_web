@@ -52,7 +52,13 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        $posts = $category->posts()->with('user')->published()->latest()->paginate(10);
+        $posts = $category->posts()
+            ->with(['user', 'images' => function($query) {
+                $query->where('is_featured', true)->orWhere('sort_order', 0);
+            }])
+            ->published()
+            ->latest()
+            ->paginate(10);
         return view('categories.show', compact('category', 'posts'));
     }
 

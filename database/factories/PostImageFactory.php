@@ -42,8 +42,20 @@ class PostImageFactory extends Factory
             'post_id' => Post::factory(),
             'image_url' => $imageUrl,
             'delete_url' => null,
-            'alt_text' => fake()->sentence(4),
-            'caption' => fake()->optional(0.6)->paragraph(1),
+            'alt_text' => fake()->randomElement([
+                'Hình ảnh minh họa cho bài viết công nghệ',
+                'Ảnh về lập trình và phát triển phần mềm',
+                'Workspace của developer',
+                'Công nghệ và innovation',
+                'Team work và collaboration'
+            ]),
+            'caption' => fake()->optional(0.6)->randomElement([
+                'Hình ảnh minh họa chủ đề bài viết',
+                'Không gian làm việc hiện đại',
+                'Công nghệ thay đổi cuộc sống',
+                'Đội ngũ phát triển chuyên nghiệp',
+                'Innovation và sáng tạo'
+            ]),
             'sort_order' => fake()->numberBetween(0, 10),
             'is_featured' => false,
             'file_size' => fake()->numberBetween(100000, 800000), // 100KB to 800KB

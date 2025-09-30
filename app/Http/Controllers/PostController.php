@@ -8,6 +8,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
 {
@@ -16,7 +17,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with(['category', 'user'])->latest()->paginate(10);
+        $posts = Post::with(['category', 'user', 'images' => function($query) {
+            $query->where('is_featured', true)->orWhere('sort_order', 0);
+        }])->latest()->paginate(10);
         return view('posts.index', compact('posts'));
     }
 
@@ -42,6 +45,8 @@ class PostController extends Controller
             'status' => 'required|in:draft,published',
             'uploaded_images' => 'nullable|json',
         ]);
+
+
 
         $post = Post::create([
             'title' => $request->title,
@@ -74,7 +79,11 @@ class PostController extends Controller
             }
         }
 
-        return redirect()->route('posts.show', $post->slug)->with('success', 'Bài viết đã được tạo thành công!');
+        $message = $post->status === 'published' 
+            ? 'Bài viết đã được xuất bản thành công!' 
+            : 'Bài viết đã được lưu làm bản nháp thành công!';
+            
+        return redirect()->route('posts.show', $post->slug)->with('success', $message);
     }
 
     /**
@@ -126,14 +135,34 @@ class PostController extends Controller
             'deleted_images' => 'nullable|json',
         ]);
 
+        // Generate new slug if title changed
+        if ($post->title !== $request->title) {
+            $newSlug = Str::slug($request->title);
+            
+            // If slug is empty, generate a fallback
+            if (empty($newSlug)) {
+                $newSlug = 'post-' . time();
+            }
+            
+            // Ensure unique slug
+            $originalSlug = $newSlug;
+            $counter = 1;
+            while (Post::where('slug', $newSlug)->where('id', '!=', $post->id)->exists()) {
+                $newSlug = $originalSlug . '-' . $counter;
+                $counter++;
+            }
+        } else {
+            $newSlug = $post->slug;
+        }
+
         $post->update([
             'title' => $request->title,
-            'slug' => Str::slug($request->title),
+            'slug' => $newSlug,
             'content' => $request->content,
             'excerpt' => $request->excerpt,
             'status' => $request->status,
             'category_id' => $request->category_id,
-            'published_at' => $request->status === 'published' && !$post->published_at ? now() : $post->published_at,
+            'published_at' => $request->status === 'published' && !$post->published_at ? now() : ($request->status === 'draft' ? null : $post->published_at),
         ]);
 
         // Handle deleted images
@@ -166,7 +195,21 @@ class PostController extends Controller
             }
         }
 
-        return redirect()->route('posts.show', $post->slug)->with('success', 'Bài viết đã được cập nhật thành công!');
+        // Refresh post to get updated slug
+        $post->refresh();
+        
+        $message = $post->status === 'published' 
+            ? 'Bài viết đã được cập nhật và xuất bản thành công!' 
+            : 'Bài viết đã được cập nhật và lưu làm bản nháp thành công!';
+        
+        // If post is draft, redirect to edit page instead of show page
+        // because show page only displays published posts
+        if ($post->status === 'draft') {
+            return redirect()->route('posts.edit', $post)->with('success', $message);
+        }
+        
+        // For published posts, redirect to show page
+        return redirect()->route('posts.show', $post->slug)->with('success', $message);
     }
 
     /**

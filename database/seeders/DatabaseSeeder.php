@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
     {
         // Create admin user
         $admin = User::factory()->create([
-            'name' => 'Admin User',
+            'name' => 'Quản trị viên',
             'email' => 'admin@example.com',
             'password' => Hash::make('password'),
             'role' => 'admin',
@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
 
         // Create test user
         $testUser = User::factory()->create([
-            'name' => 'Test User',
+            'name' => 'Người dùng thử nghiệm',
             'email' => 'test@example.com',
             'password' => Hash::make('password'),
             'role' => 'user',
@@ -43,12 +43,12 @@ class DatabaseSeeder extends Seeder
 
         // Create categories with predefined data
         $categories = [
-            ['name' => 'Web Development', 'color' => '#3B82F6', 'icon' => 'fas fa-laptop-code'],
-            ['name' => 'Mobile Development', 'color' => '#10B981', 'icon' => 'fas fa-mobile-alt'],
-            ['name' => 'UI/UX Design', 'color' => '#F59E0B', 'icon' => 'fas fa-palette'],
-            ['name' => 'Data Science', 'color' => '#8B5CF6', 'icon' => 'fas fa-chart-line'],
+            ['name' => 'Phát triển Web', 'color' => '#3B82F6', 'icon' => 'fas fa-laptop-code'],
+            ['name' => 'Phát triển Mobile', 'color' => '#10B981', 'icon' => 'fas fa-mobile-alt'],
+            ['name' => 'Thiết kế UI/UX', 'color' => '#F59E0B', 'icon' => 'fas fa-palette'],
+            ['name' => 'Khoa học dữ liệu', 'color' => '#8B5CF6', 'icon' => 'fas fa-chart-line'],
             ['name' => 'DevOps', 'color' => '#EF4444', 'icon' => 'fas fa-cogs'],
-            ['name' => 'Artificial Intelligence', 'color' => '#06B6D4', 'icon' => 'fas fa-lightbulb'],
+            ['name' => 'Trí tuệ nhân tạo', 'color' => '#06B6D4', 'icon' => 'fas fa-lightbulb'],
         ];
 
         foreach ($categories as $index => $categoryData) {
@@ -112,13 +112,13 @@ class DatabaseSeeder extends Seeder
         // Create some featured posts
         Post::published()->inRandomOrder()->limit(5)->update(['is_featured' => true]);
 
-        echo "Database seeded successfully!\n";
-        echo "Admin user: admin@example.com / password\n";
-        echo "Test user: test@example.com / password\n";
-        echo "Created " . User::count() . " users\n";
-        echo "Created " . Category::count() . " categories\n";
-        echo "Created " . Post::count() . " posts\n";
-        echo "Created " . PostImage::count() . " post images\n";
-        echo "Created " . Comment::count() . " comments\n";
+        echo "Khởi tạo dữ liệu thành công!\n";
+        echo "Tài khoản quản trị: admin@example.com / password\n";
+        echo "Tài khoản thử nghiệm: test@example.com / password\n";
+        echo "Đã tạo " . User::count() . " người dùng\n";
+        echo "Đã tạo " . Category::count() . " danh mục\n";
+        echo "Đã tạo " . Post::count() . " bài viết\n";
+        echo "Đã tạo " . PostImage::count() . " hình ảnh bài viết\n";
+        echo "Đã tạo " . Comment::count() . " bình luận\n";
     }
 }
