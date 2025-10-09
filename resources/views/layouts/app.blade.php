@@ -202,7 +202,8 @@
                                             <a href="{{ route('categories.show', $category) }}" 
                                                class="category-item flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 {{ request()->route('category')?->id == $category->id ? 'bg-primary-50 text-primary-700' : '' }}">
                                                 @if($category->icon)
-                                                    <i class="{{ $category->icon }} w-4 h-4 mr-3 flex-shrink-0" style="color: {{ $category->color ?? '#6B7280' }}"></i>
+                                                    <i class="{{ $category->icon }} w-4 h-4 mr-3 flex-shrink-0 text-gray-500" 
+                                                       @if($category->color) style="color: {{ $category->color }};" @endif></i>
                                                 @endif
                                                 <div class="flex-1 min-w-0">
                                                     <span class="font-medium">{{ $category->name }}</span>

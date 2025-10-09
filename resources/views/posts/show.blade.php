@@ -258,7 +258,7 @@
                 <!-- Comments List -->
                 <div class="space-y-6">
                     @forelse($post->comments->whereNull('parent_id') as $comment)
-                        <div class="comment-item animate-slide-up" style="animation-delay: {{ $loop->index * 0.1 }}s">
+                        <div class="comment-item animate-slide-up" style="--animation-delay: {{ $loop->index * 0.1 }}s; animation-delay: var(--animation-delay);">
                             <div class="flex space-x-4">
                                 <div class="flex-shrink-0">
                                     <div class="w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center">
