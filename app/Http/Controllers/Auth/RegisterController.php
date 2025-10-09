@@ -36,14 +36,10 @@ class RegisterController extends Controller
             'role' => 'user', // Mặc định là user
         ]);
 
-        // Đăng nhập user để có thể gửi email verification
+        // Đăng nhập user ngay sau khi đăng ký
         Auth::login($user);
 
-        // Gửi email verification
-        $user->sendEmailVerificationNotification();
-
-        // Chuyển hướng đến trang yêu cầu verify email
-        return redirect()->route('verification.notice')
-            ->with('message', 'Đăng ký thành công! Vui lòng kiểm tra email để xác thực tài khoản.');
+        // Chuyển hướng về trang chủ, không cần xác thực email
+        return redirect('/')->with('message', 'Đăng ký thành công!');
     }
 }
