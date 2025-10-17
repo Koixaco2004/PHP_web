@@ -257,7 +257,7 @@
 
                 <!-- Comments List -->
                 <div class="space-y-6">
-                    @forelse($post->comments->whereNull('parent_id') as $comment)
+                    @forelse($post->comments as $comment)
                         <div class="comment-item animate-slide-up" style="--animation-delay: {{ $loop->index * 0.1 }}s; animation-delay: var(--animation-delay);">
                             <div class="flex space-x-4">
                                 <div class="flex-shrink-0">
@@ -271,38 +271,8 @@
                                         <time class="text-sm text-secondary-500">{{ $comment->created_at->format('d/m/Y H:i') }}</time>
                                     </div>
                                     <p class="text-secondary-700 mb-3">{{ $comment->content }}</p>
-                                    
-                                    @auth
-                                        <button class="reply-btn text-sm text-primary-600 hover:text-primary-700 font-medium flex items-center transition-colors duration-200" 
-                                                data-comment-id="{{ $comment->id }}">
-                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/>
-                                            </svg>
-                                            Trả lời
-                                        </button>
-                                    @endauth
 
-                                    <!-- Replies -->
-                                    @if($comment->children->where('is_approved', true)->count() > 0)
-                                        <div class="mt-4 space-y-3">
-                                            @foreach($comment->children->where('is_approved', true) as $reply)
-                                                <div class="flex space-x-3 ml-4">
-                                                    <div class="flex-shrink-0">
-                                                        <div class="w-8 h-8 bg-gradient-to-br from-secondary-500 to-secondary-600 rounded-full flex items-center justify-center">
-                                                            <span class="text-white font-medium text-sm">{{ substr($reply->user->name, 0, 1) }}</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-1 bg-white rounded-lg p-3 shadow-sm">
-                                                        <div class="flex items-center justify-between mb-1">
-                                                            <h6 class="font-medium text-secondary-900 text-sm">{{ $reply->user->name }}</h6>
-                                                            <time class="text-xs text-secondary-500">{{ $reply->created_at->format('d/m/Y H:i') }}</time>
-                                                        </div>
-                                                        <p class="text-secondary-700 text-sm">{{ $reply->content }}</p>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    @endif
+
                                 </div>
                             </div>
                         </div>
@@ -382,67 +352,11 @@
 
 <!-- Reply Modal -->
 @auth
-<div id="replyModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
-    <div class="flex items-center justify-center min-h-screen px-4">
-        <div class="bg-white rounded-xl shadow-2xl max-w-md w-full animate-slide-up">
-        <div class="p-6">
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-heading font-semibold text-secondary-900">Trả lời bình luận</h3>
-                <button type="button" class="close-modal text-secondary-400 hover:text-secondary-600 transition-colors duration-200">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                </button>
-            </div>
-            
-            <form method="POST" action="{{ route('comments.store', $post) }}" class="space-y-4">
-                @csrf
-                <input type="hidden" name="parent_id" id="parent_id">
-                <div>
-                    <label for="reply_content" class="block text-sm font-medium text-secondary-700 mb-2">Nội dung trả lời</label>
-                    <textarea class="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 resize-none" 
-                              id="reply_content" name="content" rows="4" placeholder="Nhập phản hồi của bạn..." required></textarea>
-                </div>
-                <div class="flex space-x-3">
-                    <button type="button" class="close-modal btn-secondary flex-1">Hủy</button>
-                    <button type="submit" class="btn-primary flex-1">Gửi trả lời</button>
-                </div>
-            </form>
-        </div>
-        </div>
-    </div>
-</div>
+
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Reply Modal functionality
-    const replyButtons = document.querySelectorAll('.reply-btn');
-    const replyModal = document.getElementById('replyModal');
-    const closeModalButtons = document.querySelectorAll('.close-modal');
-    const parentIdInput = document.getElementById('parent_id');
-    const replyContent = document.getElementById('reply_content');
-
-    replyButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const commentId = this.getAttribute('data-comment-id');
-            parentIdInput.value = commentId;
-            replyContent.value = '';
-            replyModal.classList.remove('hidden');
-        });
-    });
-
-    closeModalButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            replyModal.classList.add('hidden');
-        });
-    });
-
-    // Close modal when clicking outside
-    replyModal.addEventListener('click', function(e) {
-        if (e.target === replyModal) {
-            replyModal.classList.add('hidden');
-        }
-    });
+    // Đã xóa reply modal functionality
 
     // Social sharing functions
     window.sharePost = function(platform) {

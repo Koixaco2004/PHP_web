@@ -37,7 +37,9 @@ class HomeController extends Controller
      */
     public function show($slug)
     {
-        $query = Post::with(['category', 'user', 'comments.user'])->where('slug', $slug);
+        $query = Post::with(['category', 'user', 'comments' => function($q) {
+            $q->with('user')->where('is_approved', true)->whereNull('parent_id');
+        }])->where('slug', $slug);
         
         // If user is authenticated and is admin or author, show draft posts too
         if (Auth::check() && (Auth::user()->role === 'admin' || 
