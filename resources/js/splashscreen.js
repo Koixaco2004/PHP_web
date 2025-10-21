@@ -14,10 +14,10 @@ class SplashScreen {
         this.createOverlay();
         this.show();
 
-        // Tự động ẩn sau 2 giây
+        // Tự động ẩn sau 2.5 giây
         setTimeout(() => {
             this.hide();
-        }, 2000);
+        }, 2100);
     }
 
     createOverlay() {

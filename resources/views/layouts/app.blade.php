@@ -196,8 +196,8 @@
                                     </svg>
                                 </button>
                                 
-                                <div id="categoriesDropdown" class="hidden absolute left-0 mt-2 w-64 bg-white categories-dropdown rounded-lg shadow-lg z-50">
-                                    <div class="py-2 max-h-80 overflow-y-auto">
+                                <div id="categoriesDropdown" class="hidden absolute left-0 mt-2 w-64 bg-white categories-dropdown rounded-lg shadow-lg z-50 overflow-hidden max-w-[calc(100vw-2rem)]">
+                                    <div class="py-2 max-h-80 overflow-y-auto overflow-x-hidden">
                                         @foreach($moreCategories as $category)
                                             <a href="{{ route('categories.show', $category) }}" 
                                                class="category-item flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 {{ request()->route('category')?->id == $category->id ? 'bg-primary-50 text-primary-700' : '' }}">

@@ -75,7 +75,7 @@
             </div>
             
             <!-- Dots Indicator -->
-            <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2">
+            <div class="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex space-x-2">
                 @foreach($posts->take(5) as $index => $post)
                     <button @click="currentSlide = {{ $index }}" 
                             class="w-3 h-3 rounded-full transition-all duration-200"
