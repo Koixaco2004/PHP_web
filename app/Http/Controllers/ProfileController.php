@@ -25,7 +25,7 @@ class ProfileController extends Controller
         $user = Auth::user();
         $posts = Post::where('user_id', $user->id)->with('category')->latest()->paginate(5);
         $totalComments = Comment::where('user_id', $user->id)->count();
-        
+
         return view('profile.show', compact('user', 'posts', 'totalComments'));
     }
 
@@ -36,15 +36,15 @@ class ProfileController extends Controller
     {
         // Tăng số lượt xem profile
         $user->increment('profile_views');
-        
+
         // Nếu profile riêng tư và không phải chủ sở hữu
         if ($user->is_private && Auth::id() !== $user->id) {
             abort(403, 'This profile is private.');
         }
-        
+
         $posts = Post::where('user_id', $user->id)->with('category')->latest()->paginate(5);
         $totalComments = Comment::where('user_id', $user->id)->count();
-        
+
         return view('profile.public', compact('user', 'posts', 'totalComments'));
     }
 
@@ -65,6 +65,9 @@ class ProfileController extends Controller
         /** @var User $user */
         $user = Auth::user();
         $validated = $request->validated();
+
+        // Loại bỏ email khỏi danh sách cập nhật để không cho phép thay đổi email
+        unset($validated['email']);
 
         User::where('id', $user->id)->update($validated);
 
@@ -89,7 +92,7 @@ class ProfileController extends Controller
 
         // Upload avatar mới
         $avatarPath = $request->file('avatar')->store('avatars', 'public');
-        
+
         User::where('id', $user->id)->update(['avatar' => $avatarPath]);
 
         return redirect()->route('profile.show')->with('success', 'Avatar updated successfully!');
@@ -125,7 +128,7 @@ class ProfileController extends Controller
         /** @var User $user */
         $user = Auth::user();
         $posts = Post::where('user_id', $user->id)->with('category')->latest()->paginate(10);
-        
+
         return view('profile.posts', compact('user', 'posts'));
     }
 
@@ -137,7 +140,7 @@ class ProfileController extends Controller
         /** @var User $user */
         $user = Auth::user();
         $comments = Comment::where('user_id', $user->id)->with('post')->latest()->paginate(10);
-        
+
         return view('profile.activities', compact('user', 'comments'));
     }
 }

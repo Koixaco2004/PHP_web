@@ -94,8 +94,9 @@
                             
                             <div>
                                 <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                                <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}" required
-                                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}" required disabled
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-500 cursor-not-allowed">
+                                <p class="text-sm text-gray-500 mt-1">Email không thể thay đổi</p>
                                 @error('email')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
