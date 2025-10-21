@@ -16,9 +16,23 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable(); // Nullable for social login and newsletter subscribers
+            $table->enum('role', ['admin', 'user', 'subscriber'])->default('user');
+            $table->string('google_id')->nullable();
+            $table->string('avatar')->nullable();
+            $table->text('bio')->nullable();
+            $table->string('location')->nullable();
+            $table->string('website')->nullable();
+            $table->string('phone')->nullable();
+            $table->date('date_of_birth')->nullable();
+            $table->integer('profile_views')->default(0);
+            $table->boolean('is_private')->default(false);
             $table->rememberToken();
             $table->timestamps();
+            
+            // Indexes for better performance
+            $table->index('role');
+            $table->index('google_id');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

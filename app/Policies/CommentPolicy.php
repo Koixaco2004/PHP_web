@@ -48,14 +48,6 @@ class CommentPolicy
     }
 
     /**
-     * Determine whether the user can approve the comment.
-     */
-    public function approve(User $user, Comment $comment): bool
-    {
-        return $user->isAdmin();
-    }
-
-    /**
      * Determine whether the user can restore the model.
      */
     public function restore(User $user, Comment $comment): bool

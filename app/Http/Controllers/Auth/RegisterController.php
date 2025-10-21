@@ -36,8 +36,10 @@ class RegisterController extends Controller
             'role' => 'user', // Mặc định là user
         ]);
 
+        // Đăng nhập user ngay sau khi đăng ký
         Auth::login($user);
 
-        return redirect('/')->with('success', 'Đăng ký thành công!');
+        // Chuyển hướng về trang chủ, không cần xác thực email
+        return redirect('/')->with('message', 'Đăng ký thành công!');
     }
 }

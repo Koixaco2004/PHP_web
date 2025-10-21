@@ -17,13 +17,41 @@ class CategoryFactory extends Factory
      */
     public function definition(): array
     {
-        $name = $this->faker->unique()->word();
+        $vietnameseCategories = [
+            'Công nghệ blockchain',
+            'Phát triển game',
+            'Marketing số',
+            'An toàn thông tin',
+            'Internet of Things',
+            'Cloud Computing',
+            'Big Data',
+            'Kỹ thuật phần mềm',
+            'Thương mại điện tử',
+            'Fintech'
+        ];
+        
+        $vietnameseDescriptions = [
+            'Danh mục chứa các bài viết về công nghệ và lập trình hiện đại.',
+            'Chia sẻ kiến thức và kinh nghiệm trong lĩnh vực công nghệ thông tin.',
+            'Hướng dẫn và tips cho developers và những người yêu thích công nghệ.',
+            'Cập nhật xu hướng mới nhất trong ngành IT và phần mềm.',
+            'Bài viết chuyên sâu về các công nghệ và framework phổ biến.'
+        ];
+        
+        $name = $this->faker->randomElement($vietnameseCategories) . ' ' . $this->faker->numberBetween(1, 100);
         
         return [
-            'name' => ucfirst($name),
-            'slug' => Str::slug($name),
-            'description' => $this->faker->sentence(),
+            'name' => $name,
+            'slug' => Str::slug($name) . '-' . $this->faker->unique()->numberBetween(1, 1000),
+            'description' => $this->faker->randomElement($vietnameseDescriptions),
+            'color' => $this->faker->hexColor(),
+            'icon' => $this->faker->randomElement([
+                'fas fa-laptop-code', 'fas fa-mobile-alt', 'fas fa-palette',
+                'fas fa-chart-line', 'fas fa-cogs', 'fas fa-lightbulb',
+                'fas fa-rocket', 'fas fa-shield-alt'
+            ]),
             'is_active' => $this->faker->boolean(80), // 80% chance of being active
+            'sort_order' => $this->faker->numberBetween(0, 100),
         ];
     }
 

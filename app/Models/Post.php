@@ -13,16 +13,27 @@ class Post extends Model
         'title',
         'slug',
         'content',
-        'featured_image',
         'excerpt',
         'status',
         'category_id',
         'user_id',
         'view_count',
+        'like_count',
+        'comment_count',
+        'is_featured',
+        'allow_comments',
+        'meta_data',
+        'published_at',
     ];
 
     protected $casts = [
         'view_count' => 'integer',
+        'like_count' => 'integer',
+        'comment_count' => 'integer',
+        'is_featured' => 'boolean',
+        'allow_comments' => 'boolean',
+        'meta_data' => 'array',
+        'published_at' => 'datetime',
     ];
 
     /**
@@ -54,7 +65,9 @@ class Post extends Model
      */
     public function scopePublished($query)
     {
-        return $query->where('status', 'published');
+        return $query->where('status', 'published')
+                    ->whereNotNull('published_at')
+                    ->where('published_at', '<=', now());
     }
 
     /**
@@ -75,5 +88,67 @@ class Post extends Model
               ->orWhere('content', 'like', "%{$keyword}%")
               ->orWhere('excerpt', 'like', "%{$keyword}%");
         });
+    }
+
+    /**
+     * Get the images for the post.
+     */
+    public function images()
+    {
+        return $this->hasMany(PostImage::class)->ordered();
+    }
+
+    /**
+     * Get the featured image for the post.
+     */
+    public function featuredImage()
+    {
+        return $this->hasOne(PostImage::class)->where('is_featured', true);
+    }
+
+    /**
+     * Get the first image as featured if no featured image is set.
+     */
+    public function getMainImageAttribute()
+    {
+        $featured = $this->featuredImage;
+        if ($featured) {
+            return $featured->image_url;
+        }
+        
+        $firstImage = $this->images()->first();
+        return $firstImage ? $firstImage->image_url : null;
+    }
+
+    /**
+     * Get featured posts.
+     */
+    public function scopeFeatured($query)
+    {
+        return $query->where('is_featured', true);
+    }
+
+    /**
+     * Increment view count.
+     */
+    public function incrementViewCount()
+    {
+        $this->increment('view_count');
+    }
+
+    /**
+     * Increment like count.
+     */
+    public function incrementLikeCount()
+    {
+        $this->increment('like_count');
+    }
+
+    /**
+     * Update comment count.
+     */
+    public function updateCommentCount()
+    {
+        $this->update(['comment_count' => $this->comments()->approved()->count()]);
     }
 }

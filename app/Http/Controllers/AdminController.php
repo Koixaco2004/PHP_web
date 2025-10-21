@@ -22,7 +22,6 @@ class AdminController extends Controller
             'total_categories' => Category::count(),
             'active_categories' => Category::where('is_active', true)->count(),
             'total_comments' => Comment::count(),
-            'pending_comments' => Comment::where('is_approved', false)->count(),
             'total_users' => User::count(),
             'admin_users' => User::where('role', 'admin')->count(),
         ];
@@ -32,12 +31,6 @@ class AdminController extends Controller
             ->limit(5)
             ->get();
 
-        $pendingComments = Comment::with(['user', 'post'])
-            ->where('is_approved', false)
-            ->latest()
-            ->limit(10)
-            ->get();
-
-        return view('admin.dashboard', compact('stats', 'recentPosts', 'pendingComments'));
+        return view('admin.dashboard', compact('stats', 'recentPosts'));
     }
 }
