@@ -107,13 +107,15 @@ Truy cập: **http://localhost:8000**
 Sau khi seed data:
 
 -   **Admin:** admin@example.com / password
--   **User:** user@example.com / password
+-   **User:** test@example.com / password
 
 ## 📊 Dữ liệu mẫu
 
--   **5 chuyên mục:** Công nghệ, Thể thao, Giải trí, Kinh tế, Giáo dục
--   **Bài viết mẫu** cho từng chuyên mục
--   **7 users** (admin + user + 5 users ngẫu nhiên)
+-   **30 người dùng**
+-   **10 danh mục**
+-   **67 bài viết**
+-   **144 hình ảnh bài viết**
+-   **465 bình luận**
 
 ## 🔧 Cấu hình thêm (tùy chọn)
 
