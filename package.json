@@ -14,5 +14,8 @@
         "postcss": "^8.4.24",
         "tailwindcss": "^3.4.1",
         "vite": "^7.0.4"
+    },
+    "dependencies": {
+        "lottie-web": "^5.13.0"
     }
 }

@@ -1,0 +1,151 @@
+import lottie from 'lottie-web';
+
+class SplashScreen {
+    constructor() {
+        this.animation = null;
+        this.container = null;
+        this.overlay = null;
+        this.isVisible = false;
+        this.hasShown = false;
+    }
+
+    init() {
+        // Hiển thị splashscreen mỗi lần load trang
+        this.createOverlay();
+        this.show();
+
+        // Tự động ẩn sau 2 giây
+        setTimeout(() => {
+            this.hide();
+        }, 2000);
+    }
+
+    createOverlay() {
+        // Tạo overlay toàn màn hình che hết nội dung
+        this.overlay = document.createElement('div');
+        this.overlay.id = 'splashscreen-overlay';
+        this.overlay.className = 'fixed inset-0 z-50 flex flex-col items-center justify-center bg-white';
+        this.overlay.style.minHeight = '100vh';
+        this.overlay.innerHTML = `
+            <div class="text-center max-w-md mx-auto px-6">
+                <!-- Logo VietNews -->
+                <div class="mb-8">
+                    <div class="w-16 h-16 bg-primary-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2 2 0 00-2-2h-2m-4-3v9M9 3h6v3H9V3z"/>
+                        </svg>
+                    </div>
+                    <h1 class="text-3xl font-bold text-primary-900 mb-2">VietNews</h1>
+                    <p class="text-gray-600">Trang tin tức hàng đầu Việt Nam</p>
+                </div>
+
+                <!-- Animation container -->
+                <div id="lottie-splashscreen" class="w-72 h-72 mx-auto mb-8"></div>
+
+            </div>
+        `;
+
+        document.body.appendChild(this.overlay);
+        this.container = document.getElementById('lottie-splashscreen');
+        this.loadAnimation();
+    }
+
+    loadAnimation() {
+        if (!this.container) {
+            return;
+        }
+
+        try {
+            this.animation = lottie.loadAnimation({
+                container: this.container,
+                renderer: 'svg',
+                loop: true,
+                autoplay: true,
+                path: '/news.json'
+            });
+
+            this.animation.addEventListener('DOMLoaded', () => {
+                // Animation loaded successfully
+            });
+
+            this.animation.addEventListener('error', () => {
+                // Fallback: hiển thị nội dung tĩnh nếu animation lỗi
+                this.showFallbackContent();
+            });
+        } catch (error) {
+            this.showFallbackContent();
+        }
+    }
+
+    showFallbackContent() {
+        // Hiển thị nội dung tĩnh nếu animation không load được
+        if (this.container) {
+            this.container.innerHTML = `
+                <div class="text-center">
+                    <div class="w-32 h-32 mx-auto mb-4 bg-primary-900 rounded-full flex items-center justify-center">
+                        <svg class="w-20 h-20 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2 2 0 00-2-2h-2m-4-3v9M9 3h6v3H9V3z"/>
+                        </svg>
+                    </div>
+                </div>
+            `;
+        }
+    }
+
+    show() {
+        if (!this.overlay) return;
+
+        this.isVisible = true;
+        this.overlay.style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // Ngăn scroll khi hiển thị splash
+    }
+
+    hide() {
+        if (!this.overlay) return;
+
+        this.isVisible = false;
+
+        // Fade out effect
+        this.overlay.style.opacity = '0';
+        this.overlay.style.transition = 'opacity 0.5s ease-out';
+
+        setTimeout(() => {
+            if (this.overlay && this.overlay.parentNode) {
+                this.overlay.parentNode.removeChild(this.overlay);
+            }
+            document.body.style.overflow = ''; // Khôi phục scroll
+            this.showMainContent();
+        }, 500);
+    }
+
+    showMainContent() {
+        // Hiển thị nội dung chính sau khi splashscreen biến mất
+        const mainContent = document.querySelector('main');
+        if (mainContent) {
+            mainContent.style.opacity = '0';
+            mainContent.style.transition = 'opacity 0.5s ease-in';
+            setTimeout(() => {
+                mainContent.style.opacity = '1';
+            }, 100);
+        }
+    }
+
+    destroy() {
+        if (this.animation) {
+            this.animation.destroy();
+        }
+        if (this.overlay && this.overlay.parentNode) {
+            this.overlay.parentNode.removeChild(this.overlay);
+        }
+        document.body.style.overflow = '';
+    }
+}
+
+// Khởi tạo khi DOM đã sẵn sàng để tránh lỗi
+document.addEventListener('DOMContentLoaded', () => {
+    const splash = new SplashScreen();
+    splash.init();
+
+    // Export để có thể truy cập từ bên ngoài nếu cần
+    window.splashScreen = splash;
+});
