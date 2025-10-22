@@ -90,7 +90,7 @@
                                 <span class="text-white font-semibold">{{ substr($post->user->name, 0, 1) }}</span>
                             </div>
                             <div>
-                                <div class="font-medium text-secondary-900 dark:text-primary-100-dark">{{ $post->user->name }}</div>
+                                <a href="{{ route('users.show', $post->user) }}" class="font-medium text-secondary-900 dark:text-primary-100-dark hover:text-primary-600 dark:hover:text-primary-400-dark">{{ $post->user->name }}</a>
                                 <div class="text-sm text-secondary-500 dark:text-gray-400">Tác giả</div>
                             </div>
                         </div>
