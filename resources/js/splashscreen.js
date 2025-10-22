@@ -28,14 +28,10 @@ class SplashScreen {
         this.overlay.style.minHeight = '100vh';
         this.overlay.innerHTML = `
             <div class="text-center max-w-md mx-auto px-6">
-                <!-- Logo VietNews -->
+                <!-- Logo SmurfExpress -->
                 <div class="mb-8">
-                    <div class="w-16 h-16 bg-primary-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2 2 0 00-2-2h-2m-4-3v9M9 3h6v3H9V3z"/>
-                        </svg>
-                    </div>
-                    <h1 class="text-3xl font-bold text-primary-900 dark:text-primary-100 mb-2">VietNews</h1>
+                    <img src="/logo.png" alt="SmurfExpress Logo" class="w-16 h-16 rounded-full mx-auto mb-4">
+                    <h1 class="text-3xl font-bold text-primary-900 dark:text-primary-100">SmurfExpress</h1>
                     <p class="text-gray-600 dark:text-gray-300">Trang tin tức hàng đầu Việt Nam</p>
                 </div>
 

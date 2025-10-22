@@ -25,12 +25,28 @@ class UserFactory extends Factory
     {
         $faker = fake('vi_VN'); // Sử dụng locale tiếng Việt
         $vietnameseNames = [
-            'Nguyễn Văn An', 'Trần Thị Bình', 'Lê Văn Cường', 'Phạm Thị Dung', 'Hoàng Văn Em',
-            'Vũ Thị Giang', 'Ngô Văn Hùng', 'Đặng Thị Lan', 'Bùi Văn Minh', 'Lý Thị Nga',
-            'Trương Văn Phúc', 'Đinh Thị Quỳnh', 'Đỗ Văn Sơn', 'Phan Thị Tâm', 'Mai Văn Ước',
-            'Chu Thị Vân', 'Tô Văn Xuân', 'Lưu Thị Yến', 'Cao Văn Bảo', 'Hồ Thị Cúc'
+            'Nguyễn Văn An',
+            'Trần Thị Bình',
+            'Lê Văn Cường',
+            'Phạm Thị Dung',
+            'Hoàng Văn Em',
+            'Vũ Thị Giang',
+            'Ngô Văn Hùng',
+            'Đặng Thị Lan',
+            'Bùi Văn Minh',
+            'Lý Thị Nga',
+            'Trương Văn Phúc',
+            'Đinh Thị Quỳnh',
+            'Đỗ Văn Sơn',
+            'Phan Thị Tâm',
+            'Mai Văn Ước',
+            'Chu Thị Vân',
+            'Tô Văn Xuân',
+            'Lưu Thị Yến',
+            'Cao Văn Bảo',
+            'Hồ Thị Cúc'
         ];
-        
+
         return [
             'name' => $faker->randomElement($vietnameseNames),
             'email' => fake()->unique()->safeEmail(),
@@ -38,16 +54,7 @@ class UserFactory extends Factory
             'password' => static::$password ??= Hash::make('password'),
             'role' => fake()->randomElement(['admin', 'user', 'subscriber']),
             'google_id' => null,
-            'avatar' => fake()->optional(0.3)->randomElement([
-                'https://images.unsplash.com/photo-1494790108755-2616b612b526?w=200&h=200&fit=crop&crop=face',
-                'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face',
-                'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=200&h=200&fit=crop&crop=face',
-                'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face',
-                'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=face',
-                'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&h=200&fit=crop&crop=face',
-                'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=face',
-                'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop&crop=face',
-            ]),
+            'avatar' => null,
             'bio' => $faker->optional(0.5)->randomElement([
                 'Tôi là một lập trình viên đam mê công nghệ.',
                 'Yêu thích học hỏi và chia sẻ kiến thức về lập trình.',
@@ -56,8 +63,16 @@ class UserFactory extends Factory
                 'Freelancer với nhiều năm kinh nghiệm trong ngành.'
             ]),
             'location' => $faker->optional(0.4)->randomElement([
-                'Hà Nội', 'Thành phố Hồ Chí Minh', 'Đà Nẵng', 'Hải Phòng', 'Cần Thơ',
-                'Vũng Tàu', 'Nha Trang', 'Huế', 'Vinh', 'Quy Nhon'
+                'Hà Nội',
+                'Thành phố Hồ Chí Minh',
+                'Đà Nẵng',
+                'Hải Phòng',
+                'Cần Thơ',
+                'Vũng Tàu',
+                'Nha Trang',
+                'Huế',
+                'Vinh',
+                'Quy Nhon'
             ]),
             'website' => fake()->optional(0.2)->url(),
             'phone' => fake()->optional(0.3)->phoneNumber(),
@@ -73,7 +88,7 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
         ]);
     }
@@ -83,7 +98,7 @@ class UserFactory extends Factory
      */
     public function admin(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'role' => 'admin',
         ]);
     }
@@ -93,7 +108,7 @@ class UserFactory extends Factory
      */
     public function user(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'role' => 'user',
         ]);
     }
@@ -103,7 +118,7 @@ class UserFactory extends Factory
      */
     public function subscriber(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'role' => 'subscriber',
             'password' => null, // Subscribers may not have passwords
         ]);
@@ -114,13 +129,9 @@ class UserFactory extends Factory
      */
     public function withGoogle(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'google_id' => fake()->uuid(),
-            'avatar' => fake()->randomElement([
-                'https://images.unsplash.com/photo-1566492031773-4f4e44671d66?w=200&h=200&fit=crop&crop=face',
-                'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&h=200&fit=crop&crop=face',
-                'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?w=200&h=200&fit=crop&crop=face',
-            ]),
+            'avatar' => null,
         ]);
     }
 }

@@ -86,9 +86,11 @@
                 <div class="flex items-center justify-between pb-6 border-b border-secondary-200 dark:border-gray-700">
                     <div class="flex items-center space-x-6">
                         <div class="flex items-center space-x-3">
-                            <div class="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center">
-                                <span class="text-white font-semibold">{{ substr($post->user->name, 0, 1) }}</span>
-                            </div>
+                            @if($post->user->avatar)
+                                <img src="{{ asset('storage/' . $post->user->avatar) }}" alt="{{ $post->user->name }}" class="w-10 h-10 rounded-full object-cover border-2 border-green-500">
+                            @else
+                                <img src="{{ asset('hello.png') }}" alt="Default Avatar" class="w-10 h-10 rounded-full object-cover border-2 border-green-500">
+                            @endif
                             <div>
                                 <a href="{{ route('users.show', $post->user) }}" class="font-medium text-secondary-900 dark:text-primary-100-dark hover:text-primary-600 dark:hover:text-primary-400-dark">{{ $post->user->name }}</a>
                                 <div class="text-sm text-secondary-500 dark:text-gray-400">Tác giả</div>

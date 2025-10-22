@@ -47,9 +47,11 @@
                                             @endif
                                             <div class="flex items-center space-x-4 mb-6 text-sm">
                                                 <div class="flex items-center space-x-2">
-                                                    <div class="w-7 h-7 bg-white bg-opacity-20 dark:bg-white dark:bg-opacity-40 rounded-full flex items-center justify-center">
-                                                        <span class="text-xs font-semibold text-white">{{ substr($post->user->name, 0, 1) }}</span>
-                                                    </div>
+                                                    @if($post->user->avatar)
+                                                        <img src="{{ asset('storage/' . $post->user->avatar) }}" alt="{{ $post->user->name }}" class="w-7 h-7 rounded-full object-cover border-2 border-green-500">
+                                                    @else
+                                                        <img src="{{ asset('hello.png') }}" alt="Default Avatar" class="w-7 h-7 rounded-full object-cover border-2 border-green-500">
+                                                    @endif
                                                     <a href="{{ route('users.show', $post->user) }}" class="text-white text-opacity-90 hover:text-white hover:underline">{{ $post->user->name }}</a>
                                                 </div>
                                                 <div class="flex items-center text-white text-opacity-75">
@@ -127,9 +129,11 @@
                             
                             <div class="flex items-center justify-between pt-3 border-t border-primary-100 dark:border-gray-700">
                                 <div class="flex items-center space-x-2">
-                                    <div class="w-6 h-6 bg-primary-900 dark:bg-primary-100-dark rounded-full flex items-center justify-center">
-                                        <span class="text-xs font-semibold text-white dark:text-primary-900-dark">{{ substr($post->user->name, 0, 1) }}</span>
-                                    </div>
+                                    @if($post->user->avatar)
+                                        <img src="{{ asset('storage/' . $post->user->avatar) }}" alt="{{ $post->user->name }}" class="w-6 h-6 rounded-full object-cover border-2 border-green-500">
+                                    @else
+                                        <img src="{{ asset('hello.png') }}" alt="Default Avatar" class="w-6 h-6 rounded-full object-cover border-2 border-green-500">
+                                    @endif
                                     <a href="{{ route('users.show', $post->user) }}" class="text-sm text-primary-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400-dark">{{ $post->user->name }}</a>
                                 </div>
                                 <a href="{{ route('posts.show', $post->slug) }}" class="text-primary-600 dark:text-primary-400-dark hover:text-primary-900 dark:hover:text-primary-300-dark text-sm font-medium">

@@ -28,13 +28,9 @@
             <div class="flex items-center justify-between h-16" style="align-items: center;">
                 <!-- Logo -->
                 <div class="flex items-center">
-                    <a href="{{ route('home') }}" class="flex items-center space-x-3">
-                        <div class="w-8 h-8 bg-primary-900 rounded flex items-center justify-center dark:bg-primary-100-dark">
-                            <svg class="w-5 h-5 text-white dark:text-primary-900-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2 2 0 00-2-2h-2m-4-3v9M9 3h6v3H9V3z"/>
-                            </svg>
-                        </div>
-                        <span class="text-xl font-bold text-primary-900 dark:text-primary-100-dark">VietNews</span>
+                    <a href="{{ route('home') }}" class="flex items-center space-x-0">
+                        <img src="{{ asset('logo.png') }}" alt="SmurfExpress Logo" class="w-10 h-10 rounded">
+                        <span class="text-xl font-bold text-primary-900 dark:text-primary-100-dark ml-0">SmurfExpress</span>
                     </a>
                 </div>
 
@@ -42,9 +38,9 @@
                 <div class="flex-1 max-w-md mx-8 hidden md:flex items-center justify-center">
                     <form method="GET" action="{{ route('search') }}" class="w-full flex items-center">
                         <div class="relative w-full flex items-center">
-                            <input type="text" name="q" 
-                                   class="w-full h-10 pl-4 pr-10 border border-primary-300 rounded-lg focus:ring-2 focus:ring-primary-900 focus:border-primary-900 text-sm bg-white flex-shrink-0 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark" 
-                                   placeholder="Tìm kiếm..." 
+                            <input type="text" name="q"
+                                   class="w-full h-10 pl-4 pr-10 border border-primary-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 focus:outline-none text-sm bg-white flex-shrink-0 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-green-400 dark:focus:border-green-400 dark:focus:outline-none"
+                                   placeholder="Tìm kiếm..."
                                    value="{{ request('q') }}">
                             <button type="submit" class="absolute right-3 top-1/2 transform -translate-y-1/2 p-1 hover:bg-gray-100 rounded flex items-center justify-center dark:hover:bg-gray-600">
                                 <svg class="w-4 h-4 text-primary-500 dark:text-primary-400-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -89,13 +85,11 @@
                     @else
                         <div class="relative">
                             <div class="flex items-center space-x-3 cursor-pointer" onclick="toggleProfileDropdown()">
-                                <div class="w-8 h-8 rounded-full overflow-hidden bg-primary-900 dark:bg-primary-100-dark">
+                                <div class="w-8 h-8 rounded-full overflow-hidden">
                                     @if(auth()->user()->avatar)
-                                        <img src="{{ asset('storage/' . auth()->user()->avatar) }}" alt="{{ auth()->user()->name }}" class="w-full h-full object-cover">
+                                        <img src="{{ asset('storage/' . auth()->user()->avatar) }}" alt="{{ auth()->user()->name }}" class="w-full h-full object-cover border-2 border-green-500">
                                     @else
-                                        <div class="w-full h-full flex items-center justify-center">
-                                            <span class="text-sm font-semibold text-white dark:text-primary-900-dark">{{ substr(auth()->user()->name, 0, 1) }}</span>
-                                        </div>
+                                        <img src="{{ asset('hello.png') }}" alt="Default Avatar" class="w-full h-full object-cover border-2 border-green-500">
                                     @endif
                                 </div>
                                 <span class="text-sm font-medium text-primary-900 hidden sm:inline dark:text-primary-100-dark">{{ auth()->user()->name }}</span>

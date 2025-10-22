@@ -16,16 +16,13 @@
                     <div class="flex flex-col sm:flex-row sm:items-end sm:space-x-6">
                         <!-- Avatar -->
                         <div class="relative -mt-16 mb-4 sm:mb-0">
-                            <div class="w-32 h-32 rounded-full border-4 border-white dark:border-gray-800 shadow-lg overflow-hidden bg-gray-100 dark:bg-gray-700">
+                            <div class="w-32 h-32 rounded-full border-2 border-green-500 dark:border-green-400 shadow-lg overflow-hidden bg-gray-100 dark:bg-gray-700">
                                 @if($user->avatar)
-                                    <img src="{{ asset('storage/' . $user->avatar) }}" alt="{{ $user->name }}" 
+                                    <img src="{{ asset('storage/' . $user->avatar) }}" alt="{{ $user->name }}"
                                          class="w-full h-full object-cover">
                                 @else
-                                    <div class="w-full h-full flex items-center justify-center bg-gray-300 dark:bg-gray-600">
-                                        <svg class="w-16 h-16 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
-                                        </svg>
-                                    </div>
+                                    <img src="{{ asset('hello.png') }}" alt="Default Avatar"
+                                         class="w-full h-full object-cover">
                                 @endif
                             </div>
                         </div>
