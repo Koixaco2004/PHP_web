@@ -26,7 +26,21 @@ class HomeController extends Controller
             $query->byCategory($request->category);
         }
 
-        $posts = $query->latest()->paginate(10);
+        // Sort options - chỉ 3 tùy chọn đơn giản
+        $sortBy = $request->get('sort', 'latest');
+        switch ($sortBy) {
+            case 'oldest':
+                $query->orderBy('published_at', 'asc');
+                break;
+            case 'most_viewed':
+                $query->orderBy('view_count', 'desc');
+                break;
+            default:
+                $query->orderBy('published_at', 'desc');
+                break;
+        }
+
+        $posts = $query->paginate(12)->appends($request->query());
         $categories = Category::active()->get();
 
         return view('home', compact('posts', 'categories'));

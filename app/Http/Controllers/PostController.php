@@ -15,12 +15,40 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::with(['category', 'user', 'images' => function($query) {
+        $query = Post::with(['category', 'user', 'images' => function($query) {
             $query->where('is_featured', true)->orWhere('sort_order', 0);
-        }])->latest()->paginate(10);
-        return view('posts.index', compact('posts'));
+        }]);
+
+        // Filter by category
+        if ($request->filled('category')) {
+            $query->byCategory($request->category);
+        }
+
+        // Search by keyword
+        if ($request->filled('search')) {
+            $query->search($request->search);
+        }
+
+        // Sort options
+        $sortBy = $request->get('sort', 'latest');
+        switch ($sortBy) {
+            case 'oldest':
+                $query->orderBy('created_at', 'asc');
+                break;
+            case 'most_viewed':
+                $query->orderBy('view_count', 'desc');
+                break;
+            default:
+                $query->orderBy('created_at', 'desc');
+                break;
+        }
+
+        $posts = $query->paginate(10)->appends($request->query());
+        $categories = Category::active()->get();
+
+        return view('posts.index', compact('posts', 'categories'));
     }
 
     /**

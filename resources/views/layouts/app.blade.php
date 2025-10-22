@@ -25,7 +25,7 @@
     <!-- Clean Header -->
     <header class="bg-white border-b border-primary-200 sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16" style="align-items: center;">
+            <div class="flex items-center justify-between h-20 lg:h-16" style="align-items: center;">
                 <!-- Logo -->
                 <div class="flex items-center">
                     <a href="{{ route('home') }}" class="flex items-center space-x-3">
@@ -38,12 +38,32 @@
                     </a>
                 </div>
 
-                <!-- Search -->
-                <div class="flex-1 max-w-md mx-8 hidden md:flex items-center justify-center">
-                    <form method="GET" action="{{ route('home') }}" class="w-full flex items-center">
-                        <div class="relative w-full flex items-center">
+                <!-- Filter Form -->
+                <div class="flex-1 max-w-4xl mx-8 hidden lg:flex">
+                    <form method="GET" action="{{ url()->current() }}" class="w-full flex items-center space-x-3">
+                        <!-- Category Filter -->
+                        <select name="category" class="h-10 px-3 border border-primary-300 rounded-lg focus:ring-2 focus:ring-primary-900 focus:border-primary-900 text-sm bg-white">
+                            <option value="">Chuyên mục</option>
+                            @if(isset($categories))
+                                @foreach($categories as $cat)
+                                    <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>
+                                        {{ $cat->name }}
+                                    </option>
+                                @endforeach
+                            @endif
+                        </select>
+
+                        <!-- Sort Filter -->
+                        <select name="sort" class="h-10 px-3 border border-primary-300 rounded-lg focus:ring-2 focus:ring-primary-900 focus:border-primary-900 text-sm bg-white">
+                            <option value="latest" {{ request('sort') == 'latest' ? 'selected' : '' }}>Mới nhất</option>
+                            <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Cũ nhất</option>
+                            <option value="most_viewed" {{ request('sort') == 'most_viewed' ? 'selected' : '' }}>Nhiều lượt xem</option>
+                        </select>
+
+                        <!-- Search Input -->
+                        <div class="relative flex-1 max-w-xs">
                             <input type="text" name="search" 
-                                   class="w-full h-10 pl-4 pr-10 border border-primary-300 rounded-lg focus:ring-2 focus:ring-primary-900 focus:border-primary-900 text-sm bg-white flex-shrink-0" 
+                                   class="w-full h-10 pl-4 pr-10 border border-primary-300 rounded-lg focus:ring-2 focus:ring-primary-900 focus:border-primary-900 text-sm bg-white" 
                                    placeholder="Tìm kiếm..." 
                                    value="{{ request('search') }}">
                             <button type="submit" class="absolute right-3 top-1/2 transform -translate-y-1/2 p-1 hover:bg-gray-100 rounded flex items-center justify-center">
@@ -52,7 +72,21 @@
                                 </svg>
                             </button>
                         </div>
+
+                        <!-- Reset Button -->
+                        <a href="{{ url()->current() }}" class="h-10 px-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 flex items-center text-sm font-medium">
+                            Reset
+                        </a>
                     </form>
+                </div>
+
+                <!-- Mobile Search Toggle -->
+                <div class="lg:hidden">
+                    <button onclick="toggleMobileSearch()" class="p-2 hover:bg-gray-100 rounded-lg">
+                        <svg class="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </button>
                 </div>
 
                 <!-- Navigation -->
@@ -160,6 +194,51 @@
                         </form>
                     @endguest
                 </div>
+            </div>
+        </div>
+
+        <!-- Mobile Search Dropdown -->
+        <div id="mobileSearch" class="hidden lg:hidden border-t border-primary-200 bg-white">
+            <div class="px-4 py-3">
+                <form method="GET" action="{{ url()->current() }}" class="space-y-3">
+                    <!-- Category Filter -->
+                    <select name="category" class="w-full h-10 px-3 border border-primary-300 rounded-lg focus:ring-2 focus:ring-primary-900 focus:border-primary-900 text-sm bg-white">
+                        <option value="">Chọn chuyên mục</option>
+                        @if(isset($categories))
+                            @foreach($categories as $cat)
+                                <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>
+                                    {{ $cat->name }}
+                                </option>
+                            @endforeach
+                        @endif
+                    </select>
+
+                    <!-- Sort Filter -->
+                    <select name="sort" class="w-full h-10 px-3 border border-primary-300 rounded-lg focus:ring-2 focus:ring-primary-900 focus:border-primary-900 text-sm bg-white">
+                        <option value="latest" {{ request('sort') == 'latest' ? 'selected' : '' }}>Mới nhất</option>
+                        <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Cũ nhất</option>
+                        <option value="most_viewed" {{ request('sort') == 'most_viewed' ? 'selected' : '' }}>Nhiều lượt xem</option>
+                    </select>
+
+                    <!-- Search Input -->
+                    <input type="text" name="search" 
+                           class="w-full h-10 px-4 border border-primary-300 rounded-lg focus:ring-2 focus:ring-primary-900 focus:border-primary-900 text-sm bg-white" 
+                           placeholder="Tìm kiếm..." 
+                           value="{{ request('search') }}">
+
+                    <!-- Buttons -->
+                    <div class="flex gap-2">
+                        <button type="submit" class="flex-1 h-10 bg-primary-600 text-white rounded-lg hover:bg-primary-700 flex items-center justify-center text-sm font-medium">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                            Lọc
+                        </button>
+                        <a href="{{ url()->current() }}" class="flex-1 h-10 bg-gray-500 text-white rounded-lg hover:bg-gray-600 flex items-center justify-center text-sm font-medium">
+                            Reset
+                        </a>
+                    </div>
+                </form>
             </div>
         </div>
     </header>
@@ -316,6 +395,11 @@
         function toggleMobileNav() {
             const mobileNav = document.getElementById('mobileNav');
             mobileNav.classList.toggle('hidden');
+        }
+
+        function toggleMobileSearch() {
+            const mobileSearch = document.getElementById('mobileSearch');
+            mobileSearch.classList.toggle('hidden');
         }
 
         // Close dropdowns when clicking outside

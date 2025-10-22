@@ -96,6 +96,8 @@
             <h1 class="text-2xl font-bold text-primary-900 mb-6">Tin tức mới nhất</h1>
         </div>
 
+
+
         <!-- Articles Grid -->
         <div class="space-y-6">
             @forelse($posts as $index => $post)
@@ -222,11 +224,12 @@
 
 @endsection
 
+@push('scripts')
 <script>
 function carousel() {
     return {
         currentSlide: 0,
-        totalSlides: {{ $posts->take(5)->count() }},
+        totalSlides: 5,
         
         nextSlide() {
             this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
@@ -300,3 +303,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+@endpush

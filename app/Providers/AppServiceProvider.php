@@ -29,7 +29,11 @@ class AppServiceProvider extends ServiceProvider
                 }])
                 ->ordered()
                 ->get();
+            
+            $categories = Category::active()->orderBy('name')->get();
+            
             $view->with('navigationCategories', $navigationCategories);
+            $view->with('categories', $categories);
         });
     }
 }

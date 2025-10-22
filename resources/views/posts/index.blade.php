@@ -8,6 +8,8 @@
     <a href="{{ route('posts.create') }}" class="btn-primary">Thêm bài viết mới</a>
 </div>
 
+
+
 <div class="bg-white rounded-lg border border-primary-200 shadow-sm">
     <div class="p-6">
         @if($posts->count() > 0)
