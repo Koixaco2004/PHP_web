@@ -46,7 +46,7 @@
                             <option value="">Chuyên mục</option>
                             @if(isset($categories))
                                 @foreach($categories as $cat)
-                                    <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>
+                                    <option value="{{ $cat->id }}" {{ request('category') == (string)$cat->id ? 'selected' : '' }}>
                                         {{ $cat->name }}
                                     </option>
                                 @endforeach
@@ -206,7 +206,7 @@
                         <option value="">Chọn chuyên mục</option>
                         @if(isset($categories))
                             @foreach($categories as $cat)
-                                <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>
+                                <option value="{{ $cat->id }}" {{ request('category') == (string)$cat->id ? 'selected' : '' }}>
                                     {{ $cat->name }}
                                 </option>
                             @endforeach
