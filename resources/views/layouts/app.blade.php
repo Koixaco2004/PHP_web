@@ -85,11 +85,11 @@
                     @else
                         <div class="relative">
                             <div class="flex items-center space-x-3 cursor-pointer" onclick="toggleProfileDropdown()">
-                                <div class="w-8 h-8 rounded-full overflow-hidden">
+                                <div class="w-10 h-10 rounded-full overflow-hidden" style="box-shadow: 0 0 0 2px #10b981;">
                                     @if(auth()->user()->avatar)
-                                        <img src="{{ asset('storage/' . auth()->user()->avatar) }}" alt="{{ auth()->user()->name }}" class="w-full h-full object-cover border-2 border-green-500">
+                                        <img src="{{ asset('storage/' . auth()->user()->avatar) }}" alt="{{ auth()->user()->name }}" class="w-full h-full object-cover">
                                     @else
-                                        <img src="{{ asset('hello.png') }}" alt="Default Avatar" class="w-full h-full object-cover border-2 border-green-500">
+                                        <img src="{{ asset('hello.png') }}" alt="Default Avatar" class="w-full h-full object-cover">
                                     @endif
                                 </div>
                                 <span class="text-sm font-medium text-primary-900 hidden sm:inline dark:text-primary-100-dark">{{ auth()->user()->name }}</span>
