@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PostImageController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\NewsletterController;
@@ -14,6 +15,11 @@ use App\Http\Controllers\ProfileController;
 
 // Trang chủ
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Search Routes
+Route::get('/search', [SearchController::class, 'index'])->name('search');
+Route::get('/search/suggest', [SearchController::class, 'suggest'])->name('search.suggest');
+Route::get('/search/popular', [SearchController::class, 'popular'])->name('search.popular');
 
 // Routes cho người dùng đăng bài
 Route::middleware(['auth'])->group(function () {

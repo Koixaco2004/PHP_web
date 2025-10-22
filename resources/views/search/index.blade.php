@@ -16,7 +16,7 @@
         </div>
         
         <!-- Search Form -->
-        <form method="GET" action="{{ route('search') ?? request()->url() }}" class="relative">
+        <form method="GET" action="{{ route('search') }}" class="relative">
             <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
                 <div class="flex-1 relative">
                     <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -39,7 +39,7 @@
                         @if(isset($categories))
                             @foreach($categories as $category)
                                 <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
-                                    {{ $category->name }}
+                                    {{ $category->name }} ({{ $category->posts_count ?? 0 }})
                                 </option>
                             @endforeach
                         @endif
@@ -52,6 +52,52 @@
                         Tìm kiếm
                     </button>
                 </div>
+            </div>
+            
+            <!-- Advanced Filters -->
+            <div class="mt-4 bg-white bg-opacity-10 rounded-lg p-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Author Filter -->
+                    <div>
+                        <label class="block text-sm font-medium text-white mb-2">Tác giả</label>
+                        <select name="author" class="w-full px-3 py-2 border border-secondary-300 rounded-lg bg-white focus:ring-2 focus:ring-white focus:border-white text-sm">
+                            <option value="">Tất cả tác giả</option>
+                            @if(isset($authors))
+                                @foreach($authors as $author)
+                                    <option value="{{ $author->id }}" {{ request('author') == $author->id ? 'selected' : '' }}>
+                                        {{ $author->name }} ({{ $author->posts_count ?? 0 }})
+                                    </option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
+                    
+                    <!-- Date Range -->
+                    <div>
+                        <label class="block text-sm font-medium text-white mb-2">Từ ngày</label>
+                        <input type="date" name="date_from" value="{{ request('date_from') }}" 
+                               class="w-full px-3 py-2 border border-secondary-300 rounded-lg bg-white focus:ring-2 focus:ring-white focus:border-white text-sm">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-white mb-2">Đến ngày</label>
+                        <input type="date" name="date_to" value="{{ request('date_to') }}" 
+                               class="w-full px-3 py-2 border border-secondary-300 rounded-lg bg-white focus:ring-2 focus:ring-white focus:border-white text-sm">
+                    </div>
+                </div>
+                
+                @auth
+                    @if(auth()->user()->role === 'admin')
+                        <div class="mt-4">
+                            <label class="block text-sm font-medium text-white mb-2">Trạng thái</label>
+                            <select name="status" class="px-3 py-2 border border-secondary-300 rounded-lg bg-white focus:ring-2 focus:ring-white focus:border-white text-sm">
+                                <option value="">Tất cả trạng thái</option>
+                                <option value="published" {{ request('status') == 'published' ? 'selected' : '' }}>Đã xuất bản</option>
+                                <option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>Bản nháp</option>
+                            </select>
+                        </div>
+                    @endif
+                @endauth
             </div>
         </form>
     </div>
@@ -80,10 +126,18 @@
                 <div class="flex items-center space-x-4 mt-4 md:mt-0">
                     <span class="text-sm text-secondary-600">Sắp xếp:</span>
                     <select onchange="updateSort(this.value)" class="text-sm border border-secondary-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
-                        <option value="relevance" {{ request('sort') == 'relevance' ? 'selected' : '' }}>Liên quan nhất</option>
-                        <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Mới nhất</option>
-                        <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Cũ nhất</option>
-                        <option value="popular" {{ request('sort') == 'popular' ? 'selected' : '' }}>Phổ biến</option>
+                        @if(isset($sortOptions))
+                            @foreach($sortOptions as $value => $label)
+                                <option value="{{ $value }}" {{ request('sort') == $value ? 'selected' : '' }}>{{ $label }}</option>
+                            @endforeach
+                        @else
+                            <option value="relevance" {{ request('sort') == 'relevance' ? 'selected' : '' }}>Liên quan nhất</option>
+                            <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Mới nhất</option>
+                            <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Cũ nhất</option>
+                            <option value="popular" {{ request('sort') == 'popular' ? 'selected' : '' }}>Phổ biến</option>
+                            <option value="most_viewed" {{ request('sort') == 'most_viewed' ? 'selected' : '' }}>Xem nhiều nhất</option>
+                            <option value="most_commented" {{ request('sort') == 'most_commented' ? 'selected' : '' }}>Bình luận nhiều nhất</option>
+                        @endif
                     </select>
                 </div>
             </div>
@@ -112,8 +166,52 @@
                     </span>
                 @endif
                 
-                @if(request()->anyFilled(['q', 'category']))
-                    <a href="{{ route('search') ?? request()->url() }}" class="text-sm text-secondary-600 hover:text-secondary-800 underline">
+                @if(request('author'))
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                        {{ $authors->find(request('author'))->name ?? '' }}
+                        <a href="?{{ http_build_query(request()->except('author')) }}" class="ml-2 text-blue-600 hover:text-blue-800">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </a>
+                    </span>
+                @endif
+                
+                @if(request('date_from'))
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800">
+                        Từ: {{ request('date_from') }}
+                        <a href="?{{ http_build_query(request()->except('date_from')) }}" class="ml-2 text-purple-600 hover:text-purple-800">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </a>
+                    </span>
+                @endif
+                
+                @if(request('date_to'))
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800">
+                        Đến: {{ request('date_to') }}
+                        <a href="?{{ http_build_query(request()->except('date_to')) }}" class="ml-2 text-purple-600 hover:text-purple-800">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </a>
+                    </span>
+                @endif
+                
+                @if(request('status'))
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-orange-100 text-orange-800">
+                        {{ request('status') == 'published' ? 'Đã xuất bản' : 'Bản nháp' }}
+                        <a href="?{{ http_build_query(request()->except('status')) }}" class="ml-2 text-orange-600 hover:text-orange-800">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </a>
+                    </span>
+                @endif
+                
+                @if(request()->anyFilled(['q', 'category', 'author', 'date_from', 'date_to', 'status']))
+                    <a href="{{ route('search') }}" class="text-sm text-secondary-600 hover:text-secondary-800 underline">
                         Xóa tất cả bộ lọc
                     </a>
                 @endif
@@ -152,12 +250,12 @@
                                     
                                     <h3 class="text-xl font-semibold text-secondary-900 mb-2 line-clamp-2">
                                         <a href="{{ route('posts.show', $post->slug ?? $post->id) }}" class="hover:text-primary-600 transition-colors duration-200">
-                                            {!! highlightSearchTerm($post->title, $query) !!}
+                                            {!! $post->highlighted_title ?? $post->title !!}
                                         </a>
                                     </h3>
                                     
                                     <p class="text-secondary-700 mb-3 line-clamp-3">
-                                        {!! highlightSearchTerm($post->excerpt ?? Str::limit(strip_tags($post->content), 150), $query) !!}
+                                        {!! $post->highlighted_excerpt ?? ($post->excerpt ?? Str::limit(strip_tags($post->content), 150)) !!}
                                     </p>
                                     
                                     <div class="flex items-center justify-between">
@@ -228,6 +326,32 @@
                             @endif
                         </div>
                     </div>
+                    
+                    <!-- Popular Authors -->
+                    @if(isset($authors) && $authors->count() > 0)
+                        <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6 animate-slide-up" style="animation-delay: 0.3s">
+                            <h3 class="text-lg font-semibold text-secondary-900 mb-4 flex items-center">
+                                <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                </svg>
+                                Tác giả nổi bật
+                            </h3>
+                            
+                            <div class="space-y-3">
+                                @foreach($authors->take(5) as $author)
+                                    <a href="?{{ http_build_query(array_merge(request()->query(), ['author' => $author->id])) }}" 
+                                       class="flex items-center justify-between p-3 rounded-lg hover:bg-secondary-50 transition-colors duration-200 {{ request('author') == $author->id ? 'bg-blue-50 border border-blue-200' : '' }}">
+                                        <span class="text-secondary-700 {{ request('author') == $author->id ? 'text-blue-700 font-medium' : '' }}">
+                                            {{ $author->name }}
+                                        </span>
+                                        <span class="text-xs text-secondary-500 bg-secondary-100 px-2 py-1 rounded-full">
+                                            {{ $author->posts_count ?? 0 }}
+                                        </span>
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
                     
                     <!-- Search Tips -->
                     <div class="bg-gradient-to-br from-accent-50 to-accent-100 rounded-xl p-6 animate-slide-up" style="animation-delay: 0.4s">
@@ -423,12 +547,4 @@ document.addEventListener('DOMContentLoaded', function() {
 @endif
 </script>
 
-@if(!function_exists('highlightSearchTerm'))
-@php
-function highlightSearchTerm($text, $term) {
-    if (!$term) return $text;
-    return preg_replace('/(' . preg_quote($term, '/') . ')/i', '<mark class="bg-yellow-200 text-secondary-900 px-1 rounded">$1</mark>', $text);
-}
-@endphp
-@endif
 @endsection

@@ -40,12 +40,12 @@
 
                 <!-- Search -->
                 <div class="flex-1 max-w-md mx-8 hidden md:flex items-center justify-center">
-                    <form method="GET" action="{{ route('home') }}" class="w-full flex items-center">
+                    <form method="GET" action="{{ route('search') }}" class="w-full flex items-center">
                         <div class="relative w-full flex items-center">
-                            <input type="text" name="search" 
+                            <input type="text" name="q" 
                                    class="w-full h-10 pl-4 pr-10 border border-primary-300 rounded-lg focus:ring-2 focus:ring-primary-900 focus:border-primary-900 text-sm bg-white flex-shrink-0" 
                                    placeholder="Tìm kiếm..." 
-                                   value="{{ request('search') }}">
+                                   value="{{ request('q') }}">
                             <button type="submit" class="absolute right-3 top-1/2 transform -translate-y-1/2 p-1 hover:bg-gray-100 rounded flex items-center justify-center">
                                 <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>

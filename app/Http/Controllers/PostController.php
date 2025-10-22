@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\PostImage;
 use App\Models\Category;
+use App\Services\SearchService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +13,12 @@ use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
 {
+    protected $searchService;
+
+    public function __construct(SearchService $searchService)
+    {
+        $this->searchService = $searchService;
+    }
     /**
      * Display a listing of the resource.
      */
@@ -94,13 +101,7 @@ class PostController extends Controller
         $post->load(['category', 'user', 'comments.user']);
         $post->increment('view_count');
         
-        $relatedPosts = Post::with(['category', 'user'])
-            ->where('category_id', $post->category_id)
-            ->where('id', '!=', $post->id)
-            ->published()
-            ->latest()
-            ->limit(3)
-            ->get();
+        $relatedPosts = $this->searchService->getRelatedPosts($post, 3);
 
         return view('posts.show', compact('post', 'relatedPosts'));
     }

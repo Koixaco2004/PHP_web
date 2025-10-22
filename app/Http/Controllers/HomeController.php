@@ -4,11 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\Category;
+use App\Services\SearchService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
+    protected $searchService;
+
+    public function __construct(SearchService $searchService)
+    {
+        $this->searchService = $searchService;
+    }
     /**
      * Display the home page.
      */
@@ -16,12 +23,7 @@ class HomeController extends Controller
     {
         $query = Post::with(['category', 'user', 'images'])->published();
 
-        // Tìm kiếm theo từ khóa
-        if ($request->has('search') && $request->search) {
-            $query->search($request->search);
-        }
-
-        // Lọc theo chuyên mục
+        // Lọc theo chuyên mục (chỉ giữ lại filter cơ bản cho trang chủ)
         if ($request->has('category') && $request->category) {
             $query->byCategory($request->category);
         }
@@ -55,14 +57,8 @@ class HomeController extends Controller
             $post->increment('view_count');
         }
 
-        // Lấy bài viết liên quan (chỉ published)
-        $relatedPosts = Post::with(['category', 'user'])
-            ->where('category_id', $post->category_id)
-            ->where('id', '!=', $post->id)
-            ->published()
-            ->latest()
-            ->limit(3)
-            ->get();
+        // Lấy bài viết liên quan sử dụng SearchService
+        $relatedPosts = $this->searchService->getRelatedPosts($post, 3);
 
         return view('posts.show', compact('post', 'relatedPosts'));
     }
