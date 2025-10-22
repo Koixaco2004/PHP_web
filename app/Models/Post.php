@@ -18,21 +18,15 @@ class Post extends Model
         'category_id',
         'user_id',
         'view_count',
-        'like_count',
         'comment_count',
         'is_featured',
-        'allow_comments',
-        'meta_data',
         'published_at',
     ];
 
     protected $casts = [
         'view_count' => 'integer',
-        'like_count' => 'integer',
         'comment_count' => 'integer',
         'is_featured' => 'boolean',
-        'allow_comments' => 'boolean',
-        'meta_data' => 'array',
         'published_at' => 'datetime',
     ];
 
@@ -126,29 +120,5 @@ class Post extends Model
     public function scopeFeatured($query)
     {
         return $query->where('is_featured', true);
-    }
-
-    /**
-     * Increment view count.
-     */
-    public function incrementViewCount()
-    {
-        $this->increment('view_count');
-    }
-
-    /**
-     * Increment like count.
-     */
-    public function incrementLikeCount()
-    {
-        $this->increment('like_count');
-    }
-
-    /**
-     * Update comment count.
-     */
-    public function updateCommentCount()
-    {
-        $this->update(['comment_count' => $this->comments()->approved()->count()]);
     }
 }

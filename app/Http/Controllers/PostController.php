@@ -94,19 +94,6 @@ class PostController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Post $post)
-    {
-        $post->load(['category', 'user', 'comments.user']);
-        $post->increment('view_count');
-        
-        $relatedPosts = $this->searchService->getRelatedPosts($post, 3);
-
-        return view('posts.show', compact('post', 'relatedPosts'));
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(Post $post)

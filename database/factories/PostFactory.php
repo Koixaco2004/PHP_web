@@ -60,15 +60,8 @@ class PostFactory extends Factory
             'category_id' => Category::factory(),
             'user_id' => User::factory(),
             'view_count' => $this->faker->numberBetween(0, 5000),
-            'like_count' => $this->faker->numberBetween(0, 500),
             'comment_count' => $this->faker->numberBetween(0, 50),
             'is_featured' => $this->faker->boolean(15), // 15% featured
-            'allow_comments' => $this->faker->boolean(90), // 90% allow comments
-            'meta_data' => [
-                'seo_title' => $title . ' - Hướng dẫn chi tiết',
-                'seo_description' => 'Bài viết hướng dẫn chi tiết về ' . strtolower($title) . ' dành cho developers.',
-                'keywords' => ['lập trình', 'công nghệ', 'phát triển', 'hướng dẫn', 'tutorial'],
-            ],
             'published_at' => $isPublished ? $this->faker->dateTimeBetween('-1 year', 'now') : null,
         ];
     }
@@ -102,16 +95,6 @@ class PostFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'is_featured' => true,
-        ]);
-    }
-
-    /**
-     * Indicate that the post is archived.
-     */
-    public function archived(): static
-    {
-        return $this->state(fn (array $attributes) => [
-            'status' => 'archived',
         ]);
     }
 }

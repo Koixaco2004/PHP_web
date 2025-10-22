@@ -44,13 +44,4 @@ class CommentController extends Controller
         $comment->delete();
         return back()->with('success', 'Bình luận đã được xóa!');
     }
-
-    /**
-     * Approve a comment.
-     */
-    public function approve(Comment $comment)
-    {
-        $comment->update(['is_approved' => true]);
-        return back()->with('success', 'Bình luận đã được phê duyệt!');
-    }
 }

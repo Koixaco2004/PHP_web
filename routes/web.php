@@ -50,11 +50,6 @@ Route::middleware(['auth'])->group(function () {
     // Bình luận
     Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
-
-    // Phê duyệt bình luận (chỉ admin)
-    Route::middleware(['admin'])->group(function () {
-        Route::patch('/comments/{comment}/approve', [CommentController::class, 'approve'])->name('comments.approve');
-    });
 });
 
 // Routes cho người dùng đã đăng nhập nhưng chưa cần verify email (xem, đọc)
@@ -83,8 +78,6 @@ Route::get('/categories/{category}', [CategoryController::class, 'show'])->name(
 // Google OAuth Routes
 Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.redirect');
 Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('google.callback');
-
-// Đã bỏ xác thực email, không cần route xác thực
 
 // Newsletter Routes
 Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');

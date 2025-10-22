@@ -106,8 +106,8 @@ class SearchService
                 return $builder->oldest('published_at');
             
             case 'popular':
-                return $builder->orderByDesc('like_count')
-                    ->orderByDesc('view_count')
+                return $builder->orderByDesc('view_count')
+                    ->orderByDesc('comment_count')
                     ->latest('published_at');
             
             case 'most_viewed':
@@ -259,7 +259,6 @@ class SearchService
             ->with(['category', 'user'])
             ->where('published_at', '>=', now()->subDays(7))
             ->orderByDesc('view_count')
-            ->orderByDesc('like_count')
             ->orderByDesc('comment_count')
             ->limit($limit)
             ->get();

@@ -105,7 +105,7 @@ class DatabaseSeeder extends Seeder
                 }
 
                 // Update post comment count
-                $post->updateCommentCount();
+                $post->update(['comment_count' => $post->comments()->count()]);
             }
         }
 

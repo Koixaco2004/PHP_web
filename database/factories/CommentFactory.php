@@ -43,11 +43,6 @@ class CommentFactory extends Factory
             'user_id' => User::factory(),
             'parent_id' => null, // Top level comment by default
             'is_approved' => $this->faker->boolean(80), // 80% approved
-            'like_count' => $this->faker->numberBetween(0, 100),
-            'meta_data' => [
-                'ip_address' => $this->faker->ipv4(),
-                'user_agent' => $this->faker->userAgent(),
-            ],
         ];
     }
 

@@ -15,14 +15,10 @@ class Comment extends Model
         'user_id',
         'parent_id',
         'is_approved',
-        'like_count',
-        'meta_data',
     ];
 
     protected $casts = [
         'is_approved' => 'boolean',
-        'like_count' => 'integer',
-        'meta_data' => 'array',
     ];
 
     /**
@@ -71,14 +67,6 @@ class Comment extends Model
     public function scopeTopLevel($query)
     {
         return $query->whereNull('parent_id');
-    }
-
-    /**
-     * Increment like count.
-     */
-    public function incrementLikeCount()
-    {
-        $this->increment('like_count');
     }
 
     /**
