@@ -10,7 +10,6 @@ use App\Http\Controllers\PostImageController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Auth\VerificationController;
-use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\ProfileController;
 
 // Trang chủ
@@ -89,9 +88,6 @@ Route::get('/categories/{category}', [CategoryController::class, 'show'])->name(
 Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.redirect');
 Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('google.callback');
 
-// Newsletter Routes
-Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
-Route::post('/newsletter/unsubscribe', [NewsletterController::class, 'unsubscribe'])->name('newsletter.unsubscribe');
 
 // Profile Routes
 Route::middleware(['auth'])->group(function () {

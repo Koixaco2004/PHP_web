@@ -80,7 +80,6 @@
             <select id="role" name="role" class="w-full px-3 py-2 border border-secondary-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-secondary-900 dark:text-primary-100-dark focus:outline-none focus:ring-primary-500 focus:border-primary-500">
                 <option value="admin" {{ $user->role === 'admin' ? 'selected' : '' }}>Admin - Quản trị viên hệ thống</option>
                 <option value="user" {{ $user->role === 'user' ? 'selected' : '' }}>User - Người dùng thường</option>
-                <option value="subscriber" {{ $user->role === 'subscriber' ? 'selected' : '' }}>Subscriber - Thuê bao</option>
             </select>
             <p class="mt-1 text-sm text-secondary-500 dark:text-gray-400">
                 Chọn vai trò phù hợp cho người dùng. Admin có toàn quyền quản lý hệ thống.

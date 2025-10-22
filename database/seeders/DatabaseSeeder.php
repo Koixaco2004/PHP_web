@@ -38,7 +38,7 @@ class DatabaseSeeder extends Seeder
 
         // Create additional users
         User::factory()->count(20)->create();
-        User::factory()->count(5)->subscriber()->create();
+        User::factory()->count(5)->create();
         User::factory()->count(3)->withGoogle()->create();
 
         // Create categories with predefined data
@@ -64,12 +64,12 @@ class DatabaseSeeder extends Seeder
 
         // Create posts
         $categories = Category::all();
-        $users = User::where('role', '!=', 'subscriber')->get();
+        $users = User::all();
 
         foreach ($categories as $category) {
             // Create 5-10 posts per category
             $postCount = rand(5, 10);
-            
+
             for ($i = 0; $i < $postCount; $i++) {
                 $post = Post::factory()->create([
                     'category_id' => $category->id,

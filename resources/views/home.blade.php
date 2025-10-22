@@ -193,34 +193,6 @@
             </div>
         </div>
 
-        <!-- Newsletter -->
-        <div class="bg-primary-50 dark:bg-gray-800 rounded-lg border border-primary-200 dark:border-gray-700 p-6">
-            <h3 class="text-lg font-semibold text-primary-900 dark:text-primary-100-dark mb-3">Đăng ký nhận tin</h3>
-            <p class="text-primary-600 dark:text-gray-300 text-sm mb-4">Nhận tin tức mới nhất qua email</p>
-            <form id="newsletter-form" class="space-y-3">
-                @csrf
-                <input type="text" 
-                       id="newsletter-name" 
-                       name="name"
-                       placeholder="Tên của bạn" 
-                       class="w-full px-3 py-2 border border-primary-300 dark:border-gray-600 rounded text-sm focus:ring-2 focus:ring-primary-900 dark:focus:ring-primary-400-dark focus:border-primary-900 dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 text-primary-900 dark:text-primary-100-dark dark:placeholder-gray-400"
-                       required>
-                <input type="email" 
-                       id="newsletter-email" 
-                       name="email"
-                       placeholder="Email của bạn" 
-                       class="w-full px-3 py-2 border border-primary-300 dark:border-gray-600 rounded text-sm focus:ring-2 focus:ring-primary-900 dark:focus:ring-primary-400-dark focus:border-primary-900 dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 text-primary-900 dark:text-primary-100-dark dark:placeholder-gray-400"
-                       required>
-                <button type="submit" class="w-full bg-primary-900 dark:bg-primary-100-dark text-white dark:text-primary-900-dark py-2 rounded text-sm font-medium hover:bg-primary-800 dark:hover:bg-primary-200-dark transition-colors duration-200">
-                    Đăng ký
-                </button>
-            </form>
-            
-            <!-- Message Display -->
-            <div id="newsletter-message" class="mt-3 hidden">
-                <p class="text-sm"></p>
-            </div>
-        </div>
     </div>
 </div>
 
@@ -249,58 +221,4 @@ function carousel() {
     }
 }
 
-// Newsletter form handling
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('newsletter-form');
-    const messageDiv = document.getElementById('newsletter-message');
-    const messageText = messageDiv.querySelector('p');
-
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const formData = new FormData(form);
-        const submitButton = form.querySelector('button[type="submit"]');
-        
-        // Disable submit button
-        submitButton.disabled = true;
-        submitButton.textContent = 'Đang xử lý...';
-        
-        fetch('{{ route("newsletter.subscribe") }}', {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            messageDiv.classList.remove('hidden');
-            
-            if (data.success) {
-                messageText.textContent = data.message;
-                messageText.className = 'text-sm text-green-700 dark:text-green-300 bg-green-100 dark:bg-green-900 px-3 py-2 rounded';
-                form.reset();
-            } else {
-                let errorMessage = data.message || 'Có lỗi xảy ra';
-                if (data.errors) {
-                    errorMessage = Object.values(data.errors).flat().join(', ');
-                }
-                messageText.textContent = errorMessage;
-                messageText.className = 'text-sm text-red-700 dark:text-red-300 bg-red-100 dark:bg-red-900 px-3 py-2 rounded';
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            messageDiv.classList.remove('hidden');
-            messageText.textContent = 'Có lỗi xảy ra. Vui lòng thử lại sau.';
-            messageText.className = 'text-sm text-red-700 dark:text-red-300 bg-red-100 dark:bg-red-900 px-3 py-2 rounded';
-        })
-        .finally(() => {
-            // Re-enable submit button
-            submitButton.disabled = false;
-            submitButton.textContent = 'Đăng ký';
-        });
-    });
-});
 </script>

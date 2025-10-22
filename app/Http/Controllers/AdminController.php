@@ -62,7 +62,7 @@ class AdminController extends Controller
         $this->authorize('update', $user);
 
         $request->validate([
-            'role' => 'required|in:admin,user,subscriber',
+            'role' => 'required|in:admin,user',
         ]);
 
         $user->update([

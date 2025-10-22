@@ -82,13 +82,6 @@ class User extends Authenticatable
         return $this->role === 'admin';
     }
 
-    /**
-     * Check if user is subscriber.
-     */
-    public function isSubscriber()
-    {
-        return $this->role === 'subscriber';
-    }
 
     /**
      * Check if user has social login.

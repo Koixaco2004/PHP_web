@@ -52,7 +52,7 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
-            'role' => fake()->randomElement(['admin', 'user', 'subscriber']),
+            'role' => fake()->randomElement(['admin', 'user']),
             'google_id' => null,
             'avatar' => null,
             'bio' => $faker->optional(0.5)->randomElement([
@@ -113,16 +113,6 @@ class UserFactory extends Factory
         ]);
     }
 
-    /**
-     * Indicate that the user should be a subscriber.
-     */
-    public function subscriber(): static
-    {
-        return $this->state(fn(array $attributes) => [
-            'role' => 'subscriber',
-            'password' => null, // Subscribers may not have passwords
-        ]);
-    }
 
     /**
      * Indicate that the user has Google login.

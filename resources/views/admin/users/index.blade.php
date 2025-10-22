@@ -105,7 +105,6 @@
                                     data-current-role="{{ $user->role }}">
                                 <option value="admin" {{ $user->role === 'admin' ? 'selected' : '' }}>Admin</option>
                                 <option value="user" {{ $user->role === 'user' ? 'selected' : '' }}>User</option>
-                                <option value="subscriber" {{ $user->role === 'subscriber' ? 'selected' : '' }}>Subscriber</option>
                             </select>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary-500 dark:text-gray-300">
