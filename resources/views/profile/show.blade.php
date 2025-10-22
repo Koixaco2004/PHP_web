@@ -106,9 +106,9 @@
 
         <!-- Stats Cards -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
                 <div class="flex items-center">
-                    <div class="p-3 bg-green-100 rounded-full">
+                    <div class="p-3 bg-green-100 dark:bg-green-900 rounded-full">
                         <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
@@ -120,7 +120,7 @@
                 </div>
             </div>
             
-            <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
                 <div class="flex items-center">
                     <div class="p-3 bg-green-100 rounded-full">
                         <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
@@ -134,9 +134,9 @@
                 </div>
             </div>
             
-            <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
                 <div class="flex items-center">
-                    <div class="p-3 bg-purple-100 rounded-full">
+                    <div class="p-3 bg-purple-100 dark:bg-purple-900 rounded-full">
                         <svg class="w-6 h-6 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"></path>
                         </svg>
@@ -153,7 +153,7 @@
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
             <div class="border-b border-gray-200 dark:border-gray-700">
                 <nav class="-mb-px flex space-x-8 px-6" aria-label="Tabs">
-                    <div class="border-blue-500 text-blue-600 dark:text-blue-400 dark:border-blue-400 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                    <div class="border-green-500 text-green-600 dark:text-green-400 dark:border-green-400 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
                         Bài viết gần đây
                     </div>
                 </nav>
@@ -167,7 +167,7 @@
                             <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-150">
                                 <div class="flex justify-between items-start">
                                     <div class="flex-1">
-                                        <h3 class="text-lg font-medium text-gray-900 mb-2">
+                                        <h3 class="text-lg font-medium text-gray-900 dark:text-green-400 mb-2">
                                             {{ $post->title }}
                                         </h3>
                                         <p class="text-gray-600 dark:text-gray-300 mb-3">{{ Str::limit($post->content, 150) }}</p>
@@ -219,13 +219,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Remove active class from all tabs
                 tabLinks.forEach(tab => {
-                    tab.classList.remove('border-blue-500', 'text-blue-600', 'dark:text-blue-400', 'dark:border-blue-400');
+                    tab.classList.remove('border-green-500', 'text-green-600', 'dark:text-green-400', 'dark:border-green-400');
                     tab.classList.add('border-transparent', 'text-gray-500', 'dark:text-gray-400');
                 });
-                
+
                 // Add active class to clicked tab
                 this.classList.remove('border-transparent', 'text-gray-500', 'dark:text-gray-400');
-                this.classList.add('border-blue-500', 'text-blue-600', 'dark:text-blue-400', 'dark:border-blue-400');
+                this.classList.add('border-green-500', 'text-green-600', 'dark:text-green-400', 'dark:border-green-400');
             }
         });
     });

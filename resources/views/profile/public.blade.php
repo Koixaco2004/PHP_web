@@ -174,7 +174,7 @@
                             <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-150">
                                 <div class="flex justify-between items-start">
                                     <div class="flex-1">
-                                        <h3 class="text-lg font-medium text-gray-900 mb-2">
+                                        <h3 class="text-lg font-medium text-gray-900 dark:text-green-400 mb-2">
                                             <a href="{{ route('posts.show', $post) }}" class="hover:text-green-600 dark:hover:text-green-400">
                                                 {{ $post->title }}
                                             </a>
