@@ -111,16 +111,16 @@
         </div>
         
         <!-- Table Content -->
-        <div class="overflow-x-auto">
-            <table class="w-full">
+        <div class="min-w-fit">
+            <table class="w-full min-w-[800px]">
                 <thead class="bg-secondary-50 dark:bg-gray-700">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider">Chuyên mục</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider">Mô tả</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider">Bài viết</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider">Trạng thái</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider">Ngày tạo</th>
-                        <th class="px-6 py-3 text-right text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider">Thao tác</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider w-64">Chuyên mục</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider w-80">Mô tả</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider w-24">Bài viết</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider w-28">Trạng thái</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider w-24">Ngày tạo</th>
+                        <th class="px-6 py-3 text-right text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider w-32">Thao tác</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white dark:bg-gray-800 divide-y divide-secondary-200 dark:divide-gray-700" id="categoriesTable">
@@ -139,39 +139,39 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="px-6 py-4">
-                                <div class="text-sm text-secondary-900 dark:text-gray-300 max-w-xs truncate category-description">
+                            <td class="px-6 py-4 w-80">
+                                <div class="text-sm text-secondary-900 dark:text-gray-300 category-description">
                                     {{ $category->description ?: 'Không có mô tả' }}
                                 </div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $category->posts_count > 0 ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' : 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200' }}">
-                                        {{ $category->posts_count }} bài viết
-                                    </span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            <td class="px-6 py-4 whitespace-nowrap w-24">
+                               <div class="flex items-center">
+                                   <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $category->posts_count > 0 ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' : 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200' }}">
+                                       {{ $category->posts_count }} BV
+                                   </span>
+                               </div>
+                           </td>
+                            <td class="px-6 py-4 whitespace-nowrap w-28">
                                 @if($category->is_active)
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">
                                         <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                                         </svg>
-                                        Hoạt động
+                                        HD
                                     </span>
                                 @else
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200">
                                         <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
                                         </svg>
-                                        Không hoạt động
+                                        KHD
                                     </span>
                                 @endif
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary-500 dark:text-gray-300">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary-500 dark:text-gray-300 w-24">
                                 {{ $category->created_at->format('d/m/Y') }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium w-32">
                                 <div class="flex items-center justify-end space-x-2">
                                     <a href="{{ route('categories.show', $category) }}" 
                                        class="text-secondary-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400-dark transition-colors duration-200"
