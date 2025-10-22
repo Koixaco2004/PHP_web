@@ -109,7 +109,7 @@
                         @endif
                         <div class="md:col-span-2 p-6">
                             <div class="flex items-center justify-between mb-3">
-                                <span class="text-xs font-medium text-primary-600 dark:text-primary-400-dark bg-primary-50 dark:bg-primary-900-dark px-2 py-1 rounded">
+                                <span class="text-xs font-medium text-primary-600 dark:text-primary-100-dark bg-primary-50 dark:bg-primary-900-dark px-2 py-1 rounded">
                                     {{ $post->category->name }}
                                 </span>
                                 <span class="text-xs text-primary-500 dark:text-gray-400">{{ $post->created_at->diffForHumans() }}</span>

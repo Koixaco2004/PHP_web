@@ -103,7 +103,7 @@
                         <!-- Article Content -->
                         <div class="flex-1 min-w-0">
                             <div class="flex items-center justify-between mb-2">
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-100-dark">
                                     Bài viết
                                 </span>
                                 <div class="flex items-center text-xs text-secondary-500 dark:text-gray-400 space-x-3">
