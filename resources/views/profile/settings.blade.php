@@ -3,16 +3,16 @@
 @section('title', 'Cài đặt tài khoản')
 
 @section('content')
-<div class="min-h-screen bg-gray-50 py-8">
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Header -->
         <div class="mb-8">
             <div class="flex items-center justify-between">
                 <div>
-                    <h1 class="text-3xl font-bold text-gray-900">Cài đặt tài khoản</h1>
-                    <p class="text-gray-600 mt-1">Quản lý cài đặt bảo mật và tài khoản</p>
+                    <h1 class="text-3xl font-bold text-gray-900 dark:text-primary-100-dark">Cài đặt tài khoản</h1>
+                    <p class="text-gray-600 dark:text-gray-300 mt-1">Quản lý cài đặt bảo mật và tài khoản</p>
                 </div>
-                <a href="{{ route('profile.show') }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                <a href="{{ route('profile.show') }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
                     <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"></path>
                     </svg>
@@ -23,7 +23,7 @@
 
         <!-- Success Message -->
         @if(session('success'))
-            <div class="mb-6 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
+            <div class="mb-6 bg-green-50 dark:bg-green-900 dark:border-green-700 dark:text-green-100 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
                 {{ session('success') }}
             </div>
         @endif
@@ -32,8 +32,8 @@
             <!-- Change Password Section -->
             <div class="bg-white rounded-lg shadow-sm border border-gray-200">
                 <div class="px-6 py-4 border-b border-gray-200">
-                    <h2 class="text-lg font-medium text-gray-900">Đổi mật khẩu</h2>
-                    <p class="text-sm text-gray-600 mt-1">Cập nhật mật khẩu để bảo mật tài khoản</p>
+                    <h2 class="text-lg font-medium text-gray-900 dark:text-primary-100-dark">Đổi mật khẩu</h2>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Cập nhật mật khẩu để bảo mật tài khoản</p>
                 </div>
                 
                 <form action="{{ route('profile.password') }}" method="POST" class="p-6 space-y-6">
@@ -41,11 +41,11 @@
                     @method('PUT')
                     
                     <div>
-                        <label for="current_password" class="block text-sm font-medium text-gray-700 mb-2">
+                        <label for="current_password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             Mật khẩu hiện tại
                         </label>
                         <input type="password" name="current_password" id="current_password" required
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent">
                         @error('current_password')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -53,29 +53,29 @@
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
+                            <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                 Mật khẩu mới
                             </label>
                             <input type="password" name="password" id="password" required
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                   class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent">
                             @error('password')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
                         
                         <div>
-                            <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-2">
+                            <label for="password_confirmation" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                 Xác nhận mật khẩu mới
                             </label>
                             <input type="password" name="password_confirmation" id="password_confirmation" required
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                   class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent">
                         </div>
                     </div>
                     
                     <!-- Password Requirements -->
-                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                        <h4 class="text-sm font-medium text-blue-900 mb-2">Yêu cầu mật khẩu:</h4>
-                        <ul class="text-sm text-blue-800 space-y-1">
+                    <div class="bg-blue-50 dark:bg-blue-900 dark:border-blue-700 border border-blue-200 rounded-lg p-4">
+                        <h4 class="text-sm font-medium text-blue-900 dark:text-blue-100 mb-2">Yêu cầu mật khẩu:</h4>
+                        <ul class="text-sm text-blue-800 dark:text-blue-200 space-y-1">
                             <li class="flex items-center">
                                 <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
@@ -93,7 +93,7 @@
                     
                     <div class="flex justify-end">
                         <button type="submit" 
-                                class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-150">
+                                class="px-6 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-400 transition duration-150">
                             Cập nhật mật khẩu
                         </button>
                     </div>
@@ -103,25 +103,25 @@
             <!-- Account Information -->
             <div class="bg-white rounded-lg shadow-sm border border-gray-200">
                 <div class="px-6 py-4 border-b border-gray-200">
-                    <h2 class="text-lg font-medium text-gray-900">Thông tin tài khoản</h2>
-                    <p class="text-sm text-gray-600 mt-1">Thông tin cơ bản về tài khoản của bạn</p>
+                    <h2 class="text-lg font-medium text-gray-900 dark:text-primary-100-dark">Thông tin tài khoản</h2>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Thông tin cơ bản về tài khoản của bạn</p>
                 </div>
                 
                 <div class="p-6 space-y-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email</label>
                             <div class="flex items-center space-x-3">
-                                <span class="text-gray-900">{{ $user->email }}</span>
+                                <span class="text-gray-900 dark:text-primary-100-dark">{{ $user->email }}</span>
                                 @if($user->email_verified_at)
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">
                                         <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                                         </svg>
                                         Đã xác minh
                                     </span>
                                 @else
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200">
                                         Chưa xác minh
                                     </span>
                                 @endif
@@ -129,8 +129,8 @@
                         </div>
                         
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Vai trò</label>
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ $user->isAdmin() ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800' }}">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Vai trò</label>
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ $user->isAdmin() ? 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200' : 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200' }}">
                                 {{ $user->isAdmin() ? 'Quản trị viên' : 'Người dùng' }}
                             </span>
                         </div>
@@ -138,13 +138,13 @@
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Ngày tham gia</label>
-                            <span class="text-gray-900">{{ $user->created_at->format('d/m/Y') }}</span>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Ngày tham gia</label>
+                            <span class="text-gray-900 dark:text-primary-100-dark">{{ $user->created_at->format('d/m/Y') }}</span>
                         </div>
                         
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Lượt xem hồ sơ</label>
-                            <span class="text-gray-900">{{ number_format($user->profile_views) }} lượt</span>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Lượt xem hồ sơ</label>
+                            <span class="text-gray-900 dark:text-primary-100-dark">{{ number_format($user->profile_views) }} lượt</span>
                         </div>
                     </div>
                 </div>
@@ -154,14 +154,14 @@
             @if($user->google_id)
                 <div class="bg-white rounded-lg shadow-sm border border-gray-200">
                     <div class="px-6 py-4 border-b border-gray-200">
-                        <h2 class="text-lg font-medium text-gray-900">Liên kết Google</h2>
-                        <p class="text-sm text-gray-600 mt-1">Tài khoản của bạn đã được liên kết với Google</p>
+                        <h2 class="text-lg font-medium text-gray-900 dark:text-primary-100-dark">Liên kết Google</h2>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Tài khoản của bạn đã được liên kết với Google</p>
                     </div>
                     
                     <div class="p-6">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center">
-                                <div class="p-3 bg-red-100 rounded-full">
+                                <div class="p-3 bg-red-100 dark:bg-red-900 rounded-full">
                                     <svg class="w-6 h-6 text-red-600" viewBox="0 0 24 24">
                                         <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                                         <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -170,11 +170,11 @@
                                     </svg>
                                 </div>
                                 <div class="ml-4">
-                                    <h3 class="text-sm font-medium text-gray-900">Tài khoản Google</h3>
-                                    <p class="text-sm text-gray-500">Đã liên kết thành công</p>
+                                    <h3 class="text-sm font-medium text-gray-900 dark:text-primary-100-dark">Tài khoản Google</h3>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">Đã liên kết thành công</p>
                                 </div>
                             </div>
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">
                                 Đã kết nối
                             </span>
                         </div>
@@ -183,14 +183,14 @@
             @endif
 
             <!-- Danger Zone -->
-            <div class="bg-white rounded-lg shadow-sm border border-red-200">
-                <div class="px-6 py-4 border-b border-red-200">
-                    <h2 class="text-lg font-medium text-red-900">Vùng nguy hiểm</h2>
-                    <p class="text-sm text-red-600 mt-1">Các hành động không thể hoàn tác</p>
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-red-200 dark:border-red-700">
+                <div class="px-6 py-4 border-b border-red-200 dark:border-red-700">
+                    <h2 class="text-lg font-medium text-red-900 dark:text-red-100">Vùng nguy hiểm</h2>
+                    <p class="text-sm text-red-600 dark:text-red-400 mt-1">Các hành động không thể hoàn tác</p>
                 </div>
                 
                 <div class="p-6">
-                    <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                    <div class="bg-red-50 dark:bg-red-900 dark:border-red-700 border border-red-200 rounded-lg p-4">
                         <div class="flex">
                             <div class="flex-shrink-0">
                                 <svg class="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
@@ -198,14 +198,14 @@
                                 </svg>
                             </div>
                             <div class="ml-3">
-                                <h3 class="text-sm font-medium text-red-800">Xóa tài khoản</h3>
-                                <div class="mt-2 text-sm text-red-700">
+                                <h3 class="text-sm font-medium text-red-800 dark:text-red-200">Xóa tài khoản</h3>
+                                <div class="mt-2 text-sm text-red-700 dark:text-red-300">
                                     <p>Một khi bạn xóa tài khoản, không có cách nào để khôi phục lại. Tất cả dữ liệu của bạn sẽ bị xóa vĩnh viễn.</p>
                                 </div>
                                 <div class="mt-4">
                                     <button type="button" 
                                             onclick="alert('Tính năng này sẽ được phát triển trong phiên bản tương lai.')"
-                                            class="bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-700 transition duration-150">
+                                            class="bg-red-600 dark:bg-red-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-700 dark:hover:bg-red-400 transition duration-150">
                                         Xóa tài khoản
                                     </button>
                                 </div>

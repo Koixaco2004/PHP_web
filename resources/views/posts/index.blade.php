@@ -4,72 +4,72 @@
 
 @section('content')
 <div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-bold text-primary-900">Quản lý bài viết</h1>
+    <h1 class="text-2xl font-bold text-primary-900 dark:text-primary-100-dark">Quản lý bài viết</h1>
     <a href="{{ route('posts.create') }}" class="btn-primary">Thêm bài viết mới</a>
 </div>
 
-<div class="bg-white rounded-lg border border-primary-200 shadow-sm">
+<div class="bg-white dark:bg-gray-800 rounded-lg border border-primary-200 dark:border-gray-700 shadow-sm">
     <div class="p-6">
         @if($posts->count() > 0)
             <div class="overflow-x-auto">
-                <table class="w-full divide-y divide-primary-200">
-                    <thead class="bg-primary-50">
+                <table class="w-full divide-y divide-primary-200 dark:divide-gray-700">
+                    <thead class="bg-primary-50 dark:bg-gray-700">
                         <tr>
-                            <th class="px-3 py-3 text-left text-xs font-medium text-primary-500 uppercase tracking-wider w-16">Ảnh</th>
-                            <th class="px-3 py-3 text-left text-xs font-medium text-primary-500 uppercase tracking-wider">Tiêu đề</th>
-                            <th class="px-3 py-3 text-left text-xs font-medium text-primary-500 uppercase tracking-wider w-24">Chuyên mục</th>
-                            <th class="px-3 py-3 text-left text-xs font-medium text-primary-500 uppercase tracking-wider w-24">Tác giả</th>
-                            <th class="px-3 py-3 text-left text-xs font-medium text-primary-500 uppercase tracking-wider w-24">Trạng thái</th>
-                            <th class="px-3 py-3 text-left text-xs font-medium text-primary-500 uppercase tracking-wider w-16">Lượt xem</th>
-                            <th class="px-3 py-3 text-left text-xs font-medium text-primary-500 uppercase tracking-wider w-20">Ngày tạo</th>
-                            <th class="px-3 py-3 text-left text-xs font-medium text-primary-500 uppercase tracking-wider w-32">Thao tác</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-primary-500 dark:text-primary-400-dark uppercase tracking-wider w-16">Ảnh</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-primary-500 dark:text-primary-400-dark uppercase tracking-wider">Tiêu đề</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-primary-500 dark:text-primary-400-dark uppercase tracking-wider w-24">Chuyên mục</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-primary-500 dark:text-primary-400-dark uppercase tracking-wider w-24">Tác giả</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-primary-500 dark:text-primary-400-dark uppercase tracking-wider w-24">Trạng thái</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-primary-500 dark:text-primary-400-dark uppercase tracking-wider w-16">Lượt xem</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-primary-500 dark:text-primary-400-dark uppercase tracking-wider w-20">Ngày tạo</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-primary-500 dark:text-primary-400-dark uppercase tracking-wider w-32">Thao tác</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-primary-200">
+                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-primary-200 dark:divide-gray-700">
                         @foreach($posts as $post)
-                            <tr class="hover:bg-primary-50">
+                            <tr class="hover:bg-primary-50 dark:hover:bg-gray-700">
                                 <td class="px-3 py-4 whitespace-nowrap">
-                                    <div class="w-12 h-8 rounded overflow-hidden bg-primary-100 flex items-center justify-center">
+                                    <div class="w-12 h-8 rounded overflow-hidden bg-primary-100 dark:bg-gray-700 flex items-center justify-center">
                                         @if($post->main_image)
-                                            <img src="{{ $post->main_image }}" 
-                                                 alt="{{ $post->title }}" 
+                                            <img src="{{ $post->main_image }}"
+                                                 alt="{{ $post->title }}"
                                                  class="w-full h-full object-cover">
                                         @else
-                                            <svg class="w-4 h-4 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <svg class="w-4 h-4 text-primary-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4a2 2 0 012-2z"/>
                                             </svg>
                                         @endif
                                     </div>
                                 </td>
                                 <td class="px-3 py-4">
-                                    <a href="{{ route('posts.show', $post->slug) }}" target="_blank" class="text-primary-600 hover:text-primary-900 font-medium text-sm">
+                                    <a href="{{ route('posts.show', $post->slug) }}" target="_blank" class="text-primary-600 dark:text-primary-400-dark hover:text-primary-900 dark:hover:text-primary-300-dark font-medium text-sm">
                                         {{ Str::limit($post->title, 40) }}
                                     </a>
                                 </td>
-                                <td class="px-3 py-4 whitespace-nowrap text-xs text-primary-700">{{ Str::limit($post->category->name, 15) }}</td>
-                                <td class="px-3 py-4 whitespace-nowrap text-xs text-primary-700">{{ Str::limit($post->user->name, 15) }}</td>
+                                <td class="px-3 py-4 whitespace-nowrap text-xs text-primary-700 dark:text-gray-300">{{ Str::limit($post->category->name, 15) }}</td>
+                                <td class="px-3 py-4 whitespace-nowrap text-xs text-primary-700 dark:text-gray-300">{{ Str::limit($post->user->name, 15) }}</td>
                                 <td class="px-3 py-4 whitespace-nowrap">
                                     @if($post->status === 'published')
-                                        <span class="inline-flex px-1.5 py-0.5 text-xs font-semibold rounded bg-green-100 text-green-800">Xuất bản</span>
+                                        <span class="inline-flex px-1.5 py-0.5 text-xs font-semibold rounded bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">Xuất bản</span>
                                     @else
-                                        <span class="inline-flex px-1.5 py-0.5 text-xs font-semibold rounded bg-yellow-100 text-yellow-800">Nháp</span>
+                                        <span class="inline-flex px-1.5 py-0.5 text-xs font-semibold rounded bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200">Nháp</span>
                                     @endif
                                 </td>
-                                <td class="px-3 py-4 whitespace-nowrap text-xs text-primary-700">{{ $post->view_count }}</td>
-                                <td class="px-3 py-4 whitespace-nowrap text-xs text-primary-700">{{ $post->created_at->format('d/m') }}</td>
+                                <td class="px-3 py-4 whitespace-nowrap text-xs text-primary-700 dark:text-gray-300">{{ $post->view_count }}</td>
+                                <td class="px-3 py-4 whitespace-nowrap text-xs text-primary-700 dark:text-gray-300">{{ $post->created_at->format('d/m') }}</td>
                                 <td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
                                     <div class="flex space-x-1">
-                                        <a href="{{ route('posts.edit', $post) }}" class="inline-flex items-center px-2 py-1 border border-primary-300 text-xs font-medium rounded text-primary-700 bg-white hover:bg-primary-50">
+                                        <a href="{{ route('posts.edit', $post) }}" class="inline-flex items-center px-2 py-1 border border-primary-300 dark:border-gray-600 text-xs font-medium rounded text-primary-700 dark:text-primary-300-dark bg-white dark:bg-gray-700 hover:bg-primary-50 dark:hover:bg-gray-600">
                                             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                                             </svg>
                                         </a>
-                                        <form method="POST" action="{{ route('posts.destroy', $post) }}" 
-                                              onsubmit="return confirm('Bạn có chắc muốn xóa bài viết này?')" 
+                                        <form method="POST" action="{{ route('posts.destroy', $post) }}"
+                                              onsubmit="return confirm('Bạn có chắc muốn xóa bài viết này?')"
                                               class="inline">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="inline-flex items-center px-2 py-1 border border-red-300 text-xs font-medium rounded text-red-700 bg-white hover:bg-red-50">
+                                            <button type="submit" class="inline-flex items-center px-2 py-1 border border-red-300 dark:border-red-600 text-xs font-medium rounded text-red-700 dark:text-red-400 bg-white dark:bg-gray-700 hover:bg-red-50 dark:hover:bg-red-900/20">
                                                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                                 </svg>
@@ -88,7 +88,7 @@
             </div>
         @else
             <div class="text-center py-12">
-                <p class="text-primary-500 mb-4">Chưa có bài viết nào.</p>
+                <p class="text-primary-500 dark:text-gray-400 mb-4">Chưa có bài viết nào.</p>
                 <a href="{{ route('posts.create') }}" class="btn-primary">Tạo bài viết đầu tiên</a>
             </div>
         @endif

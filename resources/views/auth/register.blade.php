@@ -3,37 +3,37 @@
 @section('title', 'Đăng ký')
 
 @section('content')
-<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-accent-50 via-white to-primary-50 py-12 px-4 sm:px-6 lg:px-8">
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-accent-50 via-white to-primary-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-md w-full space-y-8 animate-fade-in">
         <!-- Logo & Header -->
         <div class="text-center">
-            <div class="mx-auto h-20 w-20 bg-gradient-to-br from-accent-600 to-accent-700 rounded-2xl flex items-center justify-center shadow-lg animate-bounce-subtle">
-                <svg class="h-10 w-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="mx-auto h-20 w-20 bg-gradient-to-br from-accent-600 to-accent-700 dark:from-accent-100-dark dark:to-accent-200-dark rounded-2xl flex items-center justify-center shadow-lg animate-bounce-subtle">
+                <svg class="h-10 w-10 text-white dark:text-accent-900-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
                 </svg>
             </div>
-            <h2 class="mt-6 text-3xl font-heading font-bold text-secondary-900">Tạo tài khoản mới</h2>
-            <p class="mt-2 text-sm text-secondary-600">Tham gia cộng đồng và khám phá nội dung tuyệt vời</p>
+            <h2 class="mt-6 text-3xl font-heading font-bold text-secondary-900 dark:text-primary-100-dark">Tạo tài khoản mới</h2>
+            <p class="mt-2 text-sm text-secondary-600 dark:text-gray-300">Tham gia cộng đồng và khám phá nội dung tuyệt vời</p>
         </div>
 
         <!-- Register Form -->
-        <div class="bg-white rounded-2xl shadow-xl border border-secondary-100 p-8 animate-slide-up" style="animation-delay: 0.1s">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-secondary-100 dark:border-gray-700 p-8 animate-slide-up" style="animation-delay: 0.1s">
             <form method="POST" action="{{ route('register') }}" class="space-y-6" id="registerForm">
                 @csrf
                 
                 <!-- Name Field -->
                 <div>
-                    <label for="name" class="block text-sm font-medium text-secondary-700 mb-2">
+                    <label for="name" class="block text-sm font-medium text-secondary-700 dark:text-gray-300 mb-2">
                         Họ và tên
                     </label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <svg class="h-5 w-5 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="h-5 w-5 text-secondary-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                             </svg>
                         </div>
                         <input type="text" 
-                               class="block w-full pl-10 pr-3 py-3 border rounded-lg transition-colors duration-200 @error('name') border-red-500 focus:ring-red-500 focus:border-red-500 bg-red-50 @else border-secondary-300 focus:ring-2 focus:ring-accent-500 focus:border-accent-500 @enderror" 
+                               class="block w-full pl-10 pr-3 py-3 border rounded-lg transition-colors duration-200 @error('name') border-red-500 focus:ring-red-500 focus:border-red-500 bg-red-50 dark:bg-red-900/20 @else border-secondary-300 dark:border-gray-600 focus:ring-2 focus:ring-accent-500 focus:border-accent-500 dark:focus:ring-accent-400-dark dark:focus:border-accent-400-dark bg-white dark:bg-gray-700 dark:text-primary-100-dark dark:placeholder-gray-400 @enderror" 
                                id="name" 
                                name="name" 
                                value="{{ old('name') }}" 
@@ -41,7 +41,7 @@
                                required>
                     </div>
                     @error('name')
-                        <p class="mt-2 text-sm text-red-600 flex items-center">
+                        <p class="mt-2 text-sm text-red-600 dark:text-red-400 flex items-center">
                             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
@@ -52,17 +52,17 @@
 
                 <!-- Email Field -->
                 <div>
-                    <label for="email" class="block text-sm font-medium text-secondary-700 mb-2">
+                    <label for="email" class="block text-sm font-medium text-secondary-700 dark:text-gray-300 mb-2">
                         Địa chỉ email
                     </label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <svg class="h-5 w-5 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="h-5 w-5 text-secondary-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"/>
                             </svg>
                         </div>
                         <input type="email" 
-                               class="block w-full pl-10 pr-3 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 transition-colors duration-200 @error('email') border-red-500 focus:ring-red-500 focus:border-red-500 bg-red-50 @enderror" 
+                               class="block w-full pl-10 pr-3 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 dark:focus:ring-accent-400-dark dark:focus:border-accent-400-dark bg-white dark:bg-gray-700 dark:text-primary-100-dark dark:placeholder-gray-400 transition-colors duration-200 @error('email') border-red-500 focus:ring-red-500 focus:border-red-500 bg-red-50 dark:bg-red-900/20 @enderror" 
                                id="email" 
                                name="email" 
                                value="{{ old('email') }}" 
@@ -70,7 +70,7 @@
                                required>
                     </div>
                     @error('email')
-                        <p class="mt-2 text-sm text-red-600 flex items-center">
+                        <p class="mt-2 text-sm text-red-600 dark:text-red-400 flex items-center">
                             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
@@ -81,23 +81,23 @@
 
                 <!-- Password Field -->
                 <div>
-                    <label for="password" class="block text-sm font-medium text-secondary-700 mb-2">
+                    <label for="password" class="block text-sm font-medium text-secondary-700 dark:text-gray-300 mb-2">
                         Mật khẩu
                     </label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <svg class="h-5 w-5 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="h-5 w-5 text-secondary-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                             </svg>
                         </div>
                         <input type="password" 
-                               class="block w-full pl-10 pr-12 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 transition-colors duration-200 @error('password') border-red-500 focus:ring-red-500 focus:border-red-500 bg-red-50 @enderror" 
+                               class="block w-full pl-10 pr-12 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 dark:focus:ring-accent-400-dark dark:focus:border-accent-400-dark bg-white dark:bg-gray-700 dark:text-primary-100-dark dark:placeholder-gray-400 transition-colors duration-200 @error('password') border-red-500 focus:ring-red-500 focus:border-red-500 bg-red-50 dark:bg-red-900/20 @enderror" 
                                id="password" 
                                name="password" 
                                placeholder="Tạo mật khẩu mạnh"
                                required>
                         <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
-                            <button type="button" class="text-secondary-400 hover:text-secondary-600 transition-colors duration-200" onclick="togglePassword('password')">
+                            <button type="button" class="text-secondary-400 dark:text-gray-500 hover:text-secondary-600 dark:hover:text-gray-300 transition-colors duration-200" onclick="togglePassword('password')">
                                 <svg class="h-5 w-5" id="password-eye" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
@@ -106,7 +106,7 @@
                         </div>
                     </div>
                     @error('password')
-                        <p class="mt-2 text-sm text-red-600 flex items-center">
+                        <p class="mt-2 text-sm text-red-600 dark:text-red-400 flex items-center">
                             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
@@ -117,34 +117,34 @@
                     <!-- Password Strength Indicator -->
                     <div class="mt-2" id="password-strength">
                         <div class="flex space-x-1">
-                            <div class="h-1 w-1/4 bg-secondary-200 rounded-full" id="strength-1"></div>
-                            <div class="h-1 w-1/4 bg-secondary-200 rounded-full" id="strength-2"></div>
-                            <div class="h-1 w-1/4 bg-secondary-200 rounded-full" id="strength-3"></div>
-                            <div class="h-1 w-1/4 bg-secondary-200 rounded-full" id="strength-4"></div>
+                            <div class="h-1 w-1/4 bg-secondary-200 dark:bg-gray-600 rounded-full" id="strength-1"></div>
+                            <div class="h-1 w-1/4 bg-secondary-200 dark:bg-gray-600 rounded-full" id="strength-2"></div>
+                            <div class="h-1 w-1/4 bg-secondary-200 dark:bg-gray-600 rounded-full" id="strength-3"></div>
+                            <div class="h-1 w-1/4 bg-secondary-200 dark:bg-gray-600 rounded-full" id="strength-4"></div>
                         </div>
-                        <p class="text-xs text-secondary-500 mt-1" id="strength-text">Nhập mật khẩu để kiểm tra độ mạnh</p>
+                        <p class="text-xs text-secondary-500 dark:text-gray-400 mt-1" id="strength-text">Nhập mật khẩu để kiểm tra độ mạnh</p>
                     </div>
                 </div>
 
                 <!-- Confirm Password Field -->
                 <div>
-                    <label for="password_confirmation" class="block text-sm font-medium text-secondary-700 mb-2">
+                    <label for="password_confirmation" class="block text-sm font-medium text-secondary-700 dark:text-gray-300 mb-2">
                         Xác nhận mật khẩu
                     </label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <svg class="h-5 w-5 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="h-5 w-5 text-secondary-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
                         </div>
                         <input type="password" 
-                               class="block w-full pl-10 pr-12 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 transition-colors duration-200" 
+                               class="block w-full pl-10 pr-12 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 dark:focus:ring-accent-400-dark dark:focus:border-accent-400-dark bg-white dark:bg-gray-700 dark:text-primary-100-dark dark:placeholder-gray-400 transition-colors duration-200" 
                                id="password_confirmation" 
                                name="password_confirmation" 
                                placeholder="Nhập lại mật khẩu"
                                required>
                         <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
-                            <button type="button" class="text-secondary-400 hover:text-secondary-600 transition-colors duration-200" onclick="togglePassword('password_confirmation')">
+                            <button type="button" class="text-secondary-400 dark:text-gray-500 hover:text-secondary-600 dark:hover:text-gray-300 transition-colors duration-200" onclick="togglePassword('password_confirmation')">
                                 <svg class="h-5 w-5" id="password_confirmation-eye" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
@@ -153,7 +153,7 @@
                         </div>
                     </div>
                     <div class="mt-2" id="password-match">
-                        <p class="text-xs text-secondary-500" id="match-text">Mật khẩu xác nhận sẽ được kiểm tra</p>
+                        <p class="text-xs text-secondary-500 dark:text-gray-400" id="match-text">Mật khẩu xác nhận sẽ được kiểm tra</p>
                     </div>
                 </div>
 
@@ -161,17 +161,17 @@
                 <div class="flex items-start">
                     <div class="flex items-center h-5">
                         <input type="checkbox" 
-                               class="h-4 w-4 text-accent-600 focus:ring-accent-500 border-secondary-300 rounded transition-colors duration-200" 
+                               class="h-4 w-4 text-accent-600 dark:text-accent-400-dark focus:ring-accent-500 dark:focus:ring-accent-400-dark border-secondary-300 dark:border-gray-600 rounded transition-colors duration-200" 
                                id="terms" 
                                name="terms" 
                                required>
                     </div>
                     <div class="ml-3 text-sm">
-                        <label for="terms" class="text-secondary-700 cursor-pointer">
+                        <label for="terms" class="text-secondary-700 dark:text-gray-300 cursor-pointer">
                             Tôi đồng ý với 
-                            <a href="#" class="text-accent-600 hover:text-accent-700 font-medium">Điều khoản sử dụng</a> 
+                            <a href="#" class="text-accent-600 dark:text-accent-400-dark hover:text-accent-700 dark:hover:text-accent-300-dark font-medium">Điều khoản sử dụng</a> 
                             và 
-                            <a href="#" class="text-accent-600 hover:text-accent-700 font-medium">Chính sách bảo mật</a>
+                            <a href="#" class="text-accent-600 dark:text-accent-400-dark hover:text-accent-700 dark:hover:text-accent-300-dark font-medium">Chính sách bảo mật</a>
                         </label>
                     </div>
                 </div>
@@ -179,10 +179,10 @@
                 <!-- Submit Button -->
                 <div>
                     <button type="submit" 
-                            class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-accent-600 to-accent-700 hover:from-accent-700 hover:to-accent-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                            class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-accent-600 to-accent-700 dark:from-accent-100-dark dark:to-accent-200-dark hover:from-accent-700 hover:to-accent-800 dark:hover:from-accent-200-dark dark:hover:to-accent-300-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500 dark:focus:ring-accent-400-dark transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                             id="submit-btn">
                         <span class="absolute left-0 inset-y-0 flex items-center pl-3">
-                            <svg class="h-5 w-5 text-accent-200 group-hover:text-accent-100 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="h-5 w-5 text-accent-200 dark:text-accent-700-dark group-hover:text-accent-100 dark:group-hover:text-accent-600-dark transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
                             </svg>
                         </span>
@@ -193,18 +193,18 @@
         </div>
 
         <!-- Social Register -->
-        <div class="bg-white rounded-2xl shadow-xl border border-secondary-100 p-6 animate-slide-up" style="animation-delay: 0.2s">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-secondary-100 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.2s">
             <div class="relative">
                 <div class="absolute inset-0 flex items-center">
-                    <div class="w-full border-t border-secondary-300"></div>
+                    <div class="w-full border-t border-secondary-300 dark:border-gray-600"></div>
                 </div>
                 <div class="relative flex justify-center text-sm">
-                    <span class="px-2 bg-white text-secondary-500">Hoặc đăng ký với</span>
+                    <span class="px-2 bg-white dark:bg-gray-800 text-secondary-500 dark:text-gray-400">Hoặc đăng ký với</span>
                 </div>
             </div>
 
             <div class="mt-6">
-                <a href="{{ route('google.redirect') }}" class="w-full inline-flex justify-center py-3 px-4 border border-secondary-300 rounded-lg shadow-sm bg-white text-sm font-medium text-secondary-700 hover:bg-secondary-50 transition-colors duration-200">
+                <a href="{{ route('google.redirect') }}" class="w-full inline-flex justify-center py-3 px-4 border border-secondary-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-700 text-sm font-medium text-secondary-700 dark:text-gray-300 hover:bg-secondary-50 dark:hover:bg-gray-600 transition-colors duration-200">
                     <svg class="h-5 w-5" viewBox="0 0 24 24">
                         <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                         <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -218,17 +218,17 @@
 
         <!-- Login Link -->
         <div class="text-center animate-slide-up" style="animation-delay: 0.3s">
-            <p class="text-sm text-secondary-600">
+            <p class="text-sm text-secondary-600 dark:text-gray-300">
                 Đã có tài khoản? 
-                <a href="{{ route('login') }}" class="text-accent-600 hover:text-accent-700 font-medium transition-colors duration-200">
+                <a href="{{ route('login') }}" class="text-accent-600 dark:text-accent-400-dark hover:text-accent-700 dark:hover:text-accent-300-dark font-medium transition-colors duration-200">
                     Đăng nhập ngay
                 </a>
             </p>
         </div>
 
         <!-- Footer -->
-        <div class="text-center text-xs text-secondary-500 animate-slide-up" style="animation-delay: 0.4s">
-            <p>© 2025 News Portal. Cam kết bảo vệ thông tin cá nhân của bạn.</p>
+        <div class="text-center text-xs text-secondary-500 dark:text-gray-400 animate-slide-up" style="animation-delay: 0.4s">
+            <p> 2025 News Portal. Cam kết bảo vệ thông tin cá nhân của bạn.</p>
         </div>
     </div>
 </div>
@@ -261,17 +261,32 @@ function checkPasswordStrength(password) {
     
     const indicators = ['strength-1', 'strength-2', 'strength-3', 'strength-4'];
     const colors = ['bg-red-500', 'bg-yellow-500', 'bg-blue-500', 'bg-green-500'];
+    const darkColors = ['dark:bg-red-400', 'dark:bg-yellow-400', 'dark:bg-blue-400', 'dark:bg-green-400'];
     const texts = ['Rất yếu', 'Yếu', 'Trung bình', 'Mạnh', 'Rất mạnh'];
     
     indicators.forEach((id, index) => {
         const element = document.getElementById(id);
-        element.className = element.className.replace(/bg-\w+-\d+/g, '');
+        element.className = element.className.replace(/bg-\w+-\d+/g, '').replace(/dark:bg-\w+-\d+/g, '');
         if (index < strength) {
-            element.classList.add(colors[Math.min(strength - 1, colors.length - 1)]);
+            element.classList.add(colors[Math.min(strength - 1, colors.length - 1]]);
+            if (document.documentElement.classList.contains('dark')) {
+                element.classList.add(darkColors[Math.min(strength - 1, darkColors.length - 1]]);
+            }
         } else {
             element.classList.add('bg-secondary-200');
+            if (document.documentElement.classList.contains('dark')) {
+                element.classList.add('dark:bg-gray-600');
+            }
         }
     });
+    
+    const strengthText = document.getElementById('strength-text');
+    strengthText.className = strengthText.className.replace(/text-\w+-\d+/g, '');
+    if (strength > 0) {
+        strengthText.classList.add(strength >= 4 ? 'text-green-600 dark:text-green-400' : strength >= 3 ? 'text-blue-600 dark:text-blue-400' : strength >= 2 ? 'text-yellow-600 dark:text-yellow-400' : 'text-red-600 dark:text-red-400');
+    } else {
+        strengthText.classList.add('text-secondary-500 dark:text-gray-400');
+    }
     
     document.getElementById('strength-text').textContent = strength > 0 ? texts[strength - 1] : 'Nhập mật khẩu để kiểm tra độ mạnh';
     return strength;
@@ -284,13 +299,13 @@ function checkPasswordMatch() {
     
     if (confirmation.length === 0) {
         matchElement.textContent = 'Mật khẩu xác nhận sẽ được kiểm tra';
-        matchElement.className = 'text-xs text-secondary-500';
+        matchElement.className = 'text-xs text-secondary-500 dark:text-gray-400';
     } else if (password === confirmation) {
         matchElement.textContent = '✓ Mật khẩu khớp';
-        matchElement.className = 'text-xs text-green-600';
+        matchElement.className = 'text-xs text-green-600 dark:text-green-400';
     } else {
         matchElement.textContent = '✗ Mật khẩu không khớp';
-        matchElement.className = 'text-xs text-red-600';
+        matchElement.className = 'text-xs text-red-600 dark:text-red-400';
     }
 }
 
@@ -328,6 +343,34 @@ document.addEventListener('DOMContentLoaded', function() {
             submitButton.classList.add('opacity-50', 'cursor-not-allowed');
         }
     }
+    
+    // Dark mode support for form validation
+    const form = document.querySelector('form');
+    const inputs = form.querySelectorAll('input[required]');
+    
+    inputs.forEach(input => {
+        input.addEventListener('blur', function() {
+            if (!this.value.trim()) {
+                this.classList.add('border-red-500', 'focus:ring-red-500', 'focus:border-red-500');
+                this.classList.remove('border-green-500', 'focus:ring-green-500', 'focus:border-green-500');
+            } else {
+                this.classList.remove('border-red-500', 'focus:ring-red-500', 'focus:border-red-500');
+                this.classList.add('border-green-500', 'focus:ring-green-500', 'focus:border-green-500');
+            }
+        });
+
+        input.addEventListener('focus', function() {
+            if (document.documentElement.classList.contains('dark')) {
+                if (!this.value.trim()) {
+                    this.classList.add('dark:border-red-400', 'dark:focus:ring-red-400', 'dark:focus:border-red-400');
+                    this.classList.remove('dark:border-green-400', 'dark:focus:ring-green-400', 'dark:focus:border-green-400');
+                } else {
+                    this.classList.remove('dark:border-red-400', 'dark:focus:ring-red-400', 'dark:focus:border-red-400');
+                    this.classList.add('dark:border-green-400', 'dark:focus:ring-green-400', 'dark:focus:border-green-400');
+                }
+            }
+        });
+    });
     
     // Initial state
     updateSubmitButton();

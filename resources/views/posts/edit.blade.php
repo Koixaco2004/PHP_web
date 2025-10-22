@@ -4,20 +4,20 @@
 
 @section('content')
 <!-- Breadcrumb -->
-<nav class="flex items-center space-x-2 text-sm text-secondary-500 mb-6 animate-fade-in">
-    <a href="{{ route('home') }}" class="hover:text-primary-600 transition-colors duration-200">Trang chủ</a>
+<nav class="flex items-center space-x-2 text-sm text-secondary-500 dark:text-gray-400 mb-6 animate-fade-in">
+    <a href="{{ route('home') }}" class="hover:text-primary-600 dark:hover:text-primary-400-dark transition-colors duration-200">Trang chủ</a>
     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
     </svg>
-    <a href="{{ route('posts.index') }}" class="hover:text-primary-600 transition-colors duration-200">Quản lý bài viết</a>
+    <a href="{{ route('posts.index') }}" class="hover:text-primary-600 dark:hover:text-primary-400-dark transition-colors duration-200">Quản lý bài viết</a>
     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
     </svg>
-    <span class="text-secondary-700 font-medium">Chỉnh sửa: {{ Str::limit($post->title, 30) }}</span>
+    <span class="text-secondary-700 dark:text-gray-300 font-medium">Chỉnh sửa: {{ Str::limit($post->title, 30) }}</span>
 </nav>
 
 <!-- Page Header -->
-<div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6 mb-8 animate-slide-up">
+<div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 mb-8 animate-slide-up">
     <div class="flex items-center justify-between">
         <div class="flex items-center">
             <div class="w-12 h-12 bg-gradient-to-br from-accent-500 to-accent-600 rounded-xl flex items-center justify-center mr-4">
@@ -26,12 +26,12 @@
                 </svg>
             </div>
             <div>
-                <h1 class="text-3xl font-heading font-bold text-secondary-900">Chỉnh sửa bài viết</h1>
-                <p class="text-secondary-600 mt-1">Cập nhật nội dung cho "{{ $post->title }}"</p>
+                <h1 class="text-3xl font-heading font-bold text-secondary-900 dark:text-primary-100-dark">Chỉnh sửa bài viết</h1>
+                <p class="text-secondary-600 dark:text-gray-300 mt-1">Cập nhật nội dung cho "{{ $post->title }}"</p>
             </div>
         </div>
         <div class="hidden md:flex items-center space-x-2 text-sm">
-            <span class="px-3 py-1 bg-{{ $post->status === 'published' ? 'green' : 'yellow' }}-100 text-{{ $post->status === 'published' ? 'green' : 'yellow' }}-800 rounded-full font-medium">
+            <span class="px-3 py-1 bg-{{ $post->status === 'published' ? 'green' : 'yellow' }}-100 dark:bg-{{ $post->status === 'published' ? 'green' : 'yellow' }}-900 text-{{ $post->status === 'published' ? 'green' : 'yellow' }}-800 dark:text-{{ $post->status === 'published' ? 'green' : 'yellow' }}-200 rounded-full font-medium">
                 {{ $post->status === 'published' ? '🚀 Đã xuất bản' : '📝 Bản nháp' }}
             </span>
         </div>
@@ -49,21 +49,21 @@
                 <input type="hidden" name="deleted_images" id="deletedImages" value="[]">
                 
                 <!-- Post Title -->
-                <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6 animate-slide-up" style="animation-delay: 0.1s">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.1s">
                     <div class="flex items-center mb-4">
-                        <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
                         </svg>
-                        <h3 class="text-lg font-semibold text-secondary-900">Tiêu đề bài viết</h3>
+                        <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-100-dark">Tiêu đề bài viết</h3>
                     </div>
                     
                     <div>
-                        <label for="title" class="block text-sm font-medium text-secondary-700 mb-2">
+                        <label for="title" class="block text-sm font-medium text-secondary-700 dark:text-gray-300 mb-2">
                             Tiêu đề <span class="text-red-500">*</span>
                         </label>
                         <div class="relative">
                             <input type="text" 
-                                   class="block w-full px-4 py-4 text-lg border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 @error('title') border-red-500 focus:ring-red-500 focus:border-red-500 @enderror" 
+                                   class="block w-full px-4 py-4 text-lg border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 bg-white dark:bg-gray-700 dark:text-primary-100-dark dark:placeholder-gray-400 @error('title') border-red-500 focus:ring-red-500 focus:border-red-500 dark:bg-red-900/20 @enderror" 
                                    id="title" 
                                    name="title" 
                                    value="{{ old('title', $post->title) }}" 
@@ -71,34 +71,34 @@
                                    required>
                         </div>
                         @error('title')
-                            <p class="mt-1 text-sm text-red-600 flex items-center">
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-400 flex items-center">
                                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
                                 {{ $message }}
                             </p>
                         @enderror
-                        <p class="mt-1 text-xs text-secondary-500">Tiêu đề sẽ hiển thị trong danh sách bài viết và kết quả tìm kiếm</p>
+                        <p class="mt-1 text-xs text-secondary-500 dark:text-gray-400">Tiêu đề sẽ hiển thị trong danh sách bài viết và kết quả tìm kiếm</p>
                     </div>
                 </div>
 
                 <!-- Category & Status -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Category Selection -->
-                    <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6 animate-slide-up" style="animation-delay: 0.2s">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.2s">
                         <div class="flex items-center mb-4">
-                            <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
                             </svg>
-                            <h3 class="text-lg font-semibold text-secondary-900">Chuyên mục</h3>
+                            <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-100-dark">Chuyên mục</h3>
                         </div>
                         
                         <div>
-                            <label for="category_id" class="block text-sm font-medium text-secondary-700 mb-2">
+                            <label for="category_id" class="block text-sm font-medium text-secondary-700 dark:text-gray-300 mb-2">
                                 Chọn chuyên mục <span class="text-red-500">*</span>
                             </label>
                             <div class="relative">
-                                <select class="block w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 @error('category_id') border-red-500 focus:ring-red-500 focus:border-red-500 @enderror appearance-none bg-white" 
+                                <select class="block w-full px-4 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 bg-white dark:bg-gray-700 dark:text-primary-100-dark @error('category_id') border-red-500 focus:ring-red-500 focus:border-red-500 @enderror appearance-none" 
                                         id="category_id" name="category_id" required>
                                     <option value="">Chọn chuyên mục</option>
                                     @foreach($categories as $category)
@@ -108,13 +108,13 @@
                                     @endforeach
                                 </select>
                                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                    <svg class="w-5 h-5 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-5 h-5 text-secondary-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                                     </svg>
                                 </div>
                             </div>
                             @error('category_id')
-                                <p class="mt-1 text-sm text-red-600 flex items-center">
+                                <p class="mt-1 text-sm text-red-600 dark:text-red-400 flex items-center">
                                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                     </svg>
@@ -125,32 +125,32 @@
                     </div>
 
                     <!-- Status -->
-                    <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6 animate-slide-up" style="animation-delay: 0.3s">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.3s">
                         <div class="flex items-center mb-4">
-                            <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
-                            <h3 class="text-lg font-semibold text-secondary-900">Trạng thái</h3>
+                            <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-100-dark">Trạng thái</h3>
                         </div>
                         
                         <div>
-                            <label for="status" class="block text-sm font-medium text-secondary-700 mb-2">
+                            <label for="status" class="block text-sm font-medium text-secondary-700 dark:text-gray-300 mb-2">
                                 Trạng thái xuất bản <span class="text-red-500">*</span>
                             </label>
                             <div class="relative">
-                                <select class="block w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 @error('status') border-red-500 focus:ring-red-500 focus:border-red-500 @enderror appearance-none bg-white" 
+                                <select class="block w-full px-4 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 bg-white dark:bg-gray-700 dark:text-primary-100-dark @error('status') border-red-500 focus:ring-red-500 focus:border-red-500 @enderror appearance-none" 
                                         id="status" name="status" required>
                                     <option value="draft" {{ old('status', $post->status) == 'draft' ? 'selected' : '' }}>📝 Bản nháp</option>
                                     <option value="published" {{ old('status', $post->status) == 'published' ? 'selected' : '' }}>🚀 Xuất bản</option>
                                 </select>
                                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                    <svg class="w-5 h-5 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-5 h-5 text-secondary-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                                     </svg>
                                 </div>
                             </div>
                             @error('status')
-                                <p class="mt-1 text-sm text-red-600 flex items-center">
+                                <p class="mt-1 text-sm text-red-600 dark:text-red-400 flex items-center">
                                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                     </svg>
@@ -162,50 +162,50 @@
                 </div>
 
                 <!-- Excerpt -->
-                <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6 animate-slide-up" style="animation-delay: 0.4s">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.4s">
                     <div class="flex items-center mb-4">
-                        <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"/>
                         </svg>
-                        <h3 class="text-lg font-semibold text-secondary-900">Tóm tắt bài viết</h3>
+                        <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-100-dark">Tóm tắt bài viết</h3>
                     </div>
                     
                     <div>
-                        <label for="excerpt" class="block text-sm font-medium text-secondary-700 mb-2">
+                        <label for="excerpt" class="block text-sm font-medium text-secondary-700 dark:text-gray-300 mb-2">
                             Tóm tắt ngắn gọn
                         </label>
                         <div class="relative">
-                            <textarea class="block w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 resize-none @error('excerpt') border-red-500 focus:ring-red-500 focus:border-red-500 @enderror" 
+                            <textarea class="block w-full px-4 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 resize-none bg-white dark:bg-gray-700 dark:text-primary-100-dark dark:placeholder-gray-400 @error('excerpt') border-red-500 focus:ring-red-500 focus:border-red-500 dark:bg-red-900/20 @enderror" 
                                       id="excerpt" 
                                       name="excerpt" 
                                       rows="4" 
                                       placeholder="Viết tóm tắt ngắn gọn để thu hút người đọc...">{{ old('excerpt', $post->excerpt) }}</textarea>
                         </div>
                         @error('excerpt')
-                            <p class="mt-1 text-sm text-red-600 flex items-center">
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-400 flex items-center">
                                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
                                 {{ $message }}
                             </p>
                         @enderror
-                        <p class="mt-1 text-xs text-secondary-500">Tóm tắt sẽ hiển thị trong danh sách bài viết và mạng xã hội</p>
+                        <p class="mt-1 text-xs text-secondary-500 dark:text-gray-400">Tóm tắt sẽ hiển thị trong danh sách bài viết và mạng xã hội</p>
                     </div>
                 </div>
 
                 <!-- Image Management -->
-                <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6 animate-slide-up" style="animation-delay: 0.45s">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.45s">
                     <div class="flex items-center mb-4">
-                        <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4a2 2 0 012-2z"/>
                         </svg>
-                        <h3 class="text-lg font-semibold text-secondary-900">Hình ảnh bài viết</h3>
+                        <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-100-dark">Hình ảnh bài viết</h3>
                     </div>
 
                     <!-- Current Images -->
                     @if($post->images && $post->images->count() > 0)
                         <div class="mb-6">
-                            <h4 class="text-sm font-medium text-secondary-700 mb-3">Hình ảnh hiện tại</h4>
+                            <h4 class="text-sm font-medium text-secondary-700 dark:text-gray-300 mb-3">Hình ảnh hiện tại</h4>
                             <div class="grid grid-cols-2 md:grid-cols-3 gap-4" id="currentImages">
                                 @foreach($post->images as $image)
                                     <div class="relative group" data-image-id="{{ $image->id }}" data-image-url="{{ $image->image_url }}">
@@ -224,7 +224,7 @@
                                         @endif
                                         <label class="absolute top-2 right-2">
                                             <input type="radio" name="existing_featured" value="{{ $image->image_url }}" {{ $image->is_featured ? 'checked' : '' }} class="sr-only">
-                                            <span class="block w-6 h-6 bg-white rounded-full border-2 border-primary-300 cursor-pointer hover:border-primary-500 transition-colors duration-200">
+                                            <span class="block w-6 h-6 bg-white dark:bg-gray-800 rounded-full border-2 border-primary-300 dark:border-primary-400-dark cursor-pointer hover:border-primary-500 dark:hover:border-primary-300-dark transition-colors duration-200">
                                                 <span class="block w-3 h-3 bg-primary-600 rounded-full m-0.5 {{ $image->is_featured ? '' : 'hidden' }}"></span>
                                             </span>
                                         </label>
@@ -236,27 +236,27 @@
 
                     <!-- Upload New Images -->
                     <div>
-                        <label class="block text-sm font-medium text-secondary-700 mb-3">Thêm hình ảnh mới</label>
-                        <div class="border-2 border-dashed border-secondary-300 rounded-lg p-6 text-center hover:border-primary-400 transition-colors duration-200" id="imageDropZone">
-                            <svg class="mx-auto h-12 w-12 text-secondary-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <label class="block text-sm font-medium text-secondary-700 dark:text-gray-300 mb-3">Thêm hình ảnh mới</label>
+                        <div class="border-2 border-dashed border-secondary-300 dark:border-gray-600 rounded-lg p-6 text-center hover:border-primary-400 dark:hover:border-primary-400-dark transition-colors duration-200 bg-white dark:bg-gray-700" id="imageDropZone">
+                            <svg class="mx-auto h-12 w-12 text-secondary-400 dark:text-gray-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
                             </svg>
-                            <div class="text-sm text-secondary-600">
-                                <label for="imageFiles" class="relative cursor-pointer bg-white rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500">
+                            <div class="text-sm text-secondary-600 dark:text-gray-300">
+                                <label for="imageFiles" class="relative cursor-pointer bg-white dark:bg-gray-700 rounded-md font-medium text-primary-600 dark:text-primary-400-dark hover:text-primary-500 dark:hover:text-primary-300-dark focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500 dark:focus-within:ring-primary-400-dark">
                                     <span>Tải lên hình ảnh</span>
                                     <input id="imageFiles" name="imageFiles[]" type="file" class="sr-only" multiple accept="image/*">
                                 </label>
                                 <p class="pl-1">hoặc kéo thả vào đây</p>
                             </div>
-                            <p class="text-xs text-secondary-500 mt-2">PNG, JPG, GIF tối đa 5MB mỗi file, tối đa 10 file</p>
+                            <p class="text-xs text-secondary-500 dark:text-gray-400 mt-2">PNG, JPG, GIF tối đa 5MB mỗi file, tối đa 10 file</p>
                         </div>
 
                         <!-- Upload Progress -->
                         <div id="uploadProgress" class="hidden mt-4">
-                            <div class="bg-secondary-200 rounded-full h-2">
+                            <div class="bg-secondary-200 dark:bg-gray-700 rounded-full h-2">
                                 <div class="bg-primary-600 h-2 rounded-full transition-all duration-300" style="width: 0%" id="progressBar"></div>
                             </div>
-                            <p class="text-sm text-secondary-600 mt-2" id="progressText">Đang tải lên...</p>
+                            <p class="text-sm text-secondary-600 dark:text-gray-300 mt-2" id="progressText">Đang tải lên...</p>
                         </div>
 
                         <!-- New Images Preview -->
@@ -267,35 +267,35 @@
                 </div>
 
                 <!-- Content Editor -->
-                <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6 animate-slide-up" style="animation-delay: 0.5s">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.5s">
                     <div class="flex items-center mb-4">
-                        <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
-                        <h3 class="text-lg font-semibold text-secondary-900">Nội dung bài viết</h3>
+                        <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-100-dark">Nội dung bài viết</h3>
                     </div>
                     
                     <div>
-                        <label for="content" class="block text-sm font-medium text-secondary-700 mb-2">
+                        <label for="content" class="block text-sm font-medium text-secondary-700 dark:text-gray-300 mb-2">
                             Nội dung chi tiết <span class="text-red-500">*</span>
                         </label>
                         
                         <!-- Editor Toolbar -->
-                        <div class="border border-secondary-300 rounded-t-lg bg-secondary-50 p-2 flex items-center gap-2 flex-wrap">
+                        <div class="border border-secondary-300 dark:border-gray-600 rounded-t-lg bg-secondary-50 dark:bg-gray-700 p-2 flex items-center gap-2 flex-wrap">
                             <!-- Text Formatting -->
-                            <div class="flex items-center gap-1 border-r border-secondary-300 pr-2">
-                                <button type="button" onclick="formatText('bold')" class="p-1.5 rounded hover:bg-secondary-200 transition-colors" title="Đậm">
+                            <div class="flex items-center gap-1 border-r border-secondary-300 dark:border-gray-600 pr-2">
+                                <button type="button" onclick="formatText('bold')" class="p-1.5 rounded hover:bg-secondary-200 dark:hover:bg-gray-600 transition-colors" title="Đậm">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 4h8a4 4 0 014 4 4 4 0 01-4 4H6z"/>
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12h9a4 4 0 014 4 4 4 0 01-4 4H6z"/>
                                     </svg>
                                 </button>
-                                <button type="button" onclick="formatText('italic')" class="p-1.5 rounded hover:bg-secondary-200 transition-colors" title="Nghiêng">
+                                <button type="button" onclick="formatText('italic')" class="p-1.5 rounded hover:bg-secondary-200 dark:hover:bg-gray-600 transition-colors" title="Nghiêng">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 4l4 16m-4-8h8"/>
                                     </svg>
                                 </button>
-                                <button type="button" onclick="formatText('link')" class="p-1.5 rounded hover:bg-secondary-200 transition-colors" title="Liên kết">
+                                <button type="button" onclick="formatText('link')" class="p-1.5 rounded hover:bg-secondary-200 dark:hover:bg-gray-600 transition-colors" title="Liên kết">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
                                     </svg>
@@ -303,8 +303,8 @@
                             </div>
 
                             <!-- Image Tools -->
-                            <div class="flex items-center gap-1 border-r border-secondary-300 pr-2">
-                                <button type="button" onclick="openImageGallery()" class="p-1.5 rounded hover:bg-secondary-200 transition-colors bg-primary-100 text-primary-600" title="Chèn ảnh">
+                            <div class="flex items-center gap-1 border-r border-secondary-300 dark:border-gray-600 pr-2">
+                                <button type="button" onclick="openImageGallery()" class="p-1.5 rounded hover:bg-secondary-200 dark:hover:bg-gray-600 transition-colors bg-primary-100 dark:bg-primary-900 text-primary-600 dark:text-primary-400-dark" title="Chèn ảnh">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4a2 2 0 012-2z"/>
                                     </svg>
@@ -313,12 +313,12 @@
 
                             <!-- Lists -->
                             <div class="flex items-center gap-1">
-                                <button type="button" onclick="formatText('ul')" class="p-1.5 rounded hover:bg-secondary-200 transition-colors" title="Danh sách">
+                                <button type="button" onclick="formatText('ul')" class="p-1.5 rounded hover:bg-secondary-200 dark:hover:bg-gray-600 transition-colors" title="Danh sách">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
                                     </svg>
                                 </button>
-                                <button type="button" onclick="formatText('ol')" class="p-1.5 rounded hover:bg-secondary-200 transition-colors" title="Danh sách số">
+                                <button type="button" onclick="formatText('ol')" class="p-1.5 rounded hover:bg-secondary-200 dark:hover:bg-gray-600 transition-colors" title="Danh sách số">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                                     </svg>
@@ -327,7 +327,7 @@
                         </div>
 
                         <div class="relative">
-                            <textarea class="block w-full px-4 py-4 border border-secondary-300 border-t-0 rounded-b-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 resize-none @error('content') border-red-500 focus:ring-red-500 focus:border-red-500 @enderror" 
+                            <textarea class="block w-full px-4 py-4 border border-secondary-300 dark:border-gray-600 border-t-0 rounded-b-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 resize-none bg-white dark:bg-gray-700 dark:text-primary-100-dark dark:placeholder-gray-400 @error('content') border-red-500 focus:ring-red-500 focus:border-red-500 dark:bg-red-900/20 @enderror" 
                                       id="content" 
                                       name="content" 
                                       rows="15" 
@@ -335,21 +335,21 @@
                                       required>{{ old('content', $post->content) }}</textarea>
                         </div>
                         @error('content')
-                            <p class="mt-1 text-sm text-red-600 flex items-center">
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-400 flex items-center">
                                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
                                 {{ $message }}
                             </p>
                         @enderror
-                        <p class="mt-1 text-xs text-secondary-500">Hỗ trợ Markdown và HTML. Sử dụng toolbar để chèn ảnh và định dạng nội dung</p>
+                        <p class="mt-1 text-xs text-secondary-500 dark:text-gray-400">Hỗ trợ Markdown và HTML. Sử dụng toolbar để chèn ảnh và định dạng nội dung</p>
                     </div>
                 </div>
 
                 <!-- Form Actions -->
-                <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6 animate-slide-up" style="animation-delay: 0.6s">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.6s">
                     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
-                        <div class="flex items-center text-sm text-secondary-600">
+                        <div class="flex items-center text-sm text-secondary-600 dark:text-gray-300">
                             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
@@ -384,14 +384,14 @@
         <!-- Sidebar -->
         <div class="lg:col-span-1 space-y-6">
             <!-- Post Info -->
-            <div class="bg-gradient-to-br from-primary-50 to-primary-100 rounded-xl p-6 animate-slide-up" style="animation-delay: 0.7s">
+            <div class="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900 dark:to-primary-800 rounded-xl p-6 animate-slide-up" style="animation-delay: 0.7s">
                 <div class="flex items-center mb-3">
-                    <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 text-primary-600 dark:text-primary-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
-                    <h3 class="font-semibold text-primary-800">Thông tin bài viết</h3>
+                    <h3 class="font-semibold text-primary-800 dark:text-primary-100">Thông tin bài viết</h3>
                 </div>
-                <div class="space-y-3 text-sm text-primary-700">
+                <div class="space-y-3 text-sm text-primary-700 dark:text-primary-200">
                     <div class="flex justify-between">
                         <span>Ngày tạo:</span>
                         <span class="font-medium">{{ $post->created_at->format('d/m/Y') }}</span>
@@ -416,40 +416,40 @@
             </div>
 
             <!-- Writing Stats -->
-            <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6 animate-slide-up" style="animation-delay: 0.8s">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.8s">
                 <div class="flex items-center mb-3">
-                    <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
                     </svg>
-                    <h3 class="font-semibold text-secondary-900">Thống kê</h3>
+                    <h3 class="font-semibold text-secondary-900 dark:text-primary-100-dark">Thống kê</h3>
                 </div>
                 <div class="space-y-3 text-sm">
                     <div class="flex justify-between">
-                        <span class="text-secondary-600">Số từ:</span>
+                        <span class="text-secondary-600 dark:text-gray-300">Số từ:</span>
                         <span class="font-medium" id="wordCount">{{ str_word_count(strip_tags($post->content)) }}</span>
                     </div>
                     <div class="flex justify-between">
-                        <span class="text-secondary-600">Số ký tự:</span>
+                        <span class="text-secondary-600 dark:text-gray-300">Số ký tự:</span>
                         <span class="font-medium" id="charCount">{{ strlen(strip_tags($post->content)) }}</span>
                     </div>
                     <div class="flex justify-between">
-                        <span class="text-secondary-600">Thời gian đọc:</span>
+                        <span class="text-secondary-600 dark:text-gray-300">Thời gian đọc:</span>
                         <span class="font-medium" id="readTime">{{ max(1, ceil(str_word_count(strip_tags($post->content)) / 200)) }} phút</span>
                     </div>
                 </div>
             </div>
 
             <!-- Quick Actions -->
-            <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6 animate-slide-up" style="animation-delay: 0.9s">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.9s">
                 <div class="flex items-center mb-3">
-                    <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                     </svg>
-                    <h3 class="font-semibold text-secondary-900">Hành động nhanh</h3>
+                    <h3 class="font-semibold text-secondary-900 dark:text-primary-100-dark">Hành động nhanh</h3>
                 </div>
                 <div class="space-y-2">
                     <a href="{{ route('posts.show', $post) }}" 
-                       class="flex items-center w-full p-3 text-sm text-secondary-700 hover:bg-secondary-50 rounded-lg transition-colors duration-200">
+                       class="flex items-center w-full p-3 text-sm text-secondary-700 dark:text-gray-300 hover:bg-secondary-50 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
@@ -457,7 +457,7 @@
                         Xem bài viết
                     </a>
                     <a href="{{ route('posts.create') }}" 
-                       class="flex items-center w-full p-3 text-sm text-secondary-700 hover:bg-secondary-50 rounded-lg transition-colors duration-200">
+                       class="flex items-center w-full p-3 text-sm text-secondary-700 dark:text-gray-300 hover:bg-secondary-50 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                         </svg>
@@ -470,12 +470,12 @@
 </div>
 
 <!-- Image Gallery Modal -->
-<div id="imageGalleryModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+<div id="imageGalleryModal" class="fixed inset-0 bg-black bg-opacity-50 dark:bg-black dark:bg-opacity-70 z-50 hidden">
     <div class="flex items-center justify-center p-4 min-h-full">
-    <div class="bg-white rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
-        <div class="flex items-center justify-between p-6 border-b border-secondary-200">
-            <h3 class="text-lg font-semibold text-secondary-900">Chọn hình ảnh để chèn</h3>
-            <button type="button" onclick="closeImageGallery()" class="text-secondary-400 hover:text-secondary-600">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+        <div class="flex items-center justify-between p-6 border-b border-secondary-200 dark:border-gray-700">
+            <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-100-dark">Chọn hình ảnh để chèn</h3>
+            <button type="button" onclick="closeImageGallery()" class="text-secondary-400 dark:text-gray-400 hover:text-secondary-600 dark:hover:text-gray-300">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                 </svg>
@@ -486,25 +486,25 @@
             <div id="galleryImageGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 <!-- Images will be populated here -->
             </div>
-            <div id="noImagesMessage" class="text-center py-8 text-secondary-500 hidden">
-                <svg class="w-12 h-12 mx-auto mb-4 text-secondary-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div id="noImagesMessage" class="text-center py-8 text-secondary-500 dark:text-gray-400 hidden">
+                <svg class="w-12 h-12 mx-auto mb-4 text-secondary-300 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4a2 2 0 012-2z"/>
                 </svg>
                 <p>Chưa có hình ảnh nào. Hãy upload ảnh trước khi chèn vào nội dung.</p>
             </div>
         </div>
         
-        <div id="imageOptionsPanel" class="hidden border-t border-secondary-200 p-6 bg-secondary-50">
+        <div id="imageOptionsPanel" class="hidden border-t border-secondary-200 dark:border-gray-700 p-6 bg-secondary-50 dark:bg-gray-700">
             <div class="flex items-center justify-between mb-4">
-                <h4 class="font-medium text-secondary-900">Tùy chọn hiển thị</h4>
+                <h4 class="font-medium text-secondary-900 dark:text-primary-100-dark">Tùy chọn hiển thị</h4>
                 <img id="selectedImagePreview" class="w-16 h-16 object-cover rounded-lg" src="" alt="">
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <!-- Size Options -->
                 <div>
-                    <label class="block text-sm font-medium text-secondary-700 mb-2">Kích thước</label>
-                    <select id="imageSize" class="w-full px-3 py-2 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                    <label class="block text-sm font-medium text-secondary-700 dark:text-gray-300 mb-2">Kích thước</label>
+                    <select id="imageSize" class="w-full px-3 py-2 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-100-dark">
                         <option value="small">Nhỏ (300px)</option>
                         <option value="medium" selected>Vừa (500px)</option>
                         <option value="large">Lớn (700px)</option>
@@ -514,8 +514,8 @@
                 
                 <!-- Alignment Options -->
                 <div>
-                    <label class="block text-sm font-medium text-secondary-700 mb-2">Căn lề</label>
-                    <select id="imageAlign" class="w-full px-3 py-2 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                    <label class="block text-sm font-medium text-secondary-700 dark:text-gray-300 mb-2">Căn lề</label>
+                    <select id="imageAlign" class="w-full px-3 py-2 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-100-dark">
                         <option value="left">Trái</option>
                         <option value="center" selected>Giữa</option>
                         <option value="right">Phải</option>
@@ -524,16 +524,16 @@
                 
                 <!-- Caption -->
                 <div>
-                    <label class="block text-sm font-medium text-secondary-700 mb-2">Chú thích (tùy chọn)</label>
-                    <input type="text" id="imageCaption" placeholder="Nhập chú thích..." class="w-full px-3 py-2 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                    <label class="block text-sm font-medium text-secondary-700 dark:text-gray-300 mb-2">Chú thích (tùy chọn)</label>
+                    <input type="text" id="imageCaption" placeholder="Nhập chú thích..." class="w-full px-3 py-2 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-100-dark dark:placeholder-gray-400">
                 </div>
             </div>
             
             <div class="flex justify-end gap-3 mt-6">
-                <button type="button" onclick="closeImageGallery()" class="px-4 py-2 text-secondary-600 hover:text-secondary-800 transition-colors">
+                <button type="button" onclick="closeImageGallery()" class="px-4 py-2 text-secondary-600 dark:text-gray-300 hover:text-secondary-800 dark:hover:text-primary-100-dark transition-colors">
                     Hủy
                 </button>
-                <button type="button" onclick="insertSelectedImage()" class="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
+                <button type="button" onclick="insertSelectedImage()" class="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 dark:bg-primary-500 dark:hover:bg-primary-600 transition-colors">
                     Chèn ảnh
                 </button>
             </div>
