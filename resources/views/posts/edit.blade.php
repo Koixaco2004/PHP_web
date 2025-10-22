@@ -63,7 +63,7 @@
                         </label>
                         <div class="relative">
                             <input type="text" 
-                                   class="block w-full px-4 py-4 text-lg border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 bg-white dark:bg-gray-700 dark:text-primary-100-dark dark:placeholder-gray-400 @error('title') border-red-500 focus:ring-red-500 focus:border-red-500 dark:bg-red-900/20 @enderror" 
+                                   class="block w-full px-4 py-4 text-lg border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 bg-white dark:bg-gray-700 dark:text-primary-100-dark dark:placeholder-gray-400 @error('title') !border-red-500 !focus:ring-red-500 !focus:border-red-500 dark:!bg-red-900/20 @enderror" 
                                    id="title" 
                                    name="title" 
                                    value="{{ old('title', $post->title) }}" 
@@ -98,7 +98,7 @@
                                 Chọn chuyên mục <span class="text-red-500">*</span>
                             </label>
                             <div class="relative">
-                                <select class="block w-full px-4 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 bg-white dark:bg-gray-700 dark:text-primary-100-dark @error('category_id') border-red-500 focus:ring-red-500 focus:border-red-500 @enderror appearance-none" 
+                                <select class="block w-full px-4 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 bg-white dark:bg-gray-700 dark:text-primary-100-dark @error('category_id') !border-red-500 !focus:ring-red-500 !focus:border-red-500 @enderror appearance-none" 
                                         id="category_id" name="category_id" required>
                                     <option value="">Chọn chuyên mục</option>
                                     @foreach($categories as $category)
@@ -138,7 +138,7 @@
                                 Trạng thái xuất bản <span class="text-red-500">*</span>
                             </label>
                             <div class="relative">
-                                <select class="block w-full px-4 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 bg-white dark:bg-gray-700 dark:text-primary-100-dark @error('status') border-red-500 focus:ring-red-500 focus:border-red-500 @enderror appearance-none" 
+                                <select class="block w-full px-4 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 bg-white dark:bg-gray-700 dark:text-primary-100-dark @error('status') !border-red-500 !focus:ring-red-500 !focus:border-red-500 @enderror appearance-none" 
                                         id="status" name="status" required>
                                     <option value="draft" {{ old('status', $post->status) == 'draft' ? 'selected' : '' }}>📝 Bản nháp</option>
                                     <option value="published" {{ old('status', $post->status) == 'published' ? 'selected' : '' }}>🚀 Xuất bản</option>
@@ -175,7 +175,7 @@
                             Tóm tắt ngắn gọn
                         </label>
                         <div class="relative">
-                            <textarea class="block w-full px-4 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 resize-none bg-white dark:bg-gray-700 dark:text-primary-100-dark dark:placeholder-gray-400 @error('excerpt') border-red-500 focus:ring-red-500 focus:border-red-500 dark:bg-red-900/20 @enderror" 
+                            <textarea class="block w-full px-4 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 resize-none bg-white dark:bg-gray-700 dark:text-primary-100-dark dark:placeholder-gray-400 @error('excerpt') !border-red-500 !focus:ring-red-500 !focus:border-red-500 dark:bg-red-900/20 @enderror" 
                                       id="excerpt" 
                                       name="excerpt" 
                                       rows="4" 
@@ -327,7 +327,7 @@
                         </div>
 
                         <div class="relative">
-                            <textarea class="block w-full px-4 py-4 border border-secondary-300 dark:border-gray-600 border-t-0 rounded-b-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 resize-none bg-white dark:bg-gray-700 dark:text-primary-100-dark dark:placeholder-gray-400 @error('content') border-red-500 focus:ring-red-500 focus:border-red-500 dark:bg-red-900/20 @enderror" 
+                            <textarea class="block w-full px-4 py-4 border border-secondary-300 dark:border-gray-600 border-t-0 rounded-b-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 resize-none bg-white dark:bg-gray-700 dark:text-primary-100-dark dark:placeholder-gray-400 @error('content') !border-red-500 !focus:ring-red-500 !focus:border-red-500 dark:bg-red-900/20 @enderror" 
                                       id="content" 
                                       name="content" 
                                       rows="15" 
