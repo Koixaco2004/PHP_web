@@ -36,7 +36,7 @@
     <!-- Total Posts -->
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up hover:shadow-lg dark:hover:shadow-gray-900/20 transition-shadow duration-300" style="animation-delay: 0.1s">
         <div class="flex items-center">
-            <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center mr-4">
+            <div class="w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg flex items-center justify-center mr-4">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                 </svg>
@@ -57,7 +57,7 @@
     <!-- Published Posts -->
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up hover:shadow-lg dark:hover:shadow-gray-900/20 transition-shadow duration-300" style="animation-delay: 0.2s">
         <div class="flex items-center">
-            <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center mr-4">
+            <div class="w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg flex items-center justify-center mr-4">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
@@ -70,7 +70,7 @@
         <div class="mt-4 pt-4 border-t border-secondary-100 dark:border-gray-700">
             <div class="flex items-center text-sm">
                 <div class="w-full bg-secondary-200 dark:bg-gray-700 rounded-full h-2">
-                    <div class="bg-green-500 h-2 rounded-full" style="width: {{ $stats['total_posts'] > 0 ? ($stats['published_posts'] / $stats['total_posts'] * 100) : 0 }}%"></div>
+                    <div class="bg-primary-500 h-2 rounded-full" style="width: {{ $stats['total_posts'] > 0 ? ($stats['published_posts'] / $stats['total_posts'] * 100) : 0 }}%"></div>
                 </div>
                 <span class="ml-2 text-secondary-600 dark:text-gray-300 whitespace-nowrap">
                     {{ $stats['total_posts'] > 0 ? round($stats['published_posts'] / $stats['total_posts'] * 100) : 0 }}%
@@ -82,9 +82,9 @@
 
 
     <!-- Total Users -->
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up hover:shadow-lg dark:hover:shadow-gray-900/20 transition-shadow duration-300" style="animation-delay: 0.4s">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up hover:shadow-lg dark:hover:shadow-gray-900/20 transition-shadow duration-300" style="animation-delay: 0.3s">
         <div class="flex items-center">
-            <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center mr-4">
+            <div class="w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg flex items-center justify-center mr-4">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
                 </svg>
@@ -96,8 +96,29 @@
         </div>
         <div class="mt-4 pt-4 border-t border-secondary-100 dark:border-gray-700">
             <div class="flex items-center text-sm">
-                <span class="text-blue-600 dark:text-blue-400 font-medium">{{ $stats['admin_users'] ?? 0 }} admin</span>
+                <span class="text-primary-600 dark:text-primary-400 font-medium">{{ $stats['admin_users'] ?? 0 }} admin</span>
                 <span class="text-secondary-600 dark:text-gray-300 ml-1">• {{ $stats['total_users'] - ($stats['admin_users'] ?? 0) }} thành viên</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Total Categories -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up hover:shadow-lg dark:hover:shadow-gray-900/20 transition-shadow duration-300" style="animation-delay: 0.4s">
+        <div class="flex items-center">
+            <div class="w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg flex items-center justify-center mr-4">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                </svg>
+            </div>
+            <div class="flex-1">
+                <p class="text-sm text-secondary-600 dark:text-gray-300 mb-1">Tổng chuyên mục</p>
+                <p class="text-2xl font-bold text-secondary-900 dark:text-primary-100-dark">{{ $stats['total_categories'] }}</p>
+            </div>
+        </div>
+        <div class="mt-4 pt-4 border-t border-secondary-100 dark:border-gray-700">
+            <div class="flex items-center text-sm">
+                <span class="text-green-600 dark:text-green-400 font-medium">{{ $stats['active_categories'] ?? 0 }} hoạt động</span>
+                <span class="text-secondary-600 dark:text-gray-300 ml-1">• {{ $stats['total_categories'] - ($stats['active_categories'] ?? 0) }} không hoạt động</span>
             </div>
         </div>
     </div>
@@ -116,7 +137,7 @@
                         </svg>
                         Bài viết gần đây
                     </h2>
-                    <a href="{{ route('posts.index') }}" class="text-primary-600 dark:text-primary-400-dark hover:text-primary-700 dark:hover:text-primary-300-dark text-sm font-medium">
+                    <a href="{{ route('posts.index') }}" class="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 text-sm font-medium">
                         Xem tất cả →
                     </a>
                 </div>
@@ -191,64 +212,64 @@
                         </div>
                     </a>
 
-                    <a href="{{ route('categories.create') }}" class="flex items-center w-full p-3 text-left bg-gradient-to-r from-green-50 to-green-100 dark:from-green-900 dark:to-green-800 hover:from-green-100 dark:hover:from-green-800 hover:to-green-200 dark:hover:to-green-700 rounded-lg transition-all duration-200 group">
-                        <div class="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center mr-3 group-hover:bg-green-600 dark:group-hover:bg-green-400 transition-colors duration-200">
+                    <a href="{{ route('categories.create') }}" class="flex items-center w-full p-3 text-left bg-gradient-to-r from-primary-50 to-primary-100 dark:from-primary-900 dark:to-primary-800 hover:from-primary-100 dark:hover:from-primary-800 hover:to-primary-200 dark:hover:to-primary-700 rounded-lg transition-all duration-200 group">
+                        <div class="w-10 h-10 bg-primary-500 rounded-lg flex items-center justify-center mr-3 group-hover:bg-primary-600 dark:group-hover:bg-primary-400 transition-colors duration-200">
                             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
                             </svg>
                         </div>
                         <div>
-                            <p class="font-medium text-green-900 dark:text-green-100">Tạo chuyên mục</p>
-                            <p class="text-xs text-green-700 dark:text-green-200">Phân loại nội dung</p>
+                            <p class="font-medium text-primary-900 dark:text-primary-100">Tạo chuyên mục</p>
+                            <p class="text-xs text-primary-700 dark:text-primary-200">Phân loại nội dung</p>
                         </div>
                     </a>
 
-                    <a href="{{ route('posts.index') }}" class="flex items-center w-full p-3 text-left bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 hover:from-blue-100 dark:hover:from-blue-800 hover:to-blue-200 dark:hover:to-blue-700 rounded-lg transition-all duration-200 group">
-                        <div class="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center mr-3 group-hover:bg-blue-600 dark:group-hover:bg-blue-400 transition-colors duration-200">
+                    <a href="{{ route('posts.index') }}" class="flex items-center w-full p-3 text-left bg-gradient-to-r from-primary-50 to-primary-100 dark:from-primary-900 dark:to-primary-800 hover:from-primary-100 dark:hover:from-primary-800 hover:to-primary-200 dark:hover:to-primary-700 rounded-lg transition-all duration-200 group">
+                        <div class="w-10 h-10 bg-primary-500 rounded-lg flex items-center justify-center mr-3 group-hover:bg-primary-600 dark:group-hover:bg-primary-400 transition-colors duration-200">
                             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
                             </svg>
                         </div>
                         <div>
-                            <p class="font-medium text-blue-900 dark:text-blue-100">Quản lý bài viết</p>
-                            <p class="text-xs text-blue-700 dark:text-blue-200">Chỉnh sửa và xóa nội dung</p>
+                            <p class="font-medium text-primary-900 dark:text-primary-100">Quản lý bài viết</p>
+                            <p class="text-xs text-primary-700 dark:text-primary-200">Chỉnh sửa và xóa nội dung</p>
                         </div>
                     </a>
 
-                    <a href="{{ route('categories.index') }}" class="flex items-center w-full p-3 text-left bg-gradient-to-r from-yellow-50 to-yellow-100 dark:from-yellow-900 dark:to-yellow-800 hover:from-yellow-100 dark:hover:from-yellow-800 hover:to-yellow-200 dark:hover:to-yellow-700 rounded-lg transition-all duration-200 group">
-                        <div class="w-10 h-10 bg-yellow-500 rounded-lg flex items-center justify-center mr-3 group-hover:bg-yellow-600 dark:group-hover:bg-yellow-400 transition-colors duration-200">
+                    <a href="{{ route('categories.index') }}" class="flex items-center w-full p-3 text-left bg-gradient-to-r from-primary-50 to-primary-100 dark:from-primary-900 dark:to-primary-800 hover:from-primary-100 dark:hover:from-primary-800 hover:to-primary-200 dark:hover:to-primary-700 rounded-lg transition-all duration-200 group">
+                        <div class="w-10 h-10 bg-primary-500 rounded-lg flex items-center justify-center mr-3 group-hover:bg-primary-600 dark:group-hover:bg-primary-400 transition-colors duration-200">
                             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                             </svg>
                         </div>
                         <div>
-                            <p class="font-medium text-yellow-900 dark:text-yellow-100">Quản lý chuyên mục</p>
-                            <p class="text-xs text-yellow-700 dark:text-yellow-200">Cấu hình phân loại</p>
+                            <p class="font-medium text-primary-900 dark:text-primary-100">Quản lý chuyên mục</p>
+                            <p class="text-xs text-primary-700 dark:text-primary-200">Cấu hình phân loại</p>
                         </div>
                     </a>
 
-                    <a href="{{ route('admin.users.index') }}" class="flex items-center w-full p-3 text-left bg-gradient-to-r from-purple-50 to-purple-100 dark:from-purple-900 dark:to-purple-800 hover:from-purple-100 dark:hover:from-purple-800 hover:to-purple-200 dark:hover:to-purple-700 rounded-lg transition-all duration-200 group">
-                        <div class="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center mr-3 group-hover:bg-purple-600 dark:group-hover:bg-purple-400 transition-colors duration-200">
+                    <a href="{{ route('admin.users.index') }}" class="flex items-center w-full p-3 text-left bg-gradient-to-r from-primary-50 to-primary-100 dark:from-primary-900 dark:to-primary-800 hover:from-primary-100 dark:hover:from-primary-800 hover:to-primary-200 dark:hover:to-primary-700 rounded-lg transition-all duration-200 group">
+                        <div class="w-10 h-10 bg-primary-500 rounded-lg flex items-center justify-center mr-3 group-hover:bg-primary-600 dark:group-hover:bg-primary-400 transition-colors duration-200">
                             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
                             </svg>
                         </div>
                         <div>
-                            <p class="font-medium text-purple-900 dark:text-purple-100">Quản lý người dùng</p>
-                            <p class="text-xs text-purple-700 dark:text-purple-200">Cấp quyền và xóa tài khoản</p>
+                            <p class="font-medium text-primary-900 dark:text-primary-100">Quản lý người dùng</p>
+                            <p class="text-xs text-primary-700 dark:text-primary-200">Cấp quyền và xóa tài khoản</p>
                         </div>
                     </a>
 
-                    <a href="{{ route('admin.comments.index') }}" class="flex items-center w-full p-3 text-left bg-gradient-to-r from-green-50 to-green-100 dark:from-green-900 dark:to-green-800 hover:from-green-100 dark:hover:from-green-800 hover:to-green-200 dark:hover:to-green-700 rounded-lg transition-all duration-200 group">
-                        <div class="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center mr-3 group-hover:bg-green-600 dark:group-hover:bg-green-400 transition-colors duration-200">
+                    <a href="{{ route('admin.comments.index') }}" class="flex items-center w-full p-3 text-left bg-gradient-to-r from-primary-50 to-primary-100 dark:from-primary-900 dark:to-primary-800 hover:from-primary-100 dark:hover:from-primary-800 hover:to-primary-200 dark:hover:to-primary-700 rounded-lg transition-all duration-200 group">
+                        <div class="w-10 h-10 bg-primary-500 rounded-lg flex items-center justify-center mr-3 group-hover:bg-primary-600 dark:group-hover:bg-primary-400 transition-colors duration-200">
                             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                             </svg>
                         </div>
                         <div>
-                            <p class="font-medium text-green-900 dark:text-green-100">Quản lý bình luận</p>
-                            <p class="text-xs text-green-700 dark:text-green-200">Giám sát và xóa spam</p>
+                            <p class="font-medium text-primary-900 dark:text-primary-100">Quản lý bình luận</p>
+                            <p class="text-xs text-primary-700 dark:text-primary-200">Giám sát và xóa spam</p>
                         </div>
                     </a>
                 </div>
