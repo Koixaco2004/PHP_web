@@ -29,14 +29,14 @@ class SplashScreen {
         this.overlay.innerHTML = `
             <div class="text-center max-w-md mx-auto px-6">
                 <!-- Logo SmurfExpress -->
-                <div class="mb-8 transform translate-y-12">
+                <div class="mb-8 translate-y-12">
                     <img src="/logo.png" alt="SmurfExpress Logo" class="w-20 h-20 rounded-full mx-auto mb-4">
                     <h1 class="text-3xl font-bold text-primary-900 dark:text-primary-100">SmurfExpress</h1>
                     <p class="text-gray-600 dark:text-gray-300">Trang tin tức hàng đầu Việt Nam</p>
                 </div>
 
                 <!-- Animation container -->
-                <div id="lottie-splashscreen" class="w-72 h-72 mx-auto"></div>
+                <div id="lottie-splashscreen" class="w-72 h-72 mx-auto -translate-y-6"></div>
 
             </div>
         `;
