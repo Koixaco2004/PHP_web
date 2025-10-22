@@ -2,6 +2,10 @@
 
 @section('title', 'Admin Dashboard')
 
+@php
+    use Illuminate\Support\Facades\Auth;
+@endphp
+
 @section('content')
 <!-- Page Header -->
 <div class="bg-gradient-to-r from-primary-600 to-primary-800 dark:from-primary-800 dark:to-primary-900 rounded-xl shadow-lg p-8 mb-8 animate-slide-up">
@@ -221,6 +225,30 @@
                         <div>
                             <p class="font-medium text-yellow-900 dark:text-yellow-100">Quản lý chuyên mục</p>
                             <p class="text-xs text-yellow-700 dark:text-yellow-200">Cấu hình phân loại</p>
+                        </div>
+                    </a>
+
+                    <a href="{{ route('admin.users.index') }}" class="flex items-center w-full p-3 text-left bg-gradient-to-r from-purple-50 to-purple-100 dark:from-purple-900 dark:to-purple-800 hover:from-purple-100 dark:hover:from-purple-800 hover:to-purple-200 dark:hover:to-purple-700 rounded-lg transition-all duration-200 group">
+                        <div class="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center mr-3 group-hover:bg-purple-600 dark:group-hover:bg-purple-400 transition-colors duration-200">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="font-medium text-purple-900 dark:text-purple-100">Quản lý người dùng</p>
+                            <p class="text-xs text-purple-700 dark:text-purple-200">Cấp quyền và xóa tài khoản</p>
+                        </div>
+                    </a>
+
+                    <a href="{{ route('admin.comments.index') }}" class="flex items-center w-full p-3 text-left bg-gradient-to-r from-green-50 to-green-100 dark:from-green-900 dark:to-green-800 hover:from-green-100 dark:hover:from-green-800 hover:to-green-200 dark:hover:to-green-700 rounded-lg transition-all duration-200 group">
+                        <div class="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center mr-3 group-hover:bg-green-600 dark:group-hover:bg-green-400 transition-colors duration-200">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="font-medium text-green-900 dark:text-green-100">Quản lý bình luận</p>
+                            <p class="text-xs text-green-700 dark:text-green-200">Giám sát và xóa spam</p>
                         </div>
                     </a>
                 </div>
