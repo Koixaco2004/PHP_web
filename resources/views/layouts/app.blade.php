@@ -22,6 +22,88 @@
     <!-- Icons - Heroicons -->
     <script src="https://cdn.jsdelivr.net/npm/heroicons@2.0.18/24/outline/index.js"></script>
     
+    <!-- Custom Scrollbar Styles -->
+    <style>
+        /* Custom Scrollbar for entire application */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #16a34a #f1f5f9;
+        }
+        
+        *::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        *::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 10px;
+        }
+        
+        *::-webkit-scrollbar-thumb {
+            background: #16a34a;
+            border-radius: 10px;
+        }
+        
+        *::-webkit-scrollbar-thumb:hover {
+            background: #15803d;
+        }
+        
+        /* Dark mode scrollbar */
+        .dark * {
+            scrollbar-color: #22c55e #374151;
+        }
+        
+        .dark *::-webkit-scrollbar-track {
+            background: #374151;
+        }
+        
+        .dark *::-webkit-scrollbar-thumb {
+            background: #22c55e;
+        }
+        
+        .dark *::-webkit-scrollbar-thumb:hover {
+            background: #16a34a;
+        }
+        
+        /* Custom Scrollbar for Modal - Enhanced */
+        .modal-scrollbar::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        .modal-scrollbar::-webkit-scrollbar-track {
+            background: #e5e7eb;
+            border-radius: 10px;
+        }
+        
+        .modal-scrollbar::-webkit-scrollbar-thumb {
+            background: #16a34a;
+            border-radius: 10px;
+            border: 2px solid #e5e7eb;
+        }
+        
+        .modal-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #15803d;
+        }
+        
+        .dark .modal-scrollbar {
+            scrollbar-color: #22c55e #1f2937;
+        }
+        
+        .dark .modal-scrollbar::-webkit-scrollbar-track {
+            background: #1f2937;
+        }
+        
+        .dark .modal-scrollbar::-webkit-scrollbar-thumb {
+            background: #22c55e;
+            border-color: #1f2937;
+        }
+        
+        .dark .modal-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #16a34a;
+        }
+    </style>
+    
     <!-- Vite Assets -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -320,7 +402,7 @@
 
     <!-- About Modal -->
     <div id="aboutModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 z-50 hidden items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto modal-scrollbar">
             <!-- Modal Header -->
             <div class="sticky top-0 bg-primary-600 dark:bg-primary-700-dark px-6 py-4 rounded-t-2xl flex justify-between items-center">
                 <h3 class="text-2xl font-bold text-white flex items-center">
@@ -414,7 +496,7 @@
 
     <!-- Contact Modal -->
     <div id="contactModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 z-50 hidden items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto modal-scrollbar">
             <!-- Modal Header -->
             <div class="sticky top-0 bg-primary-600 dark:bg-primary-700-dark px-6 py-4 rounded-t-2xl flex justify-between items-center">
                 <h3 class="text-2xl font-bold text-white flex items-center">
