@@ -127,7 +127,7 @@
                         <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                         </svg>
-                        {{ ceil(str_word_count(strip_tags($post->content)) / 200) }} phút đọc
+                        {{ ceil(str_word_count(strip_tags($post->content_html)) / 200) }} phút đọc
                     </div>
                 </div>
             </div>
@@ -145,7 +145,7 @@
             <div class="p-6">
                 @if($post->excerpt)
                     <div class="text-lg text-secondary-600 dark:text-gray-300 font-medium mb-8 p-4 bg-secondary-50 dark:bg-gray-700 rounded-lg border-l-4 border-primary-500 dark:border-primary-400-dark">
-                        {{ $post->excerpt }}
+                        {!! $post->excerpt_html !!}
                     </div>
                 @endif
 
@@ -176,7 +176,7 @@
                 @endif
 
                 <div class="prose prose-lg max-w-none prose-headings:font-heading prose-headings:text-secondary-900 dark:prose-headings:text-primary-100-dark prose-p:text-secondary-700 dark:prose-p:text-gray-300 prose-p:leading-relaxed prose-a:text-primary-600 dark:prose-a:text-primary-400-dark prose-a:no-underline hover:prose-a:text-primary-700 dark:hover:prose-a:text-primary-300-dark prose-strong:text-secondary-900 dark:prose-strong:text-primary-100-dark prose-blockquote:border-primary-500 dark:prose-blockquote:border-primary-400-dark prose-blockquote:bg-primary-50 dark:prose-blockquote:bg-gray-700 prose-blockquote:rounded-r-lg">
-                    {!! $post->content !!}
+                    {!! $post->content_html !!}
                 </div>
 
                 <!-- Article Footer -->
@@ -328,7 +328,7 @@
                     </h4>
 
                     @if($relatedPost->excerpt)
-                        <p class="text-primary-600 dark:text-gray-300 mb-3 line-clamp-2 text-sm leading-relaxed">{{ Str::limit($relatedPost->excerpt, 100) }}</p>
+                        <p class="text-primary-600 dark:text-gray-300 mb-3 line-clamp-2 text-sm leading-relaxed">{{ Str::limit(strip_tags($relatedPost->excerpt_html), 100) }}</p>
                     @endif
 
                     <div class="flex items-center justify-between pt-2 border-t border-primary-100 dark:border-gray-700">

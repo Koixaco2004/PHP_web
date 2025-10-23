@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Post extends Model
 {
@@ -60,8 +61,8 @@ class Post extends Model
     public function scopePublished($query)
     {
         return $query->where('status', 'published')
-                    ->whereNotNull('published_at')
-                    ->where('published_at', '<=', now());
+            ->whereNotNull('published_at')
+            ->where('published_at', '<=', now());
     }
 
     /**
@@ -77,10 +78,10 @@ class Post extends Model
      */
     public function scopeSearch($query, $keyword)
     {
-        return $query->where(function($q) use ($keyword) {
+        return $query->where(function ($q) use ($keyword) {
             $q->where('title', 'like', "%{$keyword}%")
-              ->orWhere('content', 'like', "%{$keyword}%")
-              ->orWhere('excerpt', 'like', "%{$keyword}%");
+                ->orWhere('content', 'like', "%{$keyword}%")
+                ->orWhere('excerpt', 'like', "%{$keyword}%");
         });
     }
 
@@ -109,7 +110,7 @@ class Post extends Model
         if ($featured) {
             return $featured->image_url;
         }
-        
+
         $firstImage = $this->images()->first();
         return $firstImage ? $firstImage->image_url : null;
     }
@@ -120,5 +121,21 @@ class Post extends Model
     public function scopeFeatured($query)
     {
         return $query->where('is_featured', true);
+    }
+
+    /**
+     * Get the HTML version of the content (Markdown converted to HTML).
+     */
+    public function getContentHtmlAttribute()
+    {
+        return Str::markdown($this->attributes['content']);
+    }
+
+    /**
+     * Get the HTML version of the excerpt (Markdown converted to HTML).
+     */
+    public function getExcerptHtmlAttribute()
+    {
+        return $this->attributes['excerpt'] ? Str::markdown($this->attributes['excerpt']) : '';
     }
 }
