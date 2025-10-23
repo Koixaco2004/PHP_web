@@ -1,6 +1,10 @@
-# Website Tin Tức Laravel
-
-Website tin tức được xây dựng bằng Laravel 11 với đầy đủ chức năng quản lý nội dung và hệ thống bình luận.
+<div align="center">
+  <img src="public/logo.png" alt="Logo" width="200"/>
+  
+  # Website Tin Tức Laravel
+  
+  Website tin tức được xây dựng bằng Laravel 11 với đầy đủ chức năng quản lý nội dung và hệ thống bình luận.
+</div>
 
 ## 🚀 Tính năng chính
 
