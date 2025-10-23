@@ -229,7 +229,7 @@
                 <!-- Content Editor -->
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.6s">
                     <div class="flex items-center mb-4">
-                        <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
                         <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-100-dark">Nội dung bài viết</h3>
@@ -239,8 +239,71 @@
                         <label for="content" class="block text-sm font-medium text-secondary-700 dark:text-gray-300 mb-2">
                             Nội dung chi tiết <span class="text-red-500">*</span>
                         </label>
+                        
+                        <!-- Editor Toolbar -->
+                        <div class="border border-secondary-300 dark:border-gray-600 rounded-t-lg bg-secondary-50 dark:bg-gray-700 p-2 flex items-center gap-2 flex-wrap">
+                            <!-- Text Formatting -->
+                            <div class="flex items-center gap-1 border-r border-secondary-300 dark:border-gray-600 pr-2">
+                                <button type="button" onclick="formatText('bold')" class="p-1.5 rounded hover:bg-secondary-200 dark:hover:bg-gray-600 transition-colors" title="Đậm">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 4h8a4 4 0 014 4 4 4 0 01-4 4H6z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12h9a4 4 0 014 4 4 4 0 01-4 4H6z"/>
+                                    </svg>
+                                </button>
+                                <button type="button" onclick="formatText('italic')" class="p-1.5 rounded hover:bg-secondary-200 dark:hover:bg-gray-600 transition-colors" title="Nghiêng">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m-8 8h12"/>
+                                    </svg>
+                                </button>
+                                <button type="button" onclick="formatText('underline')" class="p-1.5 rounded hover:bg-secondary-200 dark:hover:bg-gray-600 transition-colors" title="Gạch chân">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21h18M7 3v10a5 5 0 0010 0V3"/>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Headings -->
+                            <div class="flex items-center gap-1 border-r border-secondary-300 dark:border-gray-600 pr-2">
+                                <button type="button" onclick="formatText('h1')" class="p-1.5 rounded hover:bg-secondary-200 dark:hover:bg-gray-600 transition-colors font-bold text-sm" title="Tiêu đề 1">H1</button>
+                                <button type="button" onclick="formatText('h2')" class="p-1.5 rounded hover:bg-secondary-200 dark:hover:bg-gray-600 transition-colors font-bold text-sm" title="Tiêu đề 2">H2</button>
+                                <button type="button" onclick="formatText('h3')" class="p-1.5 rounded hover:bg-secondary-200 dark:hover:bg-gray-600 transition-colors font-bold text-sm" title="Tiêu đề 3">H3</button>
+                            </div>
+
+                            <!-- Link -->
+                            <div class="flex items-center gap-1 border-r border-secondary-300 dark:border-gray-600 pr-2">
+                                <button type="button" onclick="formatText('link')" class="p-1.5 rounded hover:bg-secondary-200 dark:hover:bg-gray-600 transition-colors" title="Chèn liên kết">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Image Tools -->
+                            <div class="flex items-center gap-1 border-r border-secondary-300 dark:border-gray-600 pr-2">
+                                <button type="button" onclick="openImageGallery()" class="p-1.5 rounded hover:bg-secondary-200 dark:hover:bg-gray-600 transition-colors bg-primary-100 dark:bg-primary-900 text-primary-600 dark:text-primary-400-dark" title="Chèn ảnh">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4a2 2 0 012-2z"/>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Lists -->
+                            <div class="flex items-center gap-1">
+                                <button type="button" onclick="formatText('ul')" class="p-1.5 rounded hover:bg-secondary-200 dark:hover:bg-gray-600 transition-colors" title="Danh sách">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
+                                    </svg>
+                                </button>
+                                <button type="button" onclick="formatText('ol')" class="p-1.5 rounded hover:bg-secondary-200 dark:hover:bg-gray-600 transition-colors" title="Danh sách số">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
                         <div class="relative">
-                            <textarea class="block w-full px-4 py-4 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 resize-none bg-white dark:bg-gray-700 dark:text-primary-100-dark @error('content') !border-red-500 !focus:ring-red-500 !focus:border-red-500 @enderror" 
+                            <textarea class="block w-full px-4 py-4 border border-secondary-300 dark:border-gray-600 border-t-0 rounded-b-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 resize-none bg-white dark:bg-gray-700 dark:text-primary-100-dark dark:placeholder-gray-400 @error('content') !border-red-500 !focus:ring-red-500 !focus:border-red-500 dark:bg-red-900/20 @enderror" 
                                       id="content" 
                                       name="content" 
                                       rows="15" 
@@ -248,14 +311,14 @@
                                       required>{{ old('content') }}</textarea>
                         </div>
                         @error('content')
-                            <p class="mt-1 text-sm text-red-600 flex items-center">
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-400 flex items-center">
                                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
                                 {{ $message }}
                             </p>
                         @enderror
-                        <p class="mt-1 text-xs text-secondary-500 dark:text-gray-400">Hỗ trợ Markdown và HTML. Sử dụng các thẻ để định dạng nội dung</p>
+                        <p class="mt-1 text-xs text-secondary-500 dark:text-gray-400">Hỗ trợ Markdown và HTML. Sử dụng toolbar để chèn ảnh và định dạng nội dung</p>
                     </div>
                 </div>
 
@@ -377,6 +440,72 @@
                         <div class="font-medium text-secondary-900 dark:text-primary-100-dark line-clamp-2">Tối ưu hóa hiệu suất website</div>
                         <div class="text-secondary-500 dark:text-gray-400">1 tuần trước</div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Image Gallery Modal -->
+<div id="imageGalleryModal" class="fixed inset-0 bg-black bg-opacity-50 dark:bg-black dark:bg-opacity-70 z-50 hidden">
+    <div class="flex items-center justify-center p-4 min-h-full">
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+            <div class="flex items-center justify-between p-6 border-b border-secondary-200 dark:border-gray-700">
+                <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-100-dark">Chọn hình ảnh để chèn</h3>
+                <button type="button" onclick="closeImageGallery()" class="text-secondary-400 dark:text-gray-400 hover:text-secondary-600 dark:hover:text-gray-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="p-6 overflow-y-auto max-h-[60vh]">
+                <div id="galleryImageGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <!-- Images will be populated here -->
+                </div>
+                <div id="noImagesMessage" class="text-center py-8 text-secondary-500 dark:text-gray-400 hidden">
+                    <svg class="w-12 h-12 mx-auto mb-4 text-secondary-300 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4a2 2 0 012-2z"/>
+                    </svg>
+                    <p>Chưa có hình ảnh nào. Hãy upload ảnh trước khi chèn vào nội dung.</p>
+                </div>
+            </div>
+            
+            <div id="imageOptionsPanel" class="hidden border-t border-secondary-200 dark:border-gray-700 p-6 bg-secondary-50 dark:bg-gray-700">
+                <div class="flex items-center justify-between mb-4">
+                    <h4 class="font-medium text-secondary-900 dark:text-primary-100-dark">Tùy chọn hiển thị</h4>
+                    <img id="selectedImagePreview" class="w-16 h-16 object-cover rounded-lg" src="" alt="">
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-sm font-medium text-secondary-700 dark:text-gray-300 mb-2">Kích thước</label>
+                        <select id="imageSize" class="block w-full px-3 py-2 border border-secondary-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 dark:text-primary-100-dark">
+                            <option value="small">Nhỏ</option>
+                            <option value="medium" selected>Trung bình</option>
+                            <option value="large">Lớn</option>
+                            <option value="full">Toàn bộ</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-secondary-700 dark:text-gray-300 mb-2">Căn chỉnh</label>
+                        <select id="imageAlign" class="block w-full px-3 py-2 border border-secondary-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 dark:text-primary-100-dark">
+                            <option value="left">Trái</option>
+                            <option value="center" selected>Giữa</option>
+                            <option value="right">Phải</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-secondary-700 dark:text-gray-300 mb-2">Chú thích (tùy chọn)</label>
+                    <input type="text" id="imageCaption" class="block w-full px-3 py-2 border border-secondary-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 dark:text-primary-100-dark" placeholder="Nhập chú thích cho ảnh...">
+                </div>
+                
+                <div class="flex justify-end gap-3">
+                    <button type="button" onclick="closeImageGallery()" class="btn-secondary">Hủy</button>
+                    <button type="button" onclick="insertSelectedImage()" class="btn-primary">Chèn ảnh</button>
                 </div>
             </div>
         </div>
@@ -622,5 +751,206 @@ document.addEventListener('DOMContentLoaded', function() {
         input.addEventListener('input', autoSave);
     });
 });
+
+// Text formatting functions
+function formatText(type) {
+    const contentTextarea = document.getElementById('content');
+    const start = contentTextarea.selectionStart;
+    const end = contentTextarea.selectionEnd;
+    const selectedText = contentTextarea.value.substring(start, end);
+    let replacement = '';
+
+    switch(type) {
+        case 'bold':
+            replacement = selectedText ? `**${selectedText}**` : '**text**';
+            break;
+        case 'italic':
+            replacement = selectedText ? `*${selectedText}*` : '*text*';
+            break;
+        case 'underline':
+            replacement = selectedText ? `<u>${selectedText}</u>` : '<u>text</u>';
+            break;
+        case 'h1':
+            replacement = selectedText ? `# ${selectedText}` : '# Heading 1';
+            break;
+        case 'h2':
+            replacement = selectedText ? `## ${selectedText}` : '## Heading 2';
+            break;
+        case 'h3':
+            replacement = selectedText ? `### ${selectedText}` : '### Heading 3';
+            break;
+        case 'link':
+            const url = prompt('Nhập URL:');
+            if (url) {
+                replacement = selectedText ? `[${selectedText}](${url})` : `[link text](${url})`;
+            } else {
+                return;
+            }
+            break;
+        case 'ul':
+            replacement = selectedText ? `- ${selectedText}` : '- List item';
+            break;
+        case 'ol':
+            replacement = selectedText ? `1. ${selectedText}` : '1. List item';
+            break;
+    }
+
+    // Insert the formatted text
+    const newValue = contentTextarea.value.substring(0, start) + replacement + contentTextarea.value.substring(end);
+    contentTextarea.value = newValue;
+    
+    // Set cursor position after the inserted text
+    const newCursorPos = start + replacement.length;
+    contentTextarea.setSelectionRange(newCursorPos, newCursorPos);
+    contentTextarea.focus();
+    
+    // Update stats after formatting
+    const event = new Event('input', { bubbles: true });
+    contentTextarea.dispatchEvent(event);
+}
+
+// Image gallery functions
+let selectedImageUrl = '';
+
+function openImageGallery() {
+    const modal = document.getElementById('imageGalleryModal');
+    const grid = document.getElementById('galleryImageGrid');
+    const noImagesMsg = document.getElementById('noImagesMessage');
+    
+    // Clear previous content
+    grid.innerHTML = '';
+    
+    // Get uploaded images
+    const uploadedImagesInput = document.getElementById('uploadedImages');
+    const uploadedImages = JSON.parse(uploadedImagesInput.value || '[]');
+    
+    if (uploadedImages.length === 0) {
+        noImagesMsg.classList.remove('hidden');
+        grid.classList.add('hidden');
+    } else {
+        noImagesMsg.classList.add('hidden');
+        grid.classList.remove('hidden');
+        
+        uploadedImages.forEach(image => {
+            const imageItem = document.createElement('div');
+            imageItem.className = 'relative cursor-pointer group';
+            imageItem.innerHTML = `
+                <img src="${image.image_url}" alt="${image.alt_text || ''}" class="w-full h-24 object-cover rounded-lg border-2 border-transparent group-hover:border-primary-300 dark:group-hover:border-primary-400-dark transition-colors">
+                <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-200 rounded-lg"></div>
+            `;
+            
+            imageItem.addEventListener('click', () => selectImageForInsertion(image.image_url));
+            grid.appendChild(imageItem);
+        });
+    }
+    
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function selectImageForInsertion(imageUrl) {
+    selectedImageUrl = imageUrl;
+    
+    // Update UI to show selected image
+    document.querySelectorAll('#galleryImageGrid .relative').forEach(item => {
+        const img = item.querySelector('img');
+        if (img.src === imageUrl) {
+            img.classList.add('border-primary-500', 'dark:border-primary-400-dark');
+            img.classList.remove('border-transparent');
+        } else {
+            img.classList.remove('border-primary-500', 'dark:border-primary-400-dark');
+            img.classList.add('border-transparent');
+        }
+    });
+    
+    // Show options panel
+    const optionsPanel = document.getElementById('imageOptionsPanel');
+    const preview = document.getElementById('selectedImagePreview');
+    
+    preview.src = imageUrl;
+    optionsPanel.classList.remove('hidden');
+}
+
+function insertSelectedImage() {
+    if (!selectedImageUrl) return;
+    
+    const size = document.getElementById('imageSize').value;
+    const align = document.getElementById('imageAlign').value;
+    const caption = document.getElementById('imageCaption').value;
+    
+    // Generate image HTML based on options
+    let imageHtml = '';
+    let sizeClass = '';
+    
+    switch(size) {
+        case 'small': sizeClass = 'max-w-xs'; break;
+        case 'medium': sizeClass = 'max-w-md'; break;
+        case 'large': sizeClass = 'max-w-2xl'; break;
+        case 'full': sizeClass = 'w-full'; break;
+    }
+    
+    let alignClass = '';
+    switch(align) {
+        case 'left': alignClass = 'float-left mr-4 mb-4'; break;
+        case 'center': alignClass = 'mx-auto block'; break;
+        case 'right': alignClass = 'float-right ml-4 mb-4'; break;
+    }
+    
+    if (caption) {
+        imageHtml = `
+<figure class="${align === 'center' ? 'text-center' : ''} my-4">
+    <img src="${selectedImageUrl}" alt="${caption}" class="${sizeClass} ${alignClass} rounded-lg shadow-sm">
+    <figcaption class="text-sm text-gray-600 dark:text-gray-400 mt-2 italic">${caption}</figcaption>
+</figure>
+
+`;
+    } else {
+        imageHtml = `
+<img src="${selectedImageUrl}" alt="Image" class="${sizeClass} ${alignClass} rounded-lg shadow-sm my-4">
+
+`;
+    }
+    
+    // Insert at cursor position
+    const contentTextarea = document.getElementById('content');
+    const currentPos = contentTextarea.selectionStart || 0;
+    const textBefore = contentTextarea.value.substring(0, currentPos);
+    const textAfter = contentTextarea.value.substring(currentPos);
+    
+    contentTextarea.value = textBefore + imageHtml + textAfter;
+    
+    // Set cursor after inserted image
+    const newPos = currentPos + imageHtml.length;
+    contentTextarea.setSelectionRange(newPos, newPos);
+    contentTextarea.focus();
+    
+    // Update stats
+    const event = new Event('input', { bubbles: true });
+    contentTextarea.dispatchEvent(event);
+    
+    // Close modal
+    closeImageGallery();
+}
+
+function closeImageGallery() {
+    const modal = document.getElementById('imageGalleryModal');
+    const optionsPanel = document.getElementById('imageOptionsPanel');
+    
+    modal.classList.add('hidden');
+    optionsPanel.classList.add('hidden');
+    document.body.style.overflow = '';
+    
+    // Reset form
+    document.getElementById('imageSize').value = 'medium';
+    document.getElementById('imageAlign').value = 'center';
+    document.getElementById('imageCaption').value = '';
+    selectedImageUrl = '';
+    
+    // Reset image selection highlights
+    document.querySelectorAll('#galleryImageGrid .relative img').forEach(img => {
+        img.classList.remove('border-primary-500', 'dark:border-primary-400-dark');
+        img.classList.add('border-transparent');
+    });
+}
 </script>
 @endsection
