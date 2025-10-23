@@ -128,6 +128,12 @@ class Post extends Model
      */
     public function getContentHtmlAttribute()
     {
+        // Check if content is already HTML (contains HTML tags)
+        if (preg_match('/<[^>]+>/', $this->attributes['content'])) {
+            return $this->attributes['content'];
+        }
+
+        // Otherwise, convert markdown to HTML
         return Str::markdown($this->attributes['content']);
     }
 
