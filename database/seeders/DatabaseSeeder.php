@@ -78,13 +78,32 @@ class DatabaseSeeder extends Seeder
 
                 // Add 1-3 images per post
                 $imageCount = rand(1, 3);
+                $postImages = [];
                 for ($j = 0; $j < $imageCount; $j++) {
-                    PostImage::factory()->create([
+                    $postImages[] = PostImage::factory()->create([
                         'post_id' => $post->id,
                         'is_featured' => $j === 0, // First image is featured
                         'sort_order' => $j,
                     ]);
                 }
+
+                // Replace image placeholders in content with actual post images
+                $content = $post->content;
+                foreach ($postImages as $index => $image) {
+                    $placeholder = '{{POST_IMAGE_' . $index . '}}';
+                    $imageHtml = '<figure class="my-6">';
+                    $imageHtml .= '<img src="' . $image->image_url . '" alt="' . ($image->alt_text ?? 'Hình ảnh minh họa') . '" class="w-full rounded-lg shadow-lg">';
+                    $imageHtml .= '<figcaption class="text-center text-sm text-gray-600 mt-2">' . ($image->caption ?? 'Hình ảnh minh họa cho nội dung bài viết') . '</figcaption>';
+                    $imageHtml .= '</figure>';
+
+                    $content = str_replace($placeholder, $imageHtml, $content);
+                }
+
+                // Remove any remaining placeholders that don't have corresponding images
+                $content = preg_replace('/\{\{POST_IMAGE_\d+\}\}/', '', $content);
+
+                // Update post content with actual images
+                $post->update(['content' => $content]);
 
                 // Add 0-10 comments per post
                 $commentCount = rand(0, 10);
