@@ -39,17 +39,23 @@ class HomeController extends Controller
      */
     public function show($slug)
     {
-        $query = Post::with(['category', 'user', 'comments' => function($q) {
+        $query = Post::with(['category', 'user', 'comments' => function ($q) {
             $q->with('user')->whereNull('parent_id');
-        }])->where('slug', $slug);
-        
+        }, 'images'])->where('slug', $slug);
+
         // If user is authenticated and is admin or author, show draft posts too
-        if (Auth::check() && (Auth::user()->role === 'admin' || 
+        if (Auth::check() && (Auth::user()->role === 'admin' ||
             $query->clone()->where('user_id', Auth::id())->exists())) {
             $post = $query->firstOrFail();
         } else {
             // For public users, only show published posts
             $post = $query->published()->firstOrFail();
+        }
+
+        // Remove duplicate images by URL
+        if ($post->images) {
+            $uniqueImages = $post->images->unique('image_url');
+            $post->setRelation('images', $uniqueImages);
         }
 
         // Only increment view count for published posts
