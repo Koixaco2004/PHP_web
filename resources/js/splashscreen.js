@@ -10,14 +10,17 @@ class SplashScreen {
     }
 
     init() {
-        // Hiển thị splashscreen mỗi lần load trang
-        this.createOverlay();
-        this.show();
+        // Kiểm tra sessionStorage để chỉ hiển thị splashscreen một lần per session
+        if (!sessionStorage.getItem('splashShown')) {
+            this.createOverlay();
+            this.show();
+            sessionStorage.setItem('splashShown', 'true');
 
-        // Tự động ẩn sau 2.1 giây
-        setTimeout(() => {
-            this.hide();
-        }, 2100);
+            // Tự động ẩn sau 2.1 giây
+            setTimeout(() => {
+                this.hide();
+            }, 2100);
+        }
     }
 
     createOverlay() {
