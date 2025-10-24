@@ -28,10 +28,10 @@ Route::middleware(['auth'])->group(function () {
 
     // Routes quản lý bài viết (chỉ admin)
     Route::middleware(['admin'])->group(function () {
-        Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
-        Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
-        Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
-        Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+        Route::get('/admin/posts', [PostController::class, 'index'])->name('posts.index');
+        Route::get('/admin/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
+        Route::put('/admin/posts/{post}', [PostController::class, 'update'])->name('posts.update');
+        Route::delete('/admin/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
     });
 
     // Post Images Routes
@@ -78,12 +78,13 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/admin/posts/{post}/approve', [AdminController::class, 'approvePost'])->name('admin.posts.approve');
     Route::post('/admin/posts/{post}/reject', [AdminController::class, 'rejectPost'])->name('admin.posts.reject');
 
-    Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
-    Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
-    Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
-    Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
-    Route::put('/categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
-    Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+    // Category management
+    Route::get('/admin/categories', [CategoryController::class, 'index'])->name('categories.index');
+    Route::get('/admin/categories/create', [CategoryController::class, 'create'])->name('categories.create');
+    Route::post('/admin/categories', [CategoryController::class, 'store'])->name('categories.store');
+    Route::get('/admin/categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
+    Route::put('/admin/categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
+    Route::delete('/admin/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 });
 
 // Route xem chuyên mục (phải đặt sau các route khác để tránh conflict)

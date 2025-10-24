@@ -43,7 +43,7 @@
             </div>
             <div class="flex-1">
                 <p class="text-sm text-secondary-600 dark:text-gray-300 mb-1">Tổng bài viết</p>
-                <p class="text-2xl font-bold text-primary-600 dark:text-primary-400-dark">{{ $posts->total() }}</p>
+                <p class="text-2xl font-bold text-primary-600 dark:text-primary-400-dark">{{ $totalPosts }}</p>
             </div>
         </div>
     </div>
@@ -57,7 +57,7 @@
             </div>
             <div class="flex-1">
                 <p class="text-sm text-secondary-600 dark:text-gray-300 mb-1">Đã xuất bản</p>
-                <p class="text-2xl font-bold text-primary-600 dark:text-primary-400-dark">{{ $posts->where('status', 'published')->count() }}</p>
+                <p class="text-2xl font-bold text-primary-600 dark:text-primary-400-dark">{{ $publishedPosts }}</p>
             </div>
         </div>
     </div>
@@ -71,7 +71,7 @@
             </div>
             <div class="flex-1">
                 <p class="text-sm text-secondary-600 dark:text-gray-300 mb-1">Chờ phê duyệt</p>
-                <p class="text-2xl font-bold text-primary-600 dark:text-primary-400-dark">{{ $posts->where('approval_status', 'pending')->count() }}</p>
+                <p class="text-2xl font-bold text-primary-600 dark:text-primary-400-dark">{{ $pendingPosts }}</p>
             </div>
         </div>
     </div>
@@ -86,7 +86,7 @@
             </div>
             <div class="flex-1">
                 <p class="text-sm text-secondary-600 dark:text-gray-300 mb-1">Tổng lượt xem</p>
-                <p class="text-2xl font-bold text-primary-600 dark:text-primary-400-dark">{{ $posts->sum('view_count') }}</p>
+                <p class="text-2xl font-bold text-primary-600 dark:text-primary-400-dark">{{ $totalViews }}</p>
             </div>
         </div>
     </div>
@@ -110,30 +110,27 @@
         </div>
     </div>
 
-    <div class="overflow-x-auto">
+    <div class="overflow-hidden">
         @if($posts->count() > 0)
-            <table class="w-full">
+            <table class="w-full table-fixed">
                 <thead class="bg-secondary-50 dark:bg-gray-700">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider" style="width: 40%;">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider" style="width: 50%;">
                             Bài viết
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider" style="width: 12%;">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider" style="width: 13%;">
                             Chuyên mục
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider" style="width: 12%;">
                             Tác giả
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider" style="width: 10%;">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider" style="width: 12%;">
                             Trạng thái
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider" style="width: 8%;">
-                            Lượt xem
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider" style="width: 10%;">
                             Ngày tạo
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider" style="width: 8%;">
+                        <th class="px-6 py-3 text-center text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider" style="width: 3%;">
                             Hành động
                         </th>
                     </tr>
@@ -201,20 +198,11 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary-500 dark:text-gray-300">
-                                <div class="flex items-center">
-                                    <svg class="w-4 h-4 mr-1 text-secondary-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                                    </svg>
-                                    {{ $post->view_count }}
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary-500 dark:text-gray-300">
                                 <div>{{ $post->created_at->format('d/m/Y') }}</div>
                                 <div class="text-xs">{{ $post->created_at->format('H:i') }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <div class="flex items-center space-x-2">
+                                <div class="flex items-center justify-center space-x-2">
                                     <a href="{{ route('posts.show', $post->slug) }}" target="_blank"
                                        class="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300 transition-colors duration-200"
                                        title="Xem bài viết">
@@ -268,7 +256,89 @@
     <!-- Pagination -->
     @if($posts->hasPages())
         <div class="px-6 py-4 border-t border-secondary-200 dark:border-gray-700">
-            {{ $posts->links() }}
+            <nav class="flex items-center justify-between">
+                <div class="flex-1 flex justify-between sm:hidden">
+                    @if ($posts->onFirstPage())
+                        <span class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 cursor-not-allowed rounded-md">
+                            Trước
+                        </span>
+                    @else
+                        <a href="{{ $posts->previousPageUrl() }}" class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700">
+                            Trước
+                        </a>
+                    @endif
+
+                    @if ($posts->hasMorePages())
+                        <a href="{{ $posts->nextPageUrl() }}" class="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700">
+                            Tiếp
+                        </a>
+                    @else
+                        <span class="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-500 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 cursor-not-allowed rounded-md">
+                            Tiếp
+                        </span>
+                    @endif
+                </div>
+
+                <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                    <div>
+                        <p class="text-sm text-gray-700 dark:text-gray-300">
+                            Hiển thị
+                            <span class="font-medium">{{ $posts->firstItem() }}</span>
+                            đến
+                            <span class="font-medium">{{ $posts->lastItem() }}</span>
+                            của
+                            <span class="font-medium">{{ $posts->total() }}</span>
+                            kết quả
+                        </p>
+                    </div>
+                    <div>
+                        <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                            {{-- Previous Page Link --}}
+                            @if ($posts->onFirstPage())
+                                <span class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 cursor-not-allowed">
+                                    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                </span>
+                            @else
+                                <a href="{{ $posts->previousPageUrl() }}" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                </a>
+                            @endif
+
+                            {{-- Pagination Elements --}}
+                            @foreach ($posts->getUrlRange(1, $posts->lastPage()) as $page => $url)
+                                @if ($page == $posts->currentPage())
+                                    <span class="relative inline-flex items-center px-4 py-2 border border-primary-500 dark:border-primary-400 bg-primary-50 dark:bg-primary-900 text-sm font-medium text-primary-600 dark:text-primary-300">
+                                        {{ $page }}
+                                    </span>
+                                @else
+                                    <a href="{{ $url }}" class="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                        {{ $page }}
+                                    </a>
+                                @endif
+                            @endforeach
+
+                            {{-- Next Page Link --}}
+                            @if ($posts->hasMorePages())
+                                <a href="{{ $posts->nextPageUrl() }}" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                </a>
+                            @else
+                                <span class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 cursor-not-allowed">
+                                    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                </span>
+                            @endif
+                        </nav>
+                    </div>
+                </div>
+            </nav>
         </div>
     @endif
 </div>

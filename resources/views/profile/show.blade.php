@@ -177,15 +177,20 @@
                                             <span class="px-2 py-1 text-xs font-semibold rounded-full bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200">
                                                 {{ $post->category->name }}
                                             </span>
-                                            <span class="px-2 py-1 text-xs font-semibold rounded-full 
-                                                @if($post->approval_status == 'approved') bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
-                                                @elseif($post->approval_status == 'pending') bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200
-                                                @else bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200
-                                                @endif">
-                                                @if($post->approval_status == 'approved') Đã duyệt
-                                                @elseif($post->approval_status == 'pending') Chờ duyệt
-                                                @else Từ chối
-                                                @endif
+                                            @php
+                                                $approvalClasses = match($post->approval_status) {
+                                                    'approved' => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+                                                    'pending' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+                                                    default => 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
+                                                };
+                                                $approvalText = match($post->approval_status) {
+                                                    'approved' => 'Đã duyệt',
+                                                    'pending' => 'Chờ duyệt',
+                                                    default => 'Từ chối',
+                                                };
+                                            @endphp
+                                            <span class="px-2 py-1 text-xs font-semibold rounded-full {{ $approvalClasses }}">
+                                                {{ $approvalText }}
                                             </span>
                                         </div>
                                         <h3 class="text-lg font-medium text-gray-900 dark:text-primary-400-dark mb-2">

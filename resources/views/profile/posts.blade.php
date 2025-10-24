@@ -208,15 +208,20 @@
                                 <span class="px-2 py-1 text-xs font-semibold rounded-full {{ $post->category->is_active ? 'bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200' : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300' }}">
                                     {{ $post->category->name }}
                                 </span>
-                                <span class="px-2 py-1 text-xs font-semibold rounded-full 
-                                    @if($post->approval_status == 'approved') bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
-                                    @elseif($post->approval_status == 'pending') bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200
-                                    @else bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200
-                                    @endif">
-                                    @if($post->approval_status == 'approved') Đã duyệt
-                                    @elseif($post->approval_status == 'pending') Chờ duyệt
-                                    @else Từ chối
-                                    @endif
+                                @php
+                                    $approvalClasses = match($post->approval_status) {
+                                        'approved' => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+                                        'pending' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+                                        default => 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
+                                    };
+                                    $approvalText = match($post->approval_status) {
+                                        'approved' => 'Đã duyệt',
+                                        'pending' => 'Chờ duyệt',
+                                        default => 'Từ chối',
+                                    };
+                                @endphp
+                                <span class="px-2 py-1 text-xs font-semibold rounded-full {{ $approvalClasses }}">
+                                    {{ $approvalText }}
                                 </span>
                             </div>
                             
@@ -275,21 +280,27 @@
                                     <span class="px-2 py-1 text-xs font-semibold rounded-full bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200">
                                         {{ $post->category->name }}
                                     </span>
-                                    <span class="px-2 py-1 text-xs font-semibold rounded-full 
-                                        @if($post->approval_status == 'approved') bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
-                                        @elseif($post->approval_status == 'pending') bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200
-                                        @else bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200
-                                        @endif">
-                                        @if($post->approval_status == 'approved') Đã duyệt
-                                        @elseif($post->approval_status == 'pending') Chờ duyệt
-                                        @else Từ chối
-                                        @endif
+                                    @php
+                                        $approvalClasses = match($post->approval_status) {
+                                            'approved' => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+                                            'pending' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+                                            default => 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
+                                        };
+                                        $approvalText = match($post->approval_status) {
+                                            'approved' => 'Đã duyệt',
+                                            'pending' => 'Chờ duyệt',
+                                            default => 'Từ chối',
+                                        };
+                                        $statusClasses = $post->status == 'published' 
+                                            ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
+                                            : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300';
+                                        $statusText = $post->status == 'published' ? 'Đã xuất bản' : 'Bản nháp';
+                                    @endphp
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full {{ $approvalClasses }}">
+                                        {{ $approvalText }}
                                     </span>
-                                    <span class="px-2 py-1 text-xs font-semibold rounded-full 
-                                        @if($post->status == 'published') bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200
-                                        @else bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300
-                                        @endif">
-                                        {{ $post->status == 'published' ? 'Đã xuất bản' : 'Bản nháp' }}
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full {{ $statusClasses }}">
+                                        {{ $statusText }}
                                     </span>
                                 </div>
                                 

@@ -166,15 +166,20 @@
                                     </p>
                                 </div>
                                 <div class="ml-4 flex-shrink-0">
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
-                                        @if($post->approval_status === 'approved') bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200
-                                        @elseif($post->approval_status === 'pending') bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200
-                                        @else bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200
-                                        @endif">
-                                        @if($post->approval_status === 'approved') ✓ Đã duyệt
-                                        @elseif($post->approval_status === 'pending') ⏳ Chờ duyệt
-                                        @else ✕ Từ chối
-                                        @endif
+                                    @php
+                                        $approvalClasses = match($post->approval_status) {
+                                            'approved' => 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200',
+                                            'pending' => 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200',
+                                            default => 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200',
+                                        };
+                                        $approvalText = match($post->approval_status) {
+                                            'approved' => '✓ Đã duyệt',
+                                            'pending' => '⏳ Chờ duyệt',
+                                            default => '✕ Từ chối',
+                                        };
+                                    @endphp
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $approvalClasses }}">
+                                        {{ $approvalText }}
                                     </span>
                                 </div>
                             </div>

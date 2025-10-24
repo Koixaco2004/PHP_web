@@ -26,8 +26,15 @@ class PostController extends Controller
     {
         $posts = Post::with(['category', 'user', 'images' => function ($query) {
             $query->where('is_featured', true)->orWhere('sort_order', 0);
-        }])->published()->withActiveCategory()->latest()->paginate(10);
-        return view('posts.index', compact('posts'));
+        }])->withActiveCategory()->latest()->paginate(10);
+
+        // Get total statistics (matching dashboard logic)
+        $totalPosts = Post::count();
+        $publishedPosts = Post::where('status', 'published')->where('approval_status', 'approved')->count();
+        $pendingPosts = Post::where('status', 'published')->where('approval_status', 'pending')->count();
+        $totalViews = Post::sum('view_count');
+
+        return view('posts.index', compact('posts', 'totalPosts', 'publishedPosts', 'pendingPosts', 'totalViews'));
     }
 
     /**
