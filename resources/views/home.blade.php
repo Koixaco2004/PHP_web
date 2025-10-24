@@ -3,31 +3,32 @@
 @section('title', 'Trang chủ - SmurfExpress')
 
 @section('content')
-<!-- Hero Carousel Section -->
-<div class="mb-12">
-    <div class="relative rounded-2xl overflow-hidden shadow-xl">
+<!-- Hero Carousel Section-->
+<div class="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] -mt-8 mb-12">
+    <div class="relative overflow-hidden">
         <!-- Carousel Container -->
         <div class="relative" x-data="carousel()">
             <div class="overflow-hidden">
                 <div class="flex transition-transform duration-500 ease-in-out" :style="`transform: translateX(-${currentSlide * 100}%)`">
                     @foreach($posts->take(5) as $index => $post)
                         <div class="w-full flex-shrink-0">
-                            <div class="relative h-96">
-                                <!-- Background Image with Blur -->
+                            <div class="relative h-[450px] md:h-[500px] lg:h-[550px]">
+                                <!-- Background Image -->
                                 @if($post->main_image)
                                     <div class="absolute inset-0">
                                         <img src="{{ $post->main_image }}" alt="{{ $post->title }}" class="w-full h-full object-cover">
-                                        <div class="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm"></div>
+                                        <!-- Gradient Overlay từ trái sang phải - Đậm hơn -->
+                                        <div class="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent"></div>
                                     </div>
                                 @else
                                     <div class="absolute inset-0 bg-gradient-to-r from-primary-600 to-primary-800 dark:from-primary-100-dark dark:to-primary-200-dark">
-                                        <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+                                        <div class="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent"></div>
                                     </div>
                                 @endif
                                 
                                 <!-- Content Overlay -->
                                 <div class="relative h-full flex items-center">
-                                    <div class="container mx-auto px-6 lg:px-8">
+                                    <div class="container mx-auto px-8 sm:px-12 lg:px-20 xl:px-28">
                                         <div class="max-w-3xl text-white z-10">
                                             <div class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-white bg-opacity-20 dark:bg-white dark:bg-opacity-30 text-white mb-4">
                                                 <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -35,7 +36,7 @@
                                                 </svg>
                                                 {{ $post->category->name }}
                                             </div>
-                                            <h2 class="text-3xl lg:text-5xl font-bold mb-4 leading-tight">
+                                            <h2 class="text-3xl lg:text-5xl font-bold mb-4 leading-snug lg:leading-snug">
                                                 {{ Str::limit($post->title, 70) }}
                                             </h2>
                                             @if($post->excerpt)
@@ -73,9 +74,25 @@
                     @endforeach
                 </div>
             </div>
-            
+
+            <!-- Navigation Arrows -->
+            <button @click="prevSlide()"
+                    class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-75 text-white p-3 rounded-full transition-all duration-200 z-20 focus:outline-none focus:ring-2 focus:ring-white"
+                    aria-label="Previous slide">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+            </button>
+            <button @click="nextSlide()"
+                    class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-75 text-white p-3 rounded-full transition-all duration-200 z-20 focus:outline-none focus:ring-2 focus:ring-white"
+                    aria-label="Next slide">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </button>
+
             <!-- Dots Indicator -->
-            <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
+            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
                 @foreach($posts->take(5) as $index => $post)
                     <button @click="currentSlide = {{ $index }}" 
                             class="w-3 h-3 rounded-full transition-all duration-200 shadow-lg"
