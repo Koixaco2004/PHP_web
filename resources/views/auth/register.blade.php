@@ -344,7 +344,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Dark mode support for form validation
     const form = document.querySelector('form');
     const inputs = form.querySelectorAll('input[required]');
     
@@ -372,7 +371,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Initial state
     updateSubmitButton();
 });
 </script>

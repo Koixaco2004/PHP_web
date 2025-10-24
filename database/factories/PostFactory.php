@@ -38,20 +38,15 @@ class PostFactory extends Factory
         ];
 
         $title = $this->faker->randomElement($vietnameseTitles) . ' ' . $this->faker->numberBetween(1, 1000);
-        $isPublished = $this->faker->boolean(70); // 70% published
+        $isPublished = $this->faker->boolean(70);
 
-        // Determine approval status
-        // If draft, always pending
-        // If published, 80% approved, 20% pending
         $approvalStatus = 'pending';
         if ($isPublished) {
             $approvalStatus = $this->faker->boolean(80) ? 'approved' : 'pending';
         }
 
-        // Generate HTML content
         $htmlContent = $this->generateHtmlContent();
 
-        // Generate excerpt from first paragraph
         $excerpt = $this->generateExcerpt();
 
         $userId = User::factory();
@@ -75,7 +70,7 @@ class PostFactory extends Factory
             'approved_at' => $approvedAt,
             'view_count' => $this->faker->numberBetween(0, 5000),
             'comment_count' => $this->faker->numberBetween(0, 50),
-            'is_featured' => $this->faker->boolean(15), // 15% featured
+            'is_featured' => $this->faker->boolean(15),
             'published_at' => $isPublished ? $createdAt : null,
             'created_at' => $createdAt,
         ];
@@ -83,7 +78,6 @@ class PostFactory extends Factory
 
     /**
      * Generate HTML content for the post
-     * Note: Image placeholders will be replaced with actual post images after PostImage creation
      */
     private function generateHtmlContent(): string
     {
@@ -129,24 +123,19 @@ class PostFactory extends Factory
         $imageIndex = 0;
 
         for ($i = 0; $i < $sectionCount; $i++) {
-            // Add heading
             if ($i > 0) {
                 $html .= '<h2 class="text-2xl font-bold mt-8 mb-4 text-gray-900 dark:text-gray-100">' . $this->faker->randomElement($headings) . '</h2>';
             }
 
-            // Add paragraph - Chữ sáng hơn với text-gray-900 thay vì text-gray-700
             $html .= '<p class="mb-4 leading-relaxed text-gray-900 dark:text-gray-100">' . $this->faker->randomElement($paragraphs) . '</p>';
 
-            // Randomly add image placeholder (40% chance) - will be replaced with actual images
             if ($this->faker->boolean(40)) {
                 $html .= '{{POST_IMAGE_' . $imageIndex . '}}';
                 $imageIndex++;
             }
 
-            // Add another paragraph
             $html .= '<p class="mb-4 leading-relaxed text-gray-900 dark:text-gray-100">' . $this->faker->randomElement($paragraphs) . '</p>';
 
-            // Randomly add list (30% chance)
             if ($this->faker->boolean(30)) {
                 $items = $this->faker->randomElement($listItems);
                 $html .= '<ul class="list-disc list-inside mb-6 space-y-2 ml-4">';
@@ -156,7 +145,6 @@ class PostFactory extends Factory
                 $html .= '</ul>';
             }
 
-            // Randomly add blockquote (25% chance) - Ô màu trắng/xám có chữ in nghiêng với dark mode
             if ($this->faker->boolean(25)) {
                 $html .= '<blockquote class="border-l-4 border-blue-500 dark:border-blue-400 pl-6 py-4 my-6 italic bg-gray-50 dark:bg-gray-800 rounded-r-lg">';
                 $html .= '<p class="text-gray-700 dark:text-gray-300">"' . $this->faker->randomElement($quotes) . '"</p>';
@@ -168,7 +156,6 @@ class PostFactory extends Factory
         $html .= '<h2 class="text-2xl font-bold mt-8 mb-4 text-gray-900 dark:text-gray-100">Kết luận</h2>';
         $html .= '<p class="mb-4 leading-relaxed text-gray-900 dark:text-gray-100">' . $this->faker->randomElement($paragraphs) . '</p>';
 
-        // Add final quote với dark mode
         $html .= '<blockquote class="border-l-4 border-blue-500 dark:border-blue-400 pl-6 py-4 my-6 italic bg-gray-50 dark:bg-gray-800 rounded-r-lg">';
         $html .= '<p class="text-gray-700 dark:text-gray-300">"' . $this->faker->randomElement($quotes) . '"</p>';
         $html .= '</blockquote>';

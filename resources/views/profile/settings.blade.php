@@ -219,11 +219,9 @@
 </div>
 
 <script>
-// Password strength indicator
 document.getElementById('password').addEventListener('input', function(e) {
     const password = e.target.value;
     const strength = checkPasswordStrength(password);
-    // You can add password strength indicator here
 });
 
 function checkPasswordStrength(password) {

@@ -304,7 +304,6 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Add click animation to action cards
     const actionCards = document.querySelectorAll('[href*="route"]');
     actionCards.forEach(card => {
         card.addEventListener('click', function() {

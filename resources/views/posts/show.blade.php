@@ -415,9 +415,6 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Đã xóa reply modal functionality
-
-    // Social sharing functions
     window.sharePost = function(platform) {
         const url = encodeURIComponent(window.location.href);
         const title = encodeURIComponent(document.title);
@@ -437,28 +434,23 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // Copy link function
     window.copyLink = function() {
         const copyIcon = document.getElementById('copyIcon');
         const checkIcon = document.getElementById('checkIcon');
         const copyBtn = document.getElementById('copyLinkBtn');
         
         navigator.clipboard.writeText(window.location.href).then(function() {
-            // Hide copy icon and show check icon
             copyIcon.classList.add('hidden');
             checkIcon.classList.remove('hidden');
             
-            // Change button color to primary
             copyBtn.classList.remove('text-secondary-500', 'dark:text-gray-400');
             copyBtn.classList.add('text-primary-600', 'dark:text-primary-400');
             
-            // Add scale animation
             checkIcon.style.transform = 'scale(1.2)';
             setTimeout(() => {
                 checkIcon.style.transform = 'scale(1)';
             }, 200);
             
-            // Revert back after 2 seconds
             setTimeout(() => {
                 checkIcon.classList.add('hidden');
                 copyIcon.classList.remove('hidden');
@@ -471,9 +463,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     };
 
-    // Dark mode support for modal
     window.openImageModal = function(imageUrl, altText) {
-        // Create modal if it doesn't exist
         let modal = document.getElementById('imageModal');
         if (!modal) {
             modal = document.createElement('div');
@@ -491,7 +481,6 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
             document.body.appendChild(modal);
             
-            // Close on click outside
             modal.addEventListener('click', function(e) {
                 if (e.target === modal) {
                     closeImageModal();
@@ -499,7 +488,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
         
-        // Update image and show modal
         const modalImage = document.getElementById('modalImage');
         modalImage.src = imageUrl;
         modalImage.alt = altText;
@@ -515,7 +503,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // Back to top functionality
     const backToTopBtn = document.getElementById('backToTop');
     
     window.addEventListener('scroll', function() {

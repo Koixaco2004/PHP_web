@@ -204,7 +204,6 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Handle role change
     const roleSelects = document.querySelectorAll('.role-select');
 
     roleSelects.forEach(select => {
@@ -213,7 +212,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const newRole = this.value;
 
             if (confirm('Bạn có chắc chắn muốn thay đổi vai trò của người dùng này?')) {
-                // Submit form to update role
                 fetch(`{{ url('/admin/users') }}/${userId}`, {
                     method: 'PUT',
                     headers: {
@@ -225,11 +223,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        // Show success message
                         alert('Vai trò đã được cập nhật thành công!');
                     } else {
                         alert('Có lỗi xảy ra khi cập nhật vai trò.');
-                        // Reset select
                         this.value = this.dataset.currentRole;
                     }
                 })
@@ -239,7 +235,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     this.value = this.dataset.currentRole;
                 });
             } else {
-                // Reset select
                 this.value = this.dataset.currentRole;
             }
         });

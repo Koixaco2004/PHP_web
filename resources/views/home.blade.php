@@ -259,7 +259,6 @@ function carousel() {
         },
         
         init() {
-            // Auto-play carousel every 5 seconds
             setInterval(() => {
                 this.nextSlide();
             }, 5000);

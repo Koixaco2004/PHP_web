@@ -277,8 +277,8 @@
                     
                     @if(isset($navigationCategories) && $navigationCategories->count() > 0)
                         @php
-                            $mainCategories = $navigationCategories->take(5); // Show first 5 categories
-                            $moreCategories = $navigationCategories->skip(5); // Remaining categories
+                            $mainCategories = $navigationCategories->take(5);
+                            $moreCategories = $navigationCategories->skip(5);
                         @endphp
                         
                         @foreach($mainCategories as $category)
@@ -531,7 +531,6 @@
     
     <!-- Theme Toggle Script -->
     <script>
-        // Dark mode toggle functionality
         function toggleDarkMode() {
             const html = document.documentElement;
             const body = document.getElementById('app-body');
@@ -539,13 +538,11 @@
             const icon = document.getElementById('darkModeIcon');
 
             if (html.classList.contains('dark')) {
-                // Switch to light mode
                 html.classList.remove('dark');
                 body.classList.remove('dark');
                 localStorage.setItem('theme', 'light');
                 icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>';
             } else {
-                // Switch to dark mode
                 html.classList.add('dark');
                 body.classList.add('dark');
                 localStorage.setItem('theme', 'dark');
@@ -553,7 +550,6 @@
             }
         }
 
-        // Initialize theme on page load
         function initializeTheme() {
             const savedTheme = localStorage.getItem('theme');
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -569,7 +565,6 @@
             } else if (savedTheme === 'light') {
                 shouldBeDark = false;
             } else {
-                // Use system preference if no saved theme
                 shouldBeDark = prefersDark;
             }
 
@@ -587,7 +582,6 @@
                 }
             }
 
-            // Listen for system theme changes
             window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
                 if (!localStorage.getItem('theme')) {
                     if (e.matches) {
@@ -607,7 +601,6 @@
             });
         }
 
-        // Initialize theme when DOM is loaded
         document.addEventListener('DOMContentLoaded', initializeTheme);
     </script>
     
@@ -628,9 +621,7 @@
             mobileNav.classList.toggle('hidden');
         }
 
-        // Close dropdowns when clicking outside
         document.addEventListener('click', function(event) {
-            // Profile dropdown
             const profileDropdown = document.getElementById('profileDropdown');
             const profileButton = event.target.closest('[onclick="toggleProfileDropdown()"]');
             
@@ -638,7 +629,6 @@
                 profileDropdown.classList.add('hidden');
             }
 
-            // Categories dropdown
             const categoriesDropdown = document.getElementById('categoriesDropdown');
             const categoriesButton = event.target.closest('[onclick="toggleCategoriesDropdown()"]');
             
@@ -647,7 +637,6 @@
             }
         });
 
-        // Close mobile nav when clicking on links
         document.addEventListener('DOMContentLoaded', function() {
             const mobileNavLinks = document.querySelectorAll('#mobileNav a');
             mobileNavLinks.forEach(link => {

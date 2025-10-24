@@ -560,7 +560,6 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Writing statistics
     const titleInput = document.getElementById('title');
     const contentInput = document.getElementById('content');
     const excerptInput = document.getElementById('excerpt');
@@ -572,7 +571,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const content = contentInput.value;
         const words = content.trim() ? content.trim().split(/\s+/).length : 0;
         const chars = content.length;
-        const readingTime = Math.max(1, Math.ceil(words / 200)); // Assume 200 words per minute
+        const readingTime = Math.max(1, Math.ceil(words / 200));
         
         wordCount.textContent = words;
         charCount.textContent = chars;
@@ -582,7 +581,6 @@ document.addEventListener('DOMContentLoaded', function() {
     contentInput.addEventListener('input', updateStats);
     updateStats();
     
-    // Form submission handling
     document.getElementById('editForm').addEventListener('submit', function(e) {
         const submitButton = e.submitter;
         if (submitButton && submitButton.name === 'action') {
@@ -592,20 +590,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Auto-save functionality
     let autoSaveTimeout;
     function autoSave() {
         clearTimeout(autoSaveTimeout);
         autoSaveTimeout = setTimeout(() => {
             console.log('Auto-saving changes...');
-        }, 30000); // Auto-save every 30 seconds
+        }, 30000);
     }
     
     [titleInput, contentInput, excerptInput].forEach(input => {
         input.addEventListener('input', autoSave);
     });
 
-    // Image management functionality
     let uploadedImages = JSON.parse(document.getElementById('uploadedImages').value || '[]');
     let deletedImages = JSON.parse(document.getElementById('deletedImages').value || '[]');
     const uploadedImagesInput = document.getElementById('uploadedImages');
@@ -618,12 +614,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const progressText = document.getElementById('progressText');
     const newImagePreview = document.getElementById('newImagePreview');
 
-    // File input change handler
     imageFiles.addEventListener('change', function(e) {
         handleFiles(e.target.files);
     });
 
-    // Drag and drop handlers
     imageDropZone.addEventListener('dragover', function(e) {
         e.preventDefault();
         imageDropZone.classList.add('border-primary-500', 'bg-primary-50');
@@ -675,7 +669,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 uploadedImagesInput.value = JSON.stringify(uploadedImages);
                 addImagePreview(data.data);
                 
-                // Set first image as featured if no featured image exists
                 if (uploadedImages.length === 1 && !featuredImageInput.value) {
                     featuredImageInput.value = data.data.image_url;
                     updateFeaturedImageDisplay();
@@ -718,14 +711,12 @@ document.addEventListener('DOMContentLoaded', function() {
         newImagePreview.classList.remove('hidden');
     }
 
-    // Remove existing image
     window.removeExistingImage = function(imageUrl, button) {
         if (confirm('Bạn có chắc muốn xóa ảnh này?')) {
             deletedImages.push(imageUrl);
             deletedImagesInput.value = JSON.stringify(deletedImages);
             button.closest('[data-image-url]').remove();
             
-            // Update featured image if deleted image was featured
             if (featuredImageInput.value === imageUrl) {
                 featuredImageInput.value = '';
                 updateFeaturedImageDisplay();
@@ -733,7 +724,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // Remove new image
     window.removeNewImage = function(imageUrl, button) {
         uploadedImages = uploadedImages.filter(img => img.image_url !== imageUrl);
         uploadedImagesInput.value = JSON.stringify(uploadedImages);
@@ -743,14 +733,12 @@ document.addEventListener('DOMContentLoaded', function() {
             newImagePreview.classList.add('hidden');
         }
         
-        // Update featured image if deleted image was featured
         if (featuredImageInput.value === imageUrl) {
             featuredImageInput.value = '';
             updateFeaturedImageDisplay();
         }
     };
 
-    // Featured image selection for existing images
     document.addEventListener('change', function(e) {
         if (e.target.name === 'existing_featured') {
             featuredImageInput.value = e.target.value;
@@ -763,7 +751,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function updateFeaturedImageDisplay() {
-        // Update existing images
         document.querySelectorAll('input[name="existing_featured"]').forEach(radio => {
             const indicator = radio.closest('label').querySelector('span span');
             if (radio.value === featuredImageInput.value) {
@@ -775,7 +762,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Update new images
         document.querySelectorAll('input[name="new_featured"]').forEach(radio => {
             const indicator = radio.closest('label').querySelector('span span');
             if (radio.value === featuredImageInput.value) {
@@ -788,11 +774,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Editor toolbar functions
     let selectedImageUrl = '';
     let cursorPosition = 0;
 
-    // Track cursor position in content textarea
     contentInput.addEventListener('selectionchange', function() {
         cursorPosition = contentInput.selectionStart;
     });
@@ -806,7 +790,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Text formatting functions
 function formatText(type) {
     const contentTextarea = document.getElementById('content');
     const start = contentTextarea.selectionStart;
@@ -849,34 +832,27 @@ function formatText(type) {
             break;
     }
 
-    // Insert the formatted text
     const newValue = contentTextarea.value.substring(0, start) + replacement + contentTextarea.value.substring(end);
     contentTextarea.value = newValue;
     
-    // Set cursor position after the inserted text
     const newCursorPos = start + replacement.length;
     contentTextarea.setSelectionRange(newCursorPos, newCursorPos);
     contentTextarea.focus();
     
-    // Update stats after formatting
     const event = new Event('input', { bubbles: true });
     contentTextarea.dispatchEvent(event);
 }
 
-// Image gallery functions
 function openImageGallery() {
     const modal = document.getElementById('imageGalleryModal');
     const grid = document.getElementById('galleryImageGrid');
     const noImagesMsg = document.getElementById('noImagesMessage');
     
-    // Clear previous content
     grid.innerHTML = '';
     
-    // Get all available images (existing + new uploaded)
     const existingImages = [];
     const deletedImageUrls = JSON.parse(document.getElementById('deletedImages').value || '[]');
     
-    // Get existing images that haven't been deleted
     document.querySelectorAll('#currentImages [data-image-url]').forEach(item => {
         const imageUrl = item.dataset.imageUrl;
         if (!deletedImageUrls.includes(imageUrl)) {
@@ -887,18 +863,14 @@ function openImageGallery() {
         }
     });
     
-    // Get new uploaded images
     const newImages = JSON.parse(document.getElementById('uploadedImages').value || '[]');
     
-    // Combine and deduplicate images
     const imageMap = new Map();
     
-    // Add existing images
     existingImages.forEach(img => {
         imageMap.set(img.url, img);
     });
     
-    // Add new images (will overwrite if same URL)
     newImages.forEach(img => {
         imageMap.set(img.image_url, {
             url: img.image_url,
@@ -935,7 +907,6 @@ function openImageGallery() {
 function selectImageForInsertion(imageUrl) {
     selectedImageUrl = imageUrl;
     
-    // Update UI to show selected image
     document.querySelectorAll('#galleryImageGrid .relative').forEach(item => {
         const img = item.querySelector('img');
         if (img.src === imageUrl) {
@@ -945,7 +916,6 @@ function selectImageForInsertion(imageUrl) {
         }
     });
     
-    // Show options panel
     const optionsPanel = document.getElementById('imageOptionsPanel');
     const preview = document.getElementById('selectedImagePreview');
     
@@ -960,7 +930,6 @@ function insertSelectedImage() {
     const align = document.getElementById('imageAlign').value;
     const caption = document.getElementById('imageCaption').value;
     
-    // Generate image HTML based on options
     let imageHtml = '';
     let sizeClass = '';
     
@@ -993,7 +962,6 @@ function insertSelectedImage() {
 `;
     }
     
-    // Insert at cursor position
     const contentTextarea = document.getElementById('content');
     const currentPos = contentTextarea.selectionStart || 0;
     const textBefore = contentTextarea.value.substring(0, currentPos);
@@ -1001,12 +969,10 @@ function insertSelectedImage() {
     
     contentTextarea.value = textBefore + imageHtml + textAfter;
     
-    // Set cursor after inserted image
     const newPos = currentPos + imageHtml.length;
     contentTextarea.setSelectionRange(newPos, newPos);
     contentTextarea.focus();
     
-    // Close modal
     closeImageGallery();
 }
 
@@ -1018,7 +984,6 @@ function closeImageGallery() {
     optionsPanel.classList.add('hidden');
     document.body.style.overflow = '';
     
-    // Reset form
     document.getElementById('imageSize').value = 'medium';
     document.getElementById('imageAlign').value = 'center';
     document.getElementById('imageCaption').value = '';

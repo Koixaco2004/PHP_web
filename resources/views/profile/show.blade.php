@@ -243,7 +243,6 @@
 </div>
 
 <script>
-// Tab functionality
 document.addEventListener('DOMContentLoaded', function() {
     const tabLinks = document.querySelectorAll('.tab-link');
     
@@ -252,13 +251,11 @@ document.addEventListener('DOMContentLoaded', function() {
             if (this.getAttribute('href').startsWith('#')) {
                 e.preventDefault();
                 
-                // Remove active class from all tabs
                 tabLinks.forEach(tab => {
                     tab.classList.remove('border-primary-500', 'text-primary-600', 'dark:text-primary-400-dark', 'dark:border-primary-400-dark');
                     tab.classList.add('border-transparent', 'text-gray-500', 'dark:text-gray-400');
                 });
 
-                // Add active class to clicked tab
                 this.classList.remove('border-transparent', 'text-gray-500', 'dark:text-gray-400');
                 this.classList.add('border-primary-500', 'text-primary-600', 'dark:text-primary-400-dark', 'dark:border-primary-400-dark');
             }

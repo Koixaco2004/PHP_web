@@ -29,7 +29,7 @@ class CategoryFactory extends Factory
             'Thương mại điện tử',
             'Fintech'
         ];
-        
+
         $vietnameseDescriptions = [
             'Danh mục chứa các bài viết về công nghệ và lập trình hiện đại.',
             'Chia sẻ kiến thức và kinh nghiệm trong lĩnh vực công nghệ thông tin.',
@@ -37,20 +37,25 @@ class CategoryFactory extends Factory
             'Cập nhật xu hướng mới nhất trong ngành IT và phần mềm.',
             'Bài viết chuyên sâu về các công nghệ và framework phổ biến.'
         ];
-        
+
         $name = $this->faker->randomElement($vietnameseCategories) . ' ' . $this->faker->numberBetween(1, 100);
-        
+
         return [
             'name' => $name,
             'slug' => Str::slug($name) . '-' . $this->faker->unique()->numberBetween(1, 1000),
             'description' => $this->faker->randomElement($vietnameseDescriptions),
             'color' => $this->faker->hexColor(),
             'icon' => $this->faker->randomElement([
-                'fas fa-laptop-code', 'fas fa-mobile-alt', 'fas fa-palette',
-                'fas fa-chart-line', 'fas fa-cogs', 'fas fa-lightbulb',
-                'fas fa-rocket', 'fas fa-shield-alt'
+                'fas fa-laptop-code',
+                'fas fa-mobile-alt',
+                'fas fa-palette',
+                'fas fa-chart-line',
+                'fas fa-cogs',
+                'fas fa-lightbulb',
+                'fas fa-rocket',
+                'fas fa-shield-alt'
             ]),
-            'is_active' => $this->faker->boolean(80), // 80% chance of being active
+            'is_active' => $this->faker->boolean(80),
             'sort_order' => $this->faker->numberBetween(0, 100),
         ];
     }
@@ -60,7 +65,7 @@ class CategoryFactory extends Factory
      */
     public function active(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'is_active' => true,
         ]);
     }
@@ -70,7 +75,7 @@ class CategoryFactory extends Factory
      */
     public function inactive(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'is_active' => false,
         ]);
     }

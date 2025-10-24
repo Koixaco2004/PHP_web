@@ -20,18 +20,14 @@ class SearchService
             ->published()
             ->withActiveCategory();
 
-        // Apply search query
         if (!empty($query)) {
             $builder = $this->applySearchQuery($builder, $query);
         }
 
-        // Apply filters
         $builder = $this->applyFilters($builder, $filters);
 
-        // Apply sorting
         $builder = $this->applySorting($builder, $filters['sort'] ?? 'relevance', $query);
 
-        // Get paginated results
         $perPage = $filters['per_page'] ?? 10;
         $posts = $builder->paginate($perPage);
 
@@ -64,17 +60,14 @@ class SearchService
      */
     private function applyFilters(Builder $builder, array $filters): Builder
     {
-        // Category filter
         if (!empty($filters['category'])) {
             $builder->where('category_id', $filters['category']);
         }
 
-        // Author filter
         if (!empty($filters['author'])) {
             $builder->where('user_id', $filters['author']);
         }
 
-        // Status filter (for admin users)
         if (!empty($filters['status']) && Auth::check() && Auth::user()->role === 'admin') {
             if ($filters['status'] === 'draft') {
                 $builder->where('status', 'draft');
@@ -83,7 +76,6 @@ class SearchService
             }
         }
 
-        // Date range filters
         if (!empty($filters['date_from'])) {
             $builder->whereDate('published_at', '>=', $filters['date_from']);
         }
@@ -158,10 +150,8 @@ class SearchService
      */
     private function parseSearchTerms(string $query): array
     {
-        // Remove extra spaces and split by spaces
         $terms = array_filter(explode(' ', trim($query)));
 
-        // Remove common Vietnamese stop words
         $stopWords = ['và', 'của', 'cho', 'với', 'từ', 'đến', 'trong', 'ngoài', 'trên', 'dưới', 'theo', 'như', 'là', 'có', 'được', 'sẽ', 'đã', 'đang'];
 
         return array_filter($terms, function ($term) use ($stopWords) {
@@ -217,7 +207,6 @@ class SearchService
 
         $suggestions = array_merge($suggestions, $titleSuggestions);
 
-        // Get category suggestions
         $categorySuggestions = Category::active()
             ->where('name', 'like', "%{$query}%")
             ->limit(3)
@@ -227,7 +216,6 @@ class SearchService
 
         $suggestions = array_merge($suggestions, $categorySuggestions);
 
-        // Remove duplicates and limit results
         $suggestions = array_unique($suggestions);
         $suggestions = array_slice($suggestions, 0, 8);
 
@@ -239,7 +227,6 @@ class SearchService
      */
     public function getPopularSearchTerms(): array
     {
-        // In a real application, you would track search queries in a database
         return [
             'công nghệ',
             'kinh doanh',

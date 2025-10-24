@@ -12,21 +12,16 @@ use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\ProfileController;
 
-// Trang chủ
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Search Routes
 Route::get('/search', [SearchController::class, 'index'])->name('search');
 Route::get('/search/suggest', [SearchController::class, 'suggest'])->name('search.suggest');
 Route::get('/search/popular', [SearchController::class, 'popular'])->name('search.popular');
 
-// Routes cho người dùng đăng bài
 Route::middleware(['auth'])->group(function () {
-    // Route tạo bài viết mới (dành cho user thường)
     Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
     Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
 
-    // Routes quản lý bài viết (chỉ admin)
     Route::middleware(['admin'])->group(function () {
         Route::get('/admin/posts', [PostController::class, 'index'])->name('posts.index');
         Route::get('/admin/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
@@ -34,7 +29,6 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/admin/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
     });
 
-    // Post Images Routes
     Route::prefix('posts/{post}/images')->name('posts.images.')->group(function () {
         Route::get('/', [PostImageController::class, 'index'])->name('index');
         Route::post('/', [PostImageController::class, 'store'])->name('store');
@@ -43,42 +37,29 @@ Route::middleware(['auth'])->group(function () {
         Route::patch('/{image}/featured', [PostImageController::class, 'setFeatured'])->name('featured');
     });
 
-    // Temporary image upload API
     Route::post('/api/upload-temp-image', [\App\Http\Controllers\Api\TempImageController::class, 'upload'])->name('api.temp-image.upload');
 
-    // Bình luận
     Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 });
 
-// Routes cho người dùng đã đăng nhập nhưng chưa cần verify email (xem, đọc)
-Route::middleware(['auth'])->group(function () {
-    // Các route không cần verify email có thể thêm ở đây nếu cần
-});
-
-// Route xem bài viết (phải đặt sau các route khác để tránh conflict)
 Route::get('/posts/{slug}', [HomeController::class, 'show'])->name('posts.show');
 
-// Routes cho admin
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
-    // User management
     Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users.index');
     Route::get('/admin/users/{user}/edit', [AdminController::class, 'editUser'])->name('admin.users.edit');
     Route::put('/admin/users/{user}', [AdminController::class, 'updateUser'])->name('admin.users.update');
     Route::delete('/admin/users/{user}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy');
 
-    // Comment management
     Route::get('/admin/comments', [AdminController::class, 'comments'])->name('admin.comments.index');
     Route::delete('/admin/comments/{comment}', [AdminController::class, 'destroyComment'])->name('admin.comments.destroy');
 
-    // Post approval management
     Route::get('/admin/posts/pending', [AdminController::class, 'pendingPosts'])->name('admin.posts.pending');
     Route::post('/admin/posts/{post}/approve', [AdminController::class, 'approvePost'])->name('admin.posts.approve');
     Route::post('/admin/posts/{post}/reject', [AdminController::class, 'rejectPost'])->name('admin.posts.reject');
 
-    // Category management
     Route::get('/admin/categories', [CategoryController::class, 'index'])->name('categories.index');
     Route::get('/admin/categories/create', [CategoryController::class, 'create'])->name('categories.create');
     Route::post('/admin/categories', [CategoryController::class, 'store'])->name('categories.store');
@@ -87,15 +68,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::delete('/admin/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 });
 
-// Route xem chuyên mục (phải đặt sau các route khác để tránh conflict)
 Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
 
-// Google OAuth Routes
 Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.redirect');
 Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('google.callback');
 
-
-// Profile Routes
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -107,10 +84,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile/activities', [ProfileController::class, 'activities'])->name('profile.activities');
 });
 
-// Public Profile Routes
 Route::get('/users/{user}', [ProfileController::class, 'showPublic'])->name('users.show');
 
-// Static pages
 Route::get('/privacy-policy', function () {
     return view('privacy-policy');
 })->name('privacy-policy');
@@ -123,5 +98,4 @@ Route::get('/support', function () {
     return view('support');
 })->name('support');
 
-// Authentication routes (nếu chưa có)
 require __DIR__ . '/auth.php';

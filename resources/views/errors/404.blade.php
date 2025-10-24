@@ -125,7 +125,6 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Add typing effect to 404 number
     const number404 = document.querySelector('.text-9xl');
     if (number404) {
         const originalText = '404';
@@ -143,7 +142,6 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(typeWriter, 500);
     }
     
-    // Add parallax effect to illustration
     window.addEventListener('scroll', function() {
         const illustration = document.querySelector('.animate-bounce');
         const scrolled = window.pageYOffset;
@@ -154,7 +152,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Auto-focus search input
     const searchInput = document.querySelector('input[name="q"]');
     if (searchInput) {
         setTimeout(() => searchInput.focus(), 1000);

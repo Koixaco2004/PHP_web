@@ -266,7 +266,6 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Preview functionality
     const nameInput = document.getElementById('name');
     const descriptionInput = document.getElementById('description');
     const previewName = document.getElementById('preview-name');

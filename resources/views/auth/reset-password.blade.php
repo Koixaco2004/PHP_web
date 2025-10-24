@@ -308,7 +308,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Dark mode support for form validation
     const form = document.getElementById('resetForm');
     const inputs = form.querySelectorAll('input[required]');
 
@@ -336,11 +335,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Initial state
     updateSubmitButton();
 
-    // Form submission feedback
-    const form = document.getElementById('resetForm');
     form.addEventListener('submit', function() {
         const originalText = submitButton.innerHTML;
 

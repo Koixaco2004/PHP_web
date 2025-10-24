@@ -36,7 +36,6 @@ if (!function_exists('formatSearchResults')) {
      */
     function formatSearchResults($posts, $query)
     {
-        // If it's a paginator, format the items
         if (method_exists($posts, 'getCollection')) {
             $collection = $posts->getCollection();
             $formattedCollection = $collection->map(function ($post) use ($query) {
@@ -45,12 +44,10 @@ if (!function_exists('formatSearchResults')) {
                 return $post;
             });
 
-            // Replace the collection in the paginator
             $posts->setCollection($formattedCollection);
             return $posts;
         }
 
-        // If it's a regular collection
         return $posts->map(function ($post) use ($query) {
             $post->highlighted_title = highlightSearchTerm($post->title, $query);
             $post->highlighted_excerpt = highlightSearchTerm($post->excerpt ?? Str::limit(strip_tags($post->content_html), 150), $query);

@@ -18,7 +18,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create admin user
         $admin = User::factory()->create([
             'name' => 'Quản trị viên',
             'email' => 'admin@example.com',
@@ -27,7 +26,6 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
 
-        // Create test user
         $testUser = User::factory()->create([
             'name' => 'Người dùng thử nghiệm',
             'email' => 'test@example.com',
@@ -36,12 +34,10 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
 
-        // Create additional users
         User::factory()->count(20)->create();
         User::factory()->count(5)->create();
         User::factory()->count(3)->withGoogle()->create();
 
-        // Create categories with predefined data using primary color shades
         $categories = [
             ['name' => 'Phát triển Web', 'color' => '#22c55e', 'icon' => 'fas fa-laptop-code'], // primary-500
             ['name' => 'Phát triển Mobile', 'color' => '#16a34a', 'icon' => 'fas fa-mobile-alt'], // primary-600
@@ -59,15 +55,12 @@ class DatabaseSeeder extends Seeder
             ]));
         }
 
-        // Create additional random categories
         Category::factory()->count(4)->create();
 
-        // Create posts
         $categories = Category::all();
         $users = User::all();
 
         foreach ($categories as $category) {
-            // Create 5-10 posts per category
             $postCount = rand(5, 10);
 
             for ($i = 0; $i < $postCount; $i++) {
@@ -76,18 +69,16 @@ class DatabaseSeeder extends Seeder
                     'user_id' => $users->random()->id,
                 ]);
 
-                // Add 1-3 images per post
                 $imageCount = rand(1, 3);
                 $postImages = [];
                 for ($j = 0; $j < $imageCount; $j++) {
                     $postImages[] = PostImage::factory()->create([
                         'post_id' => $post->id,
-                        'is_featured' => $j === 0, // First image is featured
+                        'is_featured' => $j === 0,
                         'sort_order' => $j,
                     ]);
                 }
 
-                // Replace image placeholders in content with actual post images
                 $content = $post->content;
                 foreach ($postImages as $index => $image) {
                     $placeholder = '{{POST_IMAGE_' . $index . '}}';
@@ -99,13 +90,10 @@ class DatabaseSeeder extends Seeder
                     $content = str_replace($placeholder, $imageHtml, $content);
                 }
 
-                // Remove any remaining placeholders that don't have corresponding images
                 $content = preg_replace('/\{\{POST_IMAGE_\d+\}\}/', '', $content);
 
-                // Update post content with actual images
                 $post->update(['content' => $content]);
 
-                // Add 0-10 comments per post
                 $commentCount = rand(0, 10);
                 for ($k = 0; $k < $commentCount; $k++) {
                     $comment = Comment::factory()->create([
@@ -113,7 +101,6 @@ class DatabaseSeeder extends Seeder
                         'user_id' => $users->random()->id,
                     ]);
 
-                    // 30% chance of having a reply
                     if (rand(1, 100) <= 30) {
                         Comment::factory()->create([
                             'post_id' => $post->id,
@@ -123,21 +110,10 @@ class DatabaseSeeder extends Seeder
                     }
                 }
 
-                // Update post comment count
                 $post->update(['comment_count' => $post->comments()->count()]);
             }
         }
 
-        // Create some featured posts
         Post::published()->inRandomOrder()->limit(5)->update(['is_featured' => true]);
-
-        echo "Khởi tạo dữ liệu thành công!\n";
-        echo "Tài khoản quản trị: admin@example.com / password\n";
-        echo "Tài khoản thử nghiệm: test@example.com / password\n";
-        echo "Đã tạo " . User::count() . " người dùng\n";
-        echo "Đã tạo " . Category::count() . " danh mục\n";
-        echo "Đã tạo " . Post::count() . " bài viết\n";
-        echo "Đã tạo " . PostImage::count() . " hình ảnh bài viết\n";
-        echo "Đã tạo " . Comment::count() . " bình luận\n";
     }
 }

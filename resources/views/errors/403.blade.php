@@ -198,7 +198,6 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Add shake animation to lock icon
     const lockIcon = document.querySelector('.animate-bounce');
     if (lockIcon) {
         setInterval(() => {
@@ -209,7 +208,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 3000);
     }
     
-    // Add permission check notification
     const permissionCheck = document.createElement('div');
     permissionCheck.className = 'fixed top-4 right-4 bg-yellow-100 border border-yellow-400 text-yellow-800 px-4 py-3 rounded-lg shadow-lg max-w-sm transform translate-x-full transition-transform duration-500';
     permissionCheck.innerHTML = `
@@ -226,12 +224,10 @@ document.addEventListener('DOMContentLoaded', function() {
     `;
     document.body.appendChild(permissionCheck);
     
-    // Show notification
     setTimeout(() => {
         permissionCheck.style.transform = 'translateX(0)';
     }, 1000);
     
-    // Auto-hide notification
     setTimeout(() => {
         permissionCheck.style.transform = 'translateX(full)';
         setTimeout(() => {

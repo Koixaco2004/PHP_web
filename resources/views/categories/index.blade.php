@@ -322,7 +322,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     let deleteFormId = null;
     
-    // Search functionality
     const searchInput = document.getElementById('searchInput');
     const categoryRows = document.querySelectorAll('.category-row');
     
@@ -341,7 +340,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Delete modal functions
     window.confirmDelete = function(categoryId, categoryName) {
         deleteFormId = categoryId;
         document.getElementById('categoryName').textContent = categoryName;
@@ -359,7 +357,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
     
-    // Close modal when clicking outside
     document.getElementById('deleteModal').addEventListener('click', function(e) {
         if (e.target === this) {
             closeDeleteModal();

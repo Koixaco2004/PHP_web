@@ -172,7 +172,6 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Auto-reload countdown
     let countdown = 30;
     const countdownElement = document.createElement('div');
     countdownElement.className = 'fixed bottom-4 right-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-secondary-200 dark:border-gray-700 p-4 text-sm';
@@ -199,7 +198,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }, 1000);
     
-    // Add glitch effect to 500 number
     const number500 = document.querySelector('.text-9xl');
     if (number500) {
         setInterval(() => {

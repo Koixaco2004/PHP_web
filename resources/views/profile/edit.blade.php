@@ -196,7 +196,6 @@
 </div>
 
 <script>
-// Avatar preview functionality
 document.getElementById('avatar-input').addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (file) {
@@ -209,7 +208,6 @@ document.getElementById('avatar-input').addEventListener('change', function(e) {
     }
 });
 
-// Character counter for bio
 document.getElementById('bio').addEventListener('input', function(e) {
     const maxLength = 500;
     const currentLength = e.target.value.length;

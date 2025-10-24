@@ -23,7 +23,7 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
-        $faker = fake('vi_VN'); // Sử dụng locale tiếng Việt
+        $faker = fake('vi_VN');
         $vietnameseNames = [
             'Nguyễn Văn An',
             'Trần Thị Bình',

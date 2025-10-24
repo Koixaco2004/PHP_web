@@ -464,35 +464,29 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Search functionality
     const searchInput = document.querySelector('input[name="q"]');
     const searchForm = document.querySelector('form');
     
-    // Auto-complete (simplified)
     searchInput.addEventListener('input', function() {
-        // Here you could implement real-time search suggestions
         console.log('Searching for:', this.value);
     });
     
-    // Save recent searches to localStorage
     if (searchInput.value) {
         saveRecentSearch(searchInput.value);
         displayRecentSearches();
     }
     
-    // Sort functionality
     window.updateSort = function(sortValue) {
         const url = new URL(window.location);
         url.searchParams.set('sort', sortValue);
         window.location.href = url.toString();
     };
     
-    // Recent searches functionality
     function saveRecentSearch(query) {
         let recent = JSON.parse(localStorage.getItem('recentSearches') || '[]');
-        recent = recent.filter(item => item !== query); // Remove if exists
-        recent.unshift(query); // Add to beginning
-        recent = recent.slice(0, 5); // Keep only 5 items
+        recent = recent.filter(item => item !== query);
+        recent.unshift(query);
+        recent = recent.slice(0, 5);
         localStorage.setItem('recentSearches', JSON.stringify(recent));
     }
     
@@ -515,10 +509,8 @@ document.addEventListener('DOMContentLoaded', function() {
         `).join('');
     }
     
-    // Initialize recent searches
     displayRecentSearches();
     
-    // Highlight search terms in results
     function highlightText() {
         const query = searchInput.value;
         if (!query) return;
@@ -534,17 +526,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Add search analytics (if needed)
     if (searchInput.value) {
-        // Track search query
         console.log('Search query:', searchInput.value);
     }
 });
-
-// Helper function for highlighting search terms (PHP equivalent in JavaScript)
-@if(isset($query) && $query)
-// This would be handled by PHP function highlightSearchTerm() in the view
-@endif
 </script>
 
 @endsection

@@ -10,13 +10,11 @@ class SplashScreen {
     }
 
     init() {
-        // Kiểm tra sessionStorage để chỉ hiển thị splashscreen một lần per session
         if (!sessionStorage.getItem('splashShown')) {
             this.createOverlay();
             this.show();
             sessionStorage.setItem('splashShown', 'true');
 
-            // Tự động ẩn sau 2.1 giây
             setTimeout(() => {
                 this.hide();
             }, 2100);
@@ -24,21 +22,18 @@ class SplashScreen {
     }
 
     createOverlay() {
-        // Tạo overlay toàn màn hình che hết nội dung
         this.overlay = document.createElement('div');
         this.overlay.id = 'splashscreen-overlay';
         this.overlay.className = 'fixed inset-0 z-50 flex flex-col items-center justify-center bg-white dark:bg-gray-900';
         this.overlay.style.minHeight = '100vh';
         this.overlay.innerHTML = `
             <div class="text-center max-w-md mx-auto px-6">
-                <!-- Logo SmurfExpress -->
                 <div class="mb-8 translate-y-12">
                     <img src="/logo.png" alt="SmurfExpress Logo" class="w-20 h-20 rounded-full mx-auto mb-4">
                     <h1 class="text-3xl font-bold text-primary-900 dark:text-primary-100">SmurfExpress</h1>
                     <p class="text-gray-600 dark:text-gray-300">Trang tin tức hàng đầu Việt Nam</p>
                 </div>
 
-                <!-- Animation container -->
                 <div id="lottie-splashscreen" class="w-72 h-72 mx-auto -translate-y-6"></div>
 
             </div>
@@ -64,11 +59,10 @@ class SplashScreen {
             });
 
             this.animation.addEventListener('DOMLoaded', () => {
-                // Animation loaded successfully
+                //
             });
 
             this.animation.addEventListener('error', () => {
-                // Fallback: hiển thị nội dung tĩnh nếu animation lỗi
                 this.showFallbackContent();
             });
         } catch (error) {
@@ -77,7 +71,6 @@ class SplashScreen {
     }
 
     showFallbackContent() {
-        // Hiển thị nội dung tĩnh nếu animation không load được
         if (this.container) {
             this.container.innerHTML = `
                 <div class="text-center">
@@ -96,7 +89,7 @@ class SplashScreen {
 
         this.isVisible = true;
         this.overlay.style.display = 'flex';
-        document.body.style.overflow = 'hidden'; // Ngăn scroll khi hiển thị splash
+        document.body.style.overflow = 'hidden';
     }
 
     hide() {
@@ -104,7 +97,6 @@ class SplashScreen {
 
         this.isVisible = false;
 
-        // Fade out effect
         this.overlay.style.opacity = '0';
         this.overlay.style.transition = 'opacity 0.5s ease-out';
 
@@ -112,13 +104,12 @@ class SplashScreen {
             if (this.overlay && this.overlay.parentNode) {
                 this.overlay.parentNode.removeChild(this.overlay);
             }
-            document.body.style.overflow = ''; // Khôi phục scroll
+            document.body.style.overflow = '';
             this.showMainContent();
         }, 500);
     }
 
     showMainContent() {
-        // Hiển thị nội dung chính sau khi splashscreen biến mất
         const mainContent = document.querySelector('main');
         if (mainContent) {
             mainContent.style.opacity = '0';
@@ -128,7 +119,6 @@ class SplashScreen {
             }, 100);
         }
 
-        // Khôi phục dark mode classes cho body nếu cần
         const body = document.body;
         if (body) {
             body.classList.add('dark:bg-gray-900', 'dark:text-white');
@@ -146,11 +136,9 @@ class SplashScreen {
     }
 }
 
-// Khởi tạo khi DOM đã sẵn sàng để tránh lỗi
 document.addEventListener('DOMContentLoaded', () => {
     const splash = new SplashScreen();
     splash.init();
 
-    // Export để có thể truy cập từ bên ngoài nếu cần
     window.splashScreen = splash;
 });

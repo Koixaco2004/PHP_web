@@ -190,7 +190,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Dark mode support for validation
         input.addEventListener('focus', function() {
             if (document.documentElement.classList.contains('dark')) {
                 if (!this.value.trim()) {

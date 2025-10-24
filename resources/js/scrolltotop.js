@@ -1,6 +1,4 @@
-// Scroll to Top Functionality
 document.addEventListener('DOMContentLoaded', function () {
-    // Create scroll to top button
     const scrollToTopBtn = document.createElement('button');
     scrollToTopBtn.id = 'scrollToTopBtn';
     scrollToTopBtn.innerHTML = `
@@ -11,10 +9,8 @@ document.addEventListener('DOMContentLoaded', function () {
     scrollToTopBtn.setAttribute('aria-label', 'Scroll to top');
     scrollToTopBtn.classList.add('scroll-to-top-btn', 'hidden');
 
-    // Append button to body
     document.body.appendChild(scrollToTopBtn);
 
-    // Show/hide button on scroll
     let scrollTimeout;
     window.addEventListener('scroll', function () {
         clearTimeout(scrollTimeout);
@@ -30,21 +26,18 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Scroll to top on click with smooth animation
     scrollToTopBtn.addEventListener('click', function () {
         window.scrollTo({
             top: 0,
             behavior: 'smooth'
         });
 
-        // Add click animation
         scrollToTopBtn.classList.add('clicked');
         setTimeout(() => {
             scrollToTopBtn.classList.remove('clicked');
         }, 300);
     });
 
-    // Add keyboard accessibility
     scrollToTopBtn.addEventListener('keydown', function (e) {
         if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();

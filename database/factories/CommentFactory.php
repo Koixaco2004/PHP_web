@@ -36,13 +36,13 @@ class CommentFactory extends Factory
             'Bài viết đúng thời điểm mình cần.',
             'Chờ bài viết tiếp theo của bạn.'
         ];
-        
+
         return [
             'content' => $this->faker->randomElement($vietnameseComments),
             'post_id' => Post::factory(),
             'user_id' => User::factory(),
-            'parent_id' => null, // Top level comment by default
-            'is_approved' => $this->faker->boolean(80), // 80% approved
+            'parent_id' => null,
+            'is_approved' => $this->faker->boolean(80),
         ];
     }
 
@@ -51,7 +51,7 @@ class CommentFactory extends Factory
      */
     public function approved(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'is_approved' => true,
         ]);
     }
@@ -61,7 +61,7 @@ class CommentFactory extends Factory
      */
     public function pending(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'is_approved' => false,
         ]);
     }
@@ -71,7 +71,7 @@ class CommentFactory extends Factory
      */
     public function reply(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'parent_id' => Comment::factory(),
             'content' => $this->faker->paragraph(2), // Shorter replies
         ]);

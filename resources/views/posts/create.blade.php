@@ -514,7 +514,6 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Writing statistics
     const titleInput = document.getElementById('title');
     const contentInput = document.getElementById('content');
     const excerptInput = document.getElementById('excerpt');
@@ -526,7 +525,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const content = contentInput.value;
         const words = content.trim() ? content.trim().split(/\s+/).length : 0;
         const chars = content.length;
-        const readingTime = Math.max(1, Math.ceil(words / 200)); // Assume 200 words per minute
+        const readingTime = Math.max(1, Math.ceil(words / 200));
         
         wordCount.textContent = words;
         charCount.textContent = chars;
@@ -536,7 +535,6 @@ document.addEventListener('DOMContentLoaded', function() {
     contentInput.addEventListener('input', updateStats);
     updateStats();
     
-    // Image upload functionality
     const imageInput = document.getElementById('imageInput');
     const uploadArea = document.getElementById('uploadArea');
     const imagePreview = document.getElementById('imagePreview');
@@ -547,7 +545,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     let uploadedImages = [];
     
-    // Drag and drop functionality
     uploadArea.addEventListener('dragover', function(e) {
         e.preventDefault();
         uploadArea.classList.add('border-primary-400', 'dark:border-primary-400-dark', 'bg-primary-50', 'dark:bg-primary-900');
@@ -565,7 +562,6 @@ document.addEventListener('DOMContentLoaded', function() {
         handleFiles(files);
     });
     
-    // File input change
     imageInput.addEventListener('change', function(e) {
         const files = Array.from(e.target.files);
         handleFiles(files);
@@ -574,19 +570,17 @@ document.addEventListener('DOMContentLoaded', function() {
     function handleFiles(files) {
         if (files.length === 0) return;
         
-        // Validate file count
         if (uploadedImages.length + files.length > 10) {
             alert('Chỉ có thể upload tối đa 10 ảnh');
             return;
         }
         
-        // Validate file size and type
         const validFiles = files.filter(file => {
             if (!file.type.startsWith('image/')) {
                 alert(`File ${file.name} không phải là hình ảnh`);
                 return false;
             }
-            if (file.size > 5 * 1024 * 1024) { // 5MB
+            if (file.size > 5 * 1024 * 1024) {
                 alert(`File ${file.name} quá lớn (tối đa 5MB)`);
                 return false;
             }
@@ -595,12 +589,10 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (validFiles.length === 0) return;
         
-        // Show progress
         uploadProgress.classList.remove('hidden');
         progressBar.style.width = '0%';
         progressText.textContent = 'Đang upload...';
         
-        // Upload files
         uploadFiles(validFiles);
     }
     
@@ -640,12 +632,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
-        // Hide progress after completion
         setTimeout(() => {
             uploadProgress.classList.add('hidden');
         }, 1000);
         
-        // Update hidden input
         uploadedImagesInput.value = JSON.stringify(uploadedImages);
     }
     
@@ -678,24 +668,20 @@ document.addEventListener('DOMContentLoaded', function() {
         
         imagePreview.appendChild(previewItem);
         
-        // Set first image as featured by default
         if (uploadedImages.length === 1) {
             const radio = previewItem.querySelector('input[type="radio"]');
             radio.checked = true;
             const indicator = previewItem.querySelector('span span');
             indicator.classList.remove('hidden');
             
-            // Update hidden input
             document.getElementById('featuredImageInput').value = imageData.image_url;
         }
     }
     
-    // Remove image function
     window.removeImage = function(imageUrl) {
         uploadedImages = uploadedImages.filter(img => img.image_url !== imageUrl);
         uploadedImagesInput.value = JSON.stringify(uploadedImages);
         
-        // Remove preview
         const previews = imagePreview.querySelectorAll('img');
         previews.forEach(img => {
             if (img.src === imageUrl) {
@@ -703,32 +689,26 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        // Hide preview area if no images
         if (uploadedImages.length === 0) {
             imagePreview.style.display = 'none';
         }
     };
     
-    // Featured image selection
     imagePreview.addEventListener('change', function(e) {
         if (e.target.type === 'radio') {
-            // Update visual indicators
             const allIndicators = imagePreview.querySelectorAll('span span');
             allIndicators.forEach(indicator => indicator.classList.add('hidden'));
             
             const selectedIndicator = e.target.closest('label').querySelector('span span');
             selectedIndicator.classList.remove('hidden');
             
-            // Update hidden input
             document.getElementById('featuredImageInput').value = e.target.value;
         }
     });
     
-    // Form submission handling
     document.getElementById('postForm').addEventListener('submit', function(e) {
         const submitButton = e.submitter;
         if (submitButton && submitButton.name === 'action') {
-            // Set status based on button clicked
             if (submitButton.value === 'publish') {
                 document.getElementById('status').value = 'published';
             } else if (submitButton.value === 'draft') {
@@ -737,14 +717,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Auto-save functionality (optional)
     let autoSaveTimeout;
     function autoSave() {
         clearTimeout(autoSaveTimeout);
         autoSaveTimeout = setTimeout(() => {
-            // Implement auto-save logic here
             console.log('Auto-saving draft...');
-        }, 30000); // Auto-save every 30 seconds
+        }, 30000);
     }
     
     [titleInput, contentInput, excerptInput].forEach(input => {
@@ -752,7 +730,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Text formatting functions
 function formatText(type) {
     const contentTextarea = document.getElementById('content');
     const start = contentTextarea.selectionStart;
@@ -795,21 +772,17 @@ function formatText(type) {
             break;
     }
 
-    // Insert the formatted text
     const newValue = contentTextarea.value.substring(0, start) + replacement + contentTextarea.value.substring(end);
     contentTextarea.value = newValue;
     
-    // Set cursor position after the inserted text
     const newCursorPos = start + replacement.length;
     contentTextarea.setSelectionRange(newCursorPos, newCursorPos);
     contentTextarea.focus();
     
-    // Update stats after formatting
     const event = new Event('input', { bubbles: true });
     contentTextarea.dispatchEvent(event);
 }
 
-// Image gallery functions
 let selectedImageUrl = '';
 
 function openImageGallery() {
@@ -817,10 +790,8 @@ function openImageGallery() {
     const grid = document.getElementById('galleryImageGrid');
     const noImagesMsg = document.getElementById('noImagesMessage');
     
-    // Clear previous content
     grid.innerHTML = '';
     
-    // Get uploaded images
     const uploadedImagesInput = document.getElementById('uploadedImages');
     const uploadedImages = JSON.parse(uploadedImagesInput.value || '[]');
     
@@ -851,7 +822,6 @@ function openImageGallery() {
 function selectImageForInsertion(imageUrl) {
     selectedImageUrl = imageUrl;
     
-    // Update UI to show selected image
     document.querySelectorAll('#galleryImageGrid .relative').forEach(item => {
         const img = item.querySelector('img');
         if (img.src === imageUrl) {
@@ -863,7 +833,6 @@ function selectImageForInsertion(imageUrl) {
         }
     });
     
-    // Show options panel
     const optionsPanel = document.getElementById('imageOptionsPanel');
     const preview = document.getElementById('selectedImagePreview');
     
@@ -878,7 +847,6 @@ function insertSelectedImage() {
     const align = document.getElementById('imageAlign').value;
     const caption = document.getElementById('imageCaption').value;
     
-    // Generate image HTML based on options
     let imageHtml = '';
     let sizeClass = '';
     
@@ -911,7 +879,6 @@ function insertSelectedImage() {
 `;
     }
     
-    // Insert at cursor position
     const contentTextarea = document.getElementById('content');
     const currentPos = contentTextarea.selectionStart || 0;
     const textBefore = contentTextarea.value.substring(0, currentPos);
@@ -919,16 +886,13 @@ function insertSelectedImage() {
     
     contentTextarea.value = textBefore + imageHtml + textAfter;
     
-    // Set cursor after inserted image
     const newPos = currentPos + imageHtml.length;
     contentTextarea.setSelectionRange(newPos, newPos);
     contentTextarea.focus();
     
-    // Update stats
     const event = new Event('input', { bubbles: true });
     contentTextarea.dispatchEvent(event);
     
-    // Close modal
     closeImageGallery();
 }
 
@@ -940,13 +904,11 @@ function closeImageGallery() {
     optionsPanel.classList.add('hidden');
     document.body.style.overflow = '';
     
-    // Reset form
     document.getElementById('imageSize').value = 'medium';
     document.getElementById('imageAlign').value = 'center';
     document.getElementById('imageCaption').value = '';
     selectedImageUrl = '';
     
-    // Reset image selection highlights
     document.querySelectorAll('#galleryImageGrid .relative img').forEach(img => {
         img.classList.remove('border-primary-500', 'dark:border-primary-400-dark');
         img.classList.add('border-transparent');

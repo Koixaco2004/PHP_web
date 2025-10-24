@@ -131,7 +131,6 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Email validation
     const emailField = document.getElementById('email');
 
     emailField.addEventListener('blur', function() {
@@ -147,7 +146,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Dark mode support for validation
     emailField.addEventListener('focus', function() {
         if (document.documentElement.classList.contains('dark')) {
             const email = this.value;
@@ -163,7 +161,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Form submission feedback
     const form = document.querySelector('form');
     form.addEventListener('submit', function() {
         const submitButton = this.querySelector('button[type="submit"]');
@@ -178,7 +175,6 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
         submitButton.disabled = true;
 
-        // Reset after 5 seconds in case of slow response
         setTimeout(() => {
             submitButton.innerHTML = originalText;
             submitButton.disabled = false;
