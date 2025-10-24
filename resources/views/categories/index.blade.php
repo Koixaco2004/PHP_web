@@ -2,34 +2,28 @@
 
 @section('title', 'Quản lý chuyên mục')
 
+@php
+    use Illuminate\Support\Facades\Auth;
+@endphp
+
 @section('content')
 <!-- Page Header -->
-<div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 mb-8 animate-fade-in">
-    <div class="flex flex-col md:flex-row md:items-center justify-between">
-        <div class="mb-4 md:mb-0">
-            <h1 class="text-3xl font-heading font-bold text-secondary-900 dark:text-primary-400-dark flex items-center">
-                <svg class="w-8 h-8 mr-3 text-primary-600 dark:text-primary-400-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<div class="bg-gradient-to-r from-primary-600 to-primary-800 dark:from-primary-800 dark:to-primary-900 rounded-xl shadow-lg p-8 mb-8 animate-slide-up">
+    <div class="flex items-center justify-between">
+        <div class="flex items-center">
+            <div class="w-16 h-16 bg-white bg-opacity-20 dark:bg-white dark:bg-opacity-30 rounded-xl flex items-center justify-center mr-6">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
                 </svg>
-                Quản lý chuyên mục
-            </h1>
-            <p class="text-secondary-600 dark:text-gray-300 mt-1">Tạo và quản lý các chuyên mục cho website tin tức</p>
-        </div>
-        
-        <div class="flex items-center space-x-3">
-            <!-- Search Input -->
-            <div class="relative">
-                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg class="h-4 w-4 text-secondary-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                    </svg>
-                </div>
-                <input type="text" id="searchInput" placeholder="Tìm kiếm chuyên mục..." 
-                       class="block w-full pl-10 pr-3 py-2 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400 text-sm transition-colors duration-200">
             </div>
-            
-            <a href="{{ route('categories.create') }}" class="btn-primary flex items-center">
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div>
+                <h1 class="text-4xl font-heading font-bold text-white">Quản lý Chuyên mục</h1>
+                <p class="text-primary-100 dark:text-primary-200 mt-2">Tạo và phân loại nội dung website</p>
+            </div>
+        </div>
+        <div class="hidden lg:flex items-center space-x-3">
+            <a href="{{ route('categories.create') }}" class="bg-white text-primary-600 hover:bg-primary-50 px-6 py-3 rounded-lg font-semibold flex items-center transition-colors duration-200">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                 </svg>
                 Thêm chuyên mục
@@ -42,56 +36,56 @@
 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up">
         <div class="flex items-center">
-            <div class="w-12 h-12 bg-primary-100 dark:bg-primary-900-dark rounded-lg flex items-center justify-center">
-                <svg class="w-6 h-6 text-primary-600 dark:text-primary-400-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center mr-4">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
                 </svg>
             </div>
-            <div class="ml-4">
-                <p class="text-sm font-medium text-secondary-600 dark:text-gray-300">Tổng chuyên mục</p>
-                <p class="text-2xl font-bold text-secondary-900 dark:text-primary-400-dark">{{ $categories->total() }}</p>
+            <div class="flex-1">
+                <p class="text-sm text-secondary-600 dark:text-gray-300 mb-1">Tổng chuyên mục</p>
+                <p class="text-2xl font-bold text-primary-600 dark:text-primary-400-dark">{{ $categories->total() }}</p>
             </div>
         </div>
     </div>
     
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.1s">
         <div class="flex items-center">
-            <div class="w-12 h-12 bg-primary-100 dark:bg-primary-900-dark rounded-lg flex items-center justify-center">
-                <svg class="w-6 h-6 text-primary-600 dark:text-primary-400-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center mr-4">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
             </div>
-            <div class="ml-4">
-                <p class="text-sm font-medium text-secondary-600 dark:text-gray-300">Đang hoạt động</p>
-                <p class="text-2xl font-bold text-secondary-900 dark:text-primary-400-dark">{{ $categories->where('is_active', true)->count() }}</p>
+            <div class="flex-1">
+                <p class="text-sm text-secondary-600 dark:text-gray-300 mb-1">Đang hoạt động</p>
+                <p class="text-2xl font-bold text-primary-600 dark:text-primary-400-dark">{{ $categories->where('is_active', true)->count() }}</p>
             </div>
         </div>
     </div>
     
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.2s">
         <div class="flex items-center">
-            <div class="w-12 h-12 bg-accent-100 dark:bg-accent-900 rounded-lg flex items-center justify-center">
-                <svg class="w-6 h-6 text-accent-600 dark:text-accent-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="w-12 h-12 bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-lg flex items-center justify-center mr-4">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                 </svg>
             </div>
-            <div class="ml-4">
-                <p class="text-sm font-medium text-secondary-600 dark:text-gray-300">Tổng bài viết</p>
-                <p class="text-2xl font-bold text-secondary-900 dark:text-primary-400-dark">{{ $categories->sum('posts_count') }}</p>
+            <div class="flex-1">
+                <p class="text-sm text-secondary-600 dark:text-gray-300 mb-1">Tổng bài viết</p>
+                <p class="text-2xl font-bold text-primary-600 dark:text-primary-400-dark">{{ $categories->sum('posts_count') }}</p>
             </div>
         </div>
     </div>
     
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.3s">
         <div class="flex items-center">
-            <div class="w-12 h-12 bg-red-100 dark:bg-red-900 rounded-lg flex items-center justify-center">
-                <svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center mr-4">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L3.732 16c-.77.833.192 2.5 1.732 2.5z"/>
                 </svg>
             </div>
-            <div class="ml-4">
-                <p class="text-sm font-medium text-secondary-600 dark:text-gray-300">Chuyên mục trống</p>
-                <p class="text-2xl font-bold text-secondary-900 dark:text-primary-400-dark">{{ $categories->where('posts_count', 0)->count() }}</p>
+            <div class="flex-1">
+                <p class="text-sm text-secondary-600 dark:text-gray-300 mb-1">Chuyên mục trống</p>
+                <p class="text-2xl font-bold text-primary-600 dark:text-primary-400-dark">{{ $categories->where('posts_count', 0)->count() }}</p>
             </div>
         </div>
     </div>
@@ -101,11 +95,18 @@
 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 overflow-hidden animate-slide-up" style="animation-delay: 0.4s">
     @if($categories->count() > 0)
         <!-- Table Header -->
-        <div class="px-6 py-4 border-b border-secondary-200 dark:border-gray-700 bg-secondary-50 dark:bg-gray-700">
+        <div class="px-6 py-4 border-b border-secondary-200 dark:border-gray-700">
             <div class="flex items-center justify-between">
-                <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-400-dark">Danh sách chuyên mục</h3>
-                <div class="flex items-center space-x-2 text-sm text-secondary-500 dark:text-gray-300">
-                    <span>Hiển thị {{ $categories->count() }} / {{ $categories->total() }} chuyên mục</span>
+                <h2 class="text-xl font-semibold text-secondary-900 dark:text-primary-400-dark flex items-center">
+                    <svg class="w-5 h-5 text-primary-600 dark:text-primary-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
+                    </svg>
+                    Danh sách Chuyên mục
+                </h2>
+                <div class="flex items-center space-x-2">
+                    <span class="text-sm text-secondary-600 dark:text-gray-300">
+                        Hiển thị {{ $categories->firstItem() ?? 0 }} - {{ $categories->lastItem() ?? 0 }} của {{ $categories->total() }} chuyên mục
+                    </span>
                 </div>
             </div>
         </div>
@@ -120,7 +121,7 @@
                         <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider w-24">Bài viết</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider w-28">Trạng thái</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider w-24">Ngày tạo</th>
-                        <th class="px-6 py-3 text-right text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider w-32">Thao tác</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider w-32">Thao tác</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white dark:bg-gray-800 divide-y divide-secondary-200 dark:divide-gray-700" id="categoriesTable">
@@ -171,10 +172,10 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary-500 dark:text-gray-300 w-24">
                                 {{ $category->created_at->format('d/m/Y') }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium w-32">
-                                <div class="flex items-center justify-end space-x-2">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <div class="flex items-center space-x-2">
                                     <a href="{{ route('categories.show', $category) }}" 
-                                       class="text-secondary-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400-dark transition-colors duration-200"
+                                       class="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300 transition-colors duration-200"
                                        title="Xem chuyên mục">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -183,7 +184,7 @@
                                     </a>
                                     
                                     <a href="{{ route('categories.edit', $category) }}" 
-                                       class="text-secondary-600 dark:text-gray-300 hover:text-accent-600 dark:hover:text-accent-400 transition-colors duration-200"
+                                       class="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 transition-colors duration-200"
                                        title="Chỉnh sửa">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
@@ -192,7 +193,7 @@
                                     
                                     @if($category->posts_count == 0)
                                         <button onclick="confirmDelete({{ $category->id }}, '{{ $category->name }}')" 
-                                                class="text-secondary-600 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors duration-200"
+                                                class="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300 transition-colors duration-200"
                                                 title="Xóa chuyên mục">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
@@ -204,7 +205,7 @@
                                             @method('DELETE')
                                         </form>
                                     @else
-                                        <span class="text-secondary-400 dark:text-gray-500" title="Không thể xóa chuyên mục có bài viết">
+                                        <span class="text-gray-400 dark:text-gray-600 cursor-not-allowed" title="Không thể xóa chuyên mục có bài viết">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                                             </svg>

@@ -43,7 +43,13 @@ class AdminController extends Controller
     public function users()
     {
         $users = User::latest()->paginate(10);
-        return view('admin.users.index', compact('users'));
+
+        // Statistics for quick stats cards
+        $adminCount = User::where('role', 'admin')->count();
+        $userCount = User::where('role', 'user')->count();
+        $verifiedCount = User::whereNotNull('email_verified_at')->count();
+
+        return view('admin.users.index', compact('users', 'adminCount', 'userCount', 'verifiedCount'));
     }
 
     /**
