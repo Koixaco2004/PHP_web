@@ -24,9 +24,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with(['category', 'user', 'images' => function($query) {
+        $posts = Post::with(['category', 'user', 'images' => function ($query) {
             $query->where('is_featured', true)->orWhere('sort_order', 0);
-        }])->latest()->paginate(10);
+        }])->published()->withActiveCategory()->latest()->paginate(10);
         return view('posts.index', compact('posts'));
     }
 
@@ -69,7 +69,7 @@ class PostController extends Controller
         // Handle uploaded images
         if ($request->uploaded_images) {
             $uploadedImages = json_decode($request->uploaded_images, true);
-            
+
             foreach ($uploadedImages as $index => $imageData) {
                 PostImage::create([
                     'post_id' => $post->id,
@@ -86,10 +86,10 @@ class PostController extends Controller
             }
         }
 
-        $message = $post->status === 'published' 
-            ? 'Bài viết đã được xuất bản thành công!' 
+        $message = $post->status === 'published'
+            ? 'Bài viết đã được xuất bản thành công!'
             : 'Bài viết đã được lưu làm bản nháp thành công!';
-            
+
         return redirect()->route('posts.show', $post->slug)->with('success', $message);
     }
 
@@ -99,12 +99,12 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         $categories = Category::active()->get();
-        
+
         // Load images and remove duplicates by URL
         $post->load('images');
         $uniqueImages = $post->images->unique('image_url');
         $post->setRelation('images', $uniqueImages);
-        
+
         return view('posts.edit', compact('post', 'categories'));
     }
 
@@ -126,12 +126,12 @@ class PostController extends Controller
         // Generate new slug if title changed
         if ($post->title !== $request->title) {
             $newSlug = Str::slug($request->title);
-            
+
             // If slug is empty, generate a fallback
             if (empty($newSlug)) {
                 $newSlug = 'post-' . time();
             }
-            
+
             // Ensure unique slug
             $originalSlug = $newSlug;
             $counter = 1;
@@ -185,17 +185,17 @@ class PostController extends Controller
 
         // Refresh post to get updated slug
         $post->refresh();
-        
-        $message = $post->status === 'published' 
-            ? 'Bài viết đã được cập nhật và xuất bản thành công!' 
+
+        $message = $post->status === 'published'
+            ? 'Bài viết đã được cập nhật và xuất bản thành công!'
             : 'Bài viết đã được cập nhật và lưu làm bản nháp thành công!';
-        
+
         // If post is draft, redirect to edit page instead of show page
         // because show page only displays published posts
         if ($post->status === 'draft') {
             return redirect()->route('posts.edit', $post)->with('success', $message);
         }
-        
+
         // For published posts, redirect to show page
         return redirect()->route('posts.show', $post->slug)->with('success', $message);
     }

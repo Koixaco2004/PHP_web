@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class SearchService
@@ -16,7 +17,8 @@ class SearchService
     public function search($query, $filters = [])
     {
         $builder = Post::with(['category', 'user', 'images'])
-            ->published();
+            ->published()
+            ->withActiveCategory();
 
         // Apply search query
         if (!empty($query)) {
@@ -45,7 +47,7 @@ class SearchService
     private function applySearchQuery(Builder $builder, string $query): Builder
     {
         $searchTerms = $this->parseSearchTerms($query);
-        
+
         return $builder->where(function ($q) use ($searchTerms) {
             foreach ($searchTerms as $term) {
                 $q->orWhere(function ($subQuery) use ($term) {
@@ -73,7 +75,7 @@ class SearchService
         }
 
         // Status filter (for admin users)
-        if (!empty($filters['status']) && auth()->check() && auth()->user()->role === 'admin') {
+        if (!empty($filters['status']) && Auth::check() && Auth::user()->role === 'admin') {
             if ($filters['status'] === 'draft') {
                 $builder->where('status', 'draft');
             } elseif ($filters['status'] === 'published') {
@@ -101,23 +103,23 @@ class SearchService
         switch ($sort) {
             case 'newest':
                 return $builder->latest('published_at');
-            
+
             case 'oldest':
                 return $builder->oldest('published_at');
-            
+
             case 'popular':
                 return $builder->orderByDesc('view_count')
                     ->orderByDesc('comment_count')
                     ->latest('published_at');
-            
+
             case 'most_viewed':
                 return $builder->orderByDesc('view_count')
                     ->latest('published_at');
-            
+
             case 'most_commented':
                 return $builder->orderByDesc('comment_count')
                     ->latest('published_at');
-            
+
             case 'relevance':
             default:
                 return $this->applyRelevanceSorting($builder, $query);
@@ -134,7 +136,7 @@ class SearchService
         }
 
         $searchTerms = $this->parseSearchTerms($query);
-        
+
         // Create relevance scoring
         $relevanceScore = 'CASE ';
         foreach ($searchTerms as $index => $term) {
@@ -158,10 +160,10 @@ class SearchService
     {
         // Remove extra spaces and split by spaces
         $terms = array_filter(explode(' ', trim($query)));
-        
+
         // Remove common Vietnamese stop words
         $stopWords = ['và', 'của', 'cho', 'với', 'từ', 'đến', 'trong', 'ngoài', 'trên', 'dưới', 'theo', 'như', 'là', 'có', 'được', 'sẽ', 'đã', 'đang'];
-        
+
         return array_filter($terms, function ($term) use ($stopWords) {
             return !in_array(mb_strtolower($term), $stopWords) && strlen($term) > 1;
         });
@@ -179,10 +181,10 @@ class SearchService
                 }])
                 ->orderBy('posts_count', 'desc')
                 ->get(),
-            
+
             'authors' => User::whereHas('posts', function ($query) {
-                    $query->published();
-                })
+                $query->published();
+            })
                 ->withCount(['posts' => function ($query) {
                     $query->published();
                 }])
@@ -256,6 +258,7 @@ class SearchService
     public function getTrendingPosts(int $limit = 5)
     {
         return Post::published()
+            ->withActiveCategory()
             ->with(['category', 'user'])
             ->where('published_at', '>=', now()->subDays(7))
             ->orderByDesc('view_count')
@@ -270,6 +273,7 @@ class SearchService
     public function getRelatedPosts(Post $post, int $limit = 5)
     {
         return Post::published()
+            ->withActiveCategory()
             ->with(['category', 'user'])
             ->where('category_id', $post->category_id)
             ->where('id', '!=', $post->id)

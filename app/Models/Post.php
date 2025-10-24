@@ -144,4 +144,14 @@ class Post extends Model
     {
         return $this->attributes['excerpt'] ? Str::markdown($this->attributes['excerpt']) : '';
     }
+
+    /**
+     * Scope to get posts only from active categories.
+     */
+    public function scopeWithActiveCategory($query)
+    {
+        return $query->whereHas('category', function ($q) {
+            $q->where('is_active', true);
+        });
+    }
 }

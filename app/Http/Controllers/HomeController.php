@@ -21,7 +21,7 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Post::with(['category', 'user', 'images'])->published();
+        $query = Post::with(['category', 'user', 'images'])->published()->withActiveCategory();
 
         // Lọc theo chuyên mục (chỉ giữ lại filter cơ bản cho trang chủ)
         if ($request->has('category') && $request->category) {
