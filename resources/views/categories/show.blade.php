@@ -69,12 +69,12 @@
     <!-- Main Articles Section -->
     <div class="lg:col-span-8">
         <div class="flex items-center justify-between mb-6">
-            <h2 class="text-2xl font-heading font-bold text-secondary-900 dark:text-primary-100-dark">Bài viết trong chuyên mục</h2>
+            <h2 class="text-2xl font-heading font-bold text-secondary-900 dark:text-primary-400-dark">Bài viết trong chuyên mục</h2>
             
             <!-- Sort Options -->
             <div class="flex items-center space-x-2">
                 <label class="text-sm text-secondary-600 dark:text-gray-300">Sắp xếp:</label>
-                <select class="text-sm border border-secondary-300 dark:border-gray-600 rounded-lg px-3 py-1.5 bg-white dark:bg-gray-700 text-secondary-900 dark:text-primary-100-dark focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200">
+                <select class="text-sm border border-secondary-300 dark:border-gray-600 rounded-lg px-3 py-1.5 bg-white dark:bg-gray-700 text-secondary-900 dark:text-primary-400-dark focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200">
                     <option>Mới nhất</option>
                     <option>Cũ nhất</option>
                     <option>Nhiều lượt xem</option>
@@ -103,7 +103,7 @@
                         <!-- Article Content -->
                         <div class="flex-1 min-w-0">
                             <div class="flex items-center justify-between mb-2">
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-100-dark">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-400-dark">
                                     Bài viết
                                 </span>
                                 <div class="flex items-center text-xs text-secondary-500 dark:text-gray-400 space-x-3">
@@ -123,7 +123,7 @@
                                 </div>
                             </div>
                             
-                            <h3 class="text-xl font-heading font-semibold text-secondary-900 dark:text-primary-100-dark mb-3 line-clamp-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-300">
+                            <h3 class="text-xl font-heading font-semibold text-secondary-900 dark:text-primary-400-dark mb-3 line-clamp-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-300">
                                 <a href="{{ route('posts.show', $post->slug) }}">
                                     {{ $post->title }}
                                 </a>
@@ -159,7 +159,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-heading font-semibold text-secondary-900 dark:text-primary-100-dark mb-2">Chưa có bài viết nào</h3>
+                    <h3 class="text-xl font-heading font-semibold text-secondary-900 dark:text-primary-400-dark mb-2">Chưa có bài viết nào</h3>
                     <p class="text-secondary-500 dark:text-gray-400 mb-6">Chuyên mục này hiện chưa có bài viết nào được đăng.</p>
                     <a href="{{ route('home') }}" class="btn-primary">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -218,17 +218,17 @@
                 <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
-                <h3 class="text-lg font-heading font-semibold text-secondary-900 dark:text-primary-100-dark">Thông tin chuyên mục</h3>
+                <h3 class="text-lg font-heading font-semibold text-secondary-900 dark:text-primary-400-dark">Thông tin chuyên mục</h3>
             </div>
             
             <div class="space-y-4">
                 <div class="flex items-center justify-between py-2 border-b border-secondary-100 dark:border-gray-700">
                     <span class="text-secondary-600 dark:text-gray-300">Tổng bài viết</span>
-                    <span class="font-semibold text-secondary-900 dark:text-primary-100-dark">{{ $posts->total() }}</span>
+                    <span class="font-semibold text-secondary-900 dark:text-primary-400-dark">{{ $posts->total() }}</span>
                 </div>
                 <div class="flex items-center justify-between py-2 border-b border-secondary-100 dark:border-gray-700">
                     <span class="text-secondary-600 dark:text-gray-300">Tổng lượt xem</span>
-                    <span class="font-semibold text-secondary-900 dark:text-primary-100-dark">{{ number_format($posts->sum('view_count')) }}</span>
+                    <span class="font-semibold text-secondary-900 dark:text-primary-400-dark">{{ number_format($posts->sum('view_count')) }}</span>
                 </div>
             </div>
         </div>
@@ -239,7 +239,7 @@
                 <svg class="w-5 h-5 text-accent-600 dark:text-accent-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
                 </svg>
-                <h3 class="text-lg font-heading font-semibold text-secondary-900 dark:text-primary-100-dark">Chuyên mục khác</h3>
+                <h3 class="text-lg font-heading font-semibold text-secondary-900 dark:text-primary-400-dark">Chuyên mục khác</h3>
             </div>
             
             <div class="space-y-3">

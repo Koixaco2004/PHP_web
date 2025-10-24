@@ -7,7 +7,7 @@
 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 mb-8 animate-fade-in">
     <div class="flex flex-col md:flex-row md:items-center justify-between">
         <div class="mb-4 md:mb-0">
-            <h1 class="text-3xl font-heading font-bold text-secondary-900 dark:text-primary-100-dark flex items-center">
+            <h1 class="text-3xl font-heading font-bold text-secondary-900 dark:text-primary-400-dark flex items-center">
                 <svg class="w-8 h-8 mr-3 text-primary-600 dark:text-primary-400-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
                 </svg>
@@ -25,7 +25,7 @@
                     </svg>
                 </div>
                 <input type="text" id="searchInput" placeholder="Tìm kiếm chuyên mục..." 
-                       class="block w-full pl-10 pr-3 py-2 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-100-dark dark:placeholder-gray-400 text-sm transition-colors duration-200">
+                       class="block w-full pl-10 pr-3 py-2 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400 text-sm transition-colors duration-200">
             </div>
             
             <a href="{{ route('categories.create') }}" class="btn-primary flex items-center">
@@ -49,7 +49,7 @@
             </div>
             <div class="ml-4">
                 <p class="text-sm font-medium text-secondary-600 dark:text-gray-300">Tổng chuyên mục</p>
-                <p class="text-2xl font-bold text-secondary-900 dark:text-primary-100-dark">{{ $categories->total() }}</p>
+                <p class="text-2xl font-bold text-secondary-900 dark:text-primary-400-dark">{{ $categories->total() }}</p>
             </div>
         </div>
     </div>
@@ -63,7 +63,7 @@
             </div>
             <div class="ml-4">
                 <p class="text-sm font-medium text-secondary-600 dark:text-gray-300">Đang hoạt động</p>
-                <p class="text-2xl font-bold text-secondary-900 dark:text-primary-100-dark">{{ $categories->where('is_active', true)->count() }}</p>
+                <p class="text-2xl font-bold text-secondary-900 dark:text-primary-400-dark">{{ $categories->where('is_active', true)->count() }}</p>
             </div>
         </div>
     </div>
@@ -77,7 +77,7 @@
             </div>
             <div class="ml-4">
                 <p class="text-sm font-medium text-secondary-600 dark:text-gray-300">Tổng bài viết</p>
-                <p class="text-2xl font-bold text-secondary-900 dark:text-primary-100-dark">{{ $categories->sum('posts_count') }}</p>
+                <p class="text-2xl font-bold text-secondary-900 dark:text-primary-400-dark">{{ $categories->sum('posts_count') }}</p>
             </div>
         </div>
     </div>
@@ -91,7 +91,7 @@
             </div>
             <div class="ml-4">
                 <p class="text-sm font-medium text-secondary-600 dark:text-gray-300">Chuyên mục trống</p>
-                <p class="text-2xl font-bold text-secondary-900 dark:text-primary-100-dark">{{ $categories->where('posts_count', 0)->count() }}</p>
+                <p class="text-2xl font-bold text-secondary-900 dark:text-primary-400-dark">{{ $categories->where('posts_count', 0)->count() }}</p>
             </div>
         </div>
     </div>
@@ -103,7 +103,7 @@
         <!-- Table Header -->
         <div class="px-6 py-4 border-b border-secondary-200 dark:border-gray-700 bg-secondary-50 dark:bg-gray-700">
             <div class="flex items-center justify-between">
-                <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-100-dark">Danh sách chuyên mục</h3>
+                <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-400-dark">Danh sách chuyên mục</h3>
                 <div class="flex items-center space-x-2 text-sm text-secondary-500 dark:text-gray-300">
                     <span>Hiển thị {{ $categories->count() }} / {{ $categories->total() }} chuyên mục</span>
                 </div>
@@ -134,7 +134,7 @@
                                         </svg>
                                     </div>
                                     <div class="ml-4">
-                                        <div class="text-sm font-medium text-secondary-900 dark:text-primary-100-dark category-name">{{ $category->name }}</div>
+                                        <div class="text-sm font-medium text-secondary-900 dark:text-primary-400-dark category-name">{{ $category->name }}</div>
                                         <div class="text-sm text-secondary-500 dark:text-gray-400">ID: {{ $category->id }}</div>
                                     </div>
                                 </div>
@@ -268,7 +268,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
                 </svg>
             </div>
-            <h3 class="text-xl font-heading font-semibold text-secondary-900 dark:text-primary-100-dark mb-2">Chưa có chuyên mục nào</h3>
+            <h3 class="text-xl font-heading font-semibold text-secondary-900 dark:text-primary-400-dark mb-2">Chưa có chuyên mục nào</h3>
             <p class="text-secondary-500 dark:text-gray-400 mb-6">Bắt đầu tạo chuyên mục đầu tiên để tổ chức nội dung của bạn</p>
             <a href="{{ route('categories.create') }}" class="btn-primary">
                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -292,13 +292,13 @@
                     </svg>
                 </div>
                 <div>
-                    <h3 class="text-lg font-heading font-semibold text-secondary-900 dark:text-primary-100-dark">Xác nhận xóa</h3>
+                    <h3 class="text-lg font-heading font-semibold text-secondary-900 dark:text-primary-400-dark">Xác nhận xóa</h3>
                     <p class="text-secondary-500 dark:text-gray-300 text-sm mt-1">Thao tác này không thể hoàn tác</p>
                 </div>
             </div>
             
             <p class="text-secondary-700 dark:text-gray-300 mb-6">
-                Bạn có chắc chắn muốn xóa chuyên mục <span id="categoryName" class="font-semibold text-secondary-900 dark:text-primary-100-dark"></span> không?
+                Bạn có chắc chắn muốn xóa chuyên mục <span id="categoryName" class="font-semibold text-secondary-900 dark:text-primary-400-dark"></span> không?
             </p>
             
             <div class="flex space-x-3">

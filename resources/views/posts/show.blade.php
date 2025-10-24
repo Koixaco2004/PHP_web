@@ -47,7 +47,7 @@
             <div class="p-6 pb-0">
                 <div class="flex items-center justify-between mb-4">
                     <a href="{{ route('categories.show', $post->category) }}"
-                       class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-primary-100 dark:bg-primary-900-dark text-primary-800 dark:text-primary-100-dark hover:bg-primary-200 dark:hover:bg-primary-800-dark transition-colors duration-200">
+                       class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-primary-100 dark:bg-primary-900-dark text-primary-800 dark:text-primary-400-dark hover:bg-primary-200 dark:hover:bg-primary-800-dark transition-colors duration-200">
                         <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
                         </svg>
@@ -81,7 +81,7 @@
                 </div>
 
                 <!-- Article Title -->
-                <h1 class="text-3xl md:text-4xl font-heading font-bold text-secondary-900 dark:text-primary-100-dark mb-6 leading-tight">
+                <h1 class="text-3xl md:text-4xl font-heading font-bold text-secondary-900 dark:text-primary-400-dark mb-6 leading-tight">
                     {{ $post->title }}
                 </h1>
 
@@ -95,7 +95,7 @@
                                 <img src="{{ asset('hello.png') }}" alt="Default Avatar" class="w-10 h-10 rounded-full object-cover border-2 border-primary-500">
                             @endif
                             <div>
-                                <a href="{{ route('users.show', $post->user) }}" class="font-medium text-secondary-900 dark:text-primary-100-dark hover:text-primary-600 dark:hover:text-primary-400-dark">{{ $post->user->name }}</a>
+                                <a href="{{ route('users.show', $post->user) }}" class="font-medium text-secondary-900 dark:text-primary-400-dark hover:text-primary-600 dark:hover:text-primary-300-dark">{{ $post->user->name }}</a>
                                 <div class="text-sm text-secondary-500 dark:text-gray-400">Tác giả</div>
                             </div>
                         </div>
@@ -155,7 +155,7 @@
                 <!-- Post Images Gallery -->
                 @if($post->images && $post->images->count() > 1)
                     <div class="mb-8">
-                        <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-100-dark mb-4">Hình ảnh bài viết</h3>
+                        <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-400-dark mb-4">Hình ảnh bài viết</h3>
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
                             @foreach($post->images->sortBy('sort_order') as $image)
                                 <div class="relative group cursor-pointer" onclick="openImageModal('{{ $image->image_url }}', '{{ $image->alt_text ?? $post->title }}')">
@@ -209,8 +209,8 @@
         <!-- Comments Section -->
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 overflow-hidden animate-slide-up" style="animation-delay: 0.1s">
             <div class="p-6 border-b border-secondary-200 dark:border-gray-700 bg-secondary-50 dark:bg-gray-700">
-                <h3 class="text-xl font-heading font-semibold text-secondary-900 dark:text-primary-100-dark flex items-center">
-                    <svg class="w-6 h-6 mr-2 text-primary-600 dark:text-primary-400-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <h3 class="text-xl font-heading font-semibold text-secondary-900 dark:text-primary-400-dark flex items-center">
+                    <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                     </svg>
                     Bình luận ({{ $post->comments->count() }})
@@ -221,7 +221,7 @@
                 @auth
                     <!-- Comment Form for Logged-in Users -->
                     <div class="mb-8 p-6 bg-gradient-to-r from-primary-50 dark:from-gray-700 to-primary-100 dark:to-gray-600 rounded-xl">
-                        <h4 class="text-lg font-semibold text-secondary-900 dark:text-primary-100-dark mb-4">Để lại bình luận của bạn</h4>
+                        <h4 class="text-lg font-semibold text-secondary-900 dark:text-primary-400-dark mb-4">Để lại bình luận của bạn</h4>
                         <form method="POST" action="{{ route('comments.store', $post) }}" class="space-y-4">
                             @csrf
                             <div class="flex items-start space-x-4">
@@ -231,7 +231,7 @@
                                     </div>
                                 </div>
                                 <div class="flex-1">
-                                    <textarea name="content" rows="3" class="w-full px-4 py-2 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-100-dark dark:placeholder-gray-400" placeholder="Viết bình luận của bạn..." required></textarea>
+                                    <textarea name="content" rows="3" class="w-full px-4 py-2 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400" placeholder="Viết bình luận của bạn..." required></textarea>
                                     <input type="hidden" name="parent_id" id="parent_id" value="">
                                     <div class="mt-3 flex justify-end">
                                         <button type="submit" class="px-4 py-2 bg-primary-600 dark:bg-primary-100-dark text-white dark:text-primary-900-dark rounded-lg hover:bg-primary-700 dark:hover:bg-primary-200-dark transition-colors duration-200">
@@ -272,7 +272,7 @@
                                 </div>
                                 <div class="flex-1 bg-secondary-50 dark:bg-gray-700 rounded-xl p-4">
                                     <div class="flex items-center justify-between mb-2">
-                                        <h5 class="font-semibold text-secondary-900 dark:text-primary-100-dark">{{ $comment->user->name }}</h5>
+                                        <h5 class="font-semibold text-secondary-900 dark:text-primary-400-dark">{{ $comment->user->name }}</h5>
                                         <time class="text-sm text-secondary-500 dark:text-gray-400">{{ $comment->created_at->format('d/m/Y H:i') }}</time>
                                     </div>
                                     <p class="text-secondary-700 dark:text-gray-300 mb-3">{{ $comment->content }}</p>
@@ -286,7 +286,7 @@
                             <svg class="w-16 h-16 text-secondary-300 dark:text-gray-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                             </svg>
-                            <h4 class="text-lg font-medium text-secondary-900 dark:text-primary-100-dark mb-2">Chưa có bình luận nào</h4>
+                            <h4 class="text-lg font-medium text-secondary-900 dark:text-primary-400-dark mb-2">Chưa có bình luận nào</h4>
                             <p class="text-secondary-500 dark:text-gray-400">Hãy là người đầu tiên bình luận về bài viết này!</p>
                         </div>
                     @endforelse
@@ -298,8 +298,8 @@
 
 <!-- Related Posts Section -->
 <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <h3 class="text-2xl font-bold text-primary-900 dark:text-primary-100-dark mb-6">Tin tức liên quan</h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <h3 class="text-2xl font-bold text-primary-900 dark:text-primary-400-dark mb-6">Tin tức liên quan</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         @php
             $relatedPosts = \App\Models\Post::where('category_id', $post->category_id)
                 ->where('id', '!=', $post->id)
@@ -324,7 +324,7 @@
                         <span class="text-xs text-primary-500 dark:text-gray-400">{{ $relatedPost->created_at->diffForHumans() }}</span>
                     </div>
 
-                    <h4 class="text-lg font-semibold text-primary-900 dark:text-primary-100-dark mb-2 leading-tight">
+                    <h4 class="text-lg font-semibold text-primary-900 dark:text-primary-400-dark mb-2 leading-tight">
                         <a href="{{ route('posts.show', $relatedPost->slug) }}" class="hover:text-primary-700 dark:hover:text-primary-300-dark">
                             {{ Str::limit($relatedPost->title, 60) }}
                         </a>

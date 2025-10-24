@@ -18,7 +18,7 @@
 
         <!-- Error Message -->
         <div class="animate-fade-in" style="animation-delay: 0.2s">
-            <h1 class="text-4xl md:text-5xl font-heading font-bold text-secondary-900 dark:text-primary-100-dark mb-4">
+            <h1 class="text-4xl md:text-5xl font-heading font-bold text-secondary-900 dark:text-primary-400-dark mb-4">
                 Oops! Có lỗi xảy ra
             </h1>
             <p class="text-xl text-secondary-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
@@ -96,7 +96,7 @@
                 <svg class="w-6 h-6 text-primary-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
-                <h2 class="text-2xl font-semibold text-secondary-900 dark:text-primary-100-dark">Bạn có thể làm gì?</h2>
+                <h2 class="text-2xl font-semibold text-secondary-900 dark:text-primary-400-dark">Bạn có thể làm gì?</h2>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
@@ -106,7 +106,7 @@
                             <span class="text-primary-600 font-bold text-sm">1</span>
                         </div>
                         <div>
-                            <h3 class="font-semibold text-secondary-900 dark:text-primary-100-dark mb-1">Đợi một chút rồi thử lại</h3>
+                            <h3 class="font-semibold text-secondary-900 dark:text-primary-400-dark mb-1">Đợi một chút rồi thử lại</h3>
                             <p class="text-secondary-600 dark:text-gray-300 text-sm">Lỗi có thể là tạm thời. Hãy chờ 2-3 phút rồi tải lại trang.</p>
                         </div>
                     </div>
@@ -116,7 +116,7 @@
                             <span class="text-blue-600 font-bold text-sm">2</span>
                         </div>
                         <div>
-                            <h3 class="font-semibold text-secondary-900 dark:text-primary-100-dark mb-1">Kiểm tra kết nối internet</h3>
+                            <h3 class="font-semibold text-secondary-900 dark:text-primary-400-dark mb-1">Kiểm tra kết nối internet</h3>
                             <p class="text-secondary-600 dark:text-gray-300 text-sm">Đảm bảo thiết bị của bạn có kết nối internet ổn định.</p>
                         </div>
                     </div>
@@ -128,7 +128,7 @@
                             <span class="text-yellow-600 font-bold text-sm">3</span>
                         </div>
                         <div>
-                            <h3 class="font-semibold text-secondary-900 dark:text-primary-100-dark mb-1">Xóa cache trình duyệt</h3>
+                            <h3 class="font-semibold text-secondary-900 dark:text-primary-400-dark mb-1">Xóa cache trình duyệt</h3>
                             <p class="text-secondary-600 dark:text-gray-300 text-sm">Nhấn Ctrl+F5 để tải lại trang hoàn toàn.</p>
                         </div>
                     </div>
@@ -138,7 +138,7 @@
                             <span class="text-purple-600 font-bold text-sm">4</span>
                         </div>
                         <div>
-                            <h3 class="font-semibold text-secondary-900 dark:text-primary-100-dark mb-1">Liên hệ hỗ trợ</h3>
+                            <h3 class="font-semibold text-secondary-900 dark:text-primary-400-dark mb-1">Liên hệ hỗ trợ</h3>
                             <p class="text-secondary-600 text-sm">
                                 Nếu vẫn gặp lỗi, hãy <a href="mailto:support@example.com" class="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-medium">liên hệ với chúng tôi</a>.
                             </p>
@@ -152,8 +152,8 @@
         @if(config('app.debug'))
         <div class="mt-8 p-6 bg-secondary-100 dark:bg-gray-800 rounded-xl text-left animate-fade-in" style="animation-delay: 1s">
             <details class="cursor-pointer">
-                <summary class="font-semibold text-secondary-900 dark:text-primary-100-dark mb-4 select-none hover:text-primary-600 dark:hover:text-primary-400">
-                    🔧 Thông tin kỹ thuật (dành cho nhà phát triển)
+                                <summary class="font-semibold text-secondary-900 dark:text-primary-400-dark mb-4 select-none hover:text-primary-600 dark:hover:text-primary-300-dark">
+                    Chi tiết kỹ thuật
                 </summary>
                 <div class="mt-4 p-4 bg-secondary-800 dark:bg-gray-900 rounded-lg text-primary-400 dark:text-primary-300-dark font-mono text-sm overflow-x-auto">
                     <div class="space-y-2">

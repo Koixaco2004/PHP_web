@@ -31,7 +31,7 @@
                         <div class="flex-1 min-w-0">
                             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                                 <div>
-                                    <h1 class="text-2xl font-bold text-gray-900 dark:text-primary-100-dark">{{ $user->name }}</h1>
+                                    <h1 class="text-2xl font-bold text-gray-900 dark:text-primary-400-dark">{{ $user->name }}</h1>
                                     <p class="text-gray-500 dark:text-gray-400">{{ $user->email }}</p>
                                     @if($user->location)
                                         <p class="text-gray-500 dark:text-gray-400 flex items-center mt-1">
@@ -123,7 +123,7 @@
                         </svg>
                     </div>
                     <div class="ml-4">
-                        <p class="text-2xl font-semibold text-gray-900 dark:text-primary-100-dark">{{ $user->posts->count() }}</p>
+                        <p class="text-2xl font-semibold text-gray-900 dark:text-primary-400-dark">{{ $user->posts->count() }}</p>
                         <p class="text-gray-500 dark:text-gray-400">Bài viết</p>
                     </div>
                 </div>
@@ -137,7 +137,7 @@
                         </svg>
                     </div>
                     <div class="ml-4">
-                        <p class="text-2xl font-semibold text-gray-900 dark:text-primary-100-dark">{{ $totalComments }}</p>
+                        <p class="text-2xl font-semibold text-gray-900 dark:text-primary-400-dark">{{ $totalComments }}</p>
                         <p class="text-gray-500 dark:text-gray-400">Bình luận</p>
                     </div>
                 </div>
@@ -151,7 +151,7 @@
                         </svg>
                     </div>
                     <div class="ml-4">
-                        <p class="text-2xl font-semibold text-gray-900 dark:text-primary-100-dark">{{ $user->role === 'admin' ? 'Admin' : 'User' }}</p>
+                        <p class="text-2xl font-semibold text-gray-900 dark:text-primary-400-dark">{{ $user->role === 'admin' ? 'Admin' : 'User' }}</p>
                         <p class="text-gray-500 dark:text-gray-400">Vai trò</p>
                     </div>
                 </div>
@@ -161,7 +161,7 @@
         <!-- User's Posts -->
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
             <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                <h2 class="text-lg font-medium text-gray-900 dark:text-primary-100-dark">Bài viết của {{ $user->name }}</h2>
+                <h2 class="text-lg font-medium text-gray-900 dark:text-primary-400-dark">Bài viết của {{ $user->name }}</h2>
             </div>
 
             <div class="p-6">
@@ -202,7 +202,7 @@
                         <svg class="w-16 h-16 mx-auto text-gray-400 dark:text-gray-500 mb-4" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
-                        <h3 class="text-lg font-medium text-gray-900 dark:text-primary-100-dark mb-2">Chưa có bài viết nào</h3>
+                        <h3 class="text-lg font-medium text-gray-900 dark:text-primary-400-dark mb-2">Chưa có bài viết nào</h3>
                         <p class="text-gray-500 dark:text-gray-400">{{ $user->name }} chưa đăng bài viết nào.</p>
                     </div>
                 @endif

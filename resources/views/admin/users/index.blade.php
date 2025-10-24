@@ -34,7 +34,7 @@
 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 animate-slide-up">
     <div class="px-6 py-4 border-b border-secondary-200 dark:border-gray-700">
         <div class="flex items-center justify-between">
-            <h2 class="text-xl font-semibold text-secondary-900 dark:text-primary-100-dark flex items-center">
+            <h2 class="text-xl font-semibold text-secondary-900 dark:text-primary-400-dark flex items-center">
                 <svg class="w-5 h-5 text-primary-600 dark:text-primary-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
                 </svg>
@@ -78,7 +78,7 @@
                                     <img class="h-10 w-10 rounded-full object-cover" src="{{ $user->avatar ?? asset('hello.png') }}" alt="{{ $user->name }}">
                                 </div>
                                 <div class="ml-4">
-                                    <div class="text-sm font-medium text-secondary-900 dark:text-primary-100-dark">
+                                    <div class="text-sm font-medium text-secondary-900 dark:text-primary-400-dark">
                                         {{ $user->name }}
                                     </div>
                                     <div class="text-sm text-secondary-500 dark:text-gray-300">
@@ -88,7 +88,7 @@
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-secondary-900 dark:text-primary-100-dark">{{ $user->email }}</div>
+                            <div class="text-sm text-secondary-900 dark:text-primary-400-dark">{{ $user->email }}</div>
                             @if($user->email_verified_at)
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900-dark text-primary-800 dark:text-primary-200-dark">
                                     ✓ Đã xác thực
@@ -100,7 +100,7 @@
                             @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <select class="role-select text-sm border-secondary-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-secondary-900 dark:text-primary-100-dark"
+                            <select class="role-select text-sm border-secondary-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-secondary-900 dark:text-primary-400-dark"
                                     data-user-id="{{ $user->id }}"
                                     data-current-role="{{ $user->role }}">
                                 <option value="admin" {{ $user->role === 'admin' ? 'selected' : '' }}>Admin</option>

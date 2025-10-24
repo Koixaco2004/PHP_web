@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-bold text-primary-900 dark:text-primary-100-dark">Quản lý bài viết</h1>
+    <h1 class="text-2xl font-bold text-primary-900 dark:text-primary-400-dark">Quản lý bài viết</h1>
     <a href="{{ route('posts.create') }}" class="btn-primary">Thêm bài viết mới</a>
 </div>
 

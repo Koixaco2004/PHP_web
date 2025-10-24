@@ -61,7 +61,7 @@
                                                     {{ $post->created_at->diffForHumans() }}
                                                 </div>
                                             </div>
-                                            <a href="{{ route('posts.show', $post->slug) }}" class="inline-flex items-center px-6 py-3 bg-white text-primary-700 dark:bg-gray-800 dark:text-primary-100-dark font-semibold rounded-lg hover:bg-primary-50 dark:hover:bg-gray-700 transition-all duration-200 transform hover:scale-105 shadow-lg">
+                                            <a href="{{ route('posts.show', $post->slug) }}" class="inline-flex items-center px-6 py-3 bg-white text-primary-700 dark:bg-gray-800 dark:text-primary-400-dark font-semibold rounded-lg hover:bg-primary-50 dark:hover:bg-gray-700 transition-all duration-200 transform hover:scale-105 shadow-lg">
                                                 Đọc ngay
                                                 <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -95,7 +95,7 @@
     <div class="lg:col-span-2">
         <!-- Section Header -->
         <div class="mb-8">
-            <h1 class="text-2xl font-bold text-primary-900 dark:text-primary-100-dark mb-6">Tin tức mới nhất</h1>
+            <h1 class="text-2xl font-bold text-primary-900 dark:text-primary-400-dark mb-6">Tin tức mới nhất</h1>
         </div>
 
         <!-- Articles Grid -->
@@ -111,13 +111,13 @@
                         @endif
                         <div class="md:col-span-2 p-6">
                             <div class="flex items-center justify-between mb-3">
-                                <span class="text-xs font-medium text-primary-600 dark:text-primary-100-dark bg-primary-50 dark:bg-primary-900-dark px-2 py-1 rounded">
+                                <span class="text-xs font-medium text-primary-600 dark:text-primary-400-dark bg-primary-50 dark:bg-primary-900-dark px-2 py-1 rounded">
                                     {{ $post->category->name }}
                                 </span>
                                 <span class="text-xs text-primary-500 dark:text-gray-400">{{ $post->created_at->diffForHumans() }}</span>
                             </div>
                             
-                            <h2 class="text-lg font-semibold text-primary-900 dark:text-primary-100-dark mb-3 leading-tight">
+                            <h2 class="text-lg font-semibold text-primary-900 dark:text-primary-400-dark mb-3 leading-tight">
                                 <a href="{{ route('posts.show', $post->slug) }}" class="hover:text-primary-700 dark:hover:text-primary-300-dark">
                                     {{ $post->title }}
                                 </a>
@@ -182,7 +182,7 @@
     <div class="lg:col-span-1">
         <!-- Categories -->
         <div class="bg-white dark:bg-gray-800 rounded-lg border border-primary-200 dark:border-gray-700 p-6 mb-6">
-            <h3 class="text-lg font-semibold text-primary-900 dark:text-primary-100-dark mb-4">Chuyên mục</h3>
+            <h3 class="text-lg font-semibold text-primary-900 dark:text-primary-400-dark mb-4">Chuyên mục</h3>
             <div class="space-y-2">
                 @foreach($navigationCategories->take(6) as $category)
                     <a href="{{ route('categories.show', $category) }}" 

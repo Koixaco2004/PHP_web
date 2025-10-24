@@ -17,7 +17,7 @@
 
         <!-- Error Message -->
         <div class="animate-fade-in" style="animation-delay: 0.2s">
-            <h1 class="text-4xl md:text-5xl font-heading font-bold text-secondary-900 dark:text-primary-100-dark mb-4">
+            <h1 class="text-4xl md:text-5xl font-heading font-bold text-secondary-900 dark:text-primary-400-dark mb-4">
                 Truy cập bị từ chối
             </h1>
             <p class="text-xl text-secondary-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
@@ -70,7 +70,7 @@
                         <svg class="w-6 h-6 text-primary-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
-                        <h3 class="text-lg font-semibold text-primary-900 dark:text-primary-100-dark">Được phép</h3>
+                        <h3 class="text-lg font-semibold text-primary-900 dark:text-primary-400-dark">Được phép</h3>
                     </div>
                     <ul class="space-y-2 text-sm text-primary-700 dark:text-primary-300-dark">
                         <li class="flex items-center">
@@ -128,7 +128,7 @@
                 <svg class="w-6 h-6 text-primary-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
-                <h2 class="text-2xl font-semibold text-secondary-900 dark:text-primary-100-dark">Cần trợ giúp?</h2>
+                <h2 class="text-2xl font-semibold text-secondary-900 dark:text-primary-400-dark">Cần trợ giúp?</h2>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -139,7 +139,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                         </svg>
                     </div>
-                    <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-100-dark mb-2">Tạo tài khoản</h3>
+                    <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-400-dark mb-2">Tạo tài khoản</h3>
                     <p class="text-secondary-600 dark:text-gray-300 text-sm mb-4">Đăng ký để có thể truy cập nhiều nội dung hơn</p>
                     <a href="{{ route('register') }}" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium text-sm">
                         Đăng ký ngay →
@@ -153,7 +153,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                         </svg>
                     </div>
-                    <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-100-dark mb-2">Liên hệ quản trị</h3>
+                    <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-400-dark mb-2">Liên hệ quản trị</h3>
                     <p class="text-secondary-600 dark:text-gray-300 text-sm mb-4">Yêu cầu cấp quyền truy cập từ quản trị viên</p>
                     <a href="mailto:admin@example.com" class="text-primary-600 dark:text-primary-400-dark hover:text-primary-700 dark:hover:text-primary-300-dark font-medium text-sm">
                         Gửi email →
@@ -166,7 +166,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
                     </div>
-                    <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-100-dark mb-2">Xem hướng dẫn</h3>
+                    <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-400-dark mb-2">Xem hướng dẫn</h3>
                     <p class="text-secondary-600 dark:text-gray-300 text-sm mb-4">Tìm hiểu về phân quyền và cách sử dụng</p>
                     <a href="/help" class="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-medium text-sm">
                         Xem hướng dẫn →
@@ -182,7 +182,7 @@
                 <svg class="w-6 h-6 text-secondary-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                 </svg>
-                <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-100-dark">Thông tin tài khoản hiện tại</h3>
+                <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-400-dark">Thông tin tài khoản hiện tại</h3>
             </div>
             <div class="text-center text-sm text-secondary-700 dark:text-gray-300">
                 <p class="mb-1">Đang đăng nhập với tên: <span class="font-medium">{{ Auth::user()->name }}</span></p>

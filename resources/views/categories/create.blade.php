@@ -25,7 +25,7 @@
             </svg>
         </div>
         <div>
-            <h1 class="text-3xl font-heading font-bold text-secondary-900 dark:text-primary-100-dark">Tạo chuyên mục mới</h1>
+            <h1 class="text-3xl font-heading font-bold text-secondary-900 dark:text-primary-400-dark">Tạo chuyên mục mới</h1>
             <p class="text-secondary-600 dark:text-gray-300 mt-1">Thêm chuyên mục mới để tổ chức nội dung website</p>
         </div>
     </div>
@@ -44,7 +44,7 @@
                         <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
                         </svg>
-                        <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-100-dark">Thông tin cơ bản</h3>
+                        <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-400-dark">Thông tin cơ bản</h3>
                     </div>
                     
                     <div class="space-y-4">
@@ -54,7 +54,7 @@
                             </label>
                             <div class="relative">
                                 <input type="text" 
-                                       class="block w-full px-4 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 bg-white dark:bg-gray-700 dark:text-primary-100-dark dark:placeholder-gray-400 @error('name') !border-red-500 !focus:ring-red-500 !focus:border-red-500 dark:bg-red-900/20 @enderror" 
+                                       class="block w-full px-4 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400 @error('name') !border-red-500 !focus:ring-red-500 !focus:border-red-500 dark:bg-red-900/20 @enderror" 
                                        id="name" 
                                        name="name" 
                                        value="{{ old('name') }}" 
@@ -85,7 +85,7 @@
                         <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/>
                         </svg>
-                        <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-100-dark">Mô tả chuyên mục</h3>
+                        <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-400-dark">Mô tả chuyên mục</h3>
                     </div>
                     
                     <div>
@@ -93,7 +93,7 @@
                             Mô tả chi tiết
                         </label>
                         <div class="relative">
-                            <textarea class="block w-full px-4 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 resize-none bg-white dark:bg-gray-700 dark:text-primary-100-dark dark:placeholder-gray-400 @error('description') !border-red-500 !focus:ring-red-500 !focus:border-red-500 dark:bg-red-900/20 @enderror" 
+                            <textarea class="block w-full px-4 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 resize-none bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400 @error('description') !border-red-500 !focus:ring-red-500 !focus:border-red-500 dark:bg-red-900/20 @enderror" 
                                       id="description" 
                                       name="description" 
                                       rows="4" 
@@ -118,13 +118,13 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                         </svg>
-                        <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-100-dark">Cài đặt</h3>
+                        <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-400-dark">Cài đặt</h3>
                     </div>
                     
                     <div class="space-y-4">
                         <div class="flex items-center justify-between p-4 bg-secondary-50 dark:bg-gray-700 rounded-lg">
                             <div>
-                                <h4 class="font-medium text-secondary-900 dark:text-primary-100-dark">Trạng thái hoạt động</h4>
+                                <h4 class="font-medium text-secondary-900 dark:text-primary-400-dark">Trạng thái hoạt động</h4>
                                 <p class="text-sm text-secondary-600 dark:text-gray-300">Chuyên mục sẽ hiển thị công khai trên website</p>
                             </div>
                             <div class="relative inline-block w-10 mr-2 align-middle select-none">
@@ -204,7 +204,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
                     </svg>
-                    <h3 class="font-semibold text-secondary-900 dark:text-primary-100-dark">Xem trước</h3>
+                    <h3 class="font-semibold text-secondary-900 dark:text-primary-400-dark">Xem trước</h3>
                 </div>
                 <div class="border border-secondary-200 dark:border-gray-600 rounded-lg p-4">
                     <div class="flex items-center space-x-3">
@@ -214,7 +214,7 @@
                             </svg>
                         </div>
                         <div>
-                            <div class="font-medium text-secondary-900 dark:text-primary-100-dark" id="preview-name">Tên chuyên mục</div>
+                            <div class="font-medium text-secondary-900 dark:text-primary-400-dark" id="preview-name">Tên chuyên mục</div>
                             <div class="text-sm text-secondary-500 dark:text-gray-400" id="preview-description">Mô tả chuyên mục</div>
                         </div>
                     </div>
@@ -227,7 +227,7 @@
                     <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
-                    <h3 class="font-semibold text-secondary-900 dark:text-primary-100-dark">Chuyên mục gần đây</h3>
+                    <h3 class="font-semibold text-secondary-900 dark:text-primary-400-dark">Chuyên mục gần đây</h3>
                 </div>
                 <div class="space-y-2 text-sm">
                     <div class="flex items-center justify-between p-2 hover:bg-secondary-50 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200">

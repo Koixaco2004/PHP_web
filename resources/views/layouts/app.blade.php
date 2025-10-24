@@ -116,7 +116,7 @@
                 <div class="flex items-center">
                     <a href="{{ route('home') }}" class="flex items-center space-x-0">
                         <img src="{{ asset('logo.png') }}" alt="SmurfExpress Logo" class="w-10 h-10 rounded">
-                        <span class="text-xl font-bold text-primary-900 dark:text-primary-100-dark ml-0">SmurfExpress</span>
+                        <span class="text-xl font-bold text-primary-900 dark:text-primary-400-dark ml-0">SmurfExpress</span>
                     </a>
                 </div>
 
@@ -175,7 +175,7 @@
                                         <img src="{{ asset('hello.png') }}" alt="Default Avatar" class="w-full h-full object-cover">
                                     @endif
                                 </div>
-                                <span class="text-sm font-medium text-primary-900 hidden sm:inline dark:text-primary-100-dark">{{ Auth::user()->name }}</span>
+                                <span class="text-sm font-medium text-primary-900 hidden sm:inline dark:text-primary-400-dark">{{ Auth::user()->name }}</span>
                                 <svg class="w-4 h-4 text-primary-600 dark:text-primary-400-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                 </svg>
@@ -302,7 +302,7 @@
                                     <div class="py-2 max-h-80 overflow-y-auto overflow-x-hidden">
                                         @foreach($moreCategories as $category)
                                             <a href="{{ route('categories.show', $category) }}" 
-                                               class="category-item flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 {{ request()->route('category')?->id == $category->id ? 'bg-primary-50 text-primary-700 dark:bg-primary-900-dark dark:text-primary-100-dark' : '' }}">
+                                               class="category-item flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 {{ request()->route('category')?->id == $category->id ? 'bg-primary-50 text-primary-700 dark:bg-primary-900-dark dark:text-primary-400-dark' : '' }}">
                                                 @if($category->icon)
                                                     <i class="{{ $category->icon }} w-4 h-4 mr-3 flex-shrink-0 text-gray-500 dark:text-gray-400" 
                                                        @if($category->color) style="color: {{ $category->color }};" @endif></i>
@@ -360,12 +360,12 @@
     <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <!-- Flash Messages -->
         @if(session('success'))
-            <div class="mb-6 p-4 bg-primary-50 border border-primary-200 rounded-lg animate-slide-up dark:bg-primary-900-dark dark:border-primary-700-dark dark:text-primary-100-dark">
+            <div class="mb-6 p-4 bg-primary-50 border border-primary-200 rounded-lg animate-slide-up dark:bg-primary-900-dark dark:border-primary-700-dark dark:text-primary-400-dark">
                 <div class="flex">
                     <svg class="w-5 h-5 text-primary-600 mr-2 flex-shrink-0 dark:text-primary-400-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
-                    <p class="text-primary-800 font-medium dark:text-primary-100-dark">{{ session('success') }}</p>
+                    <p class="text-primary-800 font-medium dark:text-primary-400-dark">{{ session('success') }}</p>
                 </div>
             </div>
         @endif
@@ -429,7 +429,7 @@
 
                 <!-- Welcome Section -->
                 <div class="text-center">
-                    <h4 class="text-3xl font-bold text-primary-900 dark:text-primary-100-dark mb-3">SmurfExpress</h4>
+                    <h4 class="text-3xl font-bold text-primary-900 dark:text-primary-400-dark mb-3">SmurfExpress</h4>
                     <p class="text-lg text-primary-600 dark:text-primary-400-dark font-medium">Kênh tin tức hàng đầu Việt Nam</p>
                 </div>
 
@@ -440,7 +440,7 @@
                     </p>
                     
                     <div class="bg-primary-50 dark:bg-gray-700 rounded-xl p-6 border-l-4 border-primary-600 dark:border-primary-400-dark">
-                        <h5 class="font-bold text-primary-900 dark:text-primary-100-dark mb-4 text-lg">Sứ mệnh của chúng tôi:</h5>
+                        <h5 class="font-bold text-primary-900 dark:text-primary-400-dark mb-4 text-lg">Sứ mệnh của chúng tôi:</h5>
                         <ul class="space-y-3 pl-1">
                             <li class="flex items-start">
                                 <svg class="w-5 h-5 text-primary-500 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -532,7 +532,7 @@
 
                     <!-- Phone -->
                     <div class="bg-gradient-to-r from-primary-50 to-primary-100 dark:from-primary-900-dark dark:to-primary-800-dark rounded-xl p-4">
-                        <h4 class="font-bold text-primary-900 dark:text-primary-100-dark mb-3 text-lg flex items-center">
+                        <h4 class="font-bold text-primary-900 dark:text-primary-400-dark mb-3 text-lg flex items-center">
                             <div class="w-10 h-10 bg-primary-500 dark:bg-primary-600 rounded-xl flex items-center justify-center mr-3">
                                 <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>

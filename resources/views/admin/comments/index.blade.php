@@ -34,7 +34,7 @@
 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 animate-slide-up">
     <div class="px-6 py-4 border-b border-secondary-200 dark:border-gray-700">
         <div class="flex items-center justify-between">
-            <h2 class="text-xl font-semibold text-secondary-900 dark:text-primary-100-dark flex items-center">
+            <h2 class="text-xl font-semibold text-secondary-900 dark:text-primary-400-dark flex items-center">
                 <svg class="w-5 h-5 text-primary-600 dark:text-primary-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
                 </svg>
@@ -74,7 +74,7 @@
                     <tr class="hover:bg-secondary-50 dark:hover:bg-gray-700 transition-colors duration-200">
                         <td class="px-6 py-4">
                             <div class="max-w-md">
-                                <p class="text-sm text-secondary-900 dark:text-primary-100-dark line-clamp-3">
+                                <p class="text-sm text-secondary-900 dark:text-primary-400-dark line-clamp-3">
                                     {{ Str::limit($comment->content, 150) }}
                                 </p>
                                 @if($comment->parent_id)
@@ -90,7 +90,7 @@
                                     <img class="h-8 w-8 rounded-full object-cover" src="{{ $comment->user->avatar ?? asset('hello.png') }}" alt="{{ $comment->user->name }}">
                                 </div>
                                 <div class="ml-3">
-                                    <div class="text-sm font-medium text-secondary-900 dark:text-primary-100-dark">
+                                    <div class="text-sm font-medium text-secondary-900 dark:text-primary-400-dark">
                                         {{ $comment->user->name }}
                                     </div>
                                     <div class="text-sm text-secondary-500 dark:text-gray-300">
@@ -102,7 +102,7 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="max-w-xs">
                                 <a href="{{ route('posts.show', $comment->post->slug) }}"
-                                   class="text-sm font-medium text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 transition-colors duration-200">
+                                   class="text-sm font-medium text-primary-600 dark:text-primary-400-dark hover:text-primary-900 dark:hover:text-primary-300-dark transition-colors duration-200">
                                     {{ Str::limit($comment->post->title, 50) }}
                                 </a>
                                 <div class="text-xs text-secondary-500 dark:text-gray-300 mt-1">
@@ -173,7 +173,7 @@
             </div>
             <div class="flex-1">
                 <p class="text-sm text-secondary-600 dark:text-gray-300 mb-1">Tổng bình luận</p>
-                <p class="text-2xl font-bold text-primary-600 dark:text-primary-100-dark">{{ $comments->total() }}</p>
+                <p class="text-2xl font-bold text-primary-600 dark:text-primary-400-dark">{{ $comments->total() }}</p>
             </div>
         </div>
     </div>
@@ -187,7 +187,7 @@
             </div>
             <div class="flex-1">
                 <p class="text-sm text-secondary-600 dark:text-gray-300 mb-1">Đã duyệt</p>
-                <p class="text-2xl font-bold text-primary-600 dark:text-primary-100-dark">{{ $approvedCount }}</p>
+                <p class="text-2xl font-bold text-primary-600 dark:text-primary-400-dark">{{ $approvedCount }}</p>
             </div>
         </div>
     </div>
@@ -201,7 +201,7 @@
             </div>
             <div class="flex-1">
                 <p class="text-sm text-secondary-600 dark:text-gray-300 mb-1">Chờ duyệt</p>
-                <p class="text-2xl font-bold text-yellow-600 dark:text-primary-100-dark">{{ $pendingCount }}</p>
+                <p class="text-2xl font-bold text-yellow-600 dark:text-primary-400-dark">{{ $pendingCount }}</p>
             </div>
         </div>
     </div>

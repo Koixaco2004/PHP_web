@@ -44,7 +44,7 @@
                 <div class="flex items-center space-x-3 p-4 bg-secondary-50 dark:bg-gray-700 rounded-lg">
                     <img class="h-12 w-12 rounded-full object-cover" src="{{ $user->avatar ?? asset('hello.png') }}" alt="{{ $user->name }}">
                     <div>
-                        <p class="font-medium text-secondary-900 dark:text-primary-100-dark">{{ $user->name }}</p>
+                        <p class="font-medium text-secondary-900 dark:text-primary-400-dark">{{ $user->name }}</p>
                         <p class="text-sm text-secondary-500 dark:text-gray-300">ID: {{ $user->id }}</p>
                     </div>
                 </div>
@@ -58,7 +58,7 @@
                     <svg class="w-5 h-5 text-secondary-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                     </svg>
-                    <span class="text-secondary-900 dark:text-primary-100-dark">{{ $user->email }}</span>
+                    <span class="text-secondary-900 dark:text-primary-400-dark">{{ $user->email }}</span>
                     @if($user->email_verified_at)
                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 ml-2">
                             ✓ Đã xác thực
@@ -77,7 +77,7 @@
             <label for="role" class="block text-sm font-medium text-secondary-700 dark:text-gray-300 mb-2">
                 Vai trò
             </label>
-            <select id="role" name="role" class="w-full px-3 py-2 border border-secondary-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-secondary-900 dark:text-primary-100-dark focus:outline-none focus:ring-primary-500 focus:border-primary-500">
+            <select id="role" name="role" class="w-full px-3 py-2 border border-secondary-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-secondary-900 dark:text-primary-400-dark focus:outline-none focus:ring-primary-500 focus:border-primary-500">
                 <option value="admin" {{ $user->role === 'admin' ? 'selected' : '' }}>Admin - Quản trị viên hệ thống</option>
                 <option value="user" {{ $user->role === 'user' ? 'selected' : '' }}>User - Người dùng thường</option>
             </select>

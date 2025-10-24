@@ -43,7 +43,7 @@
             </div>
             <div class="flex-1">
                 <p class="text-sm text-secondary-600 dark:text-gray-300 mb-1">Tổng bài viết</p>
-                <p class="text-2xl font-bold text-secondary-900 dark:text-primary-100-dark">{{ $stats['total_posts'] }}</p>
+                <p class="text-2xl font-bold text-secondary-900 dark:text-primary-400-dark">{{ $stats['total_posts'] }}</p>
             </div>
         </div>
         <div class="mt-4 pt-4 border-t border-secondary-100 dark:border-gray-700">
@@ -64,7 +64,7 @@
             </div>
             <div class="flex-1">
                 <p class="text-sm text-secondary-600 dark:text-gray-300 mb-1">Đã xuất bản</p>
-                <p class="text-2xl font-bold text-secondary-900 dark:text-primary-100-dark">{{ $stats['published_posts'] }}</p>
+                <p class="text-2xl font-bold text-secondary-900 dark:text-primary-400-dark">{{ $stats['published_posts'] }}</p>
             </div>
         </div>
         <div class="mt-4 pt-4 border-t border-secondary-100 dark:border-gray-700">
@@ -91,7 +91,7 @@
             </div>
             <div class="flex-1">
                 <p class="text-sm text-secondary-600 dark:text-gray-300 mb-1">Tổng người dùng</p>
-                <p class="text-2xl font-bold text-secondary-900 dark:text-primary-100-dark">{{ $stats['total_users'] }}</p>
+                <p class="text-2xl font-bold text-secondary-900 dark:text-primary-400-dark">{{ $stats['total_users'] }}</p>
             </div>
         </div>
         <div class="mt-4 pt-4 border-t border-secondary-100 dark:border-gray-700">
@@ -112,7 +112,7 @@
             </div>
             <div class="flex-1">
                 <p class="text-sm text-secondary-600 dark:text-gray-300 mb-1">Tổng chuyên mục</p>
-                <p class="text-2xl font-bold text-secondary-900 dark:text-primary-100-dark">{{ $stats['total_categories'] }}</p>
+                <p class="text-2xl font-bold text-secondary-900 dark:text-primary-400-dark">{{ $stats['total_categories'] }}</p>
             </div>
         </div>
         <div class="mt-4 pt-4 border-t border-secondary-100 dark:border-gray-700">
@@ -131,7 +131,7 @@
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 animate-slide-up" style="animation-delay: 0.5s">
             <div class="px-6 py-4 border-b border-secondary-200 dark:border-gray-700">
                 <div class="flex items-center justify-between">
-                    <h2 class="text-xl font-semibold text-secondary-900 dark:text-primary-100-dark flex items-center">
+                    <h2 class="text-xl font-semibold text-secondary-900 dark:text-primary-400-dark flex items-center">
                         <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                         </svg>
@@ -153,8 +153,8 @@
                         <div class="flex-1 min-w-0">
                             <div class="flex items-start justify-between">
                                 <div class="flex-1">
-                                    <h3 class="text-lg font-medium text-secondary-900 dark:text-primary-100-dark mb-1">
-                                        <a href="{{ route('posts.show', $post->slug) }}" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200">
+                                    <h3 class="text-lg font-medium text-secondary-900 dark:text-primary-400-dark mb-1">
+                                        <a href="{{ route('posts.show', $post->slug) }}" class="hover:text-primary-600 dark:hover:text-primary-300-dark transition-colors duration-200">
                                             {{ Str::limit($post->title, 60) }}
                                         </a>
                                     </h3>
@@ -191,7 +191,7 @@
     <!-- Quick Actions -->
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 animate-slide-up" style="animation-delay: 0.6s">
         <div class="px-6 py-4 border-b border-secondary-200 dark:border-gray-700">
-            <h2 class="text-xl font-semibold text-secondary-900 dark:text-primary-100-dark flex items-center">
+            <h2 class="text-xl font-semibold text-secondary-900 dark:text-primary-400-dark flex items-center">
                 <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                 </svg>

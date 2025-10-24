@@ -9,7 +9,7 @@
         <div class="mb-8">
             <div class="flex items-center justify-between">
                 <div>
-                    <h1 class="text-3xl font-bold text-gray-900 dark:text-primary-100-dark">Chỉnh sửa hồ sơ</h1>
+                    <h1 class="text-3xl font-bold text-gray-900 dark:text-primary-400-dark">Chỉnh sửa hồ sơ</h1>
                     <p class="text-gray-600 dark:text-gray-300 mt-1">Cập nhật thông tin cá nhân của bạn</p>
                 </div>
                 <a href="{{ route('profile.show') }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-150">
@@ -23,7 +23,7 @@
 
         <!-- Success Message -->
         @if(session('success'))
-            <div class="mb-6 bg-primary-50 dark:bg-primary-900-dark dark:border-primary-700-dark dark:text-primary-100-dark px-4 py-3 rounded-lg">
+            <div class="mb-6 bg-primary-50 dark:bg-primary-900-dark dark:border-primary-700-dark dark:text-primary-400-dark px-4 py-3 rounded-lg">
                 {{ session('success') }}
             </div>
         @endif
@@ -32,7 +32,7 @@
             <!-- Avatar Section -->
             <div class="lg:col-span-1">
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-                    <h2 class="text-lg font-medium text-gray-900 dark:text-primary-100-dark mb-4">Ảnh đại diện</h2>
+                    <h2 class="text-lg font-medium text-gray-900 dark:text-primary-400-dark mb-4">Ảnh đại diện</h2>
                     
                     <div class="flex flex-col items-center">
                         <div class="relative">
@@ -74,7 +74,7 @@
             <div class="lg:col-span-2">
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                        <h2 class="text-lg font-medium text-gray-900 dark:text-primary-100-dark">Thông tin cá nhân</h2>
+                        <h2 class="text-lg font-medium text-gray-900 dark:text-primary-400-dark">Thông tin cá nhân</h2>
                     </div>
                     
                     <form action="{{ route('profile.update') }}" method="POST" class="p-6 space-y-6">
@@ -162,7 +162,7 @@
 
                         <!-- Privacy Settings -->
                         <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
-                            <h3 class="text-lg font-medium text-gray-900 dark:text-primary-100-dark mb-4">Cài đặt quyền riêng tư</h3>
+                            <h3 class="text-lg font-medium text-gray-900 dark:text-primary-400-dark mb-4">Cài đặt quyền riêng tư</h3>
                             <div class="flex items-center">
                                 <input type="hidden" name="is_private" value="0">
                                 <input type="checkbox" name="is_private" id="is_private" value="1" 

@@ -9,7 +9,7 @@
         <div class="mb-8">
             <div class="flex items-center justify-between">
                 <div>
-                    <h1 class="text-3xl font-bold text-gray-900 dark:text-primary-100-dark">Cài đặt tài khoản</h1>
+                    <h1 class="text-3xl font-bold text-gray-900 dark:text-primary-400-dark">Cài đặt tài khoản</h1>
                     <p class="text-gray-600 dark:text-gray-300 mt-1">Quản lý cài đặt bảo mật và tài khoản</p>
                 </div>
                 <a href="{{ route('profile.show') }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
@@ -23,7 +23,7 @@
 
         <!-- Success Message -->
         @if(session('success'))
-            <div class="mb-6 bg-primary-50 dark:bg-primary-900-dark dark:border-primary-700-dark dark:text-primary-100-dark border border-primary-200 text-primary-700 px-4 py-3 rounded-lg">
+            <div class="mb-6 bg-primary-50 dark:bg-primary-900-dark dark:border-primary-700-dark dark:text-primary-400-dark border border-primary-200 text-primary-700 px-4 py-3 rounded-lg">
                 {{ session('success') }}
             </div>
         @endif
@@ -32,7 +32,7 @@
             <!-- Change Password Section -->
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                    <h2 class="text-lg font-medium text-gray-900 dark:text-primary-100-dark">Đổi mật khẩu</h2>
+                    <h2 class="text-lg font-medium text-gray-900 dark:text-primary-400-dark">Đổi mật khẩu</h2>
                     <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Cập nhật mật khẩu để bảo mật tài khoản</p>
                 </div>
                 
@@ -74,7 +74,7 @@
                     
                     <!-- Password Requirements -->
                     <div class="bg-primary-50 dark:bg-primary-900-dark dark:border-primary-700-dark border border-primary-200 rounded-lg p-4">
-                         <h4 class="text-sm font-medium text-primary-900 dark:text-primary-100-dark mb-2">Yêu cầu mật khẩu:</h4>
+                         <h4 class="text-sm font-medium text-primary-900 dark:text-primary-400-dark mb-2">Yêu cầu mật khẩu:</h4>
                          <ul class="text-sm text-primary-800 dark:text-primary-200-dark space-y-1">
                             <li class="flex items-center">
                                 <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
@@ -103,7 +103,7 @@
             <!-- Account Information -->
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
                 <div class="px-6 py-4 border-b border-gray-200">
-                    <h2 class="text-lg font-medium text-gray-900 dark:text-primary-100-dark">Thông tin tài khoản</h2>
+                    <h2 class="text-lg font-medium text-gray-900 dark:text-primary-400-dark">Thông tin tài khoản</h2>
                     <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Thông tin cơ bản về tài khoản của bạn</p>
                 </div>
                 
@@ -112,7 +112,7 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email</label>
                             <div class="flex items-center space-x-3">
-                                <span class="text-gray-900 dark:text-primary-100-dark">{{ $user->email }}</span>
+                                <span class="text-gray-900 dark:text-primary-400-dark">{{ $user->email }}</span>
                                 @if($user->email_verified_at)
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900-dark text-primary-800 dark:text-primary-200-dark">
                                         <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
@@ -139,12 +139,12 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Ngày tham gia</label>
-                            <span class="text-gray-900 dark:text-primary-100-dark">{{ $user->created_at->format('d/m/Y') }}</span>
+                            <span class="text-gray-900 dark:text-primary-400-dark">{{ $user->created_at->format('d/m/Y') }}</span>
                         </div>
                         
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Lượt xem hồ sơ</label>
-                            <span class="text-gray-900 dark:text-primary-100-dark">{{ number_format($user->profile_views) }} lượt</span>
+                            <span class="text-gray-900 dark:text-primary-400-dark">{{ number_format($user->profile_views) }} lượt</span>
                         </div>
                     </div>
                 </div>
@@ -154,7 +154,7 @@
             @if($user->google_id)
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
                     <div class="px-6 py-4 border-b border-gray-200">
-                        <h2 class="text-lg font-medium text-gray-900 dark:text-primary-100-dark">Liên kết Google</h2>
+                        <h2 class="text-lg font-medium text-gray-900 dark:text-primary-400-dark">Liên kết Google</h2>
                         <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Tài khoản của bạn đã được liên kết với Google</p>
                     </div>
                     
@@ -170,7 +170,7 @@
                                     </svg>
                                 </div>
                                 <div class="ml-4">
-                                    <h3 class="text-sm font-medium text-gray-900 dark:text-primary-100-dark">Tài khoản Google</h3>
+                                    <h3 class="text-sm font-medium text-gray-900 dark:text-primary-400-dark">Tài khoản Google</h3>
                                     <p class="text-sm text-gray-500 dark:text-gray-400">Đã liên kết thành công</p>
                                 </div>
                             </div>

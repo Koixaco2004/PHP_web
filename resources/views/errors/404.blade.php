@@ -17,7 +17,7 @@
 
         <!-- Error Message -->
         <div class="animate-fade-in" style="animation-delay: 0.2s">
-            <h1 class="text-4xl md:text-5xl font-heading font-bold text-secondary-900 dark:text-primary-100-dark mb-4">
+            <h1 class="text-4xl md:text-5xl font-heading font-bold text-secondary-900 dark:text-primary-400-dark mb-4">
                 Oops! Trang không tìm thấy
             </h1>
             <p class="text-xl text-secondary-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
@@ -49,7 +49,7 @@
                 <svg class="w-6 h-6 text-primary-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                 </svg>
-                <h2 class="text-2xl font-semibold text-secondary-900 dark:text-primary-100-dark">Tìm kiếm nội dung</h2>
+                <h2 class="text-2xl font-semibold text-secondary-900 dark:text-primary-400-dark">Tìm kiếm nội dung</h2>
             </div>
             
             <form action="{{ route('search') ?? route('home') }}" method="GET" class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
@@ -86,7 +86,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
                     </svg>
                 </div>
-                <h3 class="text-lg font-semibold text-primary-900 dark:text-primary-100-dark mb-2">Chuyên mục</h3>
+                <h3 class="text-lg font-semibold text-primary-900 dark:text-primary-400-dark mb-2">Chuyên mục</h3>
                 <p class="text-primary-700 dark:text-primary-200-dark text-sm mb-4">Duyệt nội dung theo từng lĩnh vực cụ thể</p>
                 <a href="{{ route('categories.index') ?? route('home') }}" class="text-primary-600 dark:text-primary-400-dark hover:text-primary-700 dark:hover:text-primary-300-dark font-medium text-sm">
                     Khám phá →

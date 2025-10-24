@@ -26,7 +26,7 @@
                 </svg>
             </div>
             <div>
-                <h1 class="text-3xl font-heading font-bold text-secondary-900 dark:text-primary-100-dark">Chỉnh sửa bài viết</h1>
+                <h1 class="text-3xl font-heading font-bold text-secondary-900 dark:text-primary-400-dark">Chỉnh sửa bài viết</h1>
                 <p class="text-secondary-600 dark:text-gray-300 mt-1">Cập nhật nội dung cho "{{ $post->title }}"</p>
             </div>
         </div>
@@ -54,7 +54,7 @@
                         <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
                         </svg>
-                        <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-100-dark">Tiêu đề bài viết</h3>
+                        <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-400-dark">Tiêu đề bài viết</h3>
                     </div>
                     
                     <div>
@@ -63,7 +63,7 @@
                         </label>
                         <div class="relative">
                             <input type="text" 
-                                   class="block w-full px-4 py-4 text-lg border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 bg-white dark:bg-gray-700 dark:text-primary-100-dark dark:placeholder-gray-400 @error('title') !border-red-500 !focus:ring-red-500 !focus:border-red-500 dark:!bg-red-900/20 @enderror" 
+                                   class="block w-full px-4 py-4 text-lg border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400 @error('title') !border-red-500 !focus:ring-red-500 !focus:border-red-500 dark:!bg-red-900/20 @enderror" 
                                    id="title" 
                                    name="title" 
                                    value="{{ old('title', $post->title) }}" 
@@ -90,7 +90,7 @@
                             <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
                             </svg>
-                            <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-100-dark">Chuyên mục</h3>
+                            <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-400-dark">Chuyên mục</h3>
                         </div>
                         
                         <div>
@@ -98,7 +98,7 @@
                                 Chọn chuyên mục <span class="text-red-500">*</span>
                             </label>
                             <div class="relative">
-                                <select class="block w-full px-4 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 bg-white dark:bg-gray-700 dark:text-primary-100-dark @error('category_id') !border-red-500 !focus:ring-red-500 !focus:border-red-500 @enderror appearance-none" 
+                                <select class="block w-full px-4 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 bg-white dark:bg-gray-700 dark:text-primary-400-dark @error('category_id') !border-red-500 !focus:ring-red-500 !focus:border-red-500 @enderror appearance-none" 
                                         id="category_id" name="category_id" required>
                                     <option value="">Chọn chuyên mục</option>
                                     @foreach($categories as $category)
@@ -130,7 +130,7 @@
                             <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
-                            <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-100-dark">Trạng thái</h3>
+                            <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-400-dark">Trạng thái</h3>
                         </div>
                         
                         <div>
@@ -138,7 +138,7 @@
                                 Trạng thái xuất bản <span class="text-red-500">*</span>
                             </label>
                             <div class="relative">
-                                <select class="block w-full px-4 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 bg-white dark:bg-gray-700 dark:text-primary-100-dark @error('status') !border-red-500 !focus:ring-red-500 !focus:border-red-500 @enderror appearance-none" 
+                                <select class="block w-full px-4 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 bg-white dark:bg-gray-700 dark:text-primary-400-dark @error('status') !border-red-500 !focus:ring-red-500 !focus:border-red-500 @enderror appearance-none" 
                                         id="status" name="status" required>
                                     <option value="draft" {{ old('status', $post->status) == 'draft' ? 'selected' : '' }}>📝 Bản nháp</option>
                                     <option value="published" {{ old('status', $post->status) == 'published' ? 'selected' : '' }}>🚀 Xuất bản</option>
@@ -167,7 +167,7 @@
                         <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"/>
                         </svg>
-                        <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-100-dark">Tóm tắt bài viết</h3>
+                        <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-400-dark">Tóm tắt bài viết</h3>
                     </div>
                     
                     <div>
@@ -175,7 +175,7 @@
                             Tóm tắt ngắn gọn
                         </label>
                         <div class="relative">
-                            <textarea class="block w-full px-4 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 resize-none bg-white dark:bg-gray-700 dark:text-primary-100-dark dark:placeholder-gray-400 @error('excerpt') !border-red-500 !focus:ring-red-500 !focus:border-red-500 dark:bg-red-900/20 @enderror" 
+                            <textarea class="block w-full px-4 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 resize-none bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400 @error('excerpt') !border-red-500 !focus:ring-red-500 !focus:border-red-500 dark:bg-red-900/20 @enderror" 
                                       id="excerpt" 
                                       name="excerpt" 
                                       rows="4" 
@@ -199,7 +199,7 @@
                         <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4a2 2 0 012-2z"/>
                         </svg>
-                        <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-100-dark">Hình ảnh bài viết</h3>
+                        <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-400-dark">Hình ảnh bài viết</h3>
                     </div>
 
                     <!-- Current Images -->
@@ -272,7 +272,7 @@
                         <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
-                        <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-100-dark">Nội dung bài viết</h3>
+                        <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-400-dark">Nội dung bài viết</h3>
                     </div>
                     
                     <div>
@@ -343,7 +343,7 @@
                         </div>
 
                         <div class="relative">
-                            <textarea class="block w-full px-4 py-4 border border-secondary-300 dark:border-gray-600 border-t-0 rounded-b-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 resize-none bg-white dark:bg-gray-700 dark:text-primary-100-dark dark:placeholder-gray-400 @error('content') !border-red-500 !focus:ring-red-500 !focus:border-red-500 dark:bg-red-900/20 @enderror" 
+                            <textarea class="block w-full px-4 py-4 border border-secondary-300 dark:border-gray-600 border-t-0 rounded-b-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 resize-none bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400 @error('content') !border-red-500 !focus:ring-red-500 !focus:border-red-500 dark:bg-red-900/20 @enderror" 
                                       id="content" 
                                       name="content" 
                                       rows="15" 
@@ -437,7 +437,7 @@
                     <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
                     </svg>
-                    <h3 class="font-semibold text-secondary-900 dark:text-primary-100-dark">Thống kê</h3>
+                    <h3 class="font-semibold text-secondary-900 dark:text-primary-400-dark">Thống kê</h3>
                 </div>
                 <div class="space-y-3 text-sm">
                     <div class="flex justify-between">
@@ -461,7 +461,7 @@
                     <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                     </svg>
-                    <h3 class="font-semibold text-secondary-900 dark:text-primary-100-dark">Hành động nhanh</h3>
+                    <h3 class="font-semibold text-secondary-900 dark:text-primary-400-dark">Hành động nhanh</h3>
                 </div>
                 <div class="space-y-2">
                     <a href="{{ route('posts.show', $post) }}" 
@@ -490,7 +490,7 @@
     <div class="flex items-center justify-center p-4 min-h-full">
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
         <div class="flex items-center justify-between p-6 border-b border-secondary-200 dark:border-gray-700">
-            <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-100-dark">Chọn hình ảnh để chèn</h3>
+            <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-400-dark">Chọn hình ảnh để chèn</h3>
             <button type="button" onclick="closeImageGallery()" class="text-secondary-400 dark:text-gray-400 hover:text-secondary-600 dark:hover:text-gray-300">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -512,7 +512,7 @@
         
         <div id="imageOptionsPanel" class="hidden border-t border-secondary-200 dark:border-gray-700 p-6 bg-secondary-50 dark:bg-gray-700">
             <div class="flex items-center justify-between mb-4">
-                <h4 class="font-medium text-secondary-900 dark:text-primary-100-dark">Tùy chọn hiển thị</h4>
+                <h4 class="font-medium text-secondary-900 dark:text-primary-400-dark">Tùy chọn hiển thị</h4>
                 <img id="selectedImagePreview" class="w-16 h-16 object-cover rounded-lg" src="" alt="">
             </div>
             
@@ -520,7 +520,7 @@
                 <!-- Size Options -->
                 <div>
                     <label class="block text-sm font-medium text-secondary-700 dark:text-gray-300 mb-2">Kích thước</label>
-                    <select id="imageSize" class="w-full px-3 py-2 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-100-dark">
+                    <select id="imageSize" class="w-full px-3 py-2 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-400-dark">
                         <option value="small">Nhỏ (300px)</option>
                         <option value="medium" selected>Vừa (500px)</option>
                         <option value="large">Lớn (700px)</option>
@@ -531,7 +531,7 @@
                 <!-- Alignment Options -->
                 <div>
                     <label class="block text-sm font-medium text-secondary-700 dark:text-gray-300 mb-2">Căn lề</label>
-                    <select id="imageAlign" class="w-full px-3 py-2 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-100-dark">
+                    <select id="imageAlign" class="w-full px-3 py-2 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-400-dark">
                         <option value="left">Trái</option>
                         <option value="center" selected>Giữa</option>
                         <option value="right">Phải</option>
@@ -541,7 +541,7 @@
                 <!-- Caption -->
                 <div>
                     <label class="block text-sm font-medium text-secondary-700 dark:text-gray-300 mb-2">Chú thích (tùy chọn)</label>
-                    <input type="text" id="imageCaption" placeholder="Nhập chú thích..." class="w-full px-3 py-2 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-100-dark dark:placeholder-gray-400">
+                    <input type="text" id="imageCaption" placeholder="Nhập chú thích..." class="w-full px-3 py-2 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400">
                 </div>
             </div>
             
