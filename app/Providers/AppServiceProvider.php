@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
+use Illuminate\Pagination\Paginator;
 use App\Models\Category;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,6 +22,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Use custom pagination view
+        Paginator::defaultView('vendor.pagination.tailwind');
+
         // Share categories with specific views for navigation
         View::composer(['layouts.app', 'home', 'posts.*'], function ($view) {
             $navigationCategories = Category::active()
