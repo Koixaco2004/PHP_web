@@ -42,28 +42,7 @@ class CommentFactory extends Factory
             'post_id' => Post::factory(),
             'user_id' => User::factory(),
             'parent_id' => null,
-            'is_approved' => $this->faker->boolean(80),
         ];
-    }
-
-    /**
-     * Indicate that the comment is approved.
-     */
-    public function approved(): static
-    {
-        return $this->state(fn(array $attributes) => [
-            'is_approved' => true,
-        ]);
-    }
-
-    /**
-     * Indicate that the comment is pending approval.
-     */
-    public function pending(): static
-    {
-        return $this->state(fn(array $attributes) => [
-            'is_approved' => false,
-        ]);
     }
 
     /**

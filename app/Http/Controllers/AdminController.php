@@ -101,9 +101,8 @@ class AdminController extends Controller
     public function comments()
     {
         $comments = Comment::with(['user', 'post'])->latest()->paginate(10);
-        $approvedCount = Comment::where('is_approved', true)->count();
-        $pendingCount = Comment::where('is_approved', false)->count();
-        return view('admin.comments.index', compact('comments', 'approvedCount', 'pendingCount'));
+        $totalCount = Comment::count();
+        return view('admin.comments.index', compact('comments', 'totalCount'));
     }
 
     /**

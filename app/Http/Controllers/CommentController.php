@@ -27,7 +27,6 @@ class CommentController extends Controller
             'post_id' => $post->id,
             'user_id' => Auth::id(),
             'parent_id' => $request->parent_id,
-            'is_approved' => true, // Auto-approve all comments
         ]);
 
         return back()->with('success', 'Bình luận đã được đăng thành công!');

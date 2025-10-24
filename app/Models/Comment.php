@@ -14,11 +14,6 @@ class Comment extends Model
         'post_id',
         'user_id',
         'parent_id',
-        'is_approved',
-    ];
-
-    protected $casts = [
-        'is_approved' => 'boolean',
     ];
 
     /**
@@ -54,14 +49,6 @@ class Comment extends Model
     }
 
     /**
-     * Get only approved comments.
-     */
-    public function scopeApproved($query)
-    {
-        return $query->where('is_approved', true);
-    }
-
-    /**
      * Get only top-level comments (no parent).
      */
     public function scopeTopLevel($query)
@@ -76,12 +63,12 @@ class Comment extends Model
     {
         $depth = 0;
         $parent = $this->parent;
-        
+
         while ($parent) {
             $depth++;
             $parent = $parent->parent;
         }
-        
+
         return $depth;
     }
 }

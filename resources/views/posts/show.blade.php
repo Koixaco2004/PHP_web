@@ -301,7 +301,8 @@
 
                 <!-- Comments List -->
                 <div class="space-y-6">
-                    @forelse($post->comments as $comment)
+                    @forelse($post->comments->whereNull('parent_id') as $comment)
+                        <!-- Parent Comment -->
                         <div class="comment-item animate-slide-up" style="--animation-delay: {{ $loop->index * 0.1 }}s; animation-delay: var(--animation-delay);">
                             <div class="flex space-x-4">
                                 <div class="flex-shrink-0">
@@ -309,14 +310,105 @@
                                         <span class="text-white font-semibold text-lg">{{ substr($comment->user->name, 0, 1) }}</span>
                                     </div>
                                 </div>
-                                <div class="flex-1 bg-secondary-50 dark:bg-gray-700 rounded-xl p-4">
-                                    <div class="flex items-center justify-between mb-2">
-                                        <h5 class="font-semibold text-secondary-900 dark:text-primary-400-dark">{{ $comment->user->name }}</h5>
-                                        <time class="text-sm text-secondary-500 dark:text-gray-400">{{ $comment->created_at->format('d/m/Y H:i') }}</time>
+                                <div class="flex-1">
+                                    <div class="bg-secondary-50 dark:bg-gray-700 rounded-xl p-4">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <h5 class="font-semibold text-secondary-900 dark:text-primary-400-dark">{{ $comment->user->name }}</h5>
+                                            <time class="text-sm text-secondary-500 dark:text-gray-400">{{ $comment->created_at->format('d/m/Y H:i') }}</time>
+                                        </div>
+                                        <p class="text-secondary-700 dark:text-gray-300 mb-3">{{ $comment->content }}</p>
+                                        
+                                        @auth
+                                            <div class="flex items-center space-x-4 text-sm">
+                                                <button onclick="showReplyForm({{ $comment->id }})" class="text-primary-600 dark:text-primary-400-dark hover:text-primary-700 dark:hover:text-primary-300-dark font-medium flex items-center">
+                                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/>
+                                                    </svg>
+                                                    Trả lời
+                                                </button>
+                                                @can('delete', $comment)
+                                                    <form method="POST" action="{{ route('comments.destroy', $comment) }}" class="inline" onsubmit="return confirm('Bạn có chắc chắn muốn xóa bình luận này?')">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 font-medium flex items-center">
+                                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                                            </svg>
+                                                            Xóa
+                                                        </button>
+                                                    </form>
+                                                @endcan
+                                            </div>
+                                        @endauth
                                     </div>
-                                    <p class="text-secondary-700 dark:text-gray-300 mb-3">{{ $comment->content }}</p>
 
+                                    <!-- Reply Form -->
+                                    @auth
+                                        <div id="reply-form-{{ $comment->id }}" class="hidden mt-4 ml-4">
+                                            <form method="POST" action="{{ route('comments.store', $post) }}" class="space-y-3">
+                                                @csrf
+                                                <input type="hidden" name="parent_id" value="{{ $comment->id }}">
+                                                <div class="flex items-start space-x-3">
+                                                    <div class="flex-shrink-0">
+                                                        <div class="w-8 h-8 bg-gradient-to-br from-primary-400 to-primary-500 rounded-full flex items-center justify-center">
+                                                            <span class="text-white font-semibold text-sm">{{ substr(auth()->user()->name, 0, 1) }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex-1">
+                                                        <textarea name="content" rows="2" class="w-full px-3 py-2 text-sm border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400" placeholder="Viết câu trả lời của bạn..." required></textarea>
+                                                        <div class="mt-2 flex items-center space-x-2">
+                                                            <button type="submit" class="px-3 py-1.5 text-sm bg-primary-600 dark:bg-primary-100-dark text-white dark:text-primary-900-dark rounded-lg hover:bg-primary-700 dark:hover:bg-primary-200-dark transition-colors duration-200">
+                                                                Gửi
+                                                            </button>
+                                                            <button type="button" onclick="hideReplyForm({{ $comment->id }})" class="px-3 py-1.5 text-sm bg-secondary-200 dark:bg-gray-600 text-secondary-700 dark:text-gray-300 rounded-lg hover:bg-secondary-300 dark:hover:bg-gray-500 transition-colors duration-200">
+                                                                Hủy
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    @endauth
 
+                                    <!-- Replies (nested comments) -->
+                                    @if($comment->children->count() > 0)
+                                        <div class="mt-4 ml-8 space-y-4 border-l-2 border-primary-200 dark:border-gray-600 pl-4">
+                                            @foreach($comment->children as $reply)
+                                                <div class="flex space-x-3">
+                                                    <div class="flex-shrink-0">
+                                                        <div class="w-10 h-10 bg-gradient-to-br from-primary-400 to-primary-500 rounded-full flex items-center justify-center">
+                                                            <span class="text-white font-semibold">{{ substr($reply->user->name, 0, 1) }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex-1">
+                                                        <div class="bg-primary-50 dark:bg-gray-700/50 rounded-lg p-3 border border-primary-100 dark:border-gray-600">
+                                                            <div class="flex items-center justify-between mb-2">
+                                                                <div class="flex items-center space-x-2">
+                                                                    <h5 class="font-semibold text-secondary-900 dark:text-primary-400-dark text-sm">{{ $reply->user->name }}</h5>
+                                                                    <span class="text-xs text-primary-600 dark:text-primary-400-dark bg-primary-100 dark:bg-primary-900-dark px-2 py-0.5 rounded-full">Trả lời</span>
+                                                                </div>
+                                                                <time class="text-xs text-secondary-500 dark:text-gray-400">{{ $reply->created_at->format('d/m/Y H:i') }}</time>
+                                                            </div>
+                                                            <p class="text-secondary-700 dark:text-gray-300 text-sm">{{ $reply->content }}</p>
+                                                            
+                                                            @can('delete', $reply)
+                                                                <form method="POST" action="{{ route('comments.destroy', $reply) }}" class="inline mt-2" onsubmit="return confirm('Bạn có chắc chắn muốn xóa bình luận này?')">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit" class="text-xs text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 font-medium flex items-center">
+                                                                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                                                        </svg>
+                                                                        Xóa
+                                                                    </button>
+                                                                </form>
+                                                            @endcan
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -338,7 +430,7 @@
 <!-- Related Posts Section -->
 <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <h3 class="text-2xl font-bold text-primary-900 dark:text-primary-400-dark mb-6">Tin tức liên quan</h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @php
             $relatedPosts = \App\Models\Post::where('category_id', $post->category_id)
                 ->where('id', '!=', $post->id)
@@ -363,9 +455,9 @@
                         <span class="text-xs text-primary-500 dark:text-gray-400">{{ $relatedPost->created_at->diffForHumans() }}</span>
                     </div>
 
-                    <h4 class="text-lg font-semibold text-primary-900 dark:text-primary-400-dark mb-2 leading-tight">
+                    <h4 class="text-lg font-semibold text-primary-900 dark:text-primary-400-dark mb-2 leading-tight line-clamp-2 min-h-[3.5rem]">
                         <a href="{{ route('posts.show', $relatedPost->slug) }}" class="hover:text-primary-700 dark:hover:text-primary-300-dark">
-                            {{ Str::limit($relatedPost->title, 60) }}
+                            {{ $relatedPost->title }}
                         </a>
                     </h4>
 
@@ -400,6 +492,27 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    window.showReplyForm = function(commentId) {
+        // Hide all other reply forms
+        document.querySelectorAll('[id^="reply-form-"]').forEach(form => {
+            form.classList.add('hidden');
+        });
+        // Show the selected reply form
+        const replyForm = document.getElementById('reply-form-' + commentId);
+        if (replyForm) {
+            replyForm.classList.remove('hidden');
+            replyForm.querySelector('textarea').focus();
+        }
+    };
+
+    window.hideReplyForm = function(commentId) {
+        const replyForm = document.getElementById('reply-form-' + commentId);
+        if (replyForm) {
+            replyForm.classList.add('hidden');
+            replyForm.querySelector('textarea').value = '';
+        }
+    };
+
     window.sharePost = function(platform) {
         const url = encodeURIComponent(window.location.href);
         const title = encodeURIComponent(document.title);
