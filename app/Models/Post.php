@@ -16,8 +16,13 @@ class Post extends Model
         'content',
         'excerpt',
         'status',
+        'approval_status',
         'category_id',
         'user_id',
+        'created_by',
+        'updated_by',
+        'approved_by',
+        'approved_at',
         'view_count',
         'comment_count',
         'is_featured',
@@ -29,6 +34,7 @@ class Post extends Model
         'comment_count' => 'integer',
         'is_featured' => 'boolean',
         'published_at' => 'datetime',
+        'approved_at' => 'datetime',
     ];
 
     /**
@@ -48,6 +54,30 @@ class Post extends Model
     }
 
     /**
+     * Get the user who created the post.
+     */
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    /**
+     * Get the user who last updated the post.
+     */
+    public function updater()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    /**
+     * Get the admin who approved the post.
+     */
+    public function approver()
+    {
+        return $this->belongsTo(User::class, 'approved_by');
+    }
+
+    /**
      * Get the comments for the post.
      */
     public function comments()
@@ -61,8 +91,34 @@ class Post extends Model
     public function scopePublished($query)
     {
         return $query->where('status', 'published')
+            ->where('approval_status', 'approved')
             ->whereNotNull('published_at')
             ->where('published_at', '<=', now());
+    }
+
+    /**
+     * Get posts pending approval.
+     */
+    public function scopePendingApproval($query)
+    {
+        return $query->where('status', 'published')
+            ->where('approval_status', 'pending');
+    }
+
+    /**
+     * Get approved posts.
+     */
+    public function scopeApproved($query)
+    {
+        return $query->where('approval_status', 'approved');
+    }
+
+    /**
+     * Get rejected posts.
+     */
+    public function scopeRejected($query)
+    {
+        return $query->where('approval_status', 'rejected');
     }
 
     /**

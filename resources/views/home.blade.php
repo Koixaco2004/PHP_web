@@ -56,7 +56,7 @@
                                                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                                     </svg>
-                                                    {{ $post->created_at->diffForHumans() }}
+                                                    {{ $post->approved_at ? $post->approved_at->diffForHumans() : $post->created_at->diffForHumans() }}
                                                 </div>
                                             </div>
                                             <a href="{{ route('posts.show', $post->slug) }}" class="inline-flex items-center px-6 py-3 bg-white text-primary-700 dark:bg-gray-800 dark:text-primary-400-dark font-semibold rounded-lg hover:bg-primary-50 dark:hover:bg-gray-700 transition-all duration-200 transform hover:scale-105 shadow-lg">
@@ -129,7 +129,7 @@
                             <span class="text-xs font-medium text-primary-600 dark:text-primary-400-dark bg-primary-50 dark:bg-primary-900-dark px-2 py-1 rounded">
                                 {{ $post->category->name }}
                             </span>
-                            <span class="text-xs text-primary-500 dark:text-gray-400">{{ $post->created_at->diffForHumans() }}</span>
+                            <span class="text-xs text-primary-500 dark:text-gray-400">{{ $post->approved_at ? $post->approved_at->diffForHumans() : $post->created_at->diffForHumans() }}</span>
                         </div>
                         
                         <h2 class="text-lg font-semibold text-primary-900 dark:text-primary-400-dark mb-3 leading-tight">
@@ -179,7 +179,7 @@
                         <span class="text-xs font-medium text-primary-600 dark:text-primary-400-dark bg-primary-50 dark:bg-primary-900-dark px-2 py-1 rounded">
                             {{ $post->category->name }}
                         </span>
-                        <span class="text-xs text-primary-500 dark:text-gray-400">{{ $post->created_at->diffForHumans() }}</span>
+                        <span class="text-xs text-primary-500 dark:text-gray-400">{{ $post->approved_at ? $post->approved_at->diffForHumans() : $post->created_at->diffForHumans() }}</span>
                     </div>
                     
                     <h2 class="text-base font-semibold text-primary-900 dark:text-primary-400-dark mb-2 leading-tight">

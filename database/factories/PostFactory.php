@@ -40,11 +40,25 @@ class PostFactory extends Factory
         $title = $this->faker->randomElement($vietnameseTitles) . ' ' . $this->faker->numberBetween(1, 1000);
         $isPublished = $this->faker->boolean(70); // 70% published
 
+        // Determine approval status
+        // If draft, always pending
+        // If published, 80% approved, 20% pending
+        $approvalStatus = 'pending';
+        if ($isPublished) {
+            $approvalStatus = $this->faker->boolean(80) ? 'approved' : 'pending';
+        }
+
         // Generate HTML content
         $htmlContent = $this->generateHtmlContent();
 
         // Generate excerpt from first paragraph
         $excerpt = $this->generateExcerpt();
+
+        $userId = User::factory();
+        $createdAt = $this->faker->dateTimeBetween('-1 year', 'now');
+        $approvedAt = ($approvalStatus === 'approved' && $isPublished)
+            ? $this->faker->dateTimeBetween($createdAt, 'now')
+            : null;
 
         return [
             'title' => $title,
@@ -52,12 +66,18 @@ class PostFactory extends Factory
             'content' => $htmlContent,
             'excerpt' => $excerpt,
             'status' => $isPublished ? 'published' : 'draft',
+            'approval_status' => $approvalStatus,
             'category_id' => Category::factory(),
-            'user_id' => User::factory(),
+            'user_id' => $userId,
+            'created_by' => $userId,
+            'updated_by' => $userId,
+            'approved_by' => ($approvalStatus === 'approved') ? User::where('role', 'admin')->inRandomOrder()->first()?->id : null,
+            'approved_at' => $approvedAt,
             'view_count' => $this->faker->numberBetween(0, 5000),
             'comment_count' => $this->faker->numberBetween(0, 50),
             'is_featured' => $this->faker->boolean(15), // 15% featured
-            'published_at' => $isPublished ? $this->faker->dateTimeBetween('-1 year', 'now') : null,
+            'published_at' => $isPublished ? $createdAt : null,
+            'created_at' => $createdAt,
         ];
     }
 

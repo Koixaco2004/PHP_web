@@ -23,7 +23,7 @@ class ProfileController extends Controller
     {
         /** @var User $user */
         $user = Auth::user();
-        $posts = Post::where('user_id', $user->id)->with('category')->latest()->paginate(5);
+        $posts = Post::where('user_id', $user->id)->with('category')->latest()->take(3)->get();
         $totalComments = Comment::where('user_id', $user->id)->count();
 
         return view('profile.show', compact('user', 'posts', 'totalComments'));
@@ -123,13 +123,56 @@ class ProfileController extends Controller
     /**
      * Show user's posts.
      */
-    public function posts()
+    public function posts(Request $request)
     {
         /** @var User $user */
         $user = Auth::user();
-        $posts = Post::where('user_id', $user->id)->with('category')->latest()->paginate(10);
 
-        return view('profile.posts', compact('user', 'posts'));
+        $query = Post::where('user_id', $user->id)->with('category', 'images');
+
+        // Filter by status
+        if ($request->has('status') && in_array($request->status, ['published', 'draft'])) {
+            $query->where('status', $request->status);
+        }
+
+        // Filter by approval status
+        if ($request->has('approval') && in_array($request->approval, ['pending', 'approved', 'rejected'])) {
+            $query->where('approval_status', $request->approval);
+        }
+
+        // Filter by category
+        if ($request->has('category') && $request->category) {
+            $query->where('category_id', $request->category);
+        }
+
+        // Search by title
+        if ($request->has('search') && $request->search) {
+            $query->where('title', 'like', '%' . $request->search . '%');
+        }
+
+        // Sort
+        $sort = $request->get('sort', 'latest');
+        switch ($sort) {
+            case 'oldest':
+                $query->oldest();
+                break;
+            case 'most_viewed':
+                $query->orderBy('view_count', 'desc');
+                break;
+            case 'most_commented':
+                $query->orderBy('comment_count', 'desc');
+                break;
+            default:
+                $query->latest();
+        }
+
+        $posts = $query->paginate(12);
+        $categories = \App\Models\Category::active()->get();
+
+        // Get view mode (normal or grid)
+        $viewMode = $request->get('view', 'grid');
+
+        return view('profile.posts', compact('user', 'posts', 'categories', 'viewMode'));
     }
 
     /**

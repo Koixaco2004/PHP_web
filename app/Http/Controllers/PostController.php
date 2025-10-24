@@ -61,8 +61,11 @@ class PostController extends Controller
             'content' => $request->content,
             'excerpt' => $request->excerpt,
             'status' => $request->status,
+            'approval_status' => $request->status === 'published' ? 'pending' : 'pending',
             'category_id' => $request->category_id,
             'user_id' => Auth::id(),
+            'created_by' => Auth::id(),
+            'updated_by' => Auth::id(),
             'published_at' => $request->status === 'published' ? now() : null,
         ]);
 
@@ -87,7 +90,7 @@ class PostController extends Controller
         }
 
         $message = $post->status === 'published'
-            ? 'Bài viết đã được xuất bản thành công!'
+            ? 'Bài viết đã được gửi đến admin để phê duyệt!'
             : 'Bài viết đã được lưu làm bản nháp thành công!';
 
         return redirect()->route('posts.show', $post->slug)->with('success', $message);
@@ -150,6 +153,9 @@ class PostController extends Controller
             'excerpt' => $request->excerpt,
             'status' => $request->status,
             'category_id' => $request->category_id,
+            'updated_by' => Auth::id(),
+            // Nếu bài viết được publish lại, chuyển về trạng thái pending để admin phê duyệt lại
+            'approval_status' => $request->status === 'published' ? 'pending' : $post->approval_status,
             'published_at' => $request->status === 'published' && !$post->published_at ? now() : ($request->status === 'draft' ? null : $post->published_at),
         ]);
 
@@ -187,7 +193,7 @@ class PostController extends Controller
         $post->refresh();
 
         $message = $post->status === 'published'
-            ? 'Bài viết đã được cập nhật và xuất bản thành công!'
+            ? 'Bài viết đã được cập nhật và gửi đến admin để phê duyệt lại!'
             : 'Bài viết đã được cập nhật và lưu làm bản nháp thành công!';
 
         // If post is draft, redirect to edit page instead of show page

@@ -20,8 +20,9 @@ class AdminController extends Controller
     {
         $stats = [
             'total_posts' => Post::count(),
-            'published_posts' => Post::where('status', 'published')->count(),
+            'published_posts' => Post::where('status', 'published')->where('approval_status', 'approved')->count(),
             'draft_posts' => Post::where('status', 'draft')->count(),
+            'pending_posts' => Post::where('status', 'published')->where('approval_status', 'pending')->count(),
             'total_categories' => Category::count(),
             'active_categories' => Category::where('is_active', true)->count(),
             'total_comments' => Comment::count(),
@@ -113,5 +114,46 @@ class AdminController extends Controller
         $this->authorize('delete', $comment);
         $comment->delete();
         return redirect()->back()->with('success', 'Bình luận đã được xóa!');
+    }
+
+    /**
+     * Display pending posts for approval.
+     */
+    public function pendingPosts()
+    {
+        $pendingPosts = Post::with(['category', 'user'])
+            ->pendingApproval()
+            ->latest()
+            ->paginate(10);
+
+        return view('admin.posts.pending', compact('pendingPosts'));
+    }
+
+    /**
+     * Approve a post.
+     */
+    public function approvePost(Post $post)
+    {
+        $post->update([
+            'approval_status' => 'approved',
+            'approved_by' => Auth::id(),
+            'approved_at' => now(),
+        ]);
+
+        return redirect()->back()->with('success', 'Bài viết đã được phê duyệt!');
+    }
+
+    /**
+     * Reject a post.
+     */
+    public function rejectPost(Request $request, Post $post)
+    {
+        $post->update([
+            'approval_status' => 'rejected',
+            'approved_by' => Auth::id(),
+            'approved_at' => now(),
+        ]);
+
+        return redirect()->back()->with('success', 'Bài viết đã bị từ chối!');
     }
 }

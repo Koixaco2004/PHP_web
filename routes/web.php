@@ -73,6 +73,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/comments', [AdminController::class, 'comments'])->name('admin.comments.index');
     Route::delete('/admin/comments/{comment}', [AdminController::class, 'destroyComment'])->name('admin.comments.destroy');
 
+    // Post approval management
+    Route::get('/admin/posts/pending', [AdminController::class, 'pendingPosts'])->name('admin.posts.pending');
+    Route::post('/admin/posts/{post}/approve', [AdminController::class, 'approvePost'])->name('admin.posts.approve');
+    Route::post('/admin/posts/{post}/reject', [AdminController::class, 'rejectPost'])->name('admin.posts.reject');
+
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
     Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
     Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');

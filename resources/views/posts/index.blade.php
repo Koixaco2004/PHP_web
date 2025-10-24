@@ -66,12 +66,12 @@
         <div class="flex items-center">
             <div class="w-12 h-12 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-lg flex items-center justify-center mr-4">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
             </div>
             <div class="flex-1">
-                <p class="text-sm text-secondary-600 dark:text-gray-300 mb-1">Bản nháp</p>
-                <p class="text-2xl font-bold text-primary-600 dark:text-primary-400-dark">{{ $posts->where('status', 'draft')->count() }}</p>
+                <p class="text-sm text-secondary-600 dark:text-gray-300 mb-1">Chờ phê duyệt</p>
+                <p class="text-2xl font-bold text-primary-600 dark:text-primary-400-dark">{{ $posts->where('approval_status', 'pending')->count() }}</p>
             </div>
         </div>
     </div>
@@ -186,13 +186,17 @@
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                @if($post->status === 'published')
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900-dark text-primary-800 dark:text-primary-200-dark">
-                                        ✓ Đã xuất bản
+                                @if($post->approval_status === 'approved')
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">
+                                        ✓ Đã duyệt
+                                    </span>
+                                @elseif($post->approval_status === 'pending')
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200">
+                                        ⏳ Chờ duyệt
                                     </span>
                                 @else
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200">
-                                        📝 Bản nháp
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200">
+                                        ✕ Từ chối
                                     </span>
                                 @endif
                             </td>

@@ -28,7 +28,7 @@ class HomeController extends Controller
             $query->byCategory($request->category);
         }
 
-        $posts = $query->latest()->paginate(9);
+        $posts = $query->orderBy('approved_at', 'desc')->paginate(9);
         $categories = Category::active()->get();
 
         return view('home', compact('posts', 'categories'));
@@ -43,12 +43,20 @@ class HomeController extends Controller
             $q->with('user')->whereNull('parent_id');
         }, 'images'])->where('slug', $slug);
 
-        // If user is authenticated and is admin or author, show draft posts too
-        if (Auth::check() && (Auth::user()->role === 'admin' ||
-            $query->clone()->where('user_id', Auth::id())->exists())) {
+        // If user is authenticated and is admin or author, show all posts
+        if (Auth::check()) {
+            $user = Auth::user();
             $post = $query->firstOrFail();
+
+            // Check if user is admin or the author of the post
+            if ($user->role !== 'admin' && $post->user_id !== $user->id) {
+                // For regular users who are not the author, only show published and approved posts
+                if ($post->status !== 'published' || $post->approval_status !== 'approved') {
+                    abort(404);
+                }
+            }
         } else {
-            // For public users, only show published posts
+            // For public users, only show published and approved posts
             $post = $query->published()->firstOrFail();
         }
 
@@ -58,8 +66,8 @@ class HomeController extends Controller
             $post->setRelation('images', $uniqueImages);
         }
 
-        // Only increment view count for published posts
-        if ($post->status === 'published') {
+        // Only increment view count for published and approved posts
+        if ($post->status === 'published' && $post->approval_status === 'approved') {
             $post->increment('view_count');
         }
 

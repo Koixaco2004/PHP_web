@@ -159,18 +159,56 @@
             <!-- Recent Posts -->
             <div id="posts" class="p-6">
                 @if($posts->count() > 0)
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">3 bài viết gần đây</h3>
+                        <a href="{{ route('profile.posts') }}" class="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-medium text-sm flex items-center">
+                            Xem tất cả
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
                     <div class="space-y-4">
                         @foreach($posts as $post)
                             <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-150">
                                 <div class="flex justify-between items-start">
                                     <div class="flex-1">
+                                        <div class="flex items-center space-x-2 mb-2">
+                                            <span class="px-2 py-1 text-xs font-semibold rounded-full bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200">
+                                                {{ $post->category->name }}
+                                            </span>
+                                            <span class="px-2 py-1 text-xs font-semibold rounded-full 
+                                                @if($post->approval_status == 'approved') bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
+                                                @elseif($post->approval_status == 'pending') bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200
+                                                @else bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200
+                                                @endif">
+                                                @if($post->approval_status == 'approved') Đã duyệt
+                                                @elseif($post->approval_status == 'pending') Chờ duyệt
+                                                @else Từ chối
+                                                @endif
+                                            </span>
+                                        </div>
                                         <h3 class="text-lg font-medium text-gray-900 dark:text-primary-400-dark mb-2">
-                                            {{ $post->title }}
+                                            <a href="{{ route('posts.show', $post->slug) }}" class="hover:text-primary-600 dark:hover:text-primary-400">
+                                                {{ $post->title }}
+                                            </a>
                                         </h3>
                                         <p class="text-gray-600 dark:text-gray-300 mb-3">{{ Str::limit(strip_tags($post->content), 150) }}</p>
                                         <div class="flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400">
-                                            <span>{{ $post->category->name }}</span>
                                             <span>{{ $post->created_at->format('d/m/Y') }}</span>
+                                            <span class="flex items-center">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                                </svg>
+                                                {{ $post->view_count }}
+                                            </span>
+                                            <span class="flex items-center">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                                                </svg>
+                                                {{ $post->comment_count }}
+                                            </span>
                                         </div>
                                     </div>
                                     @if($post->main_image)
@@ -181,11 +219,6 @@
                                 </div>
                             </div>
                         @endforeach
-                    </div>
-                    
-                    <!-- Pagination -->
-                    <div class="mt-6">
-                        {{ $posts->links() }}
                     </div>
                 @else
                     <div class="text-center py-12">
