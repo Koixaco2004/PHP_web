@@ -104,5 +104,18 @@ Route::middleware(['auth'])->group(function () {
 // Public Profile Routes
 Route::get('/users/{user}', [ProfileController::class, 'showPublic'])->name('users.show');
 
+// Static pages
+Route::get('/privacy-policy', function () {
+    return view('privacy-policy');
+})->name('privacy-policy');
+
+Route::get('/terms-of-service', function () {
+    return view('terms-of-service');
+})->name('terms-of-service');
+
+Route::get('/support', function () {
+    return view('support');
+})->name('support');
+
 // Authentication routes (nếu chưa có)
 require __DIR__ . '/auth.php';

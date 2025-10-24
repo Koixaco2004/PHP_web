@@ -384,233 +384,147 @@
         @yield('content')
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-white border-t border-secondary-200 mt-12 dark:bg-gray-800 dark:border-gray-700">
-        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-                <div class="text-sm text-secondary-500 dark:text-gray-400">
-                    &copy; {{ date('Y') }} Tin Tức 24h. Mọi quyền được bảo lưu.
-                </div>
-                <div class="flex space-x-6">
-                    <a href="{{ route('home') }}" class="text-sm text-secondary-500 hover:text-primary-600 transition-colors dark:text-gray-400 dark:hover:text-primary-400-dark">Trang chủ</a>
-                    <button onclick="toggleAboutModal()" class="text-sm text-secondary-500 hover:text-primary-600 transition-colors dark:text-gray-400 dark:hover:text-primary-400-dark">Giới thiệu</button>
-                    <button onclick="toggleContactModal()" class="text-sm text-secondary-500 hover:text-primary-600 transition-colors dark:text-gray-400 dark:hover:text-primary-400-dark">Liên hệ</button>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- About Modal -->
-    <div id="aboutModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 z-50 hidden items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto modal-scrollbar">
-            <!-- Modal Header -->
-            <div class="sticky top-0 bg-primary-600 dark:bg-primary-700-dark px-6 py-4 rounded-t-2xl flex justify-between items-center">
-                <h3 class="text-2xl font-bold text-white flex items-center">
-                    <svg class="w-7 h-7 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    Giới thiệu
-                </h3>
-                <button onclick="toggleAboutModal()" class="text-white hover:bg-white hover:bg-opacity-20 rounded-lg p-2 transition-all">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                </button>
-            </div>
-            
-            <!-- Modal Body -->
-            <div class="p-6 space-y-6">
-                <!-- Logo Section -->
-                <div class="flex justify-center mb-6">
-                    <div class="bg-gradient-to-br from-primary-100 to-primary-200 dark:from-primary-900-dark dark:to-primary-800-dark p-4 rounded-2xl">
-                        <img src="{{ asset('logo.png') }}" alt="SmurfExpress Logo" class="w-24 h-24 rounded-xl">
-                    </div>
-                </div>
-
-                <!-- Welcome Section -->
-                <div class="text-center">
-                    <h4 class="text-3xl font-bold text-primary-900 dark:text-primary-400-dark mb-3">SmurfExpress</h4>
-                    <p class="text-lg text-primary-600 dark:text-primary-400-dark font-medium">Kênh tin tức hàng đầu Việt Nam</p>
-                </div>
-
-                <!-- Description -->
-                <div class="space-y-4 text-gray-700 dark:text-gray-300">
-                    <p class="leading-relaxed text-justify">
-                        <span class="font-semibold text-primary-700 dark:text-primary-400-dark">SmurfExpress</span> là nền tảng tin tức trực tuyến hàng đầu, mang đến cho bạn những thông tin nóng hổi, chính xác và đa dạng từ mọi lĩnh vực của cuộc sống.
-                    </p>
-                    
-                    <div class="bg-primary-50 dark:bg-gray-700 rounded-xl p-6 border-l-4 border-primary-600 dark:border-primary-400-dark">
-                        <h5 class="font-bold text-primary-900 dark:text-primary-400-dark mb-4 text-lg">Sứ mệnh của chúng tôi:</h5>
-                        <ul class="space-y-3 pl-1">
-                            <li class="flex items-start">
-                                <svg class="w-5 h-5 text-primary-500 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                </svg>
-                                <span>Cung cấp tin tức chính xác, kịp thời và khách quan</span>
-                            </li>
-                            <li class="flex items-start">
-                                <svg class="w-5 h-5 text-primary-500 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                </svg>
-                                <span>Tạo cộng đồng chia sẻ và thảo luận văn minh</span>
-                            </li>
-                            <li class="flex items-start">
-                                <svg class="w-5 h-5 text-primary-500 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                </svg>
-                                <span>Đem đến trải nghiệm đọc tin tức hiện đại và tiện lợi</span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <p class="leading-relaxed text-justify">
-                        Với giao diện thân thiện, dễ sử dụng và tối ưu cho mọi thiết bị, chúng tôi cam kết mang đến cho bạn trải nghiệm đọc tin tức tốt nhất. Hãy cùng chúng tôi khám phá thế giới xung quanh mỗi ngày!
-                    </p>
-                </div>
-
-                <!-- Stats Section -->
-                <div class="grid grid-cols-3 gap-4 pt-4">
-                    <div class="text-center p-4 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 rounded-xl">
-                        <div class="text-2xl font-bold text-blue-600 dark:text-blue-300">1000+</div>
-                        <div class="text-sm text-blue-700 dark:text-blue-400 mt-1">Bài viết</div>
-                    </div>
-                    <div class="text-center p-4 bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900-dark dark:to-primary-800-dark rounded-xl">
-                        <div class="text-2xl font-bold text-primary-600 dark:text-primary-400-dark">500+</div>
-                        <div class="text-sm text-primary-700 dark:text-primary-400-dark mt-1">Thành viên</div>
-                    </div>
-                    <div class="text-center p-4 bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900 dark:to-orange-800 rounded-xl">
-                        <div class="text-2xl font-bold text-orange-600 dark:text-orange-300">24/7</div>
-                        <div class="text-sm text-orange-700 dark:text-orange-400 mt-1">Cập nhật</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Modal Footer -->
-            <div class="px-6 py-4 bg-gray-50 dark:bg-gray-700 rounded-b-2xl flex justify-end">
-                <button onclick="toggleAboutModal()" class="px-6 py-2.5 bg-primary-600 hover:bg-primary-700 dark:bg-primary-700-dark dark:hover:bg-primary-800-dark text-white font-medium rounded-lg transition-all shadow-md hover:shadow-lg">
-                    Đóng
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Contact Modal -->
-    <div id="contactModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 z-50 hidden items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto modal-scrollbar">
-            <!-- Modal Header -->
-            <div class="sticky top-0 bg-primary-600 dark:bg-primary-700-dark px-6 py-4 rounded-t-2xl flex justify-between items-center">
-                <h3 class="text-2xl font-bold text-white flex items-center">
-                    <svg class="w-7 h-7 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                    </svg>
-                    Liên hệ
-                </h3>
-                <button onclick="toggleContactModal()" class="text-white hover:bg-white hover:bg-opacity-20 rounded-lg p-2 transition-all">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                </button>
-            </div>
-            
-            <!-- Modal Body -->
-            <div class="p-6 space-y-4">
-                <!-- Contact Info Cards -->
-                <div class="space-y-3">
-                    <!-- Address -->
-                    <div class="bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 rounded-xl p-4">
-                        <h4 class="font-bold text-blue-900 dark:text-blue-100 mb-3 text-lg flex items-center">
-                            <div class="w-10 h-10 bg-blue-500 dark:bg-blue-600 rounded-xl flex items-center justify-center mr-3">
-                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                </svg>
-                            </div>
-                            Địa chỉ
-                        </h4>
-                        <p class="text-blue-800 dark:text-blue-200 pl-0">140 Lê Trọng Tấn, Phường Tây Thạnh, TP.HCM</p>
-                    </div>
-
-                    <!-- Phone -->
-                    <div class="bg-gradient-to-r from-primary-50 to-primary-100 dark:from-primary-900-dark dark:to-primary-800-dark rounded-xl p-4">
-                        <h4 class="font-bold text-primary-900 dark:text-primary-400-dark mb-3 text-lg flex items-center">
-                            <div class="w-10 h-10 bg-primary-500 dark:bg-primary-600 rounded-xl flex items-center justify-center mr-3">
-                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                                </svg>
-                            </div>
-                            Điện thoại
-                        </h4>
-                        <p class="text-primary-800 dark:text-primary-200-dark pl-0">Hotline: <a href="tel:0123456789" class="hover:underline font-semibold">0123 456 789</a></p>
-                        <p class="text-primary-700 dark:text-primary-300-dark text-sm pl-0 mt-1">Hỗ trợ 24/7</p>
-                    </div>
-
-                    <!-- Email -->
-                    <div class="bg-white dark:bg-gray-700 rounded-xl p-4 border border-gray-200 dark:border-gray-600">
-                        <h4 class="font-bold text-gray-900 dark:text-gray-100 mb-3 text-lg">Email</h4>
-                        <div class="space-y-2">
-                            <p class="text-gray-700 dark:text-gray-300">
-                                <a href="mailto:contact@smurfexpress.vn" class="hover:underline hover:text-primary-600 dark:hover:text-primary-400-dark font-medium">contact@smurfexpress.vn</a>
-                            </p>
-                            <p class="text-gray-700 dark:text-gray-300">
-                                <a href="mailto:support@smurfexpress.vn" class="hover:underline hover:text-primary-600 dark:hover:text-primary-400-dark">support@smurfexpress.vn</a>
-                            </p>
+    <!-- Modern Footer -->
+    <footer class="bg-secondary-50 dark:bg-gray-900 text-gray-900 dark:text-white mt-12 border-t border-gray-200 dark:border-gray-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Main Footer Content -->
+            <div class="py-12">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+                    <!-- About Section -->
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-3 mb-4">
+                            <img src="{{ asset('logo.png') }}" alt="SmurfExpress Logo" class="w-12 h-12 rounded-lg">
+                            <h3 class="text-2xl font-bold text-gray-900 dark:text-white">SmurfExpress</h3>
                         </div>
-                    </div>
-
-                    <!-- Social Media -->
-                    <div class="bg-white dark:bg-gray-700 rounded-xl p-4 border border-gray-200 dark:border-gray-600">
-                        <h4 class="font-bold text-gray-900 dark:text-gray-100 mb-3 text-lg">Mạng xã hội</h4>
-                        <div class="flex space-x-2">
-                            <a href="#" class="w-12 h-12 rounded-xl flex items-center justify-center transition-colors shadow-md" style="background-color: #1877F2;" title="Facebook">
-                                <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                            Kênh tin tức hàng đầu Việt Nam, mang đến những thông tin nóng hổi, chính xác và đa dạng từ mọi lĩnh vực của cuộc sống.
+                        </p>
+                        <div class="flex space-x-3 pt-2">
+                            <a href="#" class="w-10 h-10 rounded-lg flex items-center justify-center bg-blue-100 dark:bg-blue-600 hover:bg-blue-200 dark:hover:bg-blue-700 transition-colors duration-200" title="Facebook">
+                                <svg class="w-5 h-5 text-blue-600 dark:text-white" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                                 </svg>
                             </a>
-                            <a href="#" class="w-12 h-12 rounded-xl flex items-center justify-center transition-colors shadow-md" style="background-color: #1DA1F2;" title="Twitter">
-                                <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <a href="#" class="w-10 h-10 rounded-lg flex items-center justify-center bg-sky-100 dark:bg-sky-500 hover:bg-sky-200 dark:hover:bg-sky-600 transition-colors duration-200" title="Twitter">
+                                <svg class="w-5 h-5 text-sky-600 dark:text-white" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
                                 </svg>
                             </a>
-                            <a href="#" class="w-12 h-12 rounded-xl flex items-center justify-center transition-colors shadow-md" style="background-color: #FF0000;" title="YouTube">
-                                <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <a href="#" class="w-10 h-10 rounded-lg flex items-center justify-center bg-red-100 dark:bg-red-600 hover:bg-red-200 dark:hover:bg-red-700 transition-colors duration-200" title="YouTube">
+                                <svg class="w-5 h-5 text-red-600 dark:text-white" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
                                 </svg>
                             </a>
                         </div>
                     </div>
-                </div>
 
-                <!-- Working Hours -->
-                <div class="bg-white dark:bg-gray-700 rounded-xl p-6 border border-gray-200 dark:border-gray-600">
-                    <h4 class="font-bold text-gray-900 dark:text-gray-100 mb-4 text-lg flex items-center">
-                        <svg class="w-5 h-5 mr-2 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                        Giờ làm việc
-                    </h4>
-                    <div class="space-y-2 text-gray-700 dark:text-gray-300 pl-2">
-                        <p>Thứ 2 - Thứ 6: 8:00 - 18:00</p>
-                        <p>Thứ 7: 9:00 - 17:00</p>
-                        <p>Chủ nhật: 9:00 - 12:00</p>
+                    <!-- Quick Links -->
+                    <div>
+                        <h4 class="text-lg font-bold mb-4 text-gray-900 dark:text-white">Liên kết nhanh</h4>
+                        <ul class="space-y-2">
+                            <li>
+                                <a href="{{ route('home') }}" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200 flex items-center text-sm">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                    </svg>
+                                    Trang chủ
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('categories.index') }}" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200 flex items-center text-sm">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                    </svg>
+                                    Chuyên mục
+                                </a>
+                            </li>
+                            @auth
+                            <li>
+                                <a href="{{ route('posts.create') }}" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200 flex items-center text-sm">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                    </svg>
+                                    Viết bài
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('profile.show') }}" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200 flex items-center text-sm">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                    </svg>
+                                    Hồ sơ
+                                </a>
+                            </li>
+                            @if(Auth::user()->isAdmin())
+                            <li>
+                                <a href="{{ route('admin.dashboard') }}" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200 flex items-center text-sm">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                    </svg>
+                                    Dashboard
+                                </a>
+                            </li>
+                            @endif
+                            @endauth
+                        </ul>
+                    </div>
+
+                    <!-- Contact Info -->
+                    <div>
+                        <h4 class="text-lg font-bold mb-4 text-gray-900 dark:text-white">Liên hệ</h4>
+                        <ul class="space-y-3 text-sm">
+                            <li class="flex items-start text-gray-600 dark:text-gray-300">
+                                <svg class="w-5 h-5 mr-2 mt-0.5 flex-shrink-0 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                                <span>140 Lê Trọng Tấn, Phường Tây Thạnh, TP.HCM</span>
+                            </li>
+                            <li class="flex items-center text-gray-600 dark:text-gray-300">
+                                <svg class="w-5 h-5 mr-2 flex-shrink-0 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                                </svg>
+                                <a href="tel:0123456789" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">0123 456 789</a>
+                            </li>
+                            <li class="flex items-center text-gray-600 dark:text-gray-300">
+                                <svg class="w-5 h-5 mr-2 flex-shrink-0 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                </svg>
+                                <a href="mailto:contact@smurfexpress.vn" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">contact@smurfexpress.vn</a>
+                            </li>
+                        </ul>
+                        
+                        <div class="mt-4 p-3 bg-gray-100 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+                            <div class="flex items-center text-xs text-gray-600 dark:text-gray-300">
+                                <svg class="w-4 h-4 mr-2 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <div>
+                                    <div class="font-semibold text-gray-900 dark:text-white">Giờ làm việc:</div>
+                                    <div>T2-T6: 8:00-18:00</div>
+                                    <div>T7-CN: 9:00-17:00</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Quick Note -->
-                <div class="text-center p-4 bg-primary-50 dark:bg-gray-700 rounded-xl border border-primary-200 dark:border-gray-600">
-                    <p class="text-sm text-gray-600 dark:text-gray-300">
-                        💡 Chúng tôi luôn sẵn sàng lắng nghe và hỗ trợ bạn. Đừng ngần ngại liên hệ với chúng tôi bất cứ lúc nào!
-                    </p>
+            <!-- Footer Bottom -->
+            <div class="border-t border-gray-200 dark:border-gray-700 py-8">
+                <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+                    <div class="text-gray-600 dark:text-gray-400 text-sm">
+                        © {{ date('Y') }} <span class="font-semibold text-gray-900 dark:text-white">SmurfExpress</span>. All rights reserved.
+                    </div>
+                    <div class="flex items-center space-x-6 text-sm">
+                        <a href="{{ route('privacy-policy') }}" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200">Chính sách bảo mật</a>
+                        <a href="{{ route('terms-of-service') }}" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200">Điều khoản sử dụng</a>
+                        <a href="{{ route('support') }}" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200">Hỗ trợ</a>
+                    </div>
                 </div>
             </div>
-
-            <!-- Modal Footer -->
-            <div class="px-6 py-4 bg-gray-50 dark:bg-gray-700 rounded-b-2xl flex justify-end">
-                <button onclick="toggleContactModal()" class="px-6 py-2.5 bg-primary-600 hover:bg-primary-700 dark:bg-primary-700-dark dark:hover:bg-primary-800-dark text-white font-medium rounded-lg transition-all shadow-md hover:shadow-lg">
-                    Đóng
-                </button>
-            </div>
         </div>
-    </div>
+    </footer>
 
     <!-- Alpine.js -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
@@ -741,64 +655,6 @@
                     document.getElementById('mobileNav').classList.add('hidden');
                 });
             });
-        });
-
-        // Modal functions
-        function toggleAboutModal() {
-            const modal = document.getElementById('aboutModal');
-            if (modal.classList.contains('hidden')) {
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-                document.body.style.overflow = 'hidden'; // Prevent scrolling
-            } else {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-                document.body.style.overflow = ''; // Restore scrolling
-            }
-        }
-
-        function toggleContactModal() {
-            const modal = document.getElementById('contactModal');
-            if (modal.classList.contains('hidden')) {
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-                document.body.style.overflow = 'hidden'; // Prevent scrolling
-            } else {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-                document.body.style.overflow = ''; // Restore scrolling
-            }
-        }
-
-        // Close modals when clicking outside
-        document.addEventListener('click', function(event) {
-            const aboutModal = document.getElementById('aboutModal');
-            const contactModal = document.getElementById('contactModal');
-
-            // Close About modal if clicking on backdrop
-            if (event.target === aboutModal) {
-                toggleAboutModal();
-            }
-
-            // Close Contact modal if clicking on backdrop
-            if (event.target === contactModal) {
-                toggleContactModal();
-            }
-        });
-
-        // Close modals with Escape key
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                const aboutModal = document.getElementById('aboutModal');
-                const contactModal = document.getElementById('contactModal');
-
-                if (!aboutModal.classList.contains('hidden')) {
-                    toggleAboutModal();
-                }
-                if (!contactModal.classList.contains('hidden')) {
-                    toggleContactModal();
-                }
-            }
         });
     </script>
 </body>
