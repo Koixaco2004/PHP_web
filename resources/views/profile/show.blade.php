@@ -167,7 +167,7 @@
                                         <h3 class="text-lg font-medium text-gray-900 dark:text-primary-400-dark mb-2">
                                             {{ $post->title }}
                                         </h3>
-                                        <p class="text-gray-600 dark:text-gray-300 mb-3">{{ Str::limit($post->content, 150) }}</p>
+                                        <p class="text-gray-600 dark:text-gray-300 mb-3">{{ Str::limit(strip_tags($post->content), 150) }}</p>
                                         <div class="flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400">
                                             <span>{{ $post->category->name }}</span>
                                             <span>{{ $post->created_at->format('d/m/Y') }}</span>
