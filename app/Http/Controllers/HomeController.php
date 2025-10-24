@@ -28,7 +28,7 @@ class HomeController extends Controller
             $query->byCategory($request->category);
         }
 
-        $posts = $query->latest()->paginate(10);
+        $posts = $query->latest()->paginate(9);
         $categories = Category::active()->get();
 
         return view('home', compact('posts', 'categories'));
