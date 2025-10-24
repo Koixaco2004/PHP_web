@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" class="overflow-x-hidden">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -107,10 +107,10 @@
     <!-- Vite Assets -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-secondary-50 min-h-screen transition-colors duration-300 dark:bg-gray-900 dark:text-white" id="app-body">
+<body class="bg-secondary-50 min-h-screen transition-colors duration-300 dark:bg-gray-900 dark:text-white overflow-x-hidden" id="app-body">
     <!-- Clean Header -->
     <header class="bg-white border-b border-primary-200 sticky top-0 z-50 dark:bg-gray-800 dark:border-gray-700">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="px-8 sm:px-12 lg:px-20 xl:px-28">
             <div class="flex items-center justify-between h-16" style="align-items: center;">
                 <!-- Logo -->
                 <div class="flex items-center">
@@ -268,7 +268,7 @@
 
     <!-- Navigation Bar -->
     <nav class="bg-primary-900 border-b border-primary-800 dark:bg-primary-100-dark dark:border-primary-200-dark">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="px-8 sm:px-12 lg:px-20 xl:px-28">
             <div class="flex items-center justify-between py-3">
                 <div class="flex items-center space-x-8">
                     <a href="{{ route('home') }}" class="text-white hover:text-primary-200 text-sm font-medium whitespace-nowrap transition-colors duration-200 dark:text-primary-900-dark dark:hover:text-primary-700-dark {{ request()->routeIs('home') ? 'text-primary-200 dark:text-primary-700-dark' : '' }}">
@@ -357,7 +357,7 @@
     <!-- Đã bỏ thông báo xác thực email -->
 
     <!-- Main Content -->
-    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <main class="px-8 sm:px-12 lg:px-20 xl:px-28 py-8">
         <!-- Flash Messages -->
         @if(session('success'))
             <div class="mb-6 p-4 bg-primary-50 border border-primary-200 rounded-lg animate-slide-up dark:bg-primary-900-dark dark:border-primary-700-dark dark:text-primary-400-dark">
@@ -386,7 +386,7 @@
 
     <!-- Modern Footer -->
     <footer class="bg-secondary-50 dark:bg-gray-900 text-gray-900 dark:text-white mt-12 border-t border-gray-200 dark:border-gray-700">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="px-8 sm:px-12 lg:px-20 xl:px-28">
             <!-- Main Footer Content -->
             <div class="py-12">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">

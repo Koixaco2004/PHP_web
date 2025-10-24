@@ -59,21 +59,6 @@
                 @endif
             </div>
         </div>
-    @elseif($post->approval_status === 'approved')
-        <!-- Show approved badge for author/admin only -->
-        @if(auth()->check() && (auth()->user()->id === $post->user_id || auth()->user()->role === 'admin'))
-            <div class="bg-green-50 dark:bg-green-900 border border-green-200 dark:border-green-700 rounded-lg p-4 mb-6 animate-fade-in">
-                <div class="flex items-center">
-                    <svg class="w-5 h-5 text-green-600 dark:text-green-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    <div>
-                        <p class="text-green-800 dark:text-green-200 font-medium">Bài viết đã được phê duyệt</p>
-                        <p class="text-green-700 dark:text-green-300 text-sm">Bài viết đã được quản trị viên phê duyệt và đang hiển thị công khai.</p>
-                    </div>
-                </div>
-            </div>
-        @endif
     @endif
 @endif
 
