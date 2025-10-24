@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Trang chủ - Website Tin Tức')
+@section('title', 'Trang chủ - SmurfExpress')
 
 @section('content')
 <!-- Hero Carousel Section -->
