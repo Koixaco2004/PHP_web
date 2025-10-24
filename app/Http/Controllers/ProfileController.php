@@ -34,10 +34,8 @@ class ProfileController extends Controller
      */
     public function showPublic(User $user)
     {
-        // Tăng số lượt xem profile
+        // Increment profile views
         $user->increment('profile_views');
-
-        // Nếu profile riêng tư và không phải chủ sở hữu
         if ($user->is_private && Auth::id() !== $user->id) {
             abort(403, 'This profile is private.');
         }
@@ -65,8 +63,6 @@ class ProfileController extends Controller
         /** @var User $user */
         $user = Auth::user();
         $validated = $request->validated();
-
-        // Loại bỏ email khỏi danh sách cập nhật để không cho phép thay đổi email
         unset($validated['email']);
 
         User::where('id', $user->id)->update($validated);
@@ -85,12 +81,12 @@ class ProfileController extends Controller
 
         $user = Auth::user();
 
-        // Xóa avatar cũ nếu có
+        // Delete old avatar if exists
         if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
             Storage::disk('public')->delete($user->avatar);
         }
 
-        // Upload avatar mới
+        // Upload new avatar
         $avatarPath = $request->file('avatar')->store('avatars', 'public');
 
         User::where('id', $user->id)->update(['avatar' => $avatarPath]);

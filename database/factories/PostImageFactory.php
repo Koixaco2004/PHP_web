@@ -24,7 +24,7 @@ class PostImageFactory extends Factory
             'https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=800&h=600&fit=crop&crop=center&auto=format&q=80', // Office workspace
             'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=600&fit=crop&crop=center&auto=format&q=80', // Team meeting
             'https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=800&h=600&fit=crop&crop=center&auto=format&q=80', // Office building
-            'https://images.unsplash.com/photo-1486312338219-ce68e2c6b331?w=800&h=600&fit=crop&crop=center&auto=format&q=80', // Laptop coding
+            'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&h=600&fit=crop&crop=center&auto=format&q=80', // Robotics/AI
             'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=600&fit=crop&crop=center&auto=format&q=80', // AI/Tech
             'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=800&h=600&fit=crop&crop=center&auto=format&q=80', // Mobile development
             'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&h=600&fit=crop&crop=center&auto=format&q=80', // UI/UX design
@@ -35,9 +35,9 @@ class PostImageFactory extends Factory
             'https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?w=800&h=600&fit=crop&crop=center&auto=format&q=80', // Programming
             'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&h=600&fit=crop&crop=center&auto=format&q=80', // Startup office
         ];
-        
+
         $imageUrl = fake()->randomElement($unsplashImages);
-        
+
         return [
             'post_id' => Post::factory(),
             'image_url' => $imageUrl,
@@ -70,7 +70,7 @@ class PostImageFactory extends Factory
      */
     public function featured(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'is_featured' => true,
             'sort_order' => 0,
         ]);
@@ -81,7 +81,7 @@ class PostImageFactory extends Factory
      */
     public function thumbnail(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'width' => $this->faker->numberBetween(100, 300),
             'height' => $this->faker->numberBetween(100, 300),
             'file_size' => $this->faker->numberBetween(5000, 50000),

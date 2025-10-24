@@ -27,24 +27,24 @@ class GoogleController extends Controller
         try {
             $googleUser = Socialite::driver('google')->user();
 
-            // Tìm user có email tương ứng
+            // Find user with matching email
             $user = User::where('email', $googleUser->getEmail())->first();
 
             if ($user) {
-                // Cập nhật Google ID và avatar nếu user đã tồn tại
+                // Update Google ID and avatar if user already exists
                 $user->update([
                     'google_id' => $googleUser->getId(),
                     'avatar' => $googleUser->getAvatar(),
                 ]);
             } else {
-                // Tạo user mới
+                // Create new user
                 $user = User::create([
                     'name' => $googleUser->getName(),
                     'email' => $googleUser->getEmail(),
                     'google_id' => $googleUser->getId(),
                     'avatar' => $googleUser->getAvatar(),
                     'password' => Hash::make(Str::random(16)), // Random password
-                    'email_verified_at' => now(), // Google đã verify email
+                    'email_verified_at' => now(), // Google has verified email
                     'role' => 'user',
                 ]);
             }

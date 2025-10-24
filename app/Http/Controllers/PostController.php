@@ -161,7 +161,6 @@ class PostController extends Controller
             'status' => $request->status,
             'category_id' => $request->category_id,
             'updated_by' => Auth::id(),
-            // Nếu bài viết được publish lại, chuyển về trạng thái pending để admin phê duyệt lại
             'approval_status' => $request->status === 'published' ? 'pending' : $post->approval_status,
             'published_at' => $request->status === 'published' && !$post->published_at ? now() : ($request->status === 'draft' ? null : $post->published_at),
         ]);

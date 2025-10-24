@@ -23,7 +23,6 @@ class HomeController extends Controller
     {
         $query = Post::with(['category', 'user', 'images'])->published()->withActiveCategory();
 
-        // Lọc theo chuyên mục (chỉ giữ lại filter cơ bản cho trang chủ)
         if ($request->has('category') && $request->category) {
             $query->byCategory($request->category);
         }
@@ -71,7 +70,7 @@ class HomeController extends Controller
             $post->increment('view_count');
         }
 
-        // Lấy bài viết liên quan sử dụng SearchService
+        // Get related posts using SearchService
         $relatedPosts = $this->searchService->getRelatedPosts($post, 3);
 
         return view('posts.show', compact('post', 'relatedPosts'));

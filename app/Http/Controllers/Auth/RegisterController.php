@@ -33,13 +33,13 @@ class RegisterController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'user', // Mặc định là user
+            'role' => 'user', // Default to user role
         ]);
 
-        // Đăng nhập user ngay sau khi đăng ký
+        // Log in user immediately after registration
         Auth::login($user);
 
-        // Chuyển hướng về trang chủ, không cần xác thực email
+        // Redirect to home page, no email verification required
         return redirect('/')->with('message', 'Đăng ký thành công!');
     }
 }
