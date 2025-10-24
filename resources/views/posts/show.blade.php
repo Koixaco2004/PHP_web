@@ -90,9 +90,9 @@
                     <div class="flex items-center space-x-6">
                         <div class="flex items-center space-x-3">
                             @if($post->user->avatar)
-                                <img src="{{ asset('storage/' . $post->user->avatar) }}" alt="{{ $post->user->name }}" class="w-10 h-10 rounded-full object-cover border-2 border-green-500">
+                                <img src="{{ asset('storage/' . $post->user->avatar) }}" alt="{{ $post->user->name }}" class="w-10 h-10 rounded-full object-cover border-2 border-primary-500">
                             @else
-                                <img src="{{ asset('hello.png') }}" alt="Default Avatar" class="w-10 h-10 rounded-full object-cover border-2 border-green-500">
+                                <img src="{{ asset('hello.png') }}" alt="Default Avatar" class="w-10 h-10 rounded-full object-cover border-2 border-primary-500">
                             @endif
                             <div>
                                 <a href="{{ route('users.show', $post->user) }}" class="font-medium text-secondary-900 dark:text-primary-100-dark hover:text-primary-600 dark:hover:text-primary-400-dark">{{ $post->user->name }}</a>
@@ -394,9 +394,9 @@ document.addEventListener('DOMContentLoaded', function() {
             copyIcon.classList.add('hidden');
             checkIcon.classList.remove('hidden');
             
-            // Change button color to green
+            // Change button color to primary
             copyBtn.classList.remove('text-secondary-500', 'dark:text-gray-400');
-            copyBtn.classList.add('text-green-600', 'dark:text-green-400');
+            copyBtn.classList.add('text-primary-600', 'dark:text-primary-400');
             
             // Add scale animation
             checkIcon.style.transform = 'scale(1.2)';
@@ -408,7 +408,7 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 checkIcon.classList.add('hidden');
                 copyIcon.classList.remove('hidden');
-                copyBtn.classList.remove('text-green-600', 'dark:text-green-400');
+                copyBtn.classList.remove('text-primary-600', 'dark:text-primary-400');
                 copyBtn.classList.add('text-secondary-500', 'dark:text-gray-400');
             }, 2000);
         }).catch(function(err) {

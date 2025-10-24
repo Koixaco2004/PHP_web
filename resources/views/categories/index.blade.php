@@ -56,8 +56,8 @@
     
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.1s">
         <div class="flex items-center">
-            <div class="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
-                <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="w-12 h-12 bg-primary-100 dark:bg-primary-900-dark rounded-lg flex items-center justify-center">
+                <svg class="w-6 h-6 text-primary-600 dark:text-primary-400-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
             </div>
@@ -146,14 +146,14 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap w-24">
                                <div class="flex items-center">
-                                   <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $category->posts_count > 0 ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' : 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200' }}">
+                                   <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $category->posts_count > 0 ? 'bg-primary-100 dark:bg-primary-900-dark text-primary-800 dark:text-primary-200-dark' : 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200' }}">
                                        {{ $category->posts_count }} BV
                                    </span>
                                </div>
                            </td>
                             <td class="px-6 py-4 whitespace-nowrap w-28">
                                 @if($category->is_active)
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900-dark text-primary-800 dark:text-primary-200-dark">
                                         <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                                         </svg>

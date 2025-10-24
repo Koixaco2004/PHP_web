@@ -90,7 +90,7 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-secondary-900 dark:text-primary-100-dark">{{ $user->email }}</div>
                             @if($user->email_verified_at)
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900-dark text-primary-800 dark:text-primary-200-dark">
                                     ✓ Đã xác thực
                                 </span>
                             @else

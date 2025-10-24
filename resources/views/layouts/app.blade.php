@@ -27,7 +27,7 @@
         /* Custom Scrollbar for entire application */
         * {
             scrollbar-width: thin;
-            scrollbar-color: #16a34a #f1f5f9;
+            scrollbar-color: #22c55e #f1f5f9;
         }
         
         *::-webkit-scrollbar {
@@ -41,12 +41,12 @@
         }
         
         *::-webkit-scrollbar-thumb {
-            background: #16a34a;
+            background: #22c55e;
             border-radius: 10px;
         }
         
         *::-webkit-scrollbar-thumb:hover {
-            background: #15803d;
+            background: #16a34a;
         }
         
         /* Dark mode scrollbar */
@@ -63,7 +63,7 @@
         }
         
         .dark *::-webkit-scrollbar-thumb:hover {
-            background: #16a34a;
+            background: #22c55e;
         }
         
         /* Custom Scrollbar for Modal - Enhanced */
@@ -77,13 +77,13 @@
         }
         
         .modal-scrollbar::-webkit-scrollbar-thumb {
-            background: #16a34a;
+            background: #22c55e;
             border-radius: 10px;
             border: 2px solid #e5e7eb;
         }
         
         .modal-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #15803d;
+            background: #16a34a;
         }
         
         .dark .modal-scrollbar {
@@ -100,7 +100,7 @@
         }
         
         .dark .modal-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #16a34a;
+            background: #22c55e;
         }
     </style>
     
@@ -125,7 +125,7 @@
                     <form method="GET" action="{{ route('search') }}" class="w-full flex items-center">
                         <div class="relative w-full flex items-center">
                             <input type="text" name="q"
-                                   class="w-full h-10 pl-4 pr-10 border border-primary-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 focus:outline-none text-sm bg-white flex-shrink-0 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-green-400 dark:focus:border-green-400 dark:focus:outline-none"
+                                   class="w-full h-10 pl-4 pr-10 border border-primary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:outline-none text-sm bg-white flex-shrink-0 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark dark:focus:outline-none"
                                    placeholder="Tìm kiếm..."
                                    value="{{ request('q') }}">
                             <button type="submit" class="absolute right-3 top-1/2 transform -translate-y-1/2 p-1 hover:bg-gray-100 rounded flex items-center justify-center dark:hover:bg-gray-600">
@@ -168,7 +168,7 @@
                     @else
                         <div class="relative">
                             <div class="flex items-center space-x-3 cursor-pointer" onclick="toggleProfileDropdown()">
-                                <div class="w-10 h-10 rounded-full overflow-hidden" style="box-shadow: 0 0 0 2px #10b981;">
+                                <div class="w-10 h-10 rounded-full overflow-hidden ring-2 ring-primary-500">
                                     @if(Auth::user()->avatar)
                                         <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="{{ Auth::user()->name }}" class="w-full h-full object-cover">
                                     @else
@@ -360,12 +360,12 @@
     <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <!-- Flash Messages -->
         @if(session('success'))
-            <div class="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg animate-slide-up dark:bg-green-900 dark:border-green-700 dark:text-green-100">
+            <div class="mb-6 p-4 bg-primary-50 border border-primary-200 rounded-lg animate-slide-up dark:bg-primary-900-dark dark:border-primary-700-dark dark:text-primary-100-dark">
                 <div class="flex">
-                    <svg class="w-5 h-5 text-green-600 mr-2 flex-shrink-0 dark:text-green-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 text-primary-600 mr-2 flex-shrink-0 dark:text-primary-400-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
-                    <p class="text-green-800 font-medium dark:text-green-100">{{ session('success') }}</p>
+                    <p class="text-primary-800 font-medium dark:text-primary-100-dark">{{ session('success') }}</p>
                 </div>
             </div>
         @endif
@@ -422,7 +422,7 @@
             <div class="p-6 space-y-6">
                 <!-- Logo Section -->
                 <div class="flex justify-center mb-6">
-                    <div class="bg-gradient-to-br from-primary-100 to-green-100 dark:from-primary-900-dark dark:to-green-900 p-4 rounded-2xl">
+                    <div class="bg-gradient-to-br from-primary-100 to-primary-200 dark:from-primary-900-dark dark:to-primary-800-dark p-4 rounded-2xl">
                         <img src="{{ asset('logo.png') }}" alt="SmurfExpress Logo" class="w-24 h-24 rounded-xl">
                     </div>
                 </div>
@@ -443,19 +443,19 @@
                         <h5 class="font-bold text-primary-900 dark:text-primary-100-dark mb-4 text-lg">Sứ mệnh của chúng tôi:</h5>
                         <ul class="space-y-3 pl-1">
                             <li class="flex items-start">
-                                <svg class="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <svg class="w-5 h-5 text-primary-500 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                                 </svg>
                                 <span>Cung cấp tin tức chính xác, kịp thời và khách quan</span>
                             </li>
                             <li class="flex items-start">
-                                <svg class="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <svg class="w-5 h-5 text-primary-500 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                                 </svg>
                                 <span>Tạo cộng đồng chia sẻ và thảo luận văn minh</span>
                             </li>
                             <li class="flex items-start">
-                                <svg class="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <svg class="w-5 h-5 text-primary-500 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                                 </svg>
                                 <span>Đem đến trải nghiệm đọc tin tức hiện đại và tiện lợi</span>
@@ -474,9 +474,9 @@
                         <div class="text-2xl font-bold text-blue-600 dark:text-blue-300">1000+</div>
                         <div class="text-sm text-blue-700 dark:text-blue-400 mt-1">Bài viết</div>
                     </div>
-                    <div class="text-center p-4 bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900 dark:to-green-800 rounded-xl">
-                        <div class="text-2xl font-bold text-green-600 dark:text-green-300">500+</div>
-                        <div class="text-sm text-green-700 dark:text-green-400 mt-1">Thành viên</div>
+                    <div class="text-center p-4 bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900-dark dark:to-primary-800-dark rounded-xl">
+                        <div class="text-2xl font-bold text-primary-600 dark:text-primary-400-dark">500+</div>
+                        <div class="text-sm text-primary-700 dark:text-primary-400-dark mt-1">Thành viên</div>
                     </div>
                     <div class="text-center p-4 bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900 dark:to-orange-800 rounded-xl">
                         <div class="text-2xl font-bold text-orange-600 dark:text-orange-300">24/7</div>
@@ -531,17 +531,17 @@
                     </div>
 
                     <!-- Phone -->
-                    <div class="bg-gradient-to-r from-green-50 to-green-100 dark:from-green-900 dark:to-green-800 rounded-xl p-4">
-                        <h4 class="font-bold text-green-900 dark:text-green-100 mb-3 text-lg flex items-center">
-                            <div class="w-10 h-10 bg-green-500 dark:bg-green-600 rounded-xl flex items-center justify-center mr-3">
+                    <div class="bg-gradient-to-r from-primary-50 to-primary-100 dark:from-primary-900-dark dark:to-primary-800-dark rounded-xl p-4">
+                        <h4 class="font-bold text-primary-900 dark:text-primary-100-dark mb-3 text-lg flex items-center">
+                            <div class="w-10 h-10 bg-primary-500 dark:bg-primary-600 rounded-xl flex items-center justify-center mr-3">
                                 <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
                                 </svg>
                             </div>
                             Điện thoại
                         </h4>
-                        <p class="text-green-800 dark:text-green-200 pl-0">Hotline: <a href="tel:0123456789" class="hover:underline font-semibold">0123 456 789</a></p>
-                        <p class="text-green-700 dark:text-green-300 text-sm pl-0 mt-1">Hỗ trợ 24/7</p>
+                        <p class="text-primary-800 dark:text-primary-200-dark pl-0">Hotline: <a href="tel:0123456789" class="hover:underline font-semibold">0123 456 789</a></p>
+                        <p class="text-primary-700 dark:text-primary-300-dark text-sm pl-0 mt-1">Hỗ trợ 24/7</p>
                     </div>
 
                     <!-- Email -->

@@ -60,7 +60,7 @@
                     </svg>
                     <span class="text-secondary-900 dark:text-primary-100-dark">{{ $user->email }}</span>
                     @if($user->email_verified_at)
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 ml-2">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 ml-2">
                             ✓ Đã xác thực
                         </span>
                     @else
@@ -93,7 +93,7 @@
                 <div class="text-sm text-secondary-600 dark:text-gray-300">Bài viết</div>
             </div>
             <div class="text-center">
-                <div class="text-2xl font-bold text-green-600 dark:text-green-400">{{ $user->comments()->count() }}</div>
+                <div class="text-2xl font-bold text-primary-600 dark:text-primary-400">{{ $user->comments()->count() }}</div>
                 <div class="text-sm text-secondary-600 dark:text-gray-300">Bình luận</div>
             </div>
             <div class="text-center">

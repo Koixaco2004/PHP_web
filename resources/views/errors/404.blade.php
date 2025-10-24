@@ -80,15 +80,15 @@
                 </a>
             </div>
 
-            <div class="bg-gradient-to-br from-green-50 dark:from-green-900 to-green-100 dark:to-green-800 rounded-xl p-6 hover:shadow-lg dark:hover:shadow-gray-900/20 transition-shadow duration-300">
-                <div class="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center mb-4">
+            <div class="bg-gradient-to-br from-primary-50 dark:from-primary-900-dark to-primary-100 dark:to-primary-800-dark rounded-xl p-6 hover:shadow-lg dark:hover:shadow-gray-900/20 transition-shadow duration-300">
+                <div class="w-12 h-12 bg-primary-500 rounded-lg flex items-center justify-center mb-4">
                     <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
                     </svg>
                 </div>
-                <h3 class="text-lg font-semibold text-green-900 dark:text-green-100 mb-2">Chuyên mục</h3>
-                <p class="text-green-700 dark:text-green-200 text-sm mb-4">Duyệt nội dung theo từng lĩnh vực cụ thể</p>
-                <a href="{{ route('categories.index') ?? route('home') }}" class="text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 font-medium text-sm">
+                <h3 class="text-lg font-semibold text-primary-900 dark:text-primary-100-dark mb-2">Chuyên mục</h3>
+                <p class="text-primary-700 dark:text-primary-200-dark text-sm mb-4">Duyệt nội dung theo từng lĩnh vực cụ thể</p>
+                <a href="{{ route('categories.index') ?? route('home') }}" class="text-primary-600 dark:text-primary-400-dark hover:text-primary-700 dark:hover:text-primary-300-dark font-medium text-sm">
                     Khám phá →
                 </a>
             </div>

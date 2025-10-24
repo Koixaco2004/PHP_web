@@ -50,7 +50,7 @@
                                 <td class="px-3 py-4 whitespace-nowrap text-xs text-primary-700 dark:text-gray-300">{{ Str::limit($post->user->name, 15) }}</td>
                                 <td class="px-3 py-4 whitespace-nowrap">
                                     @if($post->status === 'published')
-                                        <span class="inline-flex px-1.5 py-0.5 text-xs font-semibold rounded bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">Xuất bản</span>
+                                        <span class="inline-flex px-1.5 py-0.5 text-xs font-semibold rounded bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200">Xuất bản</span>
                                     @else
                                         <span class="inline-flex px-1.5 py-0.5 text-xs font-semibold rounded bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200">Nháp</span>
                                     @endif

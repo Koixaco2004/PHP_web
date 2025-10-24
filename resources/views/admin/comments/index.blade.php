@@ -180,14 +180,14 @@
 
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.1s">
         <div class="flex items-center">
-            <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center mr-4">
+            <div class="w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg flex items-center justify-center mr-4">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
             </div>
             <div class="flex-1">
                 <p class="text-sm text-secondary-600 dark:text-gray-300 mb-1">Đã duyệt</p>
-                <p class="text-2xl font-bold text-green-600 dark:text-primary-100-dark">{{ $approvedCount }}</p>
+                <p class="text-2xl font-bold text-primary-600 dark:text-primary-100-dark">{{ $approvedCount }}</p>
             </div>
         </div>
     </div>

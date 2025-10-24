@@ -48,7 +48,7 @@
         </div>
         <div class="mt-4 pt-4 border-t border-secondary-100 dark:border-gray-700">
             <div class="flex items-center text-sm">
-                <span class="text-green-600 dark:text-green-400 font-medium">+12%</span>
+                <span class="text-primary-600 dark:text-primary-400 font-medium">+12%</span>
                 <span class="text-secondary-600 dark:text-gray-300 ml-1">so với tháng trước</span>
             </div>
         </div>
@@ -117,7 +117,7 @@
         </div>
         <div class="mt-4 pt-4 border-t border-secondary-100 dark:border-gray-700">
             <div class="flex items-center text-sm">
-                <span class="text-green-600 dark:text-green-400 font-medium">{{ $stats['active_categories'] ?? 0 }} hoạt động</span>
+                <span class="text-primary-600 dark:text-primary-400 font-medium">{{ $stats['active_categories'] ?? 0 }} hoạt động</span>
                 <span class="text-secondary-600 dark:text-gray-300 ml-1">• {{ $stats['total_categories'] - ($stats['active_categories'] ?? 0) }} không hoạt động</span>
             </div>
         </div>
@@ -166,7 +166,7 @@
                                     </p>
                                 </div>
                                 <div class="ml-4 flex-shrink-0">
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $post->status === 'published' ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' : 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200' }}">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $post->status === 'published' ? 'bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200' : 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200' }}">
                                         {{ $post->status === 'published' ? '✓ Đã xuất bản' : '⏳ Bản nháp' }}
                                     </span>
                                 </div>

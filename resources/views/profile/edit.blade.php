@@ -23,7 +23,7 @@
 
         <!-- Success Message -->
         @if(session('success'))
-            <div class="mb-6 bg-green-50 dark:bg-green-900 dark:border-green-700 dark:text-green-100 px-4 py-3 rounded-lg">
+            <div class="mb-6 bg-primary-50 dark:bg-primary-900-dark dark:border-primary-700-dark dark:text-primary-100-dark px-4 py-3 rounded-lg">
                 {{ session('success') }}
             </div>
         @endif
@@ -55,10 +55,10 @@
                             <div class="flex flex-col space-y-3">
                                 <input type="file" name="avatar" id="avatar-input" accept="image/*" class="hidden">
                                 <button type="button" onclick="document.getElementById('avatar-input').click()"
-                                        class="w-full px-4 py-2 bg-green-600 dark:bg-green-500 text-white text-sm font-medium rounded-lg hover:bg-green-700 dark:hover:bg-green-400 transition duration-150">
+                                        class="w-full px-4 py-2 bg-primary-600 dark:bg-primary-500-dark text-white text-sm font-medium rounded-lg hover:bg-primary-700 dark:hover:bg-primary-400-dark transition duration-150">
                                     Chọn ảnh mới
                                 </button>
-                                <button type="submit" id="upload-btn" class="w-full px-4 py-2 bg-green-600 dark:bg-green-500 text-white text-sm font-medium rounded-lg hover:bg-green-700 dark:hover:bg-green-400 transition duration-150 hidden">
+                                <button type="submit" id="upload-btn" class="w-full px-4 py-2 bg-primary-600 dark:bg-primary-500-dark text-white text-sm font-medium rounded-lg hover:bg-primary-700 dark:hover:bg-primary-400-dark transition duration-150 hidden">
                                     Tải lên
                                 </button>
                             </div>
@@ -86,7 +86,7 @@
                             <div>
                                 <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Họ và tên</label>
                                 <input type="text" name="name" id="name" value="{{ old('name', $user->name) }}" required
-                                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400 focus:border-transparent">
+                                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400-dark focus:border-transparent">
                                 @error('name')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
@@ -95,7 +95,7 @@
                             <div>
                                 <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email</label>
                                 <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}" required disabled
-                                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400">
+                                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400-dark">
                                 <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Email không thể thay đổi</p>
                                 @error('email')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -107,7 +107,7 @@
                         <div>
                             <label for="bio" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Tiểu sử</label>
                             <textarea name="bio" id="bio" rows="4" placeholder="Giới thiệu về bản thân..."
-                                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400 focus:border-transparent">{{ old('bio', $user->bio) }}</textarea>
+                                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400-dark focus:border-transparent">{{ old('bio', $user->bio) }}</textarea>
                             <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Tối đa 500 ký tự</p>
                             @error('bio')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -120,7 +120,7 @@
                                 <label for="location" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Địa điểm</label>
                                 <input type="text" name="location" id="location" value="{{ old('location', $user->location) }}" 
                                        placeholder="Ví dụ: Hà Nội, Việt Nam"
-                                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400 focus:border-transparent">
+                                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400-dark focus:border-transparent">
                                 @error('location')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
@@ -130,7 +130,7 @@
                                 <label for="website" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Website</label>
                                 <input type="url" name="website" id="website" value="{{ old('website', $user->website) }}" 
                                        placeholder="https://example.com"
-                                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400 focus:border-transparent">
+                                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400-dark focus:border-transparent">
                                 @error('website')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
@@ -143,7 +143,7 @@
                                 <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Số điện thoại</label>
                                 <input type="tel" name="phone" id="phone" value="{{ old('phone', $user->phone) }}"
                                        placeholder="0123456789"
-                                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400 focus:border-transparent">
+                                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400-dark focus:border-transparent">
                                 @error('phone')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
@@ -153,7 +153,7 @@
                                 <label for="date_of_birth" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Ngày sinh</label>
                                 <input type="date" name="date_of_birth" id="date_of_birth"
                                        value="{{ old('date_of_birth', $user->date_of_birth?->format('Y-m-d')) }}"
-                                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400 focus:border-transparent">
+                                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400-dark focus:border-transparent">
                                 @error('date_of_birth')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
@@ -167,7 +167,7 @@
                                 <input type="hidden" name="is_private" value="0">
                                 <input type="checkbox" name="is_private" id="is_private" value="1" 
                                        {{ old('is_private', $user->is_private) ? 'checked' : '' }}
-                                       class="h-4 w-4 text-green-600 border-gray-300 dark:border-gray-600 rounded focus:ring-green-500 dark:focus:ring-green-400">
+                                       class="h-4 w-4 text-primary-600 border-gray-300 dark:border-gray-600 rounded focus:ring-primary-500 dark:focus:ring-primary-400-dark">
                                 <label for="is_private" class="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300">
                                     Đặt hồ sơ ở chế độ riêng tư
                                 </label>
@@ -184,7 +184,7 @@
                                 Hủy bỏ
                             </a>
                             <button type="submit" 
-                                    class="px-6 py-2 bg-green-600 dark:bg-green-500 text-white rounded-lg hover:bg-green-700 dark:hover:bg-green-400 transition duration-150">
+                                    class="px-6 py-2 bg-primary-600 dark:bg-primary-500-dark text-white rounded-lg hover:bg-primary-700 dark:hover:bg-primary-400-dark transition duration-150">
                                 Lưu thay đổi
                             </button>
                         </div>

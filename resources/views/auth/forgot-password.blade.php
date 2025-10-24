@@ -18,15 +18,15 @@
 
         <!-- Status Message -->
         @if (session('status'))
-            <div class="bg-green-50 dark:bg-green-900 border border-green-200 dark:border-green-700 rounded-lg p-4 animate-slide-up">
+            <div class="bg-primary-50 dark:bg-primary-900 border border-primary-200 dark:border-primary-700 rounded-lg p-4 animate-slide-up">
                 <div class="flex">
                     <div class="flex-shrink-0">
-                        <svg class="h-5 w-5 text-green-400 dark:text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="h-5 w-5 text-primary-400 dark:text-primary-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
                     </div>
                     <div class="ml-3">
-                        <p class="text-sm text-green-700 dark:text-green-200">{{ session('status') }}</p>
+                        <p class="text-sm text-primary-700 dark:text-primary-200">{{ session('status') }}</p>
                     </div>
                 </div>
             </div>
@@ -140,10 +140,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (email && !emailRegex.test(email)) {
             this.classList.add('border-red-500', 'focus:ring-red-500', 'focus:border-red-500', 'bg-red-50', 'dark:bg-red-900/20');
-            this.classList.remove('border-green-500', 'focus:ring-green-500', 'focus:border-green-500');
+            this.classList.remove('border-primary-500', 'focus:ring-primary-500', 'focus:border-primary-500');
         } else if (email) {
             this.classList.remove('border-red-500', 'focus:ring-red-500', 'focus:border-red-500', 'bg-red-50', 'dark:bg-red-900/20');
-            this.classList.add('border-green-500', 'focus:ring-green-500', 'focus:border-green-500');
+            this.classList.add('border-primary-500', 'focus:ring-primary-500', 'focus:border-primary-500');
         }
     });
 
@@ -155,10 +155,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (email && !emailRegex.test(email)) {
                 this.classList.add('dark:border-red-400', 'dark:focus:ring-red-400', 'dark:focus:border-red-400');
-                this.classList.remove('dark:border-green-400', 'dark:focus:ring-green-400', 'dark:focus:border-green-400');
+                this.classList.remove('dark:border-primary-400', 'dark:focus:ring-primary-400', 'dark:focus:border-primary-400');
             } else if (email) {
                 this.classList.remove('dark:border-red-400', 'dark:focus:ring-red-400', 'dark:focus:border-red-400');
-                this.classList.add('dark:border-green-400', 'dark:focus:ring-green-400', 'dark:focus:border-green-400');
+                this.classList.add('dark:border-primary-400', 'dark:focus:ring-primary-400', 'dark:focus:border-primary-400');
             }
         }
     });

@@ -102,8 +102,8 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
                 <div class="space-y-4">
                     <div class="flex items-start">
-                        <div class="w-8 h-8 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mr-4 mt-1">
-                            <span class="text-green-600 font-bold text-sm">1</span>
+                        <div class="w-8 h-8 bg-primary-100 dark:bg-primary-900-dark rounded-full flex items-center justify-center mr-4 mt-1">
+                            <span class="text-primary-600 font-bold text-sm">1</span>
                         </div>
                         <div>
                             <h3 class="font-semibold text-secondary-900 dark:text-primary-100-dark mb-1">Đợi một chút rồi thử lại</h3>
@@ -155,7 +155,7 @@
                 <summary class="font-semibold text-secondary-900 dark:text-primary-100-dark mb-4 select-none hover:text-primary-600 dark:hover:text-primary-400">
                     🔧 Thông tin kỹ thuật (dành cho nhà phát triển)
                 </summary>
-                <div class="mt-4 p-4 bg-secondary-800 dark:bg-gray-900 rounded-lg text-green-400 dark:text-green-300 font-mono text-sm overflow-x-auto">
+                <div class="mt-4 p-4 bg-secondary-800 dark:bg-gray-900 rounded-lg text-primary-400 dark:text-primary-300-dark font-mono text-sm overflow-x-auto">
                     <div class="space-y-2">
                         <div><span class="text-secondary-400 dark:text-gray-500">Thời gian:</span> {{ now() }}</div>
                         <div><span class="text-secondary-400 dark:text-gray-500">User Agent:</span> {{ request()->header('User-Agent') }}</div>

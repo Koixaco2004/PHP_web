@@ -48,9 +48,9 @@
                                             <div class="flex items-center space-x-4 mb-6 text-sm">
                                                 <div class="flex items-center space-x-2">
                                                     @if($post->user->avatar)
-                                                        <img src="{{ asset('storage/' . $post->user->avatar) }}" alt="{{ $post->user->name }}" class="w-7 h-7 rounded-full object-cover border-2 border-green-500">
+                                                        <img src="{{ asset('storage/' . $post->user->avatar) }}" alt="{{ $post->user->name }}" class="w-7 h-7 rounded-full object-cover border-2 border-primary-500">
                                                     @else
-                                                        <img src="{{ asset('hello.png') }}" alt="Default Avatar" class="w-7 h-7 rounded-full object-cover border-2 border-green-500">
+                                                        <img src="{{ asset('hello.png') }}" alt="Default Avatar" class="w-7 h-7 rounded-full object-cover border-2 border-primary-500">
                                                     @endif
                                                     <a href="{{ route('users.show', $post->user) }}" class="text-white text-opacity-90 hover:text-white hover:underline">{{ $post->user->name }}</a>
                                                 </div>
@@ -130,9 +130,9 @@
                             <div class="flex items-center justify-between pt-3 border-t border-primary-100 dark:border-gray-700">
                                 <div class="flex items-center space-x-2">
                                     @if($post->user->avatar)
-                                        <img src="{{ asset('storage/' . $post->user->avatar) }}" alt="{{ $post->user->name }}" class="w-6 h-6 rounded-full object-cover border-2 border-green-500">
+                                        <img src="{{ asset('storage/' . $post->user->avatar) }}" alt="{{ $post->user->name }}" class="w-6 h-6 rounded-full object-cover border-2 border-primary-500">
                                     @else
-                                        <img src="{{ asset('hello.png') }}" alt="Default Avatar" class="w-6 h-6 rounded-full object-cover border-2 border-green-500">
+                                        <img src="{{ asset('hello.png') }}" alt="Default Avatar" class="w-6 h-6 rounded-full object-cover border-2 border-primary-500">
                                     @endif
                                     <a href="{{ route('users.show', $post->user) }}" class="text-sm text-primary-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400-dark">{{ $post->user->name }}</a>
                                 </div>

@@ -31,7 +31,7 @@
             </div>
         </div>
         <div class="hidden md:flex items-center space-x-2 text-sm">
-            <span class="px-3 py-1 bg-{{ $post->status === 'published' ? 'green' : 'yellow' }}-100 dark:bg-{{ $post->status === 'published' ? 'green' : 'yellow' }}-900 text-{{ $post->status === 'published' ? 'green' : 'yellow' }}-800 dark:text-{{ $post->status === 'published' ? 'green' : 'yellow' }}-200 rounded-full font-medium">
+            <span class="px-3 py-1 bg-{{ $post->status === 'published' ? 'primary' : 'yellow' }}-100 dark:bg-{{ $post->status === 'published' ? 'primary' : 'yellow' }}-900 text-{{ $post->status === 'published' ? 'primary' : 'yellow' }}-800 dark:text-{{ $post->status === 'published' ? 'primary' : 'yellow' }}-200 rounded-full font-medium">
                 {{ $post->status === 'published' ? '🚀 Đã xuất bản' : '📝 Bản nháp' }}
             </span>
         </div>

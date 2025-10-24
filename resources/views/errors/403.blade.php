@@ -67,12 +67,12 @@
                 
                 <div class="bg-white rounded-xl p-6 text-left">
                     <div class="flex items-center mb-4">
-                        <svg class="w-6 h-6 text-green-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-6 h-6 text-primary-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
-                        <h3 class="text-lg font-semibold text-green-900 dark:text-green-100">Được phép</h3>
+                        <h3 class="text-lg font-semibold text-primary-900 dark:text-primary-100-dark">Được phép</h3>
                     </div>
-                    <ul class="space-y-2 text-sm text-green-700 dark:text-green-300">
+                    <ul class="space-y-2 text-sm text-primary-700 dark:text-primary-300-dark">
                         <li class="flex items-center">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
@@ -148,14 +148,14 @@
                 @endguest
                 
                 <div class="text-center">
-                    <div class="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="w-16 h-16 bg-primary-100 dark:bg-primary-900-dark rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                         </svg>
                     </div>
                     <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-100-dark mb-2">Liên hệ quản trị</h3>
                     <p class="text-secondary-600 dark:text-gray-300 text-sm mb-4">Yêu cầu cấp quyền truy cập từ quản trị viên</p>
-                    <a href="mailto:admin@example.com" class="text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 font-medium text-sm">
+                    <a href="mailto:admin@example.com" class="text-primary-600 dark:text-primary-400-dark hover:text-primary-700 dark:hover:text-primary-300-dark font-medium text-sm">
                         Gửi email →
                     </a>
                 </div>

@@ -156,9 +156,9 @@
                 @endif
                 
                 @if(request('category'))
-                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary-100 text-primary-800">
                         {{ $categories->find(request('category'))->name ?? '' }}
-                        <a href="?{{ http_build_query(request()->except('category')) }}" class="ml-2 text-green-600 hover:text-green-800">
+                        <a href="?{{ http_build_query(request()->except('category')) }}" class="ml-2 text-primary-600 hover:text-primary-800">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                             </svg>

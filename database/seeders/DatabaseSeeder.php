@@ -41,14 +41,14 @@ class DatabaseSeeder extends Seeder
         User::factory()->count(5)->create();
         User::factory()->count(3)->withGoogle()->create();
 
-        // Create categories with predefined data
+        // Create categories with predefined data using primary color shades
         $categories = [
-            ['name' => 'Phát triển Web', 'color' => '#3B82F6', 'icon' => 'fas fa-laptop-code'],
-            ['name' => 'Phát triển Mobile', 'color' => '#10B981', 'icon' => 'fas fa-mobile-alt'],
-            ['name' => 'Thiết kế UI/UX', 'color' => '#F59E0B', 'icon' => 'fas fa-palette'],
-            ['name' => 'Khoa học dữ liệu', 'color' => '#8B5CF6', 'icon' => 'fas fa-chart-line'],
-            ['name' => 'DevOps', 'color' => '#EF4444', 'icon' => 'fas fa-cogs'],
-            ['name' => 'Trí tuệ nhân tạo', 'color' => '#06B6D4', 'icon' => 'fas fa-lightbulb'],
+            ['name' => 'Phát triển Web', 'color' => '#22c55e', 'icon' => 'fas fa-laptop-code'], // primary-500
+            ['name' => 'Phát triển Mobile', 'color' => '#16a34a', 'icon' => 'fas fa-mobile-alt'], // primary-600
+            ['name' => 'Thiết kế UI/UX', 'color' => '#15803d', 'icon' => 'fas fa-palette'], // primary-700
+            ['name' => 'Khoa học dữ liệu', 'color' => '#166534', 'icon' => 'fas fa-chart-line'], // primary-800
+            ['name' => 'DevOps', 'color' => '#14532d', 'icon' => 'fas fa-cogs'], // primary-900
+            ['name' => 'Trí tuệ nhân tạo', 'color' => '#22c55e', 'icon' => 'fas fa-lightbulb'], // primary-500
         ];
 
         foreach ($categories as $index => $categoryData) {

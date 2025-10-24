@@ -170,7 +170,7 @@
         <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-secondary-100 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.2s">
             <div class="text-center">
                 <div class="flex items-center justify-center mb-3">
-                    <svg class="w-5 h-5 text-green-600 dark:text-green-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.018-.554l-1.54.687M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                     <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-100-dark">Bảo mật tài khoản</h3>
@@ -228,8 +228,8 @@ function checkPasswordStrength(password) {
     strength = checks.filter(Boolean).length;
 
     const indicators = ['strength-1', 'strength-2', 'strength-3', 'strength-4'];
-    const colors = ['bg-red-500', 'bg-yellow-500', 'bg-blue-500', 'bg-green-500'];
-    const darkColors = ['dark:bg-red-400', 'dark:bg-yellow-400', 'dark:bg-blue-400', 'dark:bg-green-400'];
+    const colors = ['bg-red-500', 'bg-yellow-500', 'bg-blue-500', 'bg-primary-500'];
+    const darkColors = ['dark:bg-red-400', 'dark:bg-yellow-400', 'dark:bg-blue-400', 'dark:bg-primary-400-dark'];
     const texts = ['Rất yếu', 'Yếu', 'Trung bình', 'Mạnh', 'Rất mạnh'];
 
     indicators.forEach((id, index) => {
@@ -251,7 +251,7 @@ function checkPasswordStrength(password) {
     const strengthText = document.getElementById('strength-text');
     strengthText.className = strengthText.className.replace(/text-\w+-\d+/g, '');
     if (strength > 0) {
-        strengthText.classList.add(strength >= 4 ? 'text-green-600 dark:text-green-400' : strength >= 3 ? 'text-blue-600 dark:text-blue-400' : strength >= 2 ? 'text-yellow-600 dark:text-yellow-400' : 'text-red-600 dark:text-red-400');
+        strengthText.classList.add(strength >= 4 ? 'text-primary-600 dark:text-primary-400-dark' : strength >= 3 ? 'text-blue-600 dark:text-blue-400' : strength >= 2 ? 'text-yellow-600 dark:text-yellow-400' : 'text-red-600 dark:text-red-400');
     } else {
         strengthText.classList.add('text-secondary-500 dark:text-gray-400');
     }
@@ -270,7 +270,7 @@ function checkPasswordMatch() {
         matchElement.className = 'text-xs text-secondary-500 dark:text-gray-400';
     } else if (password === confirmation) {
         matchElement.textContent = '✓ Mật khẩu khớp';
-        matchElement.className = 'text-xs text-green-600 dark:text-green-400';
+        matchElement.className = 'text-xs text-primary-600 dark:text-primary-400-dark';
     } else {
         matchElement.textContent = '✗ Mật khẩu không khớp';
         matchElement.className = 'text-xs text-red-600 dark:text-red-400';
@@ -316,10 +316,10 @@ document.addEventListener('DOMContentLoaded', function() {
         input.addEventListener('blur', function() {
             if (!this.value.trim()) {
                 this.classList.add('border-red-500', 'focus:ring-red-500', 'focus:border-red-500');
-                this.classList.remove('border-green-500', 'focus:ring-green-500', 'focus:border-green-500');
+                this.classList.remove('border-primary-500', 'focus:ring-primary-500', 'focus:border-primary-500');
             } else {
                 this.classList.remove('border-red-500', 'focus:ring-red-500', 'focus:border-red-500');
-                this.classList.add('border-green-500', 'focus:ring-green-500', 'focus:border-green-500');
+                this.classList.add('border-primary-500', 'focus:ring-primary-500', 'focus:border-primary-500');
             }
         });
 
@@ -327,10 +327,10 @@ document.addEventListener('DOMContentLoaded', function() {
             if (document.documentElement.classList.contains('dark')) {
                 if (!this.value.trim()) {
                     this.classList.add('dark:border-red-400', 'dark:focus:ring-red-400', 'dark:focus:border-red-400');
-                    this.classList.remove('dark:border-green-400', 'dark:focus:ring-green-400', 'dark:focus:border-green-400');
+                    this.classList.remove('dark:border-primary-400-dark', 'dark:focus:ring-primary-400-dark', 'dark:focus:border-primary-400-dark');
                 } else {
                     this.classList.remove('dark:border-red-400', 'dark:focus:ring-red-400', 'dark:focus:border-red-400');
-                    this.classList.add('dark:border-green-400', 'dark:focus:ring-green-400', 'dark:focus:border-green-400');
+                    this.classList.add('dark:border-primary-400-dark', 'dark:focus:ring-primary-400-dark', 'dark:focus:border-primary-400-dark');
                 }
             }
         });

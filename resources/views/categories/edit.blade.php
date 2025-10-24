@@ -199,7 +199,7 @@
                     </div>
                     <div class="flex justify-between">
                         <span>Trạng thái:</span>
-                        <span class="font-medium {{ $category->is_active ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400' }}">
+                        <span class="font-medium {{ $category->is_active ? 'text-primary-600 dark:text-primary-400-dark' : 'text-red-600 dark:text-red-400' }}">
                             {{ $category->is_active ? 'Hoạt động' : 'Không hoạt động' }}
                         </span>
                     </div>

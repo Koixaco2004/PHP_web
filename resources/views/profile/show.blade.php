@@ -9,14 +9,14 @@
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 mb-8">
             <div class="relative">
                 <!-- Cover Image -->
-                <div class="h-48 bg-gradient-to-r from-green-600 via-green-500 to-emerald-500 dark:from-green-800 dark:via-green-700 dark:to-emerald-700 rounded-t-lg"></div>
+                <div class="h-48 bg-gradient-to-r from-primary-600 via-primary-500 to-primary-400 dark:from-primary-800-dark dark:via-primary-700-dark dark:to-primary-600-dark rounded-t-lg"></div>
                 
                 <!-- Profile Info -->
                 <div class="px-6 pb-6">
                     <div class="flex flex-col sm:flex-row sm:items-end sm:space-x-6">
                         <!-- Avatar -->
                         <div class="relative -mt-16 mb-4 sm:mb-0">
-                            <div class="w-32 h-32 rounded-full border-2 border-green-500 dark:border-green-400 shadow-lg overflow-hidden bg-gray-100 dark:bg-gray-700">
+                            <div class="w-32 h-32 rounded-full border-2 border-primary-500 dark:border-primary-400-dark shadow-lg overflow-hidden bg-gray-100 dark:bg-gray-700">
                                 @if($user->avatar)
                                     <img src="{{ asset('storage/' . $user->avatar) }}" alt="{{ $user->name }}"
                                          class="w-full h-full object-cover">
@@ -46,7 +46,7 @@
                                 <!-- Action Buttons -->
                                 <div class="mt-4 sm:mt-0 flex space-x-3">
                                     <a href="{{ route('profile.edit') }}"
-                                       class="inline-flex items-center px-4 py-2 bg-green-600 dark:bg-green-500 text-white text-sm font-medium rounded-lg hover:bg-green-700 dark:hover:bg-green-400 transition duration-150">
+                                       class="inline-flex items-center px-4 py-2 bg-primary-600 dark:bg-primary-500-dark text-white text-sm font-medium rounded-lg hover:bg-primary-700 dark:hover:bg-primary-400-dark transition duration-150">
                                         <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                             <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
                                         </svg>
@@ -74,7 +74,7 @@
                     <!-- Additional Info -->
                     <div class="mt-6 flex flex-wrap gap-6 text-sm text-gray-500 dark:text-gray-400">
                         @if($user->website)
-                            <a href="{{ $user->website }}" target="_blank" class="flex items-center hover:text-green-600 dark:hover:text-green-400">
+                            <a href="{{ $user->website }}" target="_blank" class="flex items-center hover:text-primary-600 dark:hover:text-primary-400-dark">
                                 <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M4.083 9h1.946c.089-1.546.383-2.97.837-4.118A6.004 6.004 0 004.083 9zM10 2a8 8 0 100 16 8 8 0 000-16zm0 2c-.076 0-.232.032-.465.262-.238.234-.497.623-.737 1.182-.389.907-.673 2.142-.766 3.556h3.936c-.093-1.414-.377-2.649-.766-3.556-.24-.56-.5-.948-.737-1.182C10.232 4.032 10.076 4 10 4zm3.971 5c-.089-1.546-.383-2.97-.837-4.118A6.004 6.004 0 0115.917 9h-1.946zm-2.003 2H8.032c.093 1.414.377 2.649.766 3.556.24.56.5.948.737 1.182.233.23.389.262.465.262.076 0 .232-.032.465-.262.238-.234.498-.623.737-1.182.389-.907.673-2.142.766-3.556zm1.166 4.118c.454-1.147.748-2.572.837-4.118h1.946a6.004 6.004 0 01-2.783 4.118zm-6.268 0C6.412 13.97 6.118 12.546 6.03 11H4.083a6.004 6.004 0 002.783 4.118z" clip-rule="evenodd"></path>
                                 </svg>
@@ -105,8 +105,8 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
                 <div class="flex items-center">
-                    <div class="p-3 bg-green-100 dark:bg-green-900 rounded-full">
-                        <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <div class="p-3 bg-primary-100 dark:bg-primary-900-dark rounded-full">
+                        <svg class="w-6 h-6 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                     </div>
@@ -119,8 +119,8 @@
             
             <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
                 <div class="flex items-center">
-                    <div class="p-3 bg-green-100 rounded-full">
-                        <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <div class="p-3 bg-primary-100 rounded-full">
+                        <svg class="w-6 h-6 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd"></path>
                         </svg>
                     </div>
@@ -150,7 +150,7 @@
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
             <div class="border-b border-gray-200 dark:border-gray-700">
                 <nav class="-mb-px flex space-x-8 px-6" aria-label="Tabs">
-                    <div class="border-green-500 text-green-600 dark:text-green-400 dark:border-green-400 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                    <div class="border-primary-500 text-primary-600 dark:text-primary-400-dark dark:border-primary-400-dark whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
                         Bài viết gần đây
                     </div>
                 </nav>
@@ -164,7 +164,7 @@
                             <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-150">
                                 <div class="flex justify-between items-start">
                                     <div class="flex-1">
-                                        <h3 class="text-lg font-medium text-gray-900 dark:text-green-400 mb-2">
+                                        <h3 class="text-lg font-medium text-gray-900 dark:text-primary-400-dark mb-2">
                                             {{ $post->title }}
                                         </h3>
                                         <p class="text-gray-600 dark:text-gray-300 mb-3">{{ Str::limit($post->content, 150) }}</p>
@@ -194,7 +194,7 @@
                         </svg>
                         <h3 class="text-lg font-medium text-gray-900 dark:text-primary-100-dark mb-2">Chưa có bài viết nào</h3>
                         <p class="text-gray-500 dark:text-gray-400 mb-4">Hãy bắt đầu chia sẻ những câu chuyện của bạn!</p>
-                        <a href="{{ route('posts.create') }}" class="inline-flex items-center px-4 py-2 bg-green-600 dark:bg-green-500 text-white text-sm font-medium rounded-lg hover:bg-green-700 dark:hover:bg-green-400">
+                        <a href="{{ route('posts.create') }}" class="inline-flex items-center px-4 py-2 bg-primary-600 dark:bg-primary-500-dark text-white text-sm font-medium rounded-lg hover:bg-primary-700 dark:hover:bg-primary-400-dark">
                             Tạo bài viết đầu tiên
                         </a>
                     </div>
@@ -216,13 +216,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Remove active class from all tabs
                 tabLinks.forEach(tab => {
-                    tab.classList.remove('border-green-500', 'text-green-600', 'dark:text-green-400', 'dark:border-green-400');
+                    tab.classList.remove('border-primary-500', 'text-primary-600', 'dark:text-primary-400-dark', 'dark:border-primary-400-dark');
                     tab.classList.add('border-transparent', 'text-gray-500', 'dark:text-gray-400');
                 });
 
                 // Add active class to clicked tab
                 this.classList.remove('border-transparent', 'text-gray-500', 'dark:text-gray-400');
-                this.classList.add('border-green-500', 'text-green-600', 'dark:text-green-400', 'dark:border-green-400');
+                this.classList.add('border-primary-500', 'text-primary-600', 'dark:text-primary-400-dark', 'dark:border-primary-400-dark');
             }
         });
     });

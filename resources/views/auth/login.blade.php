@@ -183,10 +183,10 @@ document.addEventListener('DOMContentLoaded', function() {
         input.addEventListener('blur', function() {
             if (!this.value.trim()) {
                 this.classList.add('border-red-500', 'focus:ring-red-500', 'focus:border-red-500');
-                this.classList.remove('border-green-500', 'focus:ring-green-500', 'focus:border-green-500');
+                this.classList.remove('border-primary-500', 'focus:ring-primary-500', 'focus:border-primary-500');
             } else {
                 this.classList.remove('border-red-500', 'focus:ring-red-500', 'focus:border-red-500');
-                this.classList.add('border-green-500', 'focus:ring-green-500', 'focus:border-green-500');
+                this.classList.add('border-primary-500', 'focus:ring-primary-500', 'focus:border-primary-500');
             }
         });
 
@@ -195,10 +195,10 @@ document.addEventListener('DOMContentLoaded', function() {
             if (document.documentElement.classList.contains('dark')) {
                 if (!this.value.trim()) {
                     this.classList.add('dark:border-red-400', 'dark:focus:ring-red-400', 'dark:focus:border-red-400');
-                    this.classList.remove('dark:border-green-400', 'dark:focus:ring-green-400', 'dark:focus:border-green-400');
+                    this.classList.remove('dark:border-primary-400', 'dark:focus:ring-primary-400', 'dark:focus:border-primary-400');
                 } else {
                     this.classList.remove('dark:border-red-400', 'dark:focus:ring-red-400', 'dark:focus:border-red-400');
-                    this.classList.add('dark:border-green-400', 'dark:focus:ring-green-400', 'dark:focus:border-green-400');
+                    this.classList.add('dark:border-primary-400', 'dark:focus:ring-primary-400', 'dark:focus:border-primary-400');
                 }
             }
         });

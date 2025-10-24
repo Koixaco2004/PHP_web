@@ -13,6 +13,12 @@ export default {
       },
       colors: {
         primary: {
+          // Usage guidelines:
+          // 50-100: Light backgrounds, subtle borders
+          // 200-300: Medium backgrounds, hover states
+          // 400-500: Main accents, links, icons
+          // 600-700: Buttons, active states, important text
+          // 800-900: Headers, strong emphasis
           50: '#f0fdf4',
           100: '#dcfce7',
           200: '#bbf7d0',

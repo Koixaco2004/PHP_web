@@ -23,7 +23,7 @@
 
         <!-- Success Message -->
         @if(session('success'))
-            <div class="mb-6 bg-green-50 dark:bg-green-900 dark:border-green-700 dark:text-green-100 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
+            <div class="mb-6 bg-primary-50 dark:bg-primary-900-dark dark:border-primary-700-dark dark:text-primary-100-dark border border-primary-200 text-primary-700 px-4 py-3 rounded-lg">
                 {{ session('success') }}
             </div>
         @endif
@@ -45,7 +45,7 @@
                             Mật khẩu hiện tại
                         </label>
                         <input type="password" name="current_password" id="current_password" required
-                               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400 focus:border-transparent">
+                               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400-dark focus:border-transparent">
                         @error('current_password')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -57,7 +57,7 @@
                                 Mật khẩu mới
                             </label>
                             <input type="password" name="password" id="password" required
-                                   class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400 focus:border-transparent">
+                                   class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400-dark focus:border-transparent">
                             @error('password')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
@@ -68,14 +68,14 @@
                                 Xác nhận mật khẩu mới
                             </label>
                             <input type="password" name="password_confirmation" id="password_confirmation" required
-                                   class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400 focus:border-transparent">
+                                   class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400-dark focus:border-transparent">
                         </div>
                     </div>
                     
                     <!-- Password Requirements -->
-                    <div class="bg-green-50 dark:bg-green-900 dark:border-green-700 border border-green-200 rounded-lg p-4">
-                         <h4 class="text-sm font-medium text-green-900 dark:text-green-100 mb-2">Yêu cầu mật khẩu:</h4>
-                         <ul class="text-sm text-green-800 dark:text-green-200 space-y-1">
+                    <div class="bg-primary-50 dark:bg-primary-900-dark dark:border-primary-700-dark border border-primary-200 rounded-lg p-4">
+                         <h4 class="text-sm font-medium text-primary-900 dark:text-primary-100-dark mb-2">Yêu cầu mật khẩu:</h4>
+                         <ul class="text-sm text-primary-800 dark:text-primary-200-dark space-y-1">
                             <li class="flex items-center">
                                 <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
@@ -92,8 +92,8 @@
                     </div>
                     
                     <div class="flex justify-end">
-                        <button type="submit" 
-                                class="px-6 py-2 bg-green-600 dark:bg-green-500 text-white rounded-lg hover:bg-green-700 dark:hover:bg-green-400 transition duration-150">
+                        <button type="submit"
+                                class="px-6 py-2 bg-primary-600 dark:bg-primary-500-dark text-white rounded-lg hover:bg-primary-700 dark:hover:bg-primary-400-dark transition duration-150">
                             Cập nhật mật khẩu
                         </button>
                     </div>
@@ -114,7 +114,7 @@
                             <div class="flex items-center space-x-3">
                                 <span class="text-gray-900 dark:text-primary-100-dark">{{ $user->email }}</span>
                                 @if($user->email_verified_at)
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900-dark text-primary-800 dark:text-primary-200-dark">
                                         <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                                         </svg>
@@ -130,7 +130,7 @@
                         
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Vai trò</label>
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ $user->isAdmin() ? 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200' : 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' }}">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ $user->isAdmin() ? 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200' : 'bg-primary-100 dark:bg-primary-900-dark text-primary-800 dark:text-primary-200-dark' }}">
                                 {{ $user->isAdmin() ? 'Quản trị viên' : 'Người dùng' }}
                             </span>
                         </div>
@@ -174,7 +174,7 @@
                                     <p class="text-sm text-gray-500 dark:text-gray-400">Đã liên kết thành công</p>
                                 </div>
                             </div>
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary-100 dark:bg-primary-900-dark text-primary-800 dark:text-primary-200-dark">
                                 Đã kết nối
                             </span>
                         </div>
