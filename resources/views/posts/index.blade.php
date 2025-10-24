@@ -110,27 +110,27 @@
         </div>
     </div>
 
-    <div class="overflow-hidden">
+    <div class="overflow-x-auto">
         @if($posts->count() > 0)
-            <table class="w-full table-fixed">
+            <table class="min-w-full table-fixed">
                 <thead class="bg-secondary-50 dark:bg-gray-700">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider" style="width: 50%;">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider w-[40%]">
                             Bài viết
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider" style="width: 13%;">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider w-[15%]">
                             Chuyên mục
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider" style="width: 12%;">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider w-[15%]">
                             Tác giả
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider" style="width: 12%;">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider w-[12%]">
                             Trạng thái
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider" style="width: 10%;">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider w-[10%]">
                             Ngày tạo
                         </th>
-                        <th class="px-6 py-3 text-center text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider" style="width: 3%;">
+                        <th class="px-6 py-3 text-center text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider w-[8%]">
                             Hành động
                         </th>
                     </tr>
@@ -138,10 +138,10 @@
                 <tbody class="bg-white dark:bg-gray-800 divide-y divide-secondary-200 dark:divide-gray-700">
                     @foreach($posts as $post)
                         <tr class="hover:bg-secondary-50 dark:hover:bg-gray-700 transition-colors duration-200">
-                            <td class="px-6 py-4">
-                                <div class="flex flex-col space-y-3">
+                            <td class="px-6 py-4 w-[40%]">
+                                <div class="flex flex-col space-y-3 overflow-hidden">
                                     <!-- Hình ảnh -->
-                                    <div class="flex justify-start">
+                                    <div class="flex justify-start flex-shrink-0">
                                         @if($post->main_image)
                                             <img src="{{ $post->main_image }}" alt="{{ $post->title }}" class="h-24 w-32 rounded-lg object-cover shadow-sm">
                                         @else
@@ -153,55 +153,61 @@
                                         @endif
                                     </div>
                                     <!-- Title và Description -->
-                                    <div class="space-y-1">
+                                    <div class="space-y-1 overflow-hidden">
                                         <div class="text-sm font-medium text-secondary-900 dark:text-primary-400-dark">
-                                            <a href="{{ route('posts.show', $post->slug) }}" target="_blank" class="hover:text-primary-600 dark:hover:text-primary-300 transition-colors duration-200 line-clamp-2">
+                                            <a href="{{ route('posts.show', $post->slug) }}" target="_blank" class="hover:text-primary-600 dark:hover:text-primary-300 transition-colors duration-200 line-clamp-2 break-words overflow-hidden">
                                                 {{ $post->title }}
                                             </a>
                                         </div>
-                                        <div class="text-xs text-secondary-500 dark:text-gray-400 line-clamp-2">
+                                        <div class="text-xs text-secondary-500 dark:text-gray-400 line-clamp-2 break-words overflow-hidden">
                                             {{ $post->excerpt ?? strip_tags(Str::limit($post->content, 100)) }}
                                         </div>
                                     </div>
                                 </div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-accent-100 dark:bg-accent-900 text-accent-800 dark:text-accent-200">
-                                    {{ $post->category->name }}
-                                </span>
+                            <td class="px-6 py-4 w-[15%]">
+                                <div class="overflow-hidden">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 break-words">
+                                        {{ $post->category->name }}
+                                    </span>
+                                </div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
+                            <td class="px-6 py-4 w-[15%]">
+                                <div class="flex items-center overflow-hidden">
                                     <div class="flex-shrink-0 h-8 w-8">
                                         <img class="h-8 w-8 rounded-full object-cover" src="{{ $post->user->avatar ?? asset('hello.png') }}" alt="{{ $post->user->name }}">
                                     </div>
-                                    <div class="ml-3">
-                                        <div class="text-sm font-medium text-secondary-900 dark:text-primary-400-dark">
+                                    <div class="ml-3 overflow-hidden">
+                                        <div class="text-sm font-medium text-secondary-900 dark:text-primary-400-dark truncate">
                                             {{ $post->user->name }}
                                         </div>
                                     </div>
                                 </div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                @if($post->approval_status === 'approved')
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">
-                                        ✓ Đã duyệt
-                                    </span>
-                                @elseif($post->approval_status === 'pending')
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200">
-                                        ⏳ Chờ duyệt
-                                    </span>
-                                @else
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200">
-                                        ✕ Từ chối
-                                    </span>
-                                @endif
+                            <td class="px-6 py-4 w-[12%]">
+                                <div class="overflow-hidden">
+                                    @if($post->approval_status === 'approved')
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 whitespace-nowrap">
+                                            ✓ Đã duyệt
+                                        </span>
+                                    @elseif($post->approval_status === 'pending')
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 whitespace-nowrap">
+                                            ⏳ Chờ duyệt
+                                        </span>
+                                    @else
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 whitespace-nowrap">
+                                            ✕ Từ chối
+                                        </span>
+                                    @endif
+                                </div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary-500 dark:text-gray-300">
-                                <div>{{ $post->created_at->format('d/m/Y') }}</div>
-                                <div class="text-xs">{{ $post->created_at->format('H:i') }}</div>
+                            <td class="px-6 py-4 w-[10%]">
+                                <div class="text-sm text-secondary-500 dark:text-gray-300 whitespace-nowrap">
+                                    <div>{{ $post->created_at->format('d/m/Y') }}</div>
+                                    <div class="text-xs">{{ $post->created_at->format('H:i') }}</div>
+                                </div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <td class="px-6 py-4 w-[8%]">
                                 <div class="flex items-center justify-center space-x-2">
                                     <a href="{{ route('posts.show', $post->slug) }}" target="_blank"
                                        class="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300 transition-colors duration-200"
@@ -256,89 +262,7 @@
     <!-- Pagination -->
     @if($posts->hasPages())
         <div class="px-6 py-4 border-t border-secondary-200 dark:border-gray-700">
-            <nav class="flex items-center justify-between">
-                <div class="flex-1 flex justify-between sm:hidden">
-                    @if ($posts->onFirstPage())
-                        <span class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 cursor-not-allowed rounded-md">
-                            Trước
-                        </span>
-                    @else
-                        <a href="{{ $posts->previousPageUrl() }}" class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700">
-                            Trước
-                        </a>
-                    @endif
-
-                    @if ($posts->hasMorePages())
-                        <a href="{{ $posts->nextPageUrl() }}" class="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700">
-                            Tiếp
-                        </a>
-                    @else
-                        <span class="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-500 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 cursor-not-allowed rounded-md">
-                            Tiếp
-                        </span>
-                    @endif
-                </div>
-
-                <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                    <div>
-                        <p class="text-sm text-gray-700 dark:text-gray-300">
-                            Hiển thị
-                            <span class="font-medium">{{ $posts->firstItem() }}</span>
-                            đến
-                            <span class="font-medium">{{ $posts->lastItem() }}</span>
-                            của
-                            <span class="font-medium">{{ $posts->total() }}</span>
-                            kết quả
-                        </p>
-                    </div>
-                    <div>
-                        <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                            {{-- Previous Page Link --}}
-                            @if ($posts->onFirstPage())
-                                <span class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 cursor-not-allowed">
-                                    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                    </svg>
-                                </span>
-                            @else
-                                <a href="{{ $posts->previousPageUrl() }}" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700">
-                                    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                    </svg>
-                                </a>
-                            @endif
-
-                            {{-- Pagination Elements --}}
-                            @foreach ($posts->getUrlRange(1, $posts->lastPage()) as $page => $url)
-                                @if ($page == $posts->currentPage())
-                                    <span class="relative inline-flex items-center px-4 py-2 border border-primary-500 dark:border-primary-400 bg-primary-50 dark:bg-primary-900 text-sm font-medium text-primary-600 dark:text-primary-300">
-                                        {{ $page }}
-                                    </span>
-                                @else
-                                    <a href="{{ $url }}" class="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
-                                        {{ $page }}
-                                    </a>
-                                @endif
-                            @endforeach
-
-                            {{-- Next Page Link --}}
-                            @if ($posts->hasMorePages())
-                                <a href="{{ $posts->nextPageUrl() }}" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700">
-                                    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
-                                    </svg>
-                                </a>
-                            @else
-                                <span class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 cursor-not-allowed">
-                                    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
-                                    </svg>
-                                </span>
-                            @endif
-                        </nav>
-                    </div>
-                </div>
-            </nav>
+            {{ $posts->links() }}
         </div>
     @endif
 </div>
