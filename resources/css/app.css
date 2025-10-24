@@ -10,14 +10,19 @@
   html {
     scroll-behavior: smooth;
   }
-  
+
   body {
     font-family: 'Be Vietnam Pro', ui-sans-serif, system-ui, sans-serif;
     line-height: 1.6;
     color: #1e293b;
   }
-  
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: 'Be Vietnam Pro', ui-sans-serif, system-ui, sans-serif;
     font-weight: 600;
     line-height: 1.2;
@@ -122,6 +127,69 @@
   .category-item.dark:hover {
     background-color: #374151;
   }
+
+  /* Scroll to Top Button */
+  .scroll-to-top-btn {
+    @apply fixed bottom-8 right-8 z-50 p-4 bg-green-500 text-white rounded-full shadow-lg cursor-pointer transition-all duration-300 ease-in-out;
+    opacity: 0;
+    transform: translateY(100px) scale(0.8);
+  }
+
+  .scroll-to-top-btn.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  .scroll-to-top-btn:hover {
+    @apply bg-green-600 shadow-xl;
+    transform: translateY(-4px) scale(1.05);
+  }
+
+  .scroll-to-top-btn:active,
+  .scroll-to-top-btn.clicked {
+    transform: translateY(0) scale(0.95);
+  }
+
+  .scroll-to-top-btn:focus {
+    @apply outline-none ring-4 ring-green-300;
+  }
+
+  /* Dark mode support */
+  .dark .scroll-to-top-btn {
+    @apply bg-green-600 shadow-2xl;
+  }
+
+  .dark .scroll-to-top-btn:hover {
+    @apply bg-green-500;
+  }
+
+  .dark .scroll-to-top-btn:focus {
+    @apply ring-green-400;
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 640px) {
+    .scroll-to-top-btn {
+      @apply bottom-6 right-6 p-3;
+    }
+  }
+
+  /* Animation for button appearance */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .scroll-to-top-btn.show {
+    animation: fadeInUp 0.3s ease-out;
+  }
 }
 
 /* Custom utilities */
@@ -139,13 +207,18 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  
+
   .animate-marquee {
     animation: marquee 25s linear infinite;
   }
-  
+
   @keyframes marquee {
-    0% { transform: translateX(100%); }
-    100% { transform: translateX(-100%); }
+    0% {
+      transform: translateX(100%);
+    }
+
+    100% {
+      transform: translateX(-100%);
+    }
   }
 }
