@@ -118,6 +118,7 @@
         @method('PUT')
         <input type="hidden" name="uploaded_images" id="uploadedImages" value="{{ json_encode($post->images->map(function($img) { return ['image_url' => $img->image_url, 'delete_url' => $img->delete_url, 'alt_text' => $img->alt_text, 'caption' => $img->caption, 'is_featured' => $img->is_featured]; })) }}">
         <input type="hidden" name="deleted_images" id="deletedImages" value="[]">
+        <input type="hidden" name="featured_image" id="featuredImageInput" value="{{ $post->images->where('is_featured', true)->first()->image_url ?? '' }}">
         
         <!-- Metadata Section: 3 columns -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -315,17 +316,6 @@
                                                 </svg>
                                             </button>
                                         </div>
-                                        @if($image->is_featured)
-                                            <div class="absolute top-2 left-2">
-                                                <span class="bg-primary-600 text-white text-xs px-2 py-1 rounded-full">Ảnh đại diện</span>
-                                            </div>
-                                        @endif
-                                        <label class="absolute top-2 right-2">
-                                            <input type="radio" name="existing_featured" value="{{ $image->image_url }}" {{ $image->is_featured ? 'checked' : '' }} class="sr-only">
-                                            <span class="block w-6 h-6 bg-white dark:bg-gray-800 rounded-full border-2 border-primary-300 dark:border-primary-400-dark cursor-pointer hover:border-primary-500 dark:hover:border-primary-300-dark transition-colors duration-200">
-                                                <span class="block w-3 h-3 bg-primary-600 rounded-full m-0.5 {{ $image->is_featured ? '' : 'hidden' }}"></span>
-                                            </span>
-                                        </label>
                                     </div>
                                 @endforeach
                             </div>
@@ -552,7 +542,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function autoSave() {
         clearTimeout(autoSaveTimeout);
         autoSaveTimeout = setTimeout(() => {
-            console.log('Auto-saving changes...');
+            // Auto-saving changes...
         }, 30000);
     }
     
@@ -629,7 +619,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 if (uploadedImages.length === 1 && !featuredImageInput.value) {
                     featuredImageInput.value = data.data.image_url;
-                    updateFeaturedImageDisplay();
                 }
             } else {
                 alert('Lỗi upload: ' + (data.message || 'Unknown error'));
@@ -657,16 +646,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     </svg>
                 </button>
             </div>
-            <label class="absolute top-2 right-2">
-                <input type="radio" name="new_featured" value="${imageData.image_url}" class="sr-only">
-                <span class="block w-6 h-6 bg-white rounded-full border-2 border-primary-300 cursor-pointer hover:border-primary-500 transition-colors duration-200">
-                    <span class="block w-3 h-3 bg-primary-600 rounded-full m-0.5 hidden"></span>
-                </span>
-            </label>
         `;
         
         previewContainer.appendChild(previewItem);
         newImagePreview.classList.remove('hidden');
+
+        if (uploadedImages.length === 1 && !featuredImageInput.value) {
+            featuredImageInput.value = imageData.image_url;
+        }
     }
 
     window.removeExistingImage = function(imageUrl, button) {
@@ -676,8 +663,13 @@ document.addEventListener('DOMContentLoaded', function() {
             button.closest('[data-image-url]').remove();
             
             if (featuredImageInput.value === imageUrl) {
-                featuredImageInput.value = '';
-                updateFeaturedImageDisplay();
+                // Set to first remaining existing image
+                const remainingImages = document.querySelectorAll('#currentImages [data-image-url]:not([data-image-url="' + imageUrl + '"])');
+                if (remainingImages.length > 0) {
+                    featuredImageInput.value = remainingImages[0].dataset.imageUrl;
+                } else {
+                    featuredImageInput.value = '';
+                }
             }
         }
     };
@@ -702,8 +694,18 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Clear featured if this was the featured image
         if (featuredImageInput.value === imageUrl) {
-            featuredImageInput.value = '';
-            updateFeaturedImageDisplay();
+            // Set to first remaining image (existing or new)
+            const remainingExisting = document.querySelectorAll('#currentImages [data-image-url]');
+            if (remainingExisting.length > 0) {
+                featuredImageInput.value = remainingExisting[0].dataset.imageUrl;
+            } else {
+                const remainingNew = document.querySelectorAll('#newImagePreview .grid img');
+                if (remainingNew.length > 0) {
+                    featuredImageInput.value = remainingNew[0].src;
+                } else {
+                    featuredImageInput.value = '';
+                }
+            }
         }
     };
     
@@ -719,7 +721,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Kiểm tra xem ảnh đã tồn tại chưa
         const existingImage = currentImages.find(img => img.image_url === imageUrl);
         if (existingImage) {
-            console.log('⚠️ Ảnh đã tồn tại trong gallery:', imageUrl);
+            // Ảnh đã tồn tại trong gallery
             return; // Ảnh đã có trong gallery
         }
         
@@ -762,113 +764,19 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
         
         grid.appendChild(previewItem);
-        
-        console.log('✅ Đã thêm ảnh vào gallery:', imageUrl);
+
+        if (currentImages.length === 1 && !featuredImageInput.value) {
+            featuredImageInput.value = imageUrl;
+        }
+
+        // Đã thêm ảnh vào gallery
     };
 
-    document.addEventListener('change', function(e) {
-        if (e.target.name === 'existing_featured') {
-            featuredImageInput.value = e.target.value;
-            updateFeaturedImageDisplay();
-        }
-        if (e.target.name === 'new_featured') {
-            featuredImageInput.value = e.target.value;
-            updateFeaturedImageDisplay();
-        }
-    });
 
-    function updateFeaturedImageDisplay() {
-        document.querySelectorAll('input[name="existing_featured"]').forEach(radio => {
-            const indicator = radio.closest('label').querySelector('span span');
-            if (radio.value === featuredImageInput.value) {
-                radio.checked = true;
-                indicator.classList.remove('hidden');
-            } else {
-                radio.checked = false;
-                indicator.classList.add('hidden');
-            }
-        });
-
-        document.querySelectorAll('input[name="new_featured"]').forEach(radio => {
-            const indicator = radio.closest('label').querySelector('span span');
-            if (radio.value === featuredImageInput.value) {
-                radio.checked = true;
-                indicator.classList.remove('hidden');
-            } else {
-                radio.checked = false;
-                indicator.classList.add('hidden');
-            }
-        });
-    }
 
     let selectedImageUrl = '';
-    let cursorPosition = 0;
-
-    contentInput.addEventListener('selectionchange', function() {
-        cursorPosition = contentInput.selectionStart;
-    });
-
-    contentInput.addEventListener('click', function() {
-        cursorPosition = contentInput.selectionStart;
-    });
-
-    contentInput.addEventListener('keyup', function() {
-        cursorPosition = contentInput.selectionStart;
-    });
 });
 
-function formatText(type) {
-    const contentTextarea = document.getElementById('content');
-    const start = contentTextarea.selectionStart;
-    const end = contentTextarea.selectionEnd;
-    const selectedText = contentTextarea.value.substring(start, end);
-    let replacement = '';
-
-    switch(type) {
-        case 'bold':
-            replacement = selectedText ? `**${selectedText}**` : '**text**';
-            break;
-        case 'italic':
-            replacement = selectedText ? `*${selectedText}*` : '*text*';
-            break;
-        case 'underline':
-            replacement = selectedText ? `<u>${selectedText}</u>` : '<u>text</u>';
-            break;
-        case 'h1':
-            replacement = selectedText ? `# ${selectedText}` : '# Heading 1';
-            break;
-        case 'h2':
-            replacement = selectedText ? `## ${selectedText}` : '## Heading 2';
-            break;
-        case 'h3':
-            replacement = selectedText ? `### ${selectedText}` : '### Heading 3';
-            break;
-        case 'link':
-            const url = prompt('Nhập URL:');
-            if (url) {
-                replacement = selectedText ? `[${selectedText}](${url})` : `[link text](${url})`;
-            } else {
-                return;
-            }
-            break;
-        case 'ul':
-            replacement = selectedText ? `- ${selectedText}` : '- List item';
-            break;
-        case 'ol':
-            replacement = selectedText ? `1. ${selectedText}` : '1. List item';
-            break;
-    }
-
-    const newValue = contentTextarea.value.substring(0, start) + replacement + contentTextarea.value.substring(end);
-    contentTextarea.value = newValue;
-    
-    const newCursorPos = start + replacement.length;
-    contentTextarea.setSelectionRange(newCursorPos, newCursorPos);
-    contentTextarea.focus();
-    
-    const event = new Event('input', { bubbles: true });
-    contentTextarea.dispatchEvent(event);
-}
 
 function openImageGallery() {
     const modal = document.getElementById('imageGalleryModal');
