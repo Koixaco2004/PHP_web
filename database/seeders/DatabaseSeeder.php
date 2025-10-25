@@ -39,12 +39,12 @@ class DatabaseSeeder extends Seeder
         User::factory()->count(3)->withGoogle()->create();
 
         $categories = [
-            ['name' => 'Phát triển Web', 'color' => '#22c55e', 'icon' => 'fas fa-laptop-code'], // primary-500
-            ['name' => 'Phát triển Mobile', 'color' => '#16a34a', 'icon' => 'fas fa-mobile-alt'], // primary-600
-            ['name' => 'Thiết kế UI/UX', 'color' => '#15803d', 'icon' => 'fas fa-palette'], // primary-700
-            ['name' => 'Khoa học dữ liệu', 'color' => '#166534', 'icon' => 'fas fa-chart-line'], // primary-800
-            ['name' => 'DevOps', 'color' => '#14532d', 'icon' => 'fas fa-cogs'], // primary-900
-            ['name' => 'Trí tuệ nhân tạo', 'color' => '#22c55e', 'icon' => 'fas fa-lightbulb'], // primary-500
+            ['name' => 'Phát triển Web', 'color' => '#22c55e'], // primary-500
+            ['name' => 'Phát triển Mobile', 'color' => '#16a34a'], // primary-600
+            ['name' => 'Thiết kế UI/UX', 'color' => '#15803d'], // primary-700
+            ['name' => 'Khoa học dữ liệu', 'color' => '#166534'], // primary-800
+            ['name' => 'DevOps', 'color' => '#14532d'], // primary-900
+            ['name' => 'Trí tuệ nhân tạo', 'color' => '#22c55e'], // primary-500
         ];
 
         foreach ($categories as $index => $categoryData) {

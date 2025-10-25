@@ -57,10 +57,6 @@ class PostImageFactory extends Factory
             ]),
             'sort_order' => fake()->numberBetween(0, 10),
             'is_featured' => false,
-            'file_size' => fake()->numberBetween(100000, 800000), // 100KB to 800KB
-            'width' => 800,
-            'height' => 600,
-            'mime_type' => 'image/jpeg',
         ];
     }
 
@@ -81,9 +77,7 @@ class PostImageFactory extends Factory
     public function thumbnail(): static
     {
         return $this->state(fn(array $attributes) => [
-            'width' => $this->faker->numberBetween(100, 300),
-            'height' => $this->faker->numberBetween(100, 300),
-            'file_size' => $this->faker->numberBetween(5000, 50000),
+            // Removed width, height, file_size as they are not used
         ]);
     }
 }
