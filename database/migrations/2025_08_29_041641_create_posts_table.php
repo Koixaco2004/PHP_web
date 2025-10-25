@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->longText('content');
             $table->text('excerpt')->nullable();
-            $table->enum('status', ['draft', 'published', 'archived'])->default('draft');
+            $table->enum('status', ['draft', 'published'])->default('draft');
             $table->enum('approval_status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->text('rejection_reason')->nullable();
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
@@ -27,10 +27,8 @@ return new class extends Migration
             $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamp('approved_at')->nullable();
             $table->integer('view_count')->unsigned()->default(0);
-            $table->integer('like_count')->unsigned()->default(0);
             $table->integer('comment_count')->unsigned()->default(0);
             $table->boolean('is_featured')->default(false);
-            $table->boolean('allow_comments')->default(true);
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
 

@@ -20,12 +20,8 @@ return new class extends Migration
             $table->string('caption')->nullable();
             $table->integer('sort_order')->default(0);
             $table->boolean('is_featured')->default(false);
-            $table->integer('file_size')->nullable(); // Size in bytes
-            $table->integer('width')->nullable();
-            $table->integer('height')->nullable();
-            $table->string('mime_type', 100)->nullable();
             $table->timestamps();
-            
+
             // Indexes
             $table->index(['post_id', 'sort_order']);
             $table->index(['post_id', 'is_featured']);

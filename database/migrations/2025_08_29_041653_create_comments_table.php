@@ -17,8 +17,6 @@ return new class extends Migration
             $table->foreignId('post_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('parent_id')->nullable()->constrained('comments')->onDelete('cascade');
-            $table->integer('like_count')->unsigned()->default(0);
-            $table->json('meta_data')->nullable(); // For additional comment data
             $table->timestamps();
 
             // Indexes

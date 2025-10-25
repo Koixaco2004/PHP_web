@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('slug', 120)->unique();
             $table->text('description')->nullable();
             $table->string('color', 7)->default('#22c55e'); // Primary-500 color for UI
-            $table->string('icon', 50)->nullable(); // Icon class name
             $table->boolean('is_active')->default(true);
             $table->integer('sort_order')->default(0);
             $table->timestamps();
