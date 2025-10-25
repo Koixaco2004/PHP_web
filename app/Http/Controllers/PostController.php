@@ -220,4 +220,59 @@ class PostController extends Controller
         $post->delete();
         return redirect()->route('posts.index')->with('success', 'Bài viết đã được xóa thành công!');
     }
+
+    /**
+     * Upload image for TinyMCE editor
+     */
+    public function uploadImage(Request $request)
+    {
+        try {
+            $request->validate([
+                'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120', // 5MB max
+            ]);
+
+            if ($request->hasFile('file')) {
+                $image = $request->file('file');
+
+                // Use ImgBB service if available
+                if (config('services.imgbb.key')) {
+                    $imgbbService = app(\App\Services\ImgBBService::class);
+                    $result = $imgbbService->uploadImage($image);
+
+                    if ($result['success']) {
+                        return response()->json([
+                            'success' => true,
+                            'data' => [
+                                'url' => $result['data']['image_url'],
+                                'delete_url' => $result['data']['delete_url'] ?? null,
+                            ]
+                        ]);
+                    }
+                }
+
+                // Fallback to local storage
+                $filename = time() . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
+                $path = $image->storeAs('uploads/tinymce', $filename, 'public');
+
+                return response()->json([
+                    'success' => true,
+                    'data' => [
+                        'url' => asset('storage/' . $path),
+                        'delete_url' => null,
+                    ]
+                ]);
+            }
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Không tìm thấy file'
+            ], 400);
+        } catch (\Exception $e) {
+            Log::error('TinyMCE Image Upload Error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Lỗi upload ảnh: ' . $e->getMessage()
+            ], 500);
+        }
+    }
 }

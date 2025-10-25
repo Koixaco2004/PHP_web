@@ -305,7 +305,7 @@
                     </div>
                 </div>
 
-                <!-- Content Editor -->
+                <!-- Content Editor with TinyMCE -->
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.5s">
                     <div class="flex items-center mb-4">
                         <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -319,73 +319,10 @@
                             Nội dung chi tiết <span class="text-red-500">*</span>
                         </label>
                         
-                        <!-- Editor Toolbar -->
-                        <div class="border border-secondary-300 dark:border-gray-600 rounded-t-lg bg-secondary-50 dark:bg-gray-700 p-2 flex items-center gap-2 flex-wrap">
-                            <!-- Text Formatting -->
-                            <div class="flex items-center gap-1 border-r border-secondary-300 dark:border-gray-600 pr-2">
-                                <button type="button" onclick="formatText('bold')" class="p-1.5 rounded hover:bg-secondary-200 dark:hover:bg-gray-600 transition-colors" title="Đậm">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 4h8a4 4 0 014 4 4 4 0 01-4 4H6z"/>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12h9a4 4 0 014 4 4 4 0 01-4 4H6z"/>
-                                    </svg>
-                                </button>
-                                <button type="button" onclick="formatText('italic')" class="p-1.5 rounded hover:bg-secondary-200 dark:hover:bg-gray-600 transition-colors" title="Nghiêng">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m-8 8h12"/>
-                                    </svg>
-                                </button>
-                                <button type="button" onclick="formatText('underline')" class="p-1.5 rounded hover:bg-secondary-200 dark:hover:bg-gray-600 transition-colors" title="Gạch chân">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21h18M7 3v10a5 5 0 0010 0V3"/>
-                                    </svg>
-                                </button>
-                            </div>
-
-                            <!-- Headings -->
-                            <div class="flex items-center gap-1 border-r border-secondary-300 dark:border-gray-600 pr-2">
-                                <button type="button" onclick="formatText('h1')" class="p-1.5 rounded hover:bg-secondary-200 dark:hover:bg-gray-600 transition-colors font-bold text-sm" title="Tiêu đề 1">H1</button>
-                                <button type="button" onclick="formatText('h2')" class="p-1.5 rounded hover:bg-secondary-200 dark:hover:bg-gray-600 transition-colors font-bold text-sm" title="Tiêu đề 2">H2</button>
-                                <button type="button" onclick="formatText('h3')" class="p-1.5 rounded hover:bg-secondary-200 dark:hover:bg-gray-600 transition-colors font-bold text-sm" title="Tiêu đề 3">H3</button>
-                            </div>
-
-                            <!-- Link -->
-                            <div class="flex items-center gap-1 border-r border-secondary-300 dark:border-gray-600 pr-2">
-                                <button type="button" onclick="formatText('link')" class="p-1.5 rounded hover:bg-secondary-200 dark:hover:bg-gray-600 transition-colors" title="Chèn liên kết">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
-                                    </svg>
-                                </button>
-                            </div>
-
-                            <!-- Image Tools -->
-                            <div class="flex items-center gap-1 border-r border-secondary-300 dark:border-gray-600 pr-2">
-                                <button type="button" onclick="openImageGallery()" class="p-1.5 rounded hover:bg-secondary-200 dark:hover:bg-gray-600 transition-colors bg-primary-100 dark:bg-primary-900 text-primary-600 dark:text-primary-400-dark" title="Chèn ảnh">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4a2 2 0 012-2z"/>
-                                    </svg>
-                                </button>
-                            </div>
-
-                            <!-- Lists -->
-                            <div class="flex items-center gap-1">
-                                <button type="button" onclick="formatText('ul')" class="p-1.5 rounded hover:bg-secondary-200 dark:hover:bg-gray-600 transition-colors" title="Danh sách">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
-                                    </svg>
-                                </button>
-                                <button type="button" onclick="formatText('ol')" class="p-1.5 rounded hover:bg-secondary-200 dark:hover:bg-gray-600 transition-colors" title="Danh sách số">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-
                         <div class="relative">
-                            <textarea class="block w-full px-4 py-4 border border-secondary-300 dark:border-gray-600 border-t-0 rounded-b-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 resize-none bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400 @error('content') !border-red-500 !focus:ring-red-500 !focus:border-red-500 dark:bg-red-900/20 @enderror" 
+                            <textarea class="block w-full px-4 py-4 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400 @error('content') !border-red-500 !focus:ring-red-500 !focus:border-red-500 dark:bg-red-900/20 @enderror" 
                                       id="content" 
                                       name="content" 
-                                      rows="15" 
                                       placeholder="Viết nội dung chi tiết cho bài viết..."
                                       required>{{ old('content', $post->content) }}</textarea>
                         </div>
@@ -397,7 +334,7 @@
                                 {{ $message }}
                             </p>
                         @enderror
-                        <p class="mt-1 text-xs text-secondary-500 dark:text-gray-400">Hỗ trợ Markdown và HTML. Sử dụng toolbar để chèn ảnh và định dạng nội dung</p>
+                        <p class="mt-1 text-xs text-secondary-500 dark:text-gray-400">Sử dụng trình soạn thảo WYSIWYG để định dạng nội dung một cách trực quan</p>
                     </div>
                 </div>
 
@@ -1142,4 +1079,7 @@ function toggleCustomReason() {
     </div>
 </div>
 @endif
+
+<!-- Include TinyMCE Configuration -->
+@include('posts.partials.tinymce-config')
 @endsection

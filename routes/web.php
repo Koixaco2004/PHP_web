@@ -22,6 +22,7 @@ Route::get('/search/popular', [SearchController::class, 'popular'])->name('searc
 Route::middleware(['auth'])->group(function () {
     Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
     Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+    Route::post('/posts/upload-image', [PostController::class, 'uploadImage'])->name('posts.upload-image');
 
     Route::middleware(['admin'])->group(function () {
         Route::get('/admin/posts', [PostController::class, 'index'])->name('posts.index');
