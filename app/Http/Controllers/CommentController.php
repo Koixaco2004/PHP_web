@@ -31,6 +31,9 @@ class CommentController extends Controller
             'parent_id' => $request->parent_id,
         ]);
 
+        // Load relationships for the response
+        $comment->load('user', 'children.user');
+
         if ($request->parent_id) {
             $parentComment = Comment::find($request->parent_id);
             if ($parentComment && $parentComment->user_id !== Auth::id()) {
@@ -40,6 +43,20 @@ class CommentController extends Controller
             if ($post->user_id !== Auth::id()) {
                 $post->user->notify(new NewCommentNotification($post, $comment));
             }
+        }
+
+        // Check if it's an AJAX request
+        if ($request->ajax() || $request->wantsJson()) {
+            // Return different views based on whether it's a reply or parent comment
+            $view = $request->parent_id ? 'partials.reply' : 'partials.comment';
+            $data = $request->parent_id ? ['reply' => $comment, 'post' => $post] : ['comment' => $comment, 'post' => $post];
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Bình luận đã được đăng thành công!',
+                'comment' => $comment,
+                'html' => view($view, $data)->render()
+            ]);
         }
 
         return back()->with('success', 'Bình luận đã được đăng thành công!');

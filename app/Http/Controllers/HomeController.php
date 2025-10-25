@@ -39,7 +39,7 @@ class HomeController extends Controller
     public function show($slug)
     {
         $query = Post::with(['category', 'user', 'comments' => function ($q) {
-            $q->with('user')->whereNull('parent_id');
+            $q->with('user', 'children.user')->whereNull('parent_id')->latest();
         }, 'images'])->where('slug', $slug);
 
         // If user is authenticated and is admin or author, show all posts

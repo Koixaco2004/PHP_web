@@ -252,7 +252,7 @@
                     <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                     </svg>
-                    Bình luận ({{ $post->comments->count() }})
+                    Bình luận (<span id="comments-count">{{ $post->comments->count() }}</span>)
                 </h3>
             </div>
 
@@ -261,7 +261,7 @@
                     <!-- Comment Form for Logged-in Users -->
                     <div class="mb-8 p-6 bg-gradient-to-r from-primary-50 dark:from-gray-700 to-primary-100 dark:to-gray-600 rounded-xl">
                         <h4 class="text-lg font-semibold text-secondary-900 dark:text-primary-400-dark mb-4">Để lại bình luận của bạn</h4>
-                        <form method="POST" action="{{ route('comments.store', $post) }}" class="space-y-4">
+                        <form method="POST" action="{{ route('comments.store', $post) }}" id="main-comment-form" class="space-y-4">
                             @csrf
                             <div class="flex items-start space-x-4">
                                 <div class="flex-shrink-0">
@@ -300,120 +300,11 @@
                 @endauth
 
                 <!-- Comments List -->
-                <div class="space-y-6">
-                    @forelse($post->comments->whereNull('parent_id') as $comment)
-                        <!-- Parent Comment -->
-                        <div class="comment-item animate-slide-up" style="--animation-delay: {{ $loop->index * 0.1 }}s; animation-delay: var(--animation-delay);">
-                            <div class="flex space-x-4">
-                                <div class="flex-shrink-0">
-                                    <div class="w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center">
-                                        <span class="text-white font-semibold text-lg">{{ substr($comment->user->name, 0, 1) }}</span>
-                                    </div>
-                                </div>
-                                <div class="flex-1">
-                                    <div class="bg-secondary-50 dark:bg-gray-700 rounded-xl p-4">
-                                        <div class="flex items-center justify-between mb-2">
-                                            <h5 class="font-semibold text-secondary-900 dark:text-primary-400-dark">{{ $comment->user->name }}</h5>
-                                            <time class="text-sm text-secondary-500 dark:text-gray-400">{{ $comment->created_at->format('d/m/Y H:i') }}</time>
-                                        </div>
-                                        <p class="text-secondary-700 dark:text-gray-300 mb-3">{{ $comment->content }}</p>
-                                        
-                                        @auth
-                                            <div class="flex items-center space-x-4 text-sm">
-                                                <button onclick="showReplyForm({{ $comment->id }})" class="text-primary-600 dark:text-primary-400-dark hover:text-primary-700 dark:hover:text-primary-300-dark font-medium flex items-center">
-                                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/>
-                                                    </svg>
-                                                    Trả lời
-                                                </button>
-                                                @can('delete', $comment)
-                                                    <form method="POST" action="{{ route('comments.destroy', $comment) }}" class="inline" onsubmit="return confirm('Bạn có chắc chắn muốn xóa bình luận này?')">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 font-medium flex items-center">
-                                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                                            </svg>
-                                                            Xóa
-                                                        </button>
-                                                    </form>
-                                                @endcan
-                                            </div>
-                                        @endauth
-                                    </div>
-
-                                    <!-- Reply Form -->
-                                    @auth
-                                        <div id="reply-form-{{ $comment->id }}" class="hidden mt-4 ml-4">
-                                            <form method="POST" action="{{ route('comments.store', $post) }}" class="space-y-3">
-                                                @csrf
-                                                <input type="hidden" name="parent_id" value="{{ $comment->id }}">
-                                                <div class="flex items-start space-x-3">
-                                                    <div class="flex-shrink-0">
-                                                        <div class="w-8 h-8 bg-gradient-to-br from-primary-400 to-primary-500 rounded-full flex items-center justify-center">
-                                                            <span class="text-white font-semibold text-sm">{{ substr(auth()->user()->name, 0, 1) }}</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-1">
-                                                        <textarea name="content" rows="2" class="w-full px-3 py-2 text-sm border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400" placeholder="Viết câu trả lời của bạn..." required></textarea>
-                                                        <div class="mt-2 flex items-center space-x-2">
-                                                            <button type="submit" class="px-3 py-1.5 text-sm bg-primary-600 dark:bg-primary-100-dark text-white dark:text-primary-900-dark rounded-lg hover:bg-primary-700 dark:hover:bg-primary-200-dark transition-colors duration-200">
-                                                                Gửi
-                                                            </button>
-                                                            <button type="button" onclick="hideReplyForm({{ $comment->id }})" class="px-3 py-1.5 text-sm bg-secondary-200 dark:bg-gray-600 text-secondary-700 dark:text-gray-300 rounded-lg hover:bg-secondary-300 dark:hover:bg-gray-500 transition-colors duration-200">
-                                                                Hủy
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    @endauth
-
-                                    <!-- Replies (nested comments) -->
-                                    @if($comment->children->count() > 0)
-                                        <div class="mt-4 ml-8 space-y-4 border-l-2 border-primary-200 dark:border-gray-600 pl-4">
-                                            @foreach($comment->children as $reply)
-                                                <div class="flex space-x-3">
-                                                    <div class="flex-shrink-0">
-                                                        <div class="w-10 h-10 bg-gradient-to-br from-primary-400 to-primary-500 rounded-full flex items-center justify-center">
-                                                            <span class="text-white font-semibold">{{ substr($reply->user->name, 0, 1) }}</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-1">
-                                                        <div class="bg-primary-50 dark:bg-gray-700/50 rounded-lg p-3 border border-primary-100 dark:border-gray-600">
-                                                            <div class="flex items-center justify-between mb-2">
-                                                                <div class="flex items-center space-x-2">
-                                                                    <h5 class="font-semibold text-secondary-900 dark:text-primary-400-dark text-sm">{{ $reply->user->name }}</h5>
-                                                                    <span class="text-xs text-primary-600 dark:text-primary-400-dark bg-primary-100 dark:bg-primary-900-dark px-2 py-0.5 rounded-full">Trả lời</span>
-                                                                </div>
-                                                                <time class="text-xs text-secondary-500 dark:text-gray-400">{{ $reply->created_at->format('d/m/Y H:i') }}</time>
-                                                            </div>
-                                                            <p class="text-secondary-700 dark:text-gray-300 text-sm">{{ $reply->content }}</p>
-                                                            
-                                                            @can('delete', $reply)
-                                                                <form method="POST" action="{{ route('comments.destroy', $reply) }}" class="inline mt-2" onsubmit="return confirm('Bạn có chắc chắn muốn xóa bình luận này?')">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                    <button type="submit" class="text-xs text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 font-medium flex items-center">
-                                                                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                                                        </svg>
-                                                                        Xóa
-                                                                    </button>
-                                                                </form>
-                                                            @endcan
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
+                <div class="space-y-6" id="comments-list">
+                    @forelse($post->comments->whereNull('parent_id')->sortByDesc('created_at') as $comment)
+                        @include('partials.comment', ['comment' => $comment, 'post' => $post])
                     @empty
-                        <div class="text-center py-8">
+                        <div class="text-center py-8" id="no-comments-message">
                             <svg class="w-16 h-16 text-secondary-300 dark:text-gray-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                             </svg>
@@ -492,6 +383,130 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Get CSRF token
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    // Handle main comment form submission
+    const mainCommentForm = document.getElementById('main-comment-form');
+    if (mainCommentForm) {
+        mainCommentForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            submitComment(this);
+        });
+    }
+
+    // Handle reply form submissions using event delegation
+    document.addEventListener('submit', function(e) {
+        if (e.target.classList.contains('reply-form')) {
+            e.preventDefault();
+            submitComment(e.target);
+        }
+    });
+
+    function submitComment(form) {
+        const formData = new FormData(form);
+        const submitButton = form.querySelector('button[type="submit"]');
+        const originalButtonText = submitButton.textContent;
+        
+        // Disable submit button
+        submitButton.disabled = true;
+        submitButton.textContent = 'Đang gửi...';
+
+        fetch(form.action, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Show toast notification
+                if (typeof showToast === 'function') {
+                    showToast(data.message, 'success');
+                }
+
+                // Clear the form
+                form.querySelector('textarea[name="content"]').value = '';
+
+                // Check if it's a reply or main comment
+                const parentId = formData.get('parent_id');
+                
+                if (parentId) {
+                    // It's a reply - add to replies section
+                    const repliesContainer = document.getElementById('replies-' + parentId);
+                    if (repliesContainer) {
+                        repliesContainer.classList.remove('hidden');
+                        
+                        // Create temporary div to parse HTML
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = data.html.trim();
+                        
+                        // Get the reply element (not the comment wrapper)
+                        const replyElement = tempDiv.querySelector('[data-reply-id]');
+                        if (replyElement) {
+                            // Add to the beginning of replies container
+                            repliesContainer.insertBefore(replyElement, repliesContainer.firstChild);
+                            
+                            // Hide reply form
+                            const replyFormContainer = document.getElementById('reply-form-' + parentId);
+                            if (replyFormContainer) {
+                                replyFormContainer.classList.add('hidden');
+                            }
+                        }
+                    }
+                } else {
+                    // It's a main comment - add to comments list
+                    const commentsList = document.getElementById('comments-list');
+                    const noCommentsMessage = document.getElementById('no-comments-message');
+                    
+                    if (noCommentsMessage) {
+                        noCommentsMessage.remove();
+                    }
+                    
+                    // Parse the HTML and get the comment element
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(data.html, 'text/html');
+                    const newComment = doc.querySelector('[data-comment-id]');
+                    
+                    if (newComment && commentsList) {
+                        // Add to the beginning of comments list
+                        commentsList.insertBefore(newComment, commentsList.firstChild);
+                        
+                        // Update comment count
+                        const commentsCount = document.getElementById('comments-count');
+                        if (commentsCount) {
+                            commentsCount.textContent = parseInt(commentsCount.textContent) + 1;
+                        }
+
+                        // Scroll to the new comment smoothly
+                        setTimeout(() => {
+                            newComment.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }, 100);
+                    }
+                }
+            } else {
+                if (typeof showToast === 'function') {
+                    showToast(data.message || 'Có lỗi xảy ra khi gửi bình luận!', 'error');
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            if (typeof showToast === 'function') {
+                showToast('Có lỗi xảy ra khi gửi bình luận!', 'error');
+            }
+        })
+        .finally(() => {
+            // Re-enable submit button
+            submitButton.disabled = false;
+            submitButton.textContent = originalButtonText;
+        });
+    }
+
     window.showReplyForm = function(commentId) {
         // Hide all other reply forms
         document.querySelectorAll('[id^="reply-form-"]').forEach(form => {
