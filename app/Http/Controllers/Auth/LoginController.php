@@ -28,6 +28,14 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
+
+            // Check if email is verified
+            /** @var \App\Models\User $user */
+            $user = Auth::user();
+            if (!$user->hasVerifiedEmail()) {
+                return redirect()->route('verification.notice');
+            }
+
             return redirect()->intended('/');
         }
 

@@ -108,6 +108,23 @@
             align-items: center;
             justify-content: center;
         }
+
+        /* Toast Animation */
+        @keyframes slide-in-right {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .animate-slide-in-right {
+            animation: slide-in-right 0.3s ease-out;
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+        }
     </style>
     
     <!-- Vite Assets -->
@@ -419,31 +436,11 @@
 
     <!-- Main Content -->
     <main class="px-8 sm:px-12 lg:px-20 xl:px-28 py-8">
-        <!-- Flash Messages -->
-        @if(session('success'))
-            <div class="mb-6 p-4 bg-primary-50 border border-primary-200 rounded-lg animate-slide-up dark:bg-primary-900-dark dark:border-primary-700-dark dark:text-primary-400-dark">
-                <div class="flex">
-                    <svg class="w-5 h-5 text-primary-600 mr-2 flex-shrink-0 dark:text-primary-400-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    <p class="text-primary-800 font-medium dark:text-primary-400-dark">{{ session('success') }}</p>
-                </div>
-            </div>
-        @endif
-
-        @if(session('error'))
-            <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg animate-slide-up dark:bg-red-900 dark:border-red-700 dark:text-red-100">
-                <div class="flex">
-                    <svg class="w-5 h-5 text-red-600 mr-2 flex-shrink-0 dark:text-red-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    <p class="text-red-800 font-medium dark:text-red-100">{{ session('error') }}</p>
-                </div>
-            </div>
-        @endif
-
         @yield('content')
     </main>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed top-20 right-4 z-50 space-y-2"></div>
 
     <!-- Modern Footer -->
     <footer class="bg-secondary-50 dark:bg-gray-900 text-gray-900 dark:text-white mt-12 border-t border-gray-200 dark:border-gray-700">
@@ -735,6 +732,75 @@
                 });
             });
         });
+
+        // Toast Notification System
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            // Icon based on type
+            const icons = {
+                success: `<svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>`,
+                error: `<svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>`,
+                info: `<svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>`,
+                warning: `<svg class="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                </svg>`
+            };
+
+            toast.className = 'flex items-center w-full max-w-sm p-4 mb-2 text-gray-900 bg-white rounded-lg shadow-lg dark:bg-gray-800 dark:text-white border-l-4 border-' + (type === 'success' ? 'green' : type === 'error' ? 'red' : type === 'warning' ? 'yellow' : 'blue') + '-500 animate-slide-in-right';
+            toast.innerHTML = `
+                <div class="inline-flex items-center justify-center flex-shrink-0 w-10 h-10 rounded-lg">
+                    ${icons[type] || icons.success}
+                </div>
+                <div class="ml-3 text-sm font-medium flex-1">${message}</div>
+                <button type="button" onclick="this.parentElement.remove()" class="ml-auto -mx-1.5 -my-1.5 bg-white dark:bg-gray-800 text-gray-400 hover:text-gray-900 dark:hover:text-white rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 inline-flex h-8 w-8 items-center justify-center">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                    </svg>
+                </button>
+            `;
+
+            container.appendChild(toast);
+
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
+                setTimeout(() => toast.remove(), 300);
+            }, 5000);
+        }
+
+        // Show toast on page load if there's a session message or URL parameter
+        @if(session('success'))
+            showToast("{{ session('success') }}", 'success');
+        @endif
+
+        @if(session('error'))
+            showToast("{{ session('error') }}", 'error');
+        @endif
+
+        @if(session('info'))
+            showToast("{{ session('info') }}", 'info');
+        @endif
+
+        @if(session('warning'))
+            showToast("{{ session('warning') }}", 'warning');
+        @endif
+
+        // Check URL parameters for verified email
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('verified') === '1') {
+            showToast('Email của bạn đã được xác thực thành công!', 'success');
+            // Clean URL
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
     </script>
 </body>
 </html>

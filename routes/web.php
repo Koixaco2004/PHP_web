@@ -46,6 +46,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/notifications/{notification}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.mark-as-read');
 });
 
+// Routes requiring verified email
+Route::middleware(['auth', 'verified'])->group(function () {
+    // These routes will require email verification
+    // Moving critical routes here
+});
+
 Route::get('/posts/{slug}', [HomeController::class, 'show'])->name('posts.show');
 
 Route::middleware(['auth', 'admin'])->group(function () {

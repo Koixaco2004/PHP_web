@@ -9,7 +9,7 @@
         <div class="text-center">
             <div class="mx-auto h-20 w-20 bg-gradient-to-br from-primary-600 to-primary-700 dark:from-primary-100-dark dark:to-primary-200-dark rounded-2xl flex items-center justify-center shadow-lg animate-bounce-subtle">
                 <svg class="h-10 w-10 text-white dark:text-primary-900-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.5 5.784M9 11a6 6 0 019.5-4.784M5 12l2.5-2.5M7.5 9.5L5 7"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                 </svg>
             </div>
             <h2 class="mt-6 text-3xl font-heading font-bold text-secondary-900 dark:text-primary-400-dark">Quên mật khẩu?</h2>
@@ -82,38 +82,12 @@
                 </div>
             </form>
         </div>
-
-        <!-- Help Section -->
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-secondary-100 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.2s">
-            <div class="text-center">
-                <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-400-dark mb-3">Cần hỗ trợ thêm?</h3>
-                <div class="space-y-3 text-sm">
-                    <div class="flex items-center justify-center text-secondary-600 dark:text-gray-300">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                        Kiểm tra thư mục spam/junk
-                    </div>
-                    <div class="flex items-center justify-center text-secondary-600 dark:text-gray-300">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                        Link có hiệu lực trong 60 phút
-                    </div>
-                    <div class="mt-4">
-                        <a href="#" class="text-secondary-600 dark:text-gray-400 hover:text-secondary-700 dark:hover:text-gray-300 font-medium transition-colors duration-200">
-                            Liên hệ hỗ trợ kỹ thuật
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        
         <!-- Back to Login -->
         <div class="text-center animate-slide-up" style="animation-delay: 0.3s">
-            <p class="text-sm text-secondary-600 dark:text-gray-300">
+            <p class="text-sm text-secondary-600 dark:text-gray-300 flex items-center justify-center">
                 Nhớ lại mật khẩu? 
-                <a href="{{ route('login') }}" class="text-primary-600 dark:text-primary-400-dark hover:text-primary-700 dark:hover:text-primary-300-dark font-medium transition-colors duration-200 inline-flex items-center">
+                <a href="{{ route('login') }}" class="ml-1 text-primary-600 dark:text-primary-400-dark hover:text-primary-700 dark:hover:text-primary-300-dark font-medium transition-colors duration-200 inline-flex items-center">
                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12"/>
                     </svg>

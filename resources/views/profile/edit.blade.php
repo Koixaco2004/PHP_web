@@ -160,7 +160,8 @@
                             </div>
                         </div>
 
-                        <!-- Change Password Section -->
+                        <!-- Change Password Section (Only for non-Google users) -->
+                        @if(!Auth::user()->google_id)
                         <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
                             <h3 class="text-lg font-medium text-gray-900 dark:text-primary-400-dark mb-4">Bảo mật</h3>
                             <div class="bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg p-4">
@@ -181,6 +182,24 @@
                                 </div>
                             </div>
                         </div>
+                        @else
+                        <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
+                            <h3 class="text-lg font-medium text-gray-900 dark:text-primary-400-dark mb-4">Bảo mật</h3>
+                            <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                                <div class="flex items-start">
+                                    <svg class="w-5 h-5 text-blue-500 dark:text-blue-400 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                    <div>
+                                        <h4 class="text-sm font-medium text-blue-900 dark:text-blue-300">Tài khoản Google</h4>
+                                        <p class="text-sm text-blue-700 dark:text-blue-400 mt-1">
+                                            Bạn đang sử dụng đăng nhập qua Google. Mật khẩu được quản lý bởi Google và không thể thay đổi tại đây.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
 
                         <!-- Submit Button -->
                         <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200 dark:border-gray-700">

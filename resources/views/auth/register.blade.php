@@ -192,9 +192,9 @@
                     <div class="ml-3 text-sm">
                         <label for="terms" class="text-secondary-700 dark:text-gray-300 cursor-pointer">
                             Tôi đồng ý với 
-                            <a href="#" class="text-primary-600 dark:text-primary-400-dark hover:text-primary-700 dark:hover:text-primary-300-dark font-medium">Điều khoản sử dụng</a> 
+                            <a href="{{ route('terms-of-service') }}" target="_blank" class="text-primary-600 dark:text-primary-400-dark hover:text-primary-700 dark:hover:text-primary-300-dark font-medium underline">Điều khoản sử dụng</a> 
                             và 
-                            <a href="#" class="text-primary-600 dark:text-primary-400-dark hover:text-primary-700 dark:hover:text-primary-300-dark font-medium">Chính sách bảo mật</a>
+                            <a href="{{ route('privacy-policy') }}" target="_blank" class="text-primary-600 dark:text-primary-400-dark hover:text-primary-700 dark:hover:text-primary-300-dark font-medium underline">Chính sách bảo mật</a>
                         </label>
                     </div>
                 </div>
