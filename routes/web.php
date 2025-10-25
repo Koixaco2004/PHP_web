@@ -11,6 +11,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\NotificationController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -41,6 +42,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+
+    Route::post('/notifications/{notification}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.mark-as-read');
 });
 
 Route::get('/posts/{slug}', [HomeController::class, 'show'])->name('posts.show');

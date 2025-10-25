@@ -9,6 +9,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\PostApprovedNotification;
+use App\Notifications\PostRejectedNotification;
 
 class AdminController extends Controller
 {
@@ -139,6 +141,9 @@ class AdminController extends Controller
             'approved_at' => now(),
         ]);
 
+        // Gửi thông báo đến tác giả
+        $post->user->notify(new PostApprovedNotification($post));
+
         return redirect()->back()->with('success', 'Bài viết đã được phê duyệt!');
     }
 
@@ -152,6 +157,8 @@ class AdminController extends Controller
             'approved_by' => Auth::id(),
             'approved_at' => now(),
         ]);
+
+        $post->user->notify(new PostRejectedNotification($post));
 
         return redirect()->back()->with('success', 'Bài viết đã bị từ chối!');
     }

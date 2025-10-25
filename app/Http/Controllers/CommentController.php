@@ -7,6 +7,8 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\NewCommentNotification;
+use App\Notifications\NewReplyNotification;
 
 class CommentController extends Controller
 {
@@ -22,12 +24,23 @@ class CommentController extends Controller
             'parent_id' => 'nullable|exists:comments,id',
         ]);
 
-        Comment::create([
+        $comment = Comment::create([
             'content' => $request->content,
             'post_id' => $post->id,
             'user_id' => Auth::id(),
             'parent_id' => $request->parent_id,
         ]);
+
+        if ($request->parent_id) {
+            $parentComment = Comment::find($request->parent_id);
+            if ($parentComment && $parentComment->user_id !== Auth::id()) {
+                $parentComment->user->notify(new NewReplyNotification($comment, $post));
+            }
+        } else {
+            if ($post->user_id !== Auth::id()) {
+                $post->user->notify(new NewCommentNotification($post, $comment));
+            }
+        }
 
         return back()->with('success', 'Bình luận đã được đăng thành công!');
     }

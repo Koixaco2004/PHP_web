@@ -102,6 +102,12 @@
         .dark .modal-scrollbar::-webkit-scrollbar-thumb:hover {
             background: #22c55e;
         }
+
+        .notification-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
     
     <!-- Vite Assets -->
@@ -166,6 +172,68 @@
                             Đăng ký
                         </a>
                     @else
+                        <!-- Notifications Dropdown -->
+                        <div class="relative">
+                            <button onclick="toggleNotificationsDropdown()" class="p-2 rounded-lg transition-all duration-200 hover:bg-primary-100 dark:hover:bg-primary-800-dark relative notification-icon">
+                                <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                                </svg>
+                                @if(Auth::user()->unreadNotifications->count() > 0)
+                                    <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">{{ Auth::user()->unreadNotifications->count() }}</span>
+                                @endif
+                            </button>
+                            
+                            <!-- Notifications Dropdown Menu -->
+                            <div id="notificationsDropdown" class="hidden absolute right-0 mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-50 dark:bg-gray-800 dark:border-gray-700 max-h-96 overflow-y-auto" style="z-index: 60;">
+                                <div class="py-2">
+                                    <div class="px-4 py-2 border-b border-gray-100 dark:border-gray-600">
+                                        <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Thông báo</h3>
+                                    </div>
+                                    @forelse(Auth::user()->notifications()->take(10)->get() as $notification)
+                                        <div class="px-4 py-3 border-b border-gray-100 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer" onclick="markAsRead({{ $notification->id }})">
+                                            <div class="flex items-start space-x-3">
+                                                <div class="flex-shrink-0">
+                                                    @if(($notification->data['type'] ?? '') == 'approved')
+                                                        <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                        </svg>
+                                                    @elseif(($notification->data['type'] ?? '') == 'rejected')
+                                                        <svg class="w-5 h-5 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                        </svg>
+                                                    @elseif(($notification->data['type'] ?? '') == 'reply')
+                                                        <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/>
+                                                        </svg>
+                                                    @else
+                                                        <svg class="w-5 h-5 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                                                        </svg>
+                                                    @endif
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <p class="text-sm text-gray-900 dark:text-white">{{ $notification->data['message'] ?? 'Thông báo mới' }}</p>
+                                                    <p class="text-xs text-gray-500 dark:text-gray-400">{{ $notification->created_at->diffForHumans() }}</p>
+                                                </div>
+                                                @if($notification->read_at == null)
+                                                    <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @empty
+                                        <div class="px-4 py-3 text-sm text-gray-500 dark:text-gray-400 text-center">
+                                            Không có thông báo nào
+                                        </div>
+                                    @endforelse
+                                    @if(Auth::user()->notifications->count() > 10)
+                                        <div class="px-4 py-2 text-center">
+                                            <a href="#" class="text-sm text-primary-600 dark:text-primary-400 hover:underline">Xem tất cả</a>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="relative">
                             <div class="flex items-center space-x-3 cursor-pointer" onclick="toggleProfileDropdown()">
                                 <div class="w-10 h-10 rounded-full overflow-hidden ring-2 ring-primary-500">
@@ -611,6 +679,11 @@
             dropdown.classList.toggle('hidden');
         }
 
+        function toggleNotificationsDropdown() {
+            const dropdown = document.getElementById('notificationsDropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
         function toggleCategoriesDropdown() {
             const dropdown = document.getElementById('categoriesDropdown');
             dropdown.classList.toggle('hidden');
@@ -621,12 +694,36 @@
             mobileNav.classList.toggle('hidden');
         }
 
+        function markAsRead(notificationId) {
+            fetch(`/notifications/${notificationId}/mark-as-read`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload(); // Reload to update badge
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
         document.addEventListener('click', function(event) {
             const profileDropdown = document.getElementById('profileDropdown');
             const profileButton = event.target.closest('[onclick="toggleProfileDropdown()"]');
             
             if (!profileButton && profileDropdown && !profileDropdown.contains(event.target)) {
                 profileDropdown.classList.add('hidden');
+            }
+
+            const notificationsDropdown = document.getElementById('notificationsDropdown');
+            const notificationsButton = event.target.closest('[onclick="toggleNotificationsDropdown()"]');
+            
+            if (!notificationsButton && notificationsDropdown && !notificationsDropdown.contains(event.target)) {
+                notificationsDropdown.classList.add('hidden');
             }
 
             const categoriesDropdown = document.getElementById('categoriesDropdown');
