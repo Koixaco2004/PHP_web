@@ -68,9 +68,12 @@ class SearchService
             $builder->where('user_id', $filters['author']);
         }
 
-        if (!empty($filters['status']) && Auth::check() && Auth::user()->role === 'admin') {
+        // Draft status chỉ author mới có thể xem, admin không được xem draft của author khác
+        if (!empty($filters['status']) && Auth::check()) {
             if ($filters['status'] === 'draft') {
-                $builder->where('status', 'draft');
+                // Chỉ cho phép xem draft của chính mình
+                $builder->where('status', 'draft')
+                    ->where('user_id', Auth::id());
             } elseif ($filters['status'] === 'published') {
                 $builder->where('status', 'published');
             }

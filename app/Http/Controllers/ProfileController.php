@@ -22,6 +22,7 @@ class ProfileController extends Controller
     {
         /** @var User $user */
         $user = Auth::user();
+        // User có thể xem cả draft và published posts của chính mình
         $posts = Post::where('user_id', $user->id)->with('category')->latest()->take(3)->get();
         $totalComments = Comment::where('user_id', $user->id)->count();
 
@@ -36,7 +37,13 @@ class ProfileController extends Controller
         // Increment profile views
         $user->increment('profile_views');
 
-        $posts = Post::where('user_id', $user->id)->with('category')->latest()->paginate(5);
+        // Chỉ hiển thị bài viết đã published và approved cho public profile
+        $posts = Post::where('user_id', $user->id)
+            ->where('status', 'published')
+            ->where('approval_status', 'approved')
+            ->with('category')
+            ->latest()
+            ->paginate(5);
         $totalComments = Comment::where('user_id', $user->id)->count();
 
         return view('profile.public', compact('user', 'posts', 'totalComments'));

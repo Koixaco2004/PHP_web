@@ -21,9 +21,9 @@ class AdminController extends Controller
     public function dashboard()
     {
         $stats = [
-            'total_posts' => Post::count(),
+            'total_posts' => Post::where('status', 'published')->count(),
             'published_posts' => Post::where('status', 'published')->where('approval_status', 'approved')->count(),
-            'draft_posts' => Post::where('status', 'draft')->count(),
+            'draft_posts' => Post::where('status', 'draft')->where('user_id', Auth::id())->count(), // Chỉ đếm draft của chính admin
             'pending_posts' => Post::where('status', 'published')->where('approval_status', 'pending')->count(),
             'total_categories' => Category::count(),
             'active_categories' => Category::where('is_active', true)->count(),
@@ -32,7 +32,9 @@ class AdminController extends Controller
             'admin_users' => User::where('role', 'admin')->count(),
         ];
 
+        // Chỉ hiển thị bài viết đã published trong recent posts (không bao gồm draft)
         $recentPosts = Post::with(['category', 'user'])
+            ->where('status', 'published')
             ->latest()
             ->limit(5)
             ->get();

@@ -42,15 +42,20 @@ class HomeController extends Controller
             $q->with('user', 'children.user')->whereNull('parent_id')->latest();
         }, 'images'])->where('slug', $slug);
 
-        // If user is authenticated and is admin or author, show all posts
+        // If user is authenticated, check permissions
         if (Auth::check()) {
             $user = Auth::user();
             $post = $query->firstOrFail();
 
-            // Check if user is admin or the author of the post
-            if ($user->role !== 'admin' && $post->user_id !== $user->id) {
-                // For regular users who are not the author, only show published and approved posts
-                if ($post->status !== 'published' || $post->approval_status !== 'approved') {
+            // Draft posts can only be viewed by the author
+            if ($post->status === 'draft' && $post->user_id !== $user->id) {
+                abort(404);
+            }
+
+            // For published posts, check if user is author or if post is approved
+            if ($post->status === 'published') {
+                if ($post->approval_status !== 'approved' && $post->user_id !== $user->id) {
+                    // Non-authors can only see approved published posts
                     abort(404);
                 }
             }
