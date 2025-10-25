@@ -277,8 +277,8 @@
                     
                     @if(isset($navigationCategories) && $navigationCategories->count() > 0)
                         @php
-                            $mainCategories = $navigationCategories->take(5);
-                            $moreCategories = $navigationCategories->skip(5);
+                            $mainCategories = $navigationCategories->take(6);
+                            $moreCategories = $navigationCategories->skip(6);
                         @endphp
                         
                         @foreach($mainCategories as $category)
