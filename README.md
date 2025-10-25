@@ -1,74 +1,83 @@
 <div align="center">
   <img src="public/logo.png" alt="Logo" width="200"/>
-  
-  # SmurfExpress News Portal
-  
-  Website tin tức được xây dựng bằng Laravel với đầy đủ chức năng quản lý nội dung và hệ thống bình luận.
+
+# SmurfExpress News Portal
+
+**Hệ thống Portal tin tức chuyên nghiệp** được xây dựng bằng Laravel 12 với kiến trúc hiện đại, đầy đủ tính năng quản lý nội dung (CMS), hệ thống phê duyệt bài viết, thông báo real-time và tích hợp API bên thứ ba.
+
+Đây là đồ án môn học **Lập trình mã nguồn mở** của nhóm 4 thành viên.
+
 </div>
 
 ## 🚀 Tính năng chính
 
-### Người dùng:
+### 🎯 Người dùng thường (User):
 
--   Xem danh sách bài viết theo chuyên mục
--   Tìm kiếm bài viết theo từ khóa
--   Đọc chi tiết bài viết
--   Đăng ký/đăng nhập tài khoản
--   Bình luận và trả lời bình luận
--   Đăng nhập qua Google OAuth
+-   Đăng ký/đăng nhập với email & password, Google OAuth.
+-   Tạo và quản lý bài viết với trình soạn thảo rich text, upload hình ảnh qua ImgBB API.
+-   Tìm kiếm nâng cao, bình luận phân cấp, nhận thông báo real-time.
+-   Quản lý profile cá nhân và đổi mật khẩu.
 
-### Admin:
+### 👨‍💼 Quản trị viên (Admin):
 
--   Dashboard thống kê tổng quan
--   Quản lý bài viết (thêm, sửa, xóa)
--   Quản lý chuyên mục
--   Phê duyệt và xóa bình luận
--   Quản lý người dùng
+-   Dashboard tổng quan với thống kê.
+-   Phê duyệt/từ chối bài viết, quản lý chuyên mục, người dùng và bình luận.
+-   Quyền phân cấp với Policies và Middleware.
 
 ## 🛠️ Công nghệ sử dụng
 
--   **Backend:** Laravel 11 (PHP 8.2+)
--   **Database:** MySQL
--   **Frontend:** TailwindCSS + Blade Templates
+### Backend:
+
+-   **Framework:** Laravel 12.x (PHP 8.2+)
+-   **ORM:** Eloquent
 -   **Authentication:** Laravel Auth + Google OAuth
--   **Image Upload:** ImgBB API
+-   **Notifications:** Database channel
+
+### Database:
+
+-   **RDBMS:** MySQL 8.x
+-   **Migrations & Seeders:** Với dữ liệu mẫu
+
+### Frontend:
+
+-   **CSS Framework:** TailwindCSS
+-   **JavaScript:** Vanilla JS + Axios
+-   **Build Tool:** Vite
+
+### API & Services:
+
+-   **OAuth:** Google OAuth 2.0
+-   **Image Hosting:** ImgBB API
+-   **Email:** Laravel Mail
 
 ## ⚙️ Yêu cầu hệ thống
 
--   PHP >= 8.2
--   Composer
--   MySQL (khuyến nghị XAMPP)
--   Node.js >= 18.x
+-   PHP >= 8.2, Composer, MySQL, Node.js >= 18.x, NPM.
 
-## 🚀 Hướng dẫn setup
+## 🚀 Hướng dẫn cài đặt
 
-### 1. Cài đặt dependencies
+### Bước 1: Clone repository
 
 ```bash
-# Clone repository
-git clone <repo-url>
+git clone https://github.com/Koixaco2004/PHP_web.git
 cd PHP_web
+```
 
-# Cài đặt PHP packages
+### Bước 2: Cài đặt dependencies
+
+```bash
 composer install
-
-# Cài đặt Node.js packages
 npm install
 ```
 
-### 2. Cấu hình môi trường
+### Bước 3: Cấu hình môi trường
 
 ```bash
-# Copy file môi trường
 copy .env.example .env
-
-# Generate application key
 php artisan key:generate
 ```
 
-### 3. Cấu hình database
-
-Mở file `.env` và cập nhật thông tin MySQL:
+Cập nhật thông tin database trong `.env`:
 
 ```env
 DB_CONNECTION=mysql
@@ -79,99 +88,72 @@ DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-### 4. Tạo database
-
--   Khởi động XAMPP (Apache + MySQL)
--   Truy cập http://localhost/phpmyadmin
--   Tạo database mới tên `php_web`
-
-### 5. Chạy migrations và seed data
+### Bước 4: Tạo database và chạy migrations
 
 ```bash
-# Tạo bảng và dữ liệu mẫu
 php artisan migrate:fresh --seed
 ```
 
-### 6. Build frontend assets
+### Bước 5: Cấu hình tùy chọn (Optional)
 
-```bash
-npm run build
+#### Google OAuth (Đăng nhập Google):
+
+1. Truy cập [Google Cloud Console](https://console.cloud.google.com/)
+2. Tạo OAuth 2.0 Client ID và thêm redirect URI: `http://localhost:8000/auth/google/callback`
+3. Thêm vào `.env`:
+    ```env
+    GOOGLE_CLIENT_ID=your_google_client_id_here
+    GOOGLE_CLIENT_SECRET=your_google_client_secret_here
+    ```
+
+#### ImgBB API (Upload hình ảnh):
+
+1. Đăng ký tại [ImgBB](https://imgbb.com/) và lấy API Key
+2. Thêm vào `.env`:
+    ```env
+    IMGBB_API_KEY=your_imgbb_api_key_here
+    ```
+
+#### Email (Thông báo qua email):
+
+Cấu hình SMTP trong `.env` (ví dụ Gmail):
+
+```env
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=your_email@gmail.com
+MAIL_PASSWORD=your_app_password
+MAIL_ENCRYPTION=tls
 ```
 
-### 7. Chạy ứng dụng
+### Bước 6: Build assets và chạy server
 
 ```bash
+npm run dev
 php artisan serve
 ```
 
-Truy cập: **http://localhost:8000**
+Truy cập: http://localhost:8000
 
 ## 🔑 Tài khoản mặc định
-
-Sau khi seed data:
 
 -   **Admin:** admin@example.com / password
 -   **User:** test@example.com / password
 
-## 📊 Dữ liệu mẫu
+## 📄 License
 
--   **30 người dùng**
--   **10 danh mục**
--   **67 bài viết**
--   **144 hình ảnh bài viết**
--   **465 bình luận**
+This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
-## 🔧 Cấu hình thêm (tùy chọn)
+## 👥 Authors
 
-### Google OAuth
+-   **Trần Công Minh**
+-   **Lê Đức Trung**
+-   **Tạ Nguyên Vũ**
+-   **Nguyễn Chí Tài**
 
-Thêm vào `.env`:
+---
 
-```env
-GOOGLE_CLIENT_ID=your_client_id
-GOOGLE_CLIENT_SECRET=your_client_secret
-GOOGLE_REDIRECT_URI=http://localhost:8000/auth/google/callback
-```
-
-### ImgBB Upload
-
-Thêm vào `.env`:
-
-```env
-IMGBB_API_KEY=your_imgbb_api_key
-```
-
-## 📁 Cấu trúc dự án
-
-```
-app/
-├── Http/Controllers/    # Xử lý logic
-├── Models/             # Models (User, Post, Category, Comment)
-├── Policies/           # Authorization policies
-└── Services/           # Business logic
-
-database/
-├── migrations/         # Database schema
-├── seeders/           # Dữ liệu mẫu
-└── factories/         # Model factories
-
-resources/
-└── views/             # Blade templates
-```
-
-## 🔄 Lệnh hữu ích
-
-```bash
-# Reset database với dữ liệu mẫu
-php artisan migrate:fresh --seed
-
-# Clear cache
-php artisan cache:clear
-php artisan config:clear
-
-# Chạy tests
-php artisan test
-
-# Watch mode cho development
-npm run dev
-```
+<div align="center">
+  <p>Made with ❤️ by SmurfExpress Team</p>
+</div>
