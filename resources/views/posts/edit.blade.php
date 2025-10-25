@@ -112,18 +112,17 @@
 </div>
 @endif
 
-<div class="max-w-6xl mx-auto">
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        <!-- Main Content -->
-        <div class="lg:col-span-3">
-            <form method="POST" action="{{ route('posts.update', $post) }}" class="space-y-6" id="editForm" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
-                <input type="hidden" name="uploaded_images" id="uploadedImages" value="{{ json_encode($post->images->map(function($img) { return ['image_url' => $img->image_url, 'delete_url' => $img->delete_url, 'alt_text' => $img->alt_text, 'caption' => $img->caption, 'is_featured' => $img->is_featured]; })) }}">
-                <input type="hidden" name="deleted_images" id="deletedImages" value="[]">
-                
-                <!-- Post Title -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.1s">
+<div class="w-full">
+    <form method="POST" action="{{ route('posts.update', $post) }}" class="space-y-6" id="editForm" enctype="multipart/form-data">
+        @csrf
+        @method('PUT')
+        <input type="hidden" name="uploaded_images" id="uploadedImages" value="{{ json_encode($post->images->map(function($img) { return ['image_url' => $img->image_url, 'delete_url' => $img->delete_url, 'alt_text' => $img->alt_text, 'caption' => $img->caption, 'is_featured' => $img->is_featured]; })) }}">
+        <input type="hidden" name="deleted_images" id="deletedImages" value="[]">
+        
+        <!-- Metadata Section: 3 columns -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Post Title -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.1s">
                     <div class="flex items-center mb-4">
                         <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
@@ -196,12 +195,47 @@
                         <p class="mt-1 text-xs text-secondary-500 dark:text-gray-400">Chọn chuyên mục phù hợp để phân loại bài viết</p>
                     </div>
                 </div>
-                
-                <!-- Hidden Status Field (will be set by submit buttons) -->
-                <input type="hidden" name="status" id="status" value="{{ old('status', $post->status) }}">
 
-                <!-- Excerpt -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.3s">
+                <!-- Post Info -->
+                <div class="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900 dark:to-primary-800 rounded-xl p-6 animate-slide-up" style="animation-delay: 0.2s">
+                    <div class="flex items-center mb-3">
+                        <svg class="w-5 h-5 text-primary-600 dark:text-primary-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <h3 class="font-semibold text-primary-800 dark:text-primary-100">Thông tin bài viết</h3>
+                    </div>
+                    <div class="space-y-2 text-sm text-primary-700 dark:text-primary-200">
+                        <div class="flex justify-between">
+                            <span>Ngày tạo:</span>
+                            <span class="font-medium">{{ $post->created_at->format('d/m/Y') }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Cập nhật:</span>
+                            <span class="font-medium">{{ $post->updated_at->format('d/m/Y') }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Tác giả:</span>
+                            <span class="font-medium">{{ $post->user->name }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Lượt xem:</span>
+                            <span class="font-medium">{{ $post->views ?? 0 }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Bình luận:</span>
+                            <span class="font-medium">{{ $post->comments_count ?? 0 }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
+            <!-- Hidden Status Field (will be set by submit buttons) -->
+            <input type="hidden" name="status" id="status" value="{{ old('status', $post->status) }}">
+
+                <!-- Excerpt and Stats Section: 2 columns -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Excerpt: 2 cols -->
+                    <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.3s">
                     <div class="flex items-center mb-4">
                         <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"/>
@@ -232,7 +266,32 @@
                     </div>
                 </div>
 
-                <!-- Image Management -->
+                    <!-- Writing Stats: 1 col -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.3s">
+                        <div class="flex items-center mb-3">
+                            <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                            </svg>
+                            <h3 class="font-semibold text-secondary-900 dark:text-primary-400-dark">Thống kê viết</h3>
+                        </div>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-secondary-600 dark:text-gray-300">Số từ:</span>
+                                <span class="font-medium" id="wordCount">{{ str_word_count(strip_tags($post->content)) }}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-secondary-600 dark:text-gray-300">Số ký tự:</span>
+                                <span class="font-medium" id="charCount">{{ strlen(strip_tags($post->content)) }}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-secondary-600 dark:text-gray-300">Thời gian đọc:</span>
+                                <span class="font-medium" id="readTime">{{ max(1, ceil(str_word_count(strip_tags($post->content)) / 200)) }} phút</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image Management: Full Width -->
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.4s">
                     <div class="flex items-center mb-4">
                         <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -305,7 +364,11 @@
                     </div>
                 </div>
 
-                <!-- Content Editor with TinyMCE -->
+                <!-- Content and Sidebar Layout -->
+                <div class="grid grid-cols-1 xl:grid-cols-12 gap-8">
+                    <!-- Content Editor: Takes 9 cols on XL screens, full width on smaller -->
+                    <div class="xl:col-span-9">
+                        <!-- Content Editor with TinyMCE -->
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.5s">
                     <div class="flex items-center mb-4">
                         <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -336,10 +399,10 @@
                         @enderror
                         <p class="mt-1 text-xs text-secondary-500 dark:text-gray-400">Sử dụng trình soạn thảo WYSIWYG để định dạng nội dung một cách trực quan</p>
                     </div>
-                </div>
+                        </div>
 
-                <!-- Form Actions -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.6s">
+                        <!-- Form Actions -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up mt-6" style="animation-delay: 0.6s">
                     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
                         <div class="flex items-center text-sm text-secondary-600 dark:text-gray-300">
                             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -375,95 +438,9 @@
                         </div>
                     </div>
                 </div>
-            </form>
-        </div>
-
-        <!-- Sidebar -->
-        <div class="lg:col-span-1 space-y-6">
-            <!-- Post Info -->
-            <div class="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900 dark:to-primary-800 rounded-xl p-6 animate-slide-up" style="animation-delay: 0.7s">
-                <div class="flex items-center mb-3">
-                    <svg class="w-5 h-5 text-primary-600 dark:text-primary-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    <h3 class="font-semibold text-primary-800 dark:text-primary-100">Thông tin bài viết</h3>
-                </div>
-                <div class="space-y-3 text-sm text-primary-700 dark:text-primary-200">
-                    <div class="flex justify-between">
-                        <span>Ngày tạo:</span>
-                        <span class="font-medium">{{ $post->created_at->format('d/m/Y') }}</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span>Cập nhật cuối:</span>
-                        <span class="font-medium">{{ $post->updated_at->format('d/m/Y') }}</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span>Tác giả:</span>
-                        <span class="font-medium">{{ $post->user->name }}</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span>Lượt xem:</span>
-                        <span class="font-medium">{{ $post->views ?? 0 }} lượt</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span>Bình luận:</span>
-                        <span class="font-medium">{{ $post->comments_count ?? 0 }} bình luận</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Writing Stats -->
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.7s">
-                <div class="flex items-center mb-3">
-                    <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                    </svg>
-                    <h3 class="font-semibold text-secondary-900 dark:text-primary-400-dark">Thống kê</h3>
-                </div>
-                <div class="space-y-3 text-sm">
-                    <div class="flex justify-between">
-                        <span class="text-secondary-600 dark:text-gray-300">Số từ:</span>
-                        <span class="font-medium" id="wordCount">{{ str_word_count(strip_tags($post->content)) }}</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-secondary-600 dark:text-gray-300">Số ký tự:</span>
-                        <span class="font-medium" id="charCount">{{ strlen(strip_tags($post->content)) }}</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-secondary-600 dark:text-gray-300">Thời gian đọc:</span>
-                        <span class="font-medium" id="readTime">{{ max(1, ceil(str_word_count(strip_tags($post->content)) / 200)) }} phút</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Quick Actions -->
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.9s">
-                <div class="flex items-center mb-3">
-                    <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                    </svg>
-                    <h3 class="font-semibold text-secondary-900 dark:text-primary-400-dark">Hành động nhanh</h3>
-                </div>
-                <div class="space-y-2">
-                    <a href="{{ route('posts.show', $post) }}" 
-                       class="flex items-center w-full p-3 text-sm text-secondary-700 dark:text-gray-300 hover:bg-secondary-50 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                        </svg>
-                        Xem bài viết
-                    </a>
-                    <a href="{{ route('posts.create') }}" 
-                       class="flex items-center w-full p-3 text-sm text-secondary-700 dark:text-gray-300 hover:bg-secondary-50 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                        </svg>
-                        Tạo bài viết mới
-                    </a>
-                </div>
             </div>
         </div>
-    </div>
+    </form>
 </div>
 
 <!-- Image Gallery Modal -->

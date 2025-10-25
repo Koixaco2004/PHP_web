@@ -31,16 +31,15 @@
     </div>
 </div>
 
-<div class="max-w-6xl mx-auto">
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        <!-- Main Content -->
-        <div class="lg:col-span-3">
-            <form method="POST" action="{{ route('posts.store') }}" class="space-y-6" id="postForm" enctype="multipart/form-data">
-                @csrf
-                <input type="hidden" name="uploaded_images" id="uploadedImages" value="[]">
-                <input type="hidden" name="featured_image" id="featuredImageInput" value="">
+<div class="w-full">
+    <form method="POST" action="{{ route('posts.store') }}" class="space-y-6" id="postForm" enctype="multipart/form-data">
+        @csrf
+        <input type="hidden" name="uploaded_images" id="uploadedImages" value="[]">
+        <input type="hidden" name="featured_image" id="featuredImageInput" value="">
 
-                <!-- Post Title -->
+        <!-- Metadata Section: Full Width -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Post Title -->
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.1s">
                     <div class="flex items-center mb-4">
                         <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -114,12 +113,15 @@
                         <p class="mt-1 text-xs text-secondary-500 dark:text-gray-400">Chọn chuyên mục phù hợp để phân loại bài viết</p>
                     </div>
                 </div>
-                
-                <!-- Hidden Status Field (will be set by submit buttons) -->
-                <input type="hidden" name="status" id="status" value="draft">
+            </div>
 
-                <!-- Excerpt -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.3s">
+            <!-- Hidden Status Field (will be set by submit buttons) -->
+            <input type="hidden" name="status" id="status" value="draft">
+
+            <!-- Excerpt and Stats Section: 2 columns -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Excerpt: 2 cols -->
+                <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.3s">
                     <div class="flex items-center mb-4">
                         <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"/>
@@ -150,7 +152,32 @@
                     </div>
                 </div>
 
-                <!-- Image Upload -->
+                <!-- Writing Stats: 1 col -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.3s">
+                    <div class="flex items-center mb-3">
+                        <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                        <h3 class="font-semibold text-secondary-900 dark:text-primary-400-dark">Thống kê viết</h3>
+                    </div>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-secondary-600 dark:text-gray-300">Số từ:</span>
+                            <span class="font-medium" id="wordCount">0</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-secondary-600 dark:text-gray-300">Số ký tự:</span>
+                            <span class="font-medium" id="charCount">0</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-secondary-600 dark:text-gray-300">Thời gian đọc:</span>
+                            <span class="font-medium" id="readTime">0 phút</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image Upload: Full Width -->
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.4s">
                     <div class="flex items-center mb-4">
                         <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -189,9 +216,11 @@
                             <p class="text-sm text-secondary-600 dark:text-gray-300 mt-1" id="progressText">Đang upload...</p>
                         </div>
                     </div>
+                    </div>
                 </div>
 
-                <!-- Content Editor with TinyMCE -->
+                <!-- Content Editor with TinyMCE: Full Width -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.5s">
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.5s">
                     <div class="flex items-center mb-4">
                         <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -224,7 +253,7 @@
                     </div>
                 </div>
 
-                <!-- Form Actions -->
+                <!-- Form Actions: Full Width -->
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.6s">
                     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
                         <div class="flex items-center text-sm text-secondary-600 dark:text-gray-300">
@@ -259,96 +288,7 @@
             </form>
         </div>
 
-        <!-- Sidebar -->
-        <div class="lg:col-span-1 space-y-6">
-            <!-- Writing Tips -->
-            <div class="bg-gradient-to-br from-primary-50 dark:from-primary-900 to-primary-100 dark:to-primary-800 rounded-xl p-6 animate-slide-up" style="animation-delay: 0.6s">
-                <div class="flex items-center mb-3">
-                    <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
-                    </svg>
-                    <h3 class="font-semibold text-primary-800 dark:text-primary-100">Mẹo viết bài</h3>
-                </div>
-                <ul class="space-y-2 text-sm text-primary-700 dark:text-primary-200">
-                    <li class="flex items-start">
-                        <svg class="w-4 h-4 mt-0.5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                        </svg>
-                        Tiêu đề ngắn gọn và thu hút
-                    </li>
-                    <li class="flex items-start">
-                        <svg class="w-4 h-4 mt-0.5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                        </svg>
-                        Tóm tắt cung cấp thông tin chính
-                    </li>
-                    <li class="flex items-start">
-                        <svg class="w-4 h-4 mt-0.5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                        </svg>
-                        Sử dụng đoạn văn ngắn, dễ đọc
-                    </li>
-                    <li class="flex items-start">
-                        <svg class="w-4 h-4 mt-0.5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                        </svg>
-                        Kiểm tra chính tả trước khi xuất bản
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Writing Stats -->
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.7s">
-                <div class="flex items-center mb-3">
-                    <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                    </svg>
-                    <h3 class="font-semibold text-secondary-900 dark:text-primary-400-dark">Thống kê</h3>
-                </div>
-                <div class="space-y-3 text-sm">
-                    <div class="flex justify-between">
-                        <span class="text-secondary-600 dark:text-gray-300">Số từ:</span>
-                        <span class="font-medium" id="wordCount">0</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-secondary-600 dark:text-gray-300">Số ký tự:</span>
-                        <span class="font-medium" id="charCount">0</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-secondary-600 dark:text-gray-300">Thời gian đọc:</span>
-                        <span class="font-medium" id="readTime">0 phút</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Recent Posts -->
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.8s">
-                <div class="flex items-center mb-3">
-                    <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    <h3 class="font-semibold text-secondary-900 dark:text-primary-400-dark">Bài viết gần đây</h3>
-                </div>
-                <div class="space-y-2 text-sm">
-                    <div class="p-2 hover:bg-secondary-50 rounded-lg transition-colors duration-200 cursor-pointer">
-                        <div class="font-medium text-secondary-900 dark:text-primary-400-dark line-clamp-2">Hướng dẫn sử dụng Laravel</div>
-                        <div class="text-secondary-500 dark:text-gray-400">2 ngày trước</div>
-                    </div>
-                    <div class="p-2 hover:bg-secondary-50 rounded-lg transition-colors duration-200 cursor-pointer">
-                        <div class="font-medium text-secondary-900 dark:text-primary-400-dark line-clamp-2">Thiết kế giao diện với Tailwind</div>
-                        <div class="text-secondary-500 dark:text-gray-400">5 ngày trước</div>
-                    </div>
-                    <div class="p-2 hover:bg-secondary-50 rounded-lg transition-colors duration-200 cursor-pointer">
-                        <div class="font-medium text-secondary-900 dark:text-primary-400-dark line-clamp-2">Tối ưu hóa hiệu suất website</div>
-                        <div class="text-secondary-500 dark:text-gray-400">1 tuần trước</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Image Gallery Modal -->
+        <!-- Image Gallery Modal -->
 <div id="imageGalleryModal" class="fixed inset-0 bg-black bg-opacity-50 dark:bg-black dark:bg-opacity-70 z-50 hidden">
     <div class="flex items-center justify-center p-4 min-h-full">
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
