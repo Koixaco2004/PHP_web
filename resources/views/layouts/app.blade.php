@@ -598,18 +598,32 @@
             if (html.classList.contains('dark')) {
                 html.classList.remove('dark');
                 body.classList.remove('dark');
-                localStorage.setItem('theme', 'light');
+                try {
+                    localStorage.setItem('theme', 'light');
+                } catch (e) {
+                    console.warn('Unable to save theme preference:', e);
+                }
                 icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>';
             } else {
                 html.classList.add('dark');
                 body.classList.add('dark');
-                localStorage.setItem('theme', 'dark');
+                try {
+                    localStorage.setItem('theme', 'dark');
+                } catch (e) {
+                    console.warn('Unable to save theme preference:', e);
+                }
                 icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>';
             }
         }
 
         function initializeTheme() {
-            const savedTheme = localStorage.getItem('theme');
+            let savedTheme;
+            try {
+                savedTheme = localStorage.getItem('theme');
+            } catch (e) {
+                console.warn('Unable to access localStorage for theme:', e);
+                savedTheme = null;
+            }
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             const html = document.documentElement;
             const body = document.getElementById('app-body');
@@ -641,7 +655,13 @@
             }
 
             window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-                if (!localStorage.getItem('theme')) {
+                let currentTheme;
+                try {
+                    currentTheme = localStorage.getItem('theme');
+                } catch (err) {
+                    currentTheme = null;
+                }
+                if (!currentTheme) {
                     if (e.matches) {
                         html.classList.add('dark');
                         body.classList.add('dark');

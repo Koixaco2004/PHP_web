@@ -551,29 +551,65 @@ document.addEventListener('DOMContentLoaded', function() {
         const copyIcon = document.getElementById('copyIcon');
         const checkIcon = document.getElementById('checkIcon');
         const copyBtn = document.getElementById('copyLinkBtn');
-        
-        navigator.clipboard.writeText(window.location.href).then(function() {
+
+        const url = window.location.href;
+
+        // Try modern clipboard API first
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(url).then(function() {
+                showCopySuccess();
+            }).catch(function(err) {
+                console.error('Clipboard API failed:', err);
+                fallbackCopyTextToClipboard(url);
+            });
+        } else {
+            fallbackCopyTextToClipboard(url);
+        }
+
+        function showCopySuccess() {
             copyIcon.classList.add('hidden');
             checkIcon.classList.remove('hidden');
-            
+
             copyBtn.classList.remove('text-secondary-500', 'dark:text-gray-400');
             copyBtn.classList.add('text-primary-600', 'dark:text-primary-400');
-            
+
             checkIcon.style.transform = 'scale(1.2)';
             setTimeout(() => {
                 checkIcon.style.transform = 'scale(1)';
             }, 200);
-            
+
             setTimeout(() => {
                 checkIcon.classList.add('hidden');
                 copyIcon.classList.remove('hidden');
                 copyBtn.classList.remove('text-primary-600', 'dark:text-primary-400');
                 copyBtn.classList.add('text-secondary-500', 'dark:text-gray-400');
             }, 2000);
-        }).catch(function(err) {
-            console.error('Failed to copy link:', err);
-            alert('Không thể sao chép liên kết!');
-        });
+        }
+
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showCopySuccess();
+                } else {
+                    alert('Không thể sao chép liên kết!');
+                }
+            } catch (err) {
+                console.error('Fallback copy failed:', err);
+                alert('Không thể sao chép liên kết!');
+            }
+
+            document.body.removeChild(textArea);
+        }
     };
 
     window.openImageModal = function(imageUrl, altText) {
@@ -616,24 +652,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    const backToTopBtn = document.getElementById('backToTop');
-    
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 500) {
-            backToTopBtn.classList.remove('opacity-0');
-            backToTopBtn.classList.add('opacity-100');
-        } else {
-            backToTopBtn.classList.add('opacity-0');
-            backToTopBtn.classList.remove('opacity-100');
-        }
-    });
-
-    backToTopBtn.addEventListener('click', function() {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
 });
 </script>
 @endauth
