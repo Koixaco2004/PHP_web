@@ -141,10 +141,6 @@ Truy cập: http://localhost:8000
 -   **Admin:** admin@example.com / password
 -   **User:** test@example.com / password
 
-## 📄 License
-
-This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-
 ## 👥 Authors
 
 -   **Trần Công Minh**
