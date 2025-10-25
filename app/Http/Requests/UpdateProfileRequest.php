@@ -29,7 +29,6 @@ class UpdateProfileRequest extends FormRequest
             'website' => ['nullable', 'url', 'max:255'],
             'phone' => ['nullable', 'string', 'max:20'],
             'date_of_birth' => ['nullable', 'date', 'before:today'],
-            'is_private' => ['boolean'],
         ];
     }
 

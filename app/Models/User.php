@@ -29,7 +29,6 @@ class User extends Authenticatable
         'phone',
         'date_of_birth',
         'profile_views',
-        'is_private',
     ];
 
     /**
@@ -53,7 +52,6 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'date_of_birth' => 'date',
-            'is_private' => 'boolean',
             'profile_views' => 'integer',
         ];
     }

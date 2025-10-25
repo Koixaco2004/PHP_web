@@ -160,21 +160,26 @@
                             </div>
                         </div>
 
-                        <!-- Privacy Settings -->
+                        <!-- Change Password Section -->
                         <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
-                            <h3 class="text-lg font-medium text-gray-900 dark:text-primary-400-dark mb-4">Cài đặt quyền riêng tư</h3>
-                            <div class="flex items-center">
-                                <input type="hidden" name="is_private" value="0">
-                                <input type="checkbox" name="is_private" id="is_private" value="1" 
-                                       {{ old('is_private', $user->is_private) ? 'checked' : '' }}
-                                       class="h-4 w-4 text-primary-600 border-gray-300 dark:border-gray-600 rounded focus:ring-primary-500 dark:focus:ring-primary-400-dark">
-                                <label for="is_private" class="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300">
-                                    Đặt hồ sơ ở chế độ riêng tư
-                                </label>
+                            <h3 class="text-lg font-medium text-gray-900 dark:text-primary-400-dark mb-4">Bảo mật</h3>
+                            <div class="bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg p-4">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h4 class="text-sm font-medium text-gray-900 dark:text-primary-400-dark">Đổi mật khẩu</h4>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                                            Cập nhật mật khẩu để bảo mật tài khoản của bạn
+                                        </p>
+                                    </div>
+                                    <a href="{{ route('profile.change-password') }}" 
+                                       class="inline-flex items-center px-4 py-2 bg-gray-600 dark:bg-gray-500 text-white text-sm font-medium rounded-lg hover:bg-gray-700 dark:hover:bg-gray-400 transition duration-150">
+                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                                        </svg>
+                                        Đổi mật khẩu
+                                    </a>
+                                </div>
                             </div>
-                            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 ml-7">
-                                Khi bật tùy chọn này, chỉ bạn mới có thể xem hồ sơ của mình
-                            </p>
                         </div>
 
                         <!-- Submit Button -->

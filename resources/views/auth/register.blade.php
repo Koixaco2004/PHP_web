@@ -7,8 +7,8 @@
     <div class="max-w-md w-full space-y-8 animate-fade-in">
         <!-- Logo & Header -->
         <div class="text-center">
-            <div class="mx-auto h-20 w-20 bg-gradient-to-br from-accent-600 to-accent-700 dark:from-accent-100-dark dark:to-accent-200-dark rounded-2xl flex items-center justify-center shadow-lg animate-bounce-subtle">
-                <svg class="h-10 w-10 text-white dark:text-accent-900-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="mx-auto h-20 w-20 bg-gradient-to-br from-primary-600 to-primary-700 dark:from-primary-100-dark dark:to-primary-200-dark rounded-2xl flex items-center justify-center shadow-lg animate-bounce-subtle">
+                <svg class="h-10 w-10 text-white dark:text-primary-900-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
                 </svg>
             </div>
@@ -33,7 +33,7 @@
                             </svg>
                         </div>
                         <input type="text" 
-                               class="block w-full pl-10 pr-3 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 dark:focus:ring-accent-400-dark dark:focus:border-accent-400-dark bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400 transition-colors duration-200 @error('name') !border-red-500 !focus:ring-red-500 !focus:border-red-500 dark:!bg-red-900/20 @enderror" 
+                               class="block w-full pl-10 pr-3 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400 transition-colors duration-200 @error('name') !border-red-500 !focus:ring-red-500 !focus:border-red-500 dark:!bg-red-900/20 @enderror" 
                                id="name" 
                                name="name" 
                                value="{{ old('name') }}" 
@@ -62,7 +62,7 @@
                             </svg>
                         </div>
                         <input type="email" 
-                               class="block w-full pl-10 pr-3 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 dark:focus:ring-accent-400-dark dark:focus:border-accent-400-dark bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400 transition-colors duration-200 @error('email') !border-red-500 !focus:ring-red-500 !focus:border-red-500 dark:!bg-red-900/20 @enderror" 
+                               class="block w-full pl-10 pr-3 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400 transition-colors duration-200 @error('email') !border-red-500 !focus:ring-red-500 !focus:border-red-500 dark:!bg-red-900/20 @enderror" 
                                id="email" 
                                name="email" 
                                value="{{ old('email') }}" 
@@ -91,7 +91,7 @@
                             </svg>
                         </div>
                         <input type="password" 
-                               class="block w-full pl-10 pr-12 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 dark:focus:ring-accent-400-dark dark:focus:border-accent-400-dark bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400 transition-colors duration-200 @error('password') !border-red-500 !focus:ring-red-500 !focus:border-red-500 dark:!bg-red-900/20 @enderror" 
+                               class="block w-full pl-10 pr-12 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400 transition-colors duration-200 @error('password') !border-red-500 !focus:ring-red-500 !focus:border-red-500 dark:!bg-red-900/20 @enderror" 
                                id="password" 
                                name="password" 
                                placeholder="Tạo mật khẩu mạnh"
@@ -114,15 +114,38 @@
                         </p>
                     @enderror
                     
-                    <!-- Password Strength Indicator -->
-                    <div class="mt-2" id="password-strength">
-                        <div class="flex space-x-1">
-                            <div class="h-1 w-1/4 bg-secondary-200 dark:bg-gray-600 rounded-full" id="strength-1"></div>
-                            <div class="h-1 w-1/4 bg-secondary-200 dark:bg-gray-600 rounded-full" id="strength-2"></div>
-                            <div class="h-1 w-1/4 bg-secondary-200 dark:bg-gray-600 rounded-full" id="strength-3"></div>
-                            <div class="h-1 w-1/4 bg-secondary-200 dark:bg-gray-600 rounded-full" id="strength-4"></div>
+                    <!-- Password Requirements -->
+                    <div class="mt-3 space-y-2" id="password-requirements">
+                        <div class="flex items-center text-sm" id="req-length">
+                            <svg class="w-4 h-4 mr-2 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span class="text-gray-600 dark:text-gray-400">Ít nhất 8 ký tự</span>
                         </div>
-                        <p class="text-xs text-secondary-500 dark:text-gray-400 mt-1" id="strength-text">Nhập mật khẩu để kiểm tra độ mạnh</p>
+                        <div class="flex items-center text-sm" id="req-lowercase">
+                            <svg class="w-4 h-4 mr-2 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span class="text-gray-600 dark:text-gray-400">Chứa chữ thường (a-z)</span>
+                        </div>
+                        <div class="flex items-center text-sm" id="req-uppercase">
+                            <svg class="w-4 h-4 mr-2 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span class="text-gray-600 dark:text-gray-400">Chứa chữ hoa (A-Z)</span>
+                        </div>
+                        <div class="flex items-center text-sm" id="req-number">
+                            <svg class="w-4 h-4 mr-2 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span class="text-gray-600 dark:text-gray-400">Chứa số (0-9)</span>
+                        </div>
+                        <div class="flex items-center text-sm" id="req-special">
+                            <svg class="w-4 h-4 mr-2 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span class="text-gray-600 dark:text-gray-400">Chứa ký tự đặc biệt (!@#$%...)</span>
+                        </div>
                     </div>
                 </div>
 
@@ -138,7 +161,7 @@
                             </svg>
                         </div>
                         <input type="password" 
-                               class="block w-full pl-10 pr-12 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 dark:focus:ring-accent-400-dark dark:focus:border-accent-400-dark bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400 transition-colors duration-200" 
+                               class="block w-full pl-10 pr-12 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400 transition-colors duration-200" 
                                id="password_confirmation" 
                                name="password_confirmation" 
                                placeholder="Nhập lại mật khẩu"
@@ -161,7 +184,7 @@
                 <div class="flex items-start">
                     <div class="flex items-center h-5">
                         <input type="checkbox" 
-                               class="h-4 w-4 text-accent-600 dark:text-accent-400-dark focus:ring-accent-500 dark:focus:ring-accent-400-dark border-secondary-300 dark:border-gray-600 rounded transition-colors duration-200" 
+                               class="h-4 w-4 text-primary-600 dark:text-primary-400-dark focus:ring-primary-500 dark:focus:ring-primary-400-dark border-secondary-300 dark:border-gray-600 rounded transition-colors duration-200" 
                                id="terms" 
                                name="terms" 
                                required>
@@ -169,9 +192,9 @@
                     <div class="ml-3 text-sm">
                         <label for="terms" class="text-secondary-700 dark:text-gray-300 cursor-pointer">
                             Tôi đồng ý với 
-                            <a href="#" class="text-accent-600 dark:text-accent-400-dark hover:text-accent-700 dark:hover:text-accent-300-dark font-medium">Điều khoản sử dụng</a> 
+                            <a href="#" class="text-primary-600 dark:text-primary-400-dark hover:text-primary-700 dark:hover:text-primary-300-dark font-medium">Điều khoản sử dụng</a> 
                             và 
-                            <a href="#" class="text-accent-600 dark:text-accent-400-dark hover:text-accent-700 dark:hover:text-accent-300-dark font-medium">Chính sách bảo mật</a>
+                            <a href="#" class="text-primary-600 dark:text-primary-400-dark hover:text-primary-700 dark:hover:text-primary-300-dark font-medium">Chính sách bảo mật</a>
                         </label>
                     </div>
                 </div>
@@ -179,10 +202,10 @@
                 <!-- Submit Button -->
                 <div>
                     <button type="submit" 
-                            class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-accent-600 to-accent-700 dark:from-accent-100-dark dark:to-accent-200-dark hover:from-accent-700 hover:to-accent-800 dark:hover:from-accent-200-dark dark:hover:to-accent-300-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500 dark:focus:ring-accent-400-dark transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                            class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-primary-600 to-primary-700 dark:from-primary-100-dark dark:to-primary-200-dark hover:from-primary-700 hover:to-primary-800 dark:hover:from-primary-200-dark dark:hover:to-primary-300-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:focus:ring-primary-400-dark transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                             id="submit-btn">
                         <span class="absolute left-0 inset-y-0 flex items-center pl-3">
-                            <svg class="h-5 w-5 text-accent-200 dark:text-accent-700-dark group-hover:text-accent-100 dark:group-hover:text-accent-600-dark transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="h-5 w-5 text-primary-200 dark:text-primary-700-dark group-hover:text-primary-100 dark:group-hover:text-primary-600-dark transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
                             </svg>
                         </span>
@@ -220,7 +243,7 @@
         <div class="text-center animate-slide-up" style="animation-delay: 0.3s">
             <p class="text-sm text-secondary-600 dark:text-gray-300">
                 Đã có tài khoản? 
-                <a href="{{ route('login') }}" class="text-accent-600 dark:text-accent-400-dark hover:text-accent-700 dark:hover:text-accent-300-dark font-medium transition-colors duration-200">
+                <a href="{{ route('login') }}" class="text-primary-600 dark:text-primary-400-dark hover:text-primary-700 dark:hover:text-primary-300-dark font-medium transition-colors duration-200">
                     Đăng nhập ngay
                 </a>
             </p>
@@ -247,49 +270,36 @@ function togglePassword(fieldId) {
     }
 }
 
-function checkPasswordStrength(password) {
-    let strength = 0;
-    const checks = [
-        password.length >= 8,
-        /[a-z]/.test(password),
-        /[A-Z]/.test(password),
-        /[0-9]/.test(password),
-        /[^A-Za-z0-9]/.test(password)
-    ];
+function checkPasswordRequirements(password) {
+    const requirements = {
+        length: password.length >= 8,
+        lowercase: /[a-z]/.test(password),
+        uppercase: /[A-Z]/.test(password),
+        number: /[0-9]/.test(password),
+        special: /[^A-Za-z0-9]/.test(password)
+    };
     
-    strength = checks.filter(Boolean).length;
-    
-    const indicators = ['strength-1', 'strength-2', 'strength-3', 'strength-4'];
-    const colors = ['bg-red-500', 'bg-yellow-500', 'bg-blue-500', 'bg-primary-500'];
-    const darkColors = ['dark:bg-red-400', 'dark:bg-yellow-400', 'dark:bg-blue-400', 'dark:bg-primary-400'];
-    const texts = ['Rất yếu', 'Yếu', 'Trung bình', 'Mạnh', 'Rất mạnh'];
-    
-    indicators.forEach((id, index) => {
-        const element = document.getElementById(id);
-        element.className = element.className.replace(/bg-\w+-\d+/g, '').replace(/dark:bg-\w+-\d+/g, '');
-        if (index < strength) {
-            element.classList.add(colors[Math.min(strength - 1, colors.length - 1]]);
-            if (document.documentElement.classList.contains('dark')) {
-                element.classList.add(darkColors[Math.min(strength - 1, darkColors.length - 1]]);
-            }
+    // Update UI for each requirement
+    Object.keys(requirements).forEach(req => {
+        const element = document.getElementById('req-' + req);
+        const svg = element.querySelector('svg');
+        const span = element.querySelector('span');
+        
+        if (requirements[req]) {
+            svg.classList.remove('text-gray-400', 'dark:text-gray-500');
+            svg.classList.add('text-green-500', 'dark:text-green-400');
+            span.classList.remove('text-gray-600', 'dark:text-gray-400');
+            span.classList.add('text-green-600', 'dark:text-green-400', 'font-medium');
         } else {
-            element.classList.add('bg-secondary-200');
-            if (document.documentElement.classList.contains('dark')) {
-                element.classList.add('dark:bg-gray-600');
-            }
+            svg.classList.remove('text-green-500', 'dark:text-green-400');
+            svg.classList.add('text-gray-400', 'dark:text-gray-500');
+            span.classList.remove('text-green-600', 'dark:text-green-400', 'font-medium');
+            span.classList.add('text-gray-600', 'dark:text-gray-400');
         }
     });
     
-    const strengthText = document.getElementById('strength-text');
-    strengthText.className = strengthText.className.replace(/text-\w+-\d+/g, '');
-    if (strength > 0) {
-        strengthText.classList.add(strength >= 4 ? 'text-primary-600 dark:text-primary-400' : strength >= 3 ? 'text-blue-600 dark:text-blue-400' : strength >= 2 ? 'text-yellow-600 dark:text-yellow-400' : 'text-red-600 dark:text-red-400');
-    } else {
-        strengthText.classList.add('text-secondary-500 dark:text-gray-400');
-    }
-    
-    document.getElementById('strength-text').textContent = strength > 0 ? texts[strength - 1] : 'Nhập mật khẩu để kiểm tra độ mạnh';
-    return strength;
+    // Return number of requirements met
+    return Object.values(requirements).filter(Boolean).length;
 }
 
 function checkPasswordMatch() {
@@ -302,7 +312,7 @@ function checkPasswordMatch() {
         matchElement.className = 'text-xs text-secondary-500 dark:text-gray-400';
     } else if (password === confirmation) {
         matchElement.textContent = '✓ Mật khẩu khớp';
-        matchElement.className = 'text-xs text-primary-600 dark:text-primary-400';
+        matchElement.className = 'text-xs text-green-600 dark:text-green-400 font-medium';
     } else {
         matchElement.textContent = '✗ Mật khẩu không khớp';
         matchElement.className = 'text-xs text-red-600 dark:text-red-400';
@@ -316,7 +326,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const submitButton = document.getElementById('submit-btn');
     
     passwordField.addEventListener('input', function() {
-        checkPasswordStrength(this.value);
+        checkPasswordRequirements(this.value);
         checkPasswordMatch();
         updateSubmitButton();
     });
@@ -332,10 +342,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const password = passwordField.value;
         const confirmation = confirmationField.value;
         const termsAccepted = termsCheckbox.checked;
-        const passwordStrong = checkPasswordStrength(password) >= 3;
+        const requirementsMet = checkPasswordRequirements(password);
         const passwordsMatch = password === confirmation && password.length > 0;
         
-        if (passwordStrong && passwordsMatch && termsAccepted) {
+        // Require at least 4 out of 5 requirements met
+        if (requirementsMet >= 4 && passwordsMatch && termsAccepted) {
             submitButton.disabled = false;
             submitButton.classList.remove('opacity-50', 'cursor-not-allowed');
         } else {

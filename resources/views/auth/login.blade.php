@@ -98,7 +98,7 @@
                         </label>
                     </div>
                     <div class="text-sm">
-                        <a href="#" class="text-primary-600 dark:text-primary-400-dark hover:text-primary-700 dark:hover:text-primary-300-dark font-medium transition-colors duration-200">
+                        <a href="{{ route('password.request') }}" class="text-primary-600 dark:text-primary-400-dark hover:text-primary-700 dark:hover:text-primary-300-dark font-medium transition-colors duration-200">
                             Quên mật khẩu?
                         </a>
                     </div>

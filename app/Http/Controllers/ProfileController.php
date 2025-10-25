@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Models\Post;
 use App\Models\Comment;
 use App\Http\Requests\UpdateProfileRequest;
-use App\Http\Requests\ChangePasswordRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
@@ -36,9 +35,6 @@ class ProfileController extends Controller
     {
         // Increment profile views
         $user->increment('profile_views');
-        if ($user->is_private && Auth::id() !== $user->id) {
-            abort(403, 'This profile is private.');
-        }
 
         $posts = Post::where('user_id', $user->id)->with('category')->latest()->paginate(5);
         $totalComments = Comment::where('user_id', $user->id)->count();
@@ -95,25 +91,36 @@ class ProfileController extends Controller
     }
 
     /**
-     * Show password change form.
+     * Show change password form.
      */
-    public function settings()
+    public function showChangePasswordForm()
     {
         $user = Auth::user();
-        return view('profile.settings', compact('user'));
+        return view('profile.change-password', compact('user'));
     }
 
     /**
-     * Change user password.
+     * Update user password.
      */
-    public function changePassword(ChangePasswordRequest $request)
+    public function updatePassword(Request $request)
     {
-        $userId = Auth::id();
-        User::where('id', $userId)->update([
+        $request->validate([
+            'current_password' => ['required', 'current_password'],
+            'password' => ['required', 'confirmed', 'min:8'],
+        ], [
+            'current_password.required' => 'Vui lòng nhập mật khẩu hiện tại.',
+            'current_password.current_password' => 'Mật khẩu hiện tại không đúng.',
+            'password.required' => 'Vui lòng nhập mật khẩu mới.',
+            'password.confirmed' => 'Xác nhận mật khẩu không khớp.',
+            'password.min' => 'Mật khẩu phải có ít nhất 8 ký tự.',
+        ]);
+
+        $user = Auth::user();
+        User::where('id', $user->id)->update([
             'password' => Hash::make($request->password),
         ]);
 
-        return redirect()->route('profile.settings')->with('success', 'Password changed successfully!');
+        return redirect()->route('profile.edit')->with('success', 'Đổi mật khẩu thành công!');
     }
 
     /**

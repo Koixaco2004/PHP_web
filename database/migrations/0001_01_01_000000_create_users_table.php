@@ -26,7 +26,6 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->date('date_of_birth')->nullable();
             $table->integer('profile_views')->default(0);
-            $table->boolean('is_private')->default(false);
             $table->rememberToken();
             $table->timestamps();
 

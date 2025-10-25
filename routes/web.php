@@ -81,8 +81,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::post('/profile/avatar', [ProfileController::class, 'uploadAvatar'])->name('profile.avatar');
-    Route::get('/profile/settings', [ProfileController::class, 'settings'])->name('profile.settings');
-    Route::put('/profile/password', [ProfileController::class, 'changePassword'])->name('profile.password');
+    Route::get('/profile/change-password', [ProfileController::class, 'showChangePasswordForm'])->name('profile.change-password');
+    Route::put('/profile/change-password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
     Route::get('/profile/posts', [ProfileController::class, 'posts'])->name('profile.posts');
     Route::get('/profile/activities', [ProfileController::class, 'activities'])->name('profile.activities');
 });
