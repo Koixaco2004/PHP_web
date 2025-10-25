@@ -17,6 +17,32 @@ class NotificationController extends Controller
 
         $notification->markAsRead();
 
-        return response()->json(['success' => true]);
+        // Determine redirect URL based on notification type
+        $data = $notification->data;
+        $redirectUrl = '/';
+
+        if (isset($data['type'])) {
+            switch ($data['type']) {
+                case 'approved':
+                    // Approved posts -> view post
+                    $redirectUrl = route('posts.show', $data['post_id']);
+                    break;
+                case 'rejected':
+                    // Rejected posts -> edit page to see rejection reason
+                    $redirectUrl = route('posts.edit', $data['post_id']);
+                    break;
+                case 'reply':
+                    // Replies -> view post with comment anchor
+                    $redirectUrl = route('posts.show', $data['post_id']) . '#comment-' . $data['comment_id'];
+                    break;
+                default:
+                    // Comments -> view post with comment anchor
+                    if (isset($data['post_id'])) {
+                        $redirectUrl = route('posts.show', $data['post_id']) . '#comment-' . ($data['comment_id'] ?? '');
+                    }
+            }
+        }
+
+        return response()->json(['success' => true, 'redirect_url' => $redirectUrl]);
     }
 }

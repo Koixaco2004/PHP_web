@@ -9,7 +9,7 @@
         <div class="text-center">
             <div class="mx-auto h-20 w-20 bg-gradient-to-br from-primary-600 to-primary-700 dark:from-primary-100-dark dark:to-primary-200-dark rounded-2xl flex items-center justify-center shadow-lg animate-bounce-subtle">
                 <svg class="h-10 w-10 text-white dark:text-primary-900-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-11.255 3M5 10a2 2 0 012-2m6 4a2 2 0 100-4m0 4a2 2 0 100 4m0-4v8a2 2 0 002 2h8a2 2 0 002-2v-8m0 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v1"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.5 5.784M9 11a6 6 0 019.5-4.784M5 12l2.5-2.5M7.5 9.5L5 7"/>
                 </svg>
             </div>
             <h2 class="mt-6 text-3xl font-heading font-bold text-secondary-900 dark:text-primary-400-dark">Quên mật khẩu?</h2>

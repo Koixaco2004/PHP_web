@@ -21,7 +21,15 @@
                 <p class="text-primary-100 dark:text-primary-200 mt-2">Chỉnh sửa và quản lý tất cả bài viết</p>
             </div>
         </div>
-        <div class="hidden lg:flex items-center">
+        <div class="hidden lg:flex items-center space-x-3">
+            @if(Auth::check() && Auth::user()->role === 'admin')
+                <a href="{{ route('admin.posts.pending') }}" class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-lg font-semibold flex items-center transition-colors duration-200">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    Phê duyệt bài viết
+                </a>
+            @endif
             <a href="{{ route('posts.create') }}" class="bg-white text-primary-600 hover:bg-primary-50 px-6 py-3 rounded-lg font-semibold flex items-center transition-colors duration-200">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>

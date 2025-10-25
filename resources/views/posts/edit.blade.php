@@ -38,6 +38,33 @@
     </div>
 </div>
 
+<!-- Rejection Reason Alert -->
+@if($post->approval_status === 'rejected' && $post->rejection_reason)
+<div class="bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 p-6 mb-8 rounded-lg animate-slide-up">
+    <div class="flex items-start">
+        <div class="flex-shrink-0">
+            <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+            </svg>
+        </div>
+        <div class="ml-3 flex-1">
+            <h3 class="text-lg font-semibold text-red-800 dark:text-red-300 mb-2">
+                Bài viết đã bị từ chối
+            </h3>
+            <div class="text-sm text-red-700 dark:text-red-400">
+                <p class="font-medium mb-1">Lý do từ chối:</p>
+                <p class="bg-white dark:bg-gray-800 p-3 rounded border border-red-200 dark:border-red-800">
+                    {{ $post->rejection_reason }}
+                </p>
+            </div>
+            <p class="text-sm text-red-600 dark:text-red-400 mt-3">
+                Vui lòng chỉnh sửa bài viết theo yêu cầu và gửi lại để được phê duyệt.
+            </p>
+        </div>
+    </div>
+</div>
+@endif
+
 <div class="max-w-6xl mx-auto">
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <!-- Main Content -->

@@ -152,8 +152,18 @@ class AdminController extends Controller
      */
     public function rejectPost(Request $request, Post $post)
     {
+        $validated = $request->validate([
+            'rejection_reason_type' => 'required|string',
+            'custom_rejection_reason' => 'nullable|string|max:1000',
+        ]);
+
+        $rejectionReason = $validated['rejection_reason_type'] === 'other'
+            ? $validated['custom_rejection_reason']
+            : $validated['rejection_reason_type'];
+
         $post->update([
             'approval_status' => 'rejected',
+            'rejection_reason' => $rejectionReason,
             'approved_by' => Auth::id(),
             'approved_at' => now(),
         ]);

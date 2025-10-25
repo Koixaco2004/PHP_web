@@ -149,17 +149,14 @@
                                         </form>
                                         
                                         <!-- Reject Button -->
-                                        <form action="{{ route('admin.posts.reject', $post) }}" method="POST" class="inline-block">
-                                            @csrf
-                                            <button type="submit" 
-                                                    class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
-                                                    title="Từ chối"
-                                                    onclick="return confirm('Bạn có chắc chắn muốn từ chối bài viết này?')">
-                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                                </svg>
-                                            </button>
-                                        </form>
+                                        <button type="button"
+                                                class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
+                                                title="Từ chối"
+                                                onclick="openRejectModal({{ $post->id }}, '{{ $post->title }}')">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                            </svg>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -175,4 +172,115 @@
         @endif
     </div>
 </div>
+
+<!-- Reject Modal -->
+<div id="rejectModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 dark:bg-gray-900 dark:bg-opacity-75 overflow-y-auto h-full w-full z-50">
+    <div class="relative top-20 mx-auto p-5 border w-full max-w-md shadow-lg rounded-xl bg-white dark:bg-gray-800">
+        <div class="mt-3">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Từ chối bài viết</h3>
+                <button onclick="closeRejectModal()" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <form id="rejectForm" method="POST">
+                @csrf
+                <input type="hidden" id="rejectPostId" name="post_id">
+                
+                <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                    Bạn đang từ chối bài viết: <span id="rejectPostTitle" class="font-semibold text-gray-900 dark:text-white"></span>
+                </p>
+
+                <!-- Reason Dropdown -->
+                <div class="mb-4">
+                    <label for="reasonSelect" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Lý do từ chối <span class="text-red-500">*</span>
+                    </label>
+                    <select id="reasonSelect" 
+                            name="rejection_reason_type"
+                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400-dark focus:border-transparent"
+                            onchange="toggleCustomReason()"
+                            required>
+                        <option value="">-- Chọn lý do --</option>
+                        <option value="Nội dung vi phạm quy định cộng đồng">Nội dung vi phạm quy định cộng đồng</option>
+                        <option value="Tiêu đề không phù hợp hoặc spam">Tiêu đề không phù hợp hoặc spam</option>
+                        <option value="Nội dung thiếu chính xác hoặc sai sự thật">Nội dung thiếu chính xác hoặc sai sự thật</option>
+                        <option value="Bài viết trùng lặp">Bài viết trùng lặp</option>
+                        <option value="Chất lượng nội dung không đạt yêu cầu">Chất lượng nội dung không đạt yêu cầu</option>
+                        <option value="Hình ảnh không phù hợp">Hình ảnh không phù hợp</option>
+                        <option value="other">Khác (nhập lý do)</option>
+                    </select>
+                </div>
+
+                <!-- Custom Reason Input -->
+                <div id="customReasonDiv" class="mb-4 hidden">
+                    <label for="customReason" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Nhập lý do cụ thể <span class="text-red-500">*</span>
+                    </label>
+                    <textarea id="customReason"
+                              name="custom_rejection_reason"
+                              rows="3"
+                              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400-dark focus:border-transparent"
+                              placeholder="Nhập lý do từ chối chi tiết..."></textarea>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex justify-end space-x-3 mt-6">
+                    <button type="button"
+                            onclick="closeRejectModal()"
+                            class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-150">
+                        Hủy bỏ
+                    </button>
+                    <button type="submit"
+                            class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-150">
+                        Xác nhận từ chối
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function openRejectModal(postId, postTitle) {
+    document.getElementById('rejectModal').classList.remove('hidden');
+    document.getElementById('rejectPostId').value = postId;
+    document.getElementById('rejectPostTitle').textContent = postTitle;
+    document.getElementById('rejectForm').action = `/admin/posts/${postId}/reject`;
+}
+
+function closeRejectModal() {
+    document.getElementById('rejectModal').classList.add('hidden');
+    document.getElementById('reasonSelect').value = '';
+    document.getElementById('customReason').value = '';
+    document.getElementById('customReasonDiv').classList.add('hidden');
+}
+
+function toggleCustomReason() {
+    const select = document.getElementById('reasonSelect');
+    const customDiv = document.getElementById('customReasonDiv');
+    const customInput = document.getElementById('customReason');
+    
+    if (select.value === 'other') {
+        customDiv.classList.remove('hidden');
+        customInput.required = true;
+    } else {
+        customDiv.classList.add('hidden');
+        customInput.required = false;
+        customInput.value = '';
+    }
+}
+
+// Close modal when clicking outside
+document.getElementById('rejectModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeRejectModal();
+    }
+});
+</script>
 @endsection

@@ -17,6 +17,7 @@ class Post extends Model
         'excerpt',
         'status',
         'approval_status',
+        'rejection_reason',
         'category_id',
         'user_id',
         'created_by',

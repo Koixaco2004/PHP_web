@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('excerpt')->nullable();
             $table->enum('status', ['draft', 'published', 'archived'])->default('draft');
             $table->enum('approval_status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->text('rejection_reason')->nullable();
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');

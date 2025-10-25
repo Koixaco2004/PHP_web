@@ -41,6 +41,7 @@ class PostRejectedNotification extends Notification
             'message' => 'Bài viết của bạn đã bị từ chối.',
             'post_id' => $this->post->id,
             'post_title' => $this->post->title,
+            'rejection_reason' => $this->post->rejection_reason,
             'type' => 'rejected',
         ];
     }

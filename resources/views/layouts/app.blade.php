@@ -697,8 +697,8 @@
             })
             .then(response => response.json())
             .then(data => {
-                if (data.success) {
-                    location.reload(); // Reload to update badge
+                if (data.success && data.redirect_url) {
+                    window.location.href = data.redirect_url;
                 }
             })
             .catch(error => console.error('Error:', error));
