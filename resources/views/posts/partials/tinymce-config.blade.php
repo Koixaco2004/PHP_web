@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ],
         toolbar: 'undo redo | blocks | bold italic underline strikethrough | ' +
                  'forecolor backcolor | alignleft aligncenter alignright alignjustify | ' +
-                 'bullist numlist outdent indent | link image media table | ' +
+                 'bullist numlist outdent indent | link image customImageGallery media table | ' +
                  'removeformat code fullscreen | help',
         content_style: `
             body { 
@@ -50,7 +50,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(response => response.json())
                 .then(result => {
                     if (result.success) {
-                        resolve(result.data.url);
+                        const imageUrl = result.data.url;
+                        const deleteUrl = result.data.delete_url;
+                        
+                        // Thêm ảnh vào uploadedImages array để hiển thị trong phần "Hình ảnh bài viết"
+                        addImageToGallery(imageUrl, deleteUrl, blobInfo.filename());
+                        
+                        resolve(imageUrl);
                     } else {
                         reject(result.message || 'Upload thất bại');
                     }
@@ -68,50 +74,47 @@ document.addEventListener('DOMContentLoaded', function() {
         // Cấu hình file picker cho hình ảnh từ gallery
         file_picker_callback: function(callback, value, meta) {
             if (meta.filetype === 'image') {
-                // Mở gallery để chọn ảnh đã upload
-                if (typeof openImageGallery === 'function') {
-                    openImageGallery(function(imageUrl) {
-                        callback(imageUrl, { alt: '' });
-                    });
-                } else {
-                    // Fallback: Cho phép upload trực tiếp
-                    var input = document.createElement('input');
-                    input.setAttribute('type', 'file');
-                    input.setAttribute('accept', 'image/*');
+                // Tạo input file để upload
+                var input = document.createElement('input');
+                input.setAttribute('type', 'file');
+                input.setAttribute('accept', 'image/*');
+                
+                input.onchange = function() {
+                    var file = this.files[0];
                     
-                    input.onchange = function() {
-                        var file = this.files[0];
-                        var reader = new FileReader();
-                        
-                        reader.onload = function() {
-                            var formData = new FormData();
-                            formData.append('file', file);
+                    var formData = new FormData();
+                    formData.append('file', file);
+                    
+                    fetch('{{ route("posts.upload-image") }}', {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.success) {
+                            const imageUrl = result.data.url;
+                            const deleteUrl = result.data.delete_url;
                             
-                            fetch('{{ route("posts.upload-image") }}', {
-                                method: 'POST',
-                                body: formData,
-                                headers: {
-                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                                }
-                            })
-                            .then(response => response.json())
-                            .then(result => {
-                                if (result.success) {
-                                    callback(result.data.url, { alt: file.name });
-                                } else {
-                                    alert('Upload thất bại: ' + (result.message || 'Lỗi không xác định'));
-                                }
-                            })
-                            .catch(error => {
-                                alert('Lỗi kết nối: ' + error.message);
-                            });
-                        };
-                        
-                        reader.readAsDataURL(file);
-                    };
-                    
-                    input.click();
-                }
+                            // Thêm ảnh vào gallery
+                            if (typeof addImageToGallery === 'function') {
+                                addImageToGallery(imageUrl, deleteUrl, file.name);
+                            }
+                            
+                            // Trả về URL cho TinyMCE
+                            callback(imageUrl, { alt: file.name });
+                        } else {
+                            alert('Upload thất bại: ' + (result.message || 'Lỗi không xác định'));
+                        }
+                    })
+                    .catch(error => {
+                        alert('Lỗi kết nối: ' + error.message);
+                    });
+                };
+                
+                input.click();
             }
         },
         
@@ -156,6 +159,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 updateStats();
             });
             
+            // Cập nhật stats lần đầu khi editor sẵn sàng
+            editor.on('init', function() {
+                updateStats();
+            });
+            
             // Đồng bộ với dark mode
             const observer = new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
@@ -192,6 +200,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Function để cập nhật thống kê
     function updateStats() {
+        // Safety check: đảm bảo TinyMCE đã được khởi tạo
+        if (!tinymce || !tinymce.get('content')) {
+            return;
+        }
+        
         const content = tinymce.get('content').getContent({format: 'text'});
         const wordCount = content.trim().split(/\s+/).filter(word => word.length > 0).length;
         const charCount = content.length;
@@ -207,11 +220,6 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('readTime').textContent = readTime + ' phút';
         }
     }
-    
-    // Cập nhật stats lần đầu khi editor sẵn sàng
-    tinymce.get('content').on('init', function() {
-        updateStats();
-    });
 });
 
 // Đảm bảo TinyMCE submit đúng nội dung khi form được submit

@@ -219,9 +219,8 @@
                     </div>
                 </div>
 
-                <!-- Content Editor with TinyMCE: Full Width -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.5s">
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.5s">
+                <!-- Content Editor with TinyMCE -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up mt-6" style="animation-delay: 0.5s">
                     <div class="flex items-center mb-4">
                         <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
@@ -253,8 +252,8 @@
                     </div>
                 </div>
 
-                <!-- Form Actions: Full Width -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.6s">
+                <!-- Form Actions -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up mt-6" style="animation-delay: 0.6s">
                     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
                         <div class="flex items-center text-sm text-secondary-600 dark:text-gray-300">
                             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -521,9 +520,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     window.removeImage = function(imageUrl) {
-        uploadedImages = uploadedImages.filter(img => img.image_url !== imageUrl);
-        uploadedImagesInput.value = JSON.stringify(uploadedImages);
+        const uploadedImagesInput = document.getElementById('uploadedImages');
+        const imagePreview = document.getElementById('imagePreview');
         
+        // Parse and update images array
+        let currentImages = JSON.parse(uploadedImagesInput.value || '[]');
+        currentImages = currentImages.filter(img => img.image_url !== imageUrl);
+        uploadedImagesInput.value = JSON.stringify(currentImages);
+        
+        // Remove preview element
         const previews = imagePreview.querySelectorAll('img');
         previews.forEach(img => {
             if (img.src === imageUrl) {
@@ -531,9 +536,78 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        if (uploadedImages.length === 0) {
+        // Hide preview grid if no images left
+        if (currentImages.length === 0) {
             imagePreview.style.display = 'none';
         }
+    };
+    
+    // Function để thêm ảnh từ TinyMCE vào gallery
+    window.addImageToGallery = function(imageUrl, deleteUrl, filename) {
+        // Lấy elements
+        const uploadedImagesInput = document.getElementById('uploadedImages');
+        const imagePreview = document.getElementById('imagePreview');
+        
+        // Parse current images
+        let currentImages = JSON.parse(uploadedImagesInput.value || '[]');
+        
+        // Kiểm tra xem ảnh đã tồn tại chưa
+        const existingImage = currentImages.find(img => img.image_url === imageUrl);
+        if (existingImage) {
+            console.log('⚠️ Ảnh đã tồn tại trong gallery:', imageUrl);
+            return; // Ảnh đã có trong gallery
+        }
+        
+        // Thêm ảnh vào array
+        const imageData = {
+            image_url: imageUrl,
+            delete_url: deleteUrl || null,
+            alt_text: filename || ''
+        };
+        
+        currentImages.push(imageData);
+        uploadedImagesInput.value = JSON.stringify(currentImages);
+        
+        // Hiển thị grid nếu đây là ảnh đầu tiên
+        if (currentImages.length === 1) {
+            imagePreview.style.display = 'grid';
+            imagePreview.className = 'mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4';
+        }
+        
+        // Tạo preview item
+        const previewItem = document.createElement('div');
+        previewItem.className = 'relative group';
+        previewItem.innerHTML = `
+            <img src="${imageUrl}" alt="${filename || 'Preview'}" class="w-full h-24 object-cover rounded-lg">
+            <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-200 rounded-lg flex items-center justify-center">
+                <button type="button" class="opacity-0 group-hover:opacity-100 bg-red-500 text-white p-1 rounded-full hover:bg-red-600 transition-all duration-200" onclick="removeImage('${imageUrl}')">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="absolute top-1 left-1">
+                <label class="flex items-center">
+                    <input type="radio" name="featured_image" value="${imageUrl}" class="sr-only">
+                    <span class="w-5 h-5 bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 rounded-full flex items-center justify-center cursor-pointer hover:border-primary-500 dark:hover:border-primary-400-dark">
+                        <span class="w-2 h-2 bg-primary-500 rounded-full hidden"></span>
+                    </span>
+                </label>
+            </div>
+        `;
+        
+        imagePreview.appendChild(previewItem);
+        
+        // Nếu đây là ảnh đầu tiên, set làm featured
+        if (currentImages.length === 1) {
+            const radio = previewItem.querySelector('input[type="radio"]');
+            radio.checked = true;
+            const indicator = previewItem.querySelector('span span');
+            indicator.classList.remove('hidden');
+            document.getElementById('featuredImageInput').value = imageUrl;
+        }
+        
+        console.log('✅ Đã thêm ảnh vào gallery:', imageUrl);
     };
     
     imagePreview.addEventListener('change', function(e) {

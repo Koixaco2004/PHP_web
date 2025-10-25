@@ -110,7 +110,8 @@ class PostController extends Controller
     {
         $categories = Category::active()->get();
 
-        // Load images and remove duplicates by URL
+        // Load images and remove duplicates by URL, also load comments count
+        $post->loadCount('comments');
         $post->load('images');
         $uniqueImages = $post->images->unique('image_url');
         $post->setRelation('images', $uniqueImages);
