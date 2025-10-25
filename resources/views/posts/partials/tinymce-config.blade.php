@@ -24,11 +24,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; 
                 font-size: 16px;
                 line-height: 1.6;
-                color: #1f2937;
-            }
-            body.dark-mode {
-                background-color: #1f2937;
-                color: #f3f4f6;
+                color: ${document.documentElement.classList.contains('dark') ? '#f3f4f6' : '#1f2937'};
+                background-color: ${document.documentElement.classList.contains('dark') ? '#1f2937' : '#ffffff'};
             }
         `,
         skin: document.documentElement.classList.contains('dark') ? 'oxide-dark' : 'oxide',
