@@ -90,7 +90,7 @@
                 @csrf
                 <button type="submit" 
                         class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors duration-200"
-                        onclick="return confirm('Bạn có chắc chắn muốn phê duyệt bài viết này?')">
+                        onclick="showConfirmationModal('Xác nhận phê duyệt', 'Bạn có chắc chắn muốn phê duyệt bài viết này?', 'Phê duyệt', function() { this.closest('form').submit(); }); return false;">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
@@ -584,13 +584,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function handleFiles(files) {
         if (files.length + uploadedImages.length > 10) {
-            alert('Tối đa 10 hình ảnh cho mỗi bài viết');
+            if (typeof showToast === 'function') {
+                showToast('Tối đa 10 hình ảnh cho mỗi bài viết', 'error');
+            } else {
+                alert('Tối đa 10 hình ảnh cho mỗi bài viết');
+            }
             return;
         }
 
         Array.from(files).forEach(file => {
             if (file.size > 5 * 1024 * 1024) {
-                alert(`File ${file.name} quá lớn. Tối đa 5MB.`);
+                if (typeof showToast === 'function') {
+                    showToast(`File ${file.name} quá lớn. Tối đa 5MB.`, 'error');
+                } else {
+                    alert(`File ${file.name} quá lớn. Tối đa 5MB.`);
+                }
                 return;
             }
             uploadImage(file);
@@ -621,12 +629,20 @@ document.addEventListener('DOMContentLoaded', function() {
                     featuredImageInput.value = data.data.image_url;
                 }
             } else {
-                alert('Lỗi upload: ' + (data.message || 'Unknown error'));
+                if (typeof showToast === 'function') {
+                    showToast('Lỗi upload: ' + (data.message || 'Unknown error'), 'error');
+                } else {
+                    alert('Lỗi upload: ' + (data.message || 'Unknown error'));
+                }
             }
         })
         .catch(error => {
             console.error('Upload error:', error);
-            alert('Có lỗi xảy ra khi upload ảnh');
+            if (typeof showToast === 'function') {
+                showToast('Có lỗi xảy ra khi upload ảnh', 'error');
+            } else {
+                alert('Có lỗi xảy ra khi upload ảnh');
+            }
         })
         .finally(() => {
             uploadProgress.classList.add('hidden');
@@ -657,21 +673,26 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     window.removeExistingImage = function(imageUrl, button) {
-        if (confirm('Bạn có chắc muốn xóa ảnh này?')) {
-            deletedImages.push(imageUrl);
-            deletedImagesInput.value = JSON.stringify(deletedImages);
-            button.closest('[data-image-url]').remove();
-            
-            if (featuredImageInput.value === imageUrl) {
-                // Set to first remaining existing image
-                const remainingImages = document.querySelectorAll('#currentImages [data-image-url]:not([data-image-url="' + imageUrl + '"])');
-                if (remainingImages.length > 0) {
-                    featuredImageInput.value = remainingImages[0].dataset.imageUrl;
-                } else {
-                    featuredImageInput.value = '';
+        showConfirmationModal(
+            'Xác nhận xóa ảnh',
+            'Bạn có chắc muốn xóa ảnh này?',
+            'Xóa',
+            function() {
+                deletedImages.push(imageUrl);
+                deletedImagesInput.value = JSON.stringify(deletedImages);
+                button.closest('[data-image-url]').remove();
+
+                if (featuredImageInput.value === imageUrl) {
+                    // Set to first remaining existing image
+                    const remainingImages = document.querySelectorAll('#currentImages [data-image-url]:not([data-image-url="' + imageUrl + '"])');
+                    if (remainingImages.length > 0) {
+                        featuredImageInput.value = remainingImages[0].dataset.imageUrl;
+                    } else {
+                        featuredImageInput.value = '';
+                    }
                 }
             }
-        }
+        );
     };
 
     window.removeNewImage = function(imageUrl, button) {

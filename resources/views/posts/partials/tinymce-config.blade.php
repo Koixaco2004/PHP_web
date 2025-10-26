@@ -103,11 +103,19 @@ document.addEventListener('DOMContentLoaded', function() {
                             // Trả về URL cho TinyMCE
                             callback(imageUrl, { alt: file.name });
                         } else {
-                            alert('Upload thất bại: ' + (result.message || 'Lỗi không xác định'));
+                            if (typeof showToast === 'function') {
+                                showToast('Upload thất bại: ' + (result.message || 'Lỗi không xác định'), 'error');
+                            } else {
+                                alert('Upload thất bại: ' + (result.message || 'Lỗi không xác định'));
+                            }
                         }
                     })
                     .catch(error => {
-                        alert('Lỗi kết nối: ' + error.message);
+                        if (typeof showToast === 'function') {
+                            showToast('Lỗi kết nối: ' + error.message, 'error');
+                        } else {
+                            alert('Lỗi kết nối: ' + error.message);
+                        }
                     });
                 };
                 

@@ -530,98 +530,101 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Delete comment/reply function
     window.deleteComment = function(commentId, isReply) {
-        if (!confirm('Bạn có chắc chắn muốn xóa bình luận này?')) {
-            return;
-        }
+        showConfirmationModal(
+            'Xác nhận xóa',
+            'Bạn có chắc chắn muốn xóa bình luận này?',
+            'Xóa',
+            function() {
+                const deleteUrl = `/comments/${commentId}`;
 
-        const deleteUrl = `/comments/${commentId}`;
-        
-        // Add deleting animation class
-        let elementToDelete;
-        if (isReply) {
-            elementToDelete = document.querySelector(`[data-reply-id="${commentId}"]`);
-        } else {
-            elementToDelete = document.querySelector(`[data-comment-id="${commentId}"]`);
-        }
-        
-        if (elementToDelete) {
-            elementToDelete.classList.add('comment-deleting');
-        }
-        
-        fetch(deleteUrl, {
-            method: 'DELETE',
-            headers: {
-                'X-CSRF-TOKEN': csrfToken,
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Wait for animation to complete before removing
-                setTimeout(() => {
-                    // Show toast notification
-                    if (typeof showToast === 'function') {
-                        showToast(data.message, 'success');
+                // Add deleting animation class
+                let elementToDelete;
+                if (isReply) {
+                    elementToDelete = document.querySelector(`[data-reply-id="${commentId}"]`);
+                } else {
+                    elementToDelete = document.querySelector(`[data-comment-id="${commentId}"]`);
+                }
+
+                if (elementToDelete) {
+                    elementToDelete.classList.add('comment-deleting');
+                }
+
+                fetch(deleteUrl, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
                     }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Wait for animation to complete before removing
+                        setTimeout(() => {
+                            // Show toast notification
+                            if (typeof showToast === 'function') {
+                                showToast(data.message, 'success');
+                            }
 
-                    // Remove the comment/reply element from DOM
-                    if (isReply) {
-                        const replyElement = document.querySelector(`[data-reply-id="${commentId}"]`);
-                        if (replyElement) {
-                            replyElement.remove();
-                        }
-                    } else {
-                        const commentElement = document.querySelector(`[data-comment-id="${commentId}"]`);
-                        if (commentElement) {
-                            commentElement.remove();
-                            
-                            // Update comment count
-                            const commentsCount = document.getElementById('comments-count');
-                            if (commentsCount) {
-                                const currentCount = parseInt(commentsCount.textContent);
-                                commentsCount.textContent = Math.max(0, currentCount - 1);
-                                
-                                // Show "no comments" message if count is 0
-                                if (currentCount - 1 === 0) {
-                                    const commentsList = document.getElementById('comments-list');
-                                    if (commentsList && commentsList.children.length === 0) {
-                                        commentsList.innerHTML = `
-                                            <div class="text-center py-8" id="no-comments-message">
-                                                <svg class="w-16 h-16 text-secondary-300 dark:text-gray-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-                                                </svg>
-                                                <h4 class="text-lg font-medium text-secondary-900 dark:text-primary-400-dark mb-2">Chưa có bình luận nào</h4>
-                                                <p class="text-secondary-500 dark:text-gray-400">Hãy là người đầu tiên bình luận về bài viết này!</p>
-                                            </div>
-                                        `;
+                            // Remove the comment/reply element from DOM
+                            if (isReply) {
+                                const replyElement = document.querySelector(`[data-reply-id="${commentId}"]`);
+                                if (replyElement) {
+                                    replyElement.remove();
+                                }
+                            } else {
+                                const commentElement = document.querySelector(`[data-comment-id="${commentId}"]`);
+                                if (commentElement) {
+                                    commentElement.remove();
+
+                                    // Update comment count
+                                    const commentsCount = document.getElementById('comments-count');
+                                    if (commentsCount) {
+                                        const currentCount = parseInt(commentsCount.textContent);
+                                        commentsCount.textContent = Math.max(0, currentCount - 1);
+
+                                        // Show "no comments" message if count is 0
+                                        if (currentCount - 1 === 0) {
+                                            const commentsList = document.getElementById('comments-list');
+                                            if (commentsList && commentsList.children.length === 0) {
+                                                commentsList.innerHTML = `
+                                                    <div class="text-center py-8" id="no-comments-message">
+                                                        <svg class="w-16 h-16 text-secondary-300 dark:text-gray-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                                                        </svg>
+                                                        <h4 class="text-lg font-medium text-secondary-900 dark:text-primary-400-dark mb-2">Chưa có bình luận nào</h4>
+                                                        <p class="text-secondary-500 dark:text-gray-400">Hãy là người đầu tiên bình luận về bài viết này!</p>
+                                                    </div>
+                                                `;
+                                            }
+                                        }
                                     }
                                 }
                             }
+                        }, 300); // Wait for animation to complete
+                    } else {
+                        // Remove animation class on error
+                        if (elementToDelete) {
+                            elementToDelete.classList.remove('comment-deleting');
+                        }
+                        if (typeof showToast === 'function') {
+                            showToast(data.message || 'Có lỗi xảy ra khi xóa bình luận!', 'error');
                         }
                     }
-                }, 300); // Wait for animation to complete
-            } else {
-                // Remove animation class on error
-                if (elementToDelete) {
-                    elementToDelete.classList.remove('comment-deleting');
-                }
-                if (typeof showToast === 'function') {
-                    showToast(data.message || 'Có lỗi xảy ra khi xóa bình luận!', 'error');
-                }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Remove animation class on error
+                    if (elementToDelete) {
+                        elementToDelete.classList.remove('comment-deleting');
+                    }
+                    if (typeof showToast === 'function') {
+                        showToast('Có lỗi xảy ra khi xóa bình luận!', 'error');
+                    }
+                });
             }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            // Remove animation class on error
-            if (elementToDelete) {
-                elementToDelete.classList.remove('comment-deleting');
-            }
-            if (typeof showToast === 'function') {
-                showToast('Có lỗi xảy ra khi xóa bình luận!', 'error');
-            }
-        });
+        );
     };
 
     // Show edit form for comment
@@ -907,11 +910,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (successful) {
                     showCopySuccess();
                 } else {
-                    alert('Không thể sao chép liên kết!');
+                    if (typeof showToast === 'function') {
+                        showToast('Không thể sao chép liên kết!', 'error');
+                    } else {
+                        alert('Không thể sao chép liên kết!');
+                    }
                 }
             } catch (err) {
                 console.error('Fallback copy failed:', err);
-                alert('Không thể sao chép liên kết!');
+                if (typeof showToast === 'function') {
+                    showToast('Không thể sao chép liên kết!', 'error');
+                } else {
+                    alert('Không thể sao chép liên kết!');
+                }
             }
 
             document.body.removeChild(textArea);

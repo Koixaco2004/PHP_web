@@ -412,17 +412,29 @@ document.addEventListener('DOMContentLoaded', function() {
         if (files.length === 0) return;
         
         if (uploadedImages.length + files.length > 10) {
-            alert('Chỉ có thể upload tối đa 10 ảnh');
+            if (typeof showToast === 'function') {
+                showToast('Chỉ có thể upload tối đa 10 ảnh', 'error');
+            } else {
+                alert('Chỉ có thể upload tối đa 10 ảnh');
+            }
             return;
         }
         
         const validFiles = files.filter(file => {
             if (!file.type.startsWith('image/')) {
-                alert(`File ${file.name} không phải là hình ảnh`);
+                if (typeof showToast === 'function') {
+                    showToast(`File ${file.name} không phải là hình ảnh`, 'error');
+                } else {
+                    alert(`File ${file.name} không phải là hình ảnh`);
+                }
                 return false;
             }
             if (file.size > 5 * 1024 * 1024) {
-                alert(`File ${file.name} quá lớn (tối đa 5MB)`);
+                if (typeof showToast === 'function') {
+                    showToast(`File ${file.name} quá lớn (tối đa 5MB)`, 'error');
+                } else {
+                    alert(`File ${file.name} quá lớn (tối đa 5MB)`);
+                }
                 return false;
             }
             return true;
@@ -469,7 +481,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 
             } catch (error) {
                 console.error('Upload error:', error);
-                alert(`Lỗi upload file ${file.name}`);
+                if (typeof showToast === 'function') {
+                    showToast(`Lỗi upload file ${file.name}`, 'error');
+                } else {
+                    alert(`Lỗi upload file ${file.name}`);
+                }
             }
         }
         
