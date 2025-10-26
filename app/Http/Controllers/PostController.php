@@ -105,6 +105,11 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        // Check if user can edit this post (author or admin)
+        if ($post->user_id !== Auth::id() && Auth::user()->role !== 'admin') {
+            abort(403, 'Bạn không có quyền chỉnh sửa bài viết này.');
+        }
+
         $categories = Category::active()->get();
 
         // Load images and remove duplicates by URL, also load comments count
@@ -121,6 +126,11 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        // Check if user can update this post (author or admin)
+        if ($post->user_id !== Auth::id() && Auth::user()->role !== 'admin') {
+            abort(403, 'Bạn không có quyền cập nhật bài viết này.');
+        }
+
         $request->validate([
             'title' => 'required|max:255',
             'content' => 'required',
@@ -228,6 +238,11 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        // Check if user can delete this post (author or admin)
+        if ($post->user_id !== Auth::id() && Auth::user()->role !== 'admin') {
+            abort(403, 'Bạn không có quyền xóa bài viết này.');
+        }
+
         $post->delete();
         return redirect()->route('posts.index')->with('success', 'Bài viết đã được xóa thành công!');
     }

@@ -26,10 +26,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware(['admin'])->group(function () {
         Route::get('/admin/posts', [PostController::class, 'index'])->name('posts.index');
-        Route::get('/admin/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
-        Route::put('/admin/posts/{post}', [PostController::class, 'update'])->name('posts.update');
-        Route::delete('/admin/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
     });
+
+    // User can edit their own posts, admin can edit any
+    Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit')->middleware('auth');
+    Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.update')->middleware('auth');
+    Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy')->middleware('auth');
 
     Route::prefix('posts/{post}/images')->name('posts.images.')->group(function () {
         Route::get('/', [PostImageController::class, 'index'])->name('index');
