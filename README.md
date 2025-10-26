@@ -3,7 +3,7 @@
 
 # SmurfExpress News Portal
 
-**Hệ thống Portal tin tức chuyên nghiệp** được xây dựng bằng Laravel 12 với kiến trúc hiện đại, đầy đủ tính năng quản lý nội dung (CMS), hệ thống phê duyệt bài viết, thông báo real-time và tích hợp API bên thứ ba.
+**Hệ thống Portal tin tức chuyên nghiệp** được xây dựng bằng Laravel với kiến trúc hiện đại, đầy đủ tính năng quản lý nội dung (CMS), hệ thống phê duyệt bài viết, thông báo real-time và tích hợp API bên thứ ba.
 
 Đây là đồ án môn học **Lập trình mã nguồn mở** của nhóm 4 thành viên.
 
@@ -15,7 +15,7 @@
 
 -   Đăng ký/đăng nhập với email & password, Google OAuth.
 -   Tạo và quản lý bài viết với trình soạn thảo rich text, upload hình ảnh qua ImgBB API.
--   Tìm kiếm nâng cao, bình luận phân cấp, nhận thông báo real-time.
+-   Tìm kiếm nâng cao, bình luận phân cấp với lọc nội dung toxic tự động, nhận thông báo real-time.
 -   Quản lý profile cá nhân và đổi mật khẩu.
 
 ### 👨‍💼 Quản trị viên (Admin):
@@ -28,14 +28,14 @@
 
 ### Backend:
 
--   **Framework:** Laravel 12.x (PHP 8.2+)
+-   **Framework:** Laravel (PHP)
 -   **ORM:** Eloquent
 -   **Authentication:** Laravel Auth + Google OAuth
 -   **Notifications:** Database channel
 
 ### Database:
 
--   **RDBMS:** MySQL 8.x
+-   **RDBMS:** MySQL
 -   **Migrations & Seeders:** Với dữ liệu mẫu
 
 ### Frontend:
@@ -49,10 +49,18 @@
 -   **OAuth:** Google OAuth 2.0
 -   **Image Hosting:** ImgBB API
 -   **Email:** Laravel Mail
+-   **AI Content Moderation:** PhoBERT Vietnamese Comment Classifier (vanhai123/phobert-vi-comment-4class)
+
+### AI/ML:
+
+-   **Python:** 3.11+
+-   **Framework:** Flask (REST API)
+-   **ML Libraries:** Transformers, PyTorch
+-   **Model:** PhoBERT-based toxic comment classifier (4-class classification)
 
 ## ⚙️ Yêu cầu hệ thống
 
--   PHP >= 8.2, Composer, MySQL, Node.js >= 18.x, NPM.
+-   PHP >= 8.2, Composer, MySQL, Node.js >= 18.x, NPM, Python >= 3.11 (cho AI toxic filter).
 
 ## 🚀 Hướng dẫn cài đặt
 
@@ -94,7 +102,27 @@ DB_PASSWORD=
 php artisan migrate:fresh --seed
 ```
 
-### Bước 5: Cấu hình tùy chọn (Optional)
+### Bước 5: Cấu hình AI Toxic Comment Filter
+
+#### Cài đặt Python dependencies:
+
+```bash
+cd python_api
+pip install flask transformers torch
+cd ..
+```
+
+#### Khởi động Python API (Terminal riêng):
+
+```bash
+python python_api/toxic_classifier_api.py
+```
+
+API sẽ chạy tại `http://127.0.0.1:5000`. Model sẽ tự động download lần đầu (~540MB).
+
+**Lưu ý:** Python API cần chạy song song với Laravel server để tính năng lọc toxic hoạt động.
+
+### Bước 6: Cấu hình tùy chọn (Optional)
 
 #### Google OAuth (Đăng nhập Google):
 
@@ -127,12 +155,14 @@ MAIL_PASSWORD=your_app_password
 MAIL_ENCRYPTION=tls
 ```
 
-### Bước 6: Build assets và chạy server
+### Bước 7: Build assets và chạy server
 
 ```bash
 npm run dev
 php artisan serve
 ```
+
+**Lưu ý:** Đảm bảo Python API đang chạy ở terminal khác để sử dụng tính năng lọc toxic.
 
 Truy cập: http://localhost:8000
 
