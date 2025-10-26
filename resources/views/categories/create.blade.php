@@ -31,7 +31,7 @@
     </div>
 </div>
 
-<div class="max-w-4xl mx-auto">
+<div class="w-full">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <!-- Main Form -->
         <div class="lg:col-span-2">
