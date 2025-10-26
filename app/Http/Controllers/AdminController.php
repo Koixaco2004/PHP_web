@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\PostApprovedNotification;
 use App\Notifications\PostRejectedNotification;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
@@ -31,6 +32,28 @@ class AdminController extends Controller
             'total_users' => User::count(),
             'admin_users' => User::where('role', 'admin')->count(),
         ];
+
+        // Calculate month-over-month percentage change for total_posts
+        $currentMonth = Carbon::now();
+        $previousMonth = Carbon::now()->subMonth();
+
+        $currentPosts = Post::where('status', 'published')
+            ->whereMonth('created_at', $currentMonth->month)
+            ->whereYear('created_at', $currentMonth->year)
+            ->count();
+
+        $previousPosts = Post::where('status', 'published')
+            ->whereMonth('created_at', $previousMonth->month)
+            ->whereYear('created_at', $previousMonth->year)
+            ->count();
+
+        if ($previousPosts > 0) {
+            $percentageChange = (($currentPosts - $previousPosts) / $previousPosts) * 100;
+        } else {
+            $percentageChange = $currentPosts > 0 ? 100 : 0; // If no previous posts, 100% if current > 0, else 0
+        }
+
+        $stats['posts_change_percentage'] = round($percentageChange, 1);
 
         // Chỉ hiển thị bài viết đã published trong recent posts (không bao gồm draft)
         $recentPosts = Post::with(['category', 'user'])

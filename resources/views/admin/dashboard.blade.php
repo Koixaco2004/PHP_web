@@ -48,7 +48,7 @@
         </div>
         <div class="mt-4 pt-4 border-t border-secondary-100 dark:border-gray-700">
             <div class="flex items-center text-sm">
-                <span class="text-blue-600 dark:text-blue-400 font-medium">+12%</span>
+                <span class="text-blue-600 dark:text-blue-400 font-medium">{{ ($stats['posts_change_percentage'] >= 0 ? '+' : '') . $stats['posts_change_percentage'] }}%</span>
                 <span class="text-secondary-600 dark:text-gray-300 ml-1">so với tháng trước</span>
             </div>
         </div>
