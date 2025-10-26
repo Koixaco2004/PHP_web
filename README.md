@@ -158,7 +158,7 @@ MAIL_ENCRYPTION=tls
 ### Bước 7: Build assets và chạy server
 
 ```bash
-npm run dev
+npm run build
 php artisan serve
 ```
 

@@ -19,8 +19,10 @@ class AdminController extends Controller
     /**
      * Display admin dashboard.
      */
-    public function dashboard()
+    public function dashboard(Request $request)
     {
+        $months = $request->get('months', 6);
+
         $stats = [
             'total_posts' => Post::where('status', 'published')->count(),
             'published_posts' => Post::where('status', 'published')->where('approval_status', 'approved')->count(),
@@ -55,6 +57,20 @@ class AdminController extends Controller
 
         $stats['posts_change_percentage'] = round($percentageChange, 1);
 
+        // Prepare chart data for last N months
+        $chartData = [];
+        for ($i = $months - 1; $i >= 0; $i--) {
+            $date = Carbon::now()->subMonths($i);
+            $count = Post::where('status', 'published')
+                ->whereMonth('created_at', $date->month)
+                ->whereYear('created_at', $date->year)
+                ->count();
+            $chartData[] = [
+                'month' => $date->format('M Y'),
+                'count' => $count
+            ];
+        }
+
         // Chỉ hiển thị bài viết đã published trong recent posts (không bao gồm draft)
         $recentPosts = Post::with(['category', 'user'])
             ->where('status', 'published')
@@ -62,7 +78,7 @@ class AdminController extends Controller
             ->limit(5)
             ->get();
 
-        return view('admin.dashboard', compact('stats', 'recentPosts'));
+        return view('admin.dashboard', compact('stats', 'recentPosts', 'chartData'));
     }
 
     /**
