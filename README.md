@@ -41,7 +41,7 @@
 ### Frontend:
 
 -   **CSS Framework:** TailwindCSS
--   **JavaScript:** Vanilla JS + Axios
+-   **JavaScript:** Vanilla JS + Axios + TinyMCE (Rich Text Editor)
 -   **Build Tool:** Vite
 
 ### API & Services:
