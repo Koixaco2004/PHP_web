@@ -38,15 +38,45 @@
 <script>
 let confirmationCallback = null;
 
-window.showConfirmationModal = function(title, message, confirmText, callback) {
+window.showConfirmationModal = function(title, message, confirmText, callback, type = 'delete') {
     document.getElementById('modalTitle').textContent = title;
     document.getElementById('modalMessage').textContent = message;
+
+    let headerBg, headerIconPath, headerIconColor, buttonClass, buttonIconPath, buttonIconColor;
+    if (type === 'approve') {
+        headerBg = 'bg-green-100 dark:bg-green-900';
+        headerIconPath = 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z';
+        headerIconColor = 'text-green-600 dark:text-green-400';
+        buttonClass = 'flex-1 inline-flex items-center justify-center px-4 py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 dark:focus:ring-green-400 dark:focus:ring-offset-gray-800 transition-all duration-200';
+        buttonIconPath = 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z';
+        buttonIconColor = 'text-white';
+    } else {
+        headerBg = 'bg-red-100 dark:bg-red-900';
+        headerIconPath = 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z';
+        headerIconColor = 'text-red-600 dark:text-red-400';
+        buttonClass = 'flex-1 inline-flex items-center justify-center px-4 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-red-400 dark:focus:ring-offset-gray-800 transition-all duration-200';
+        buttonIconPath = 'M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16';
+        buttonIconColor = 'text-white';
+    }
+
+    // Update header icon
+    const headerDiv = document.querySelector('#confirmationModal .flex.items-center.mb-4 div');
+    headerDiv.className = `w-10 h-10 ${headerBg} rounded-full flex items-center justify-center mr-4`;
+    headerDiv.innerHTML = `
+        <svg class="w-5 h-5 ${headerIconColor}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${headerIconPath}"/>
+        </svg>
+    `;
+
+    // Update button
+    document.getElementById('confirmButton').className = buttonClass;
     document.getElementById('confirmButton').innerHTML = `
-        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+        <svg class="w-4 h-4 mr-2 ${buttonIconColor}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${buttonIconPath}"/>
         </svg>
         ${confirmText}
     `;
+
     confirmationCallback = callback;
     document.getElementById('confirmationModal').classList.remove('hidden');
 };

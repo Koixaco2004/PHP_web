@@ -88,9 +88,9 @@
             <!-- Approve Button -->
             <form action="{{ route('admin.posts.approve', $post) }}" method="POST" class="inline-block">
                 @csrf
-                <button type="submit" 
+                <button type="submit"
                         class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors duration-200"
-                        onclick="showConfirmationModal('Xác nhận phê duyệt', 'Bạn có chắc chắn muốn phê duyệt bài viết này?', 'Phê duyệt', function() { this.closest('form').submit(); }); return false;">
+                        onclick="showConfirmationModal('Xác nhận phê duyệt', 'Bạn có chắc chắn muốn phê duyệt bài viết này?', 'Phê duyệt', () => { this.closest('form').submit(); }, 'approve'); return false;">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
