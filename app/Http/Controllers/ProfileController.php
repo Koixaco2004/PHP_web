@@ -44,9 +44,21 @@ class ProfileController extends Controller
             ->with('category')
             ->latest()
             ->paginate(5);
-        $totalComments = Comment::where('user_id', $user->id)->count();
 
-        return view('profile.public', compact('user', 'posts', 'totalComments'));
+        // Tính số bài viết published và approved
+        $publishedPostsCount = Post::where('user_id', $user->id)
+            ->where('status', 'published')
+            ->where('approval_status', 'approved')
+            ->count();
+
+        // Tính số bình luận từ các bài viết published và approved
+        $publishedPostsIds = Post::where('user_id', $user->id)
+            ->where('status', 'published')
+            ->where('approval_status', 'approved')
+            ->pluck('id');
+        $totalComments = Comment::whereIn('post_id', $publishedPostsIds)->count();
+
+        return view('profile.public', compact('user', 'posts', 'publishedPostsCount', 'totalComments'));
     }
 
     /**
