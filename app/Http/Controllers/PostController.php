@@ -260,7 +260,7 @@ class PostController extends Controller
             if ($request->hasFile('file')) {
                 $image = $request->file('file');
 
-                // Use ImgBB service if available
+                // Use ImgBB service
                 if (config('services.imgbb.key')) {
                     $imgbbService = app(\App\Services\ImgBBService::class);
                     $result = $imgbbService->uploadImage($image);
@@ -273,20 +273,18 @@ class PostController extends Controller
                                 'delete_url' => $result['data']['delete_url'] ?? null,
                             ]
                         ]);
+                    } else {
+                        return response()->json([
+                            'success' => false,
+                            'message' => $result['message'] ?? 'Upload thất bại'
+                        ], 400);
                     }
+                } else {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'ImgBB API key chưa được cấu hình'
+                    ], 400);
                 }
-
-                // Fallback to local storage
-                $filename = time() . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
-                $path = $image->storeAs('uploads/tinymce', $filename, 'public');
-
-                return response()->json([
-                    'success' => true,
-                    'data' => [
-                        'url' => asset('storage/' . $path),
-                        'delete_url' => null,
-                    ]
-                ]);
             }
 
             return response()->json([

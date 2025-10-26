@@ -918,16 +918,20 @@ function insertSelectedImage() {
 `;
     }
     
-    const contentTextarea = document.getElementById('content');
-    const currentPos = contentTextarea.selectionStart || 0;
-    const textBefore = contentTextarea.value.substring(0, currentPos);
-    const textAfter = contentTextarea.value.substring(currentPos);
-    
-    contentTextarea.value = textBefore + imageHtml + textAfter;
-    
-    const newPos = currentPos + imageHtml.length;
-    contentTextarea.setSelectionRange(newPos, newPos);
-    contentTextarea.focus();
+    if (tinymce && tinymce.get('content')) {
+        tinymce.get('content').insertContent(imageHtml);
+    } else {
+        const contentTextarea = document.getElementById('content');
+        const currentPos = contentTextarea.selectionStart || 0;
+        const textBefore = contentTextarea.value.substring(0, currentPos);
+        const textAfter = contentTextarea.value.substring(currentPos);
+        
+        contentTextarea.value = textBefore + imageHtml + textAfter;
+        
+        const newPos = currentPos + imageHtml.length;
+        contentTextarea.setSelectionRange(newPos, newPos);
+        contentTextarea.focus();
+    }
     
     closeImageGallery();
 }

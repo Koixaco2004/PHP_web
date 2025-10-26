@@ -10,14 +10,14 @@ document.addEventListener('DOMContentLoaded', function() {
         height: 600,
         menubar: true,
         plugins: [
-            'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+            'advlist', 'autolink', 'lists', 'link', 'charmap', 'preview',
             'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
             'insertdatetime', 'media', 'table', 'help', 'wordcount', 'emoticons',
             'codesample', 'quickbars'
         ],
         toolbar: 'undo redo | blocks | bold italic underline strikethrough | ' +
                  'forecolor backcolor | alignleft aligncenter alignright alignjustify | ' +
-                 'bullist numlist outdent indent | link image customImageGallery media table | ' +
+                 'bullist numlist outdent indent | link customImageGallery media table | ' +
                  'removeformat code fullscreen | help',
         content_style: `
             body { 
@@ -31,97 +31,6 @@ document.addEventListener('DOMContentLoaded', function() {
         skin: document.documentElement.classList.contains('dark') ? 'oxide-dark' : 'oxide',
         content_css: document.documentElement.classList.contains('dark') ? 'dark' : 'default',
         
-        // Cấu hình hình ảnh
-        images_upload_handler: function (blobInfo, progress) {
-            return new Promise((resolve, reject) => {
-                const formData = new FormData();
-                formData.append('file', blobInfo.blob(), blobInfo.filename());
-
-                fetch('{{ route("posts.upload-image") }}', {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                    }
-                })
-                .then(response => response.json())
-                .then(result => {
-                    if (result.success) {
-                        const imageUrl = result.data.url;
-                        const deleteUrl = result.data.delete_url;
-                        
-                        // Thêm ảnh vào uploadedImages array để hiển thị trong phần "Hình ảnh bài viết"
-                        addImageToGallery(imageUrl, deleteUrl, blobInfo.filename());
-                        
-                        resolve(imageUrl);
-                    } else {
-                        reject(result.message || 'Upload thất bại');
-                    }
-                })
-                .catch(error => {
-                    reject('Lỗi kết nối: ' + error.message);
-                });
-            });
-        },
-        
-        // Tự động resize hình ảnh
-        automatic_uploads: true,
-        images_reuse_filename: true,
-        
-        // Cấu hình file picker cho hình ảnh từ gallery
-        file_picker_callback: function(callback, value, meta) {
-            if (meta.filetype === 'image') {
-                // Tạo input file để upload
-                var input = document.createElement('input');
-                input.setAttribute('type', 'file');
-                input.setAttribute('accept', 'image/*');
-                
-                input.onchange = function() {
-                    var file = this.files[0];
-                    
-                    var formData = new FormData();
-                    formData.append('file', file);
-                    
-                    fetch('{{ route("posts.upload-image") }}', {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(result => {
-                        if (result.success) {
-                            const imageUrl = result.data.url;
-                            const deleteUrl = result.data.delete_url;
-                            
-                            // Thêm ảnh vào gallery
-                            if (typeof addImageToGallery === 'function') {
-                                addImageToGallery(imageUrl, deleteUrl, file.name);
-                            }
-                            
-                            // Trả về URL cho TinyMCE
-                            callback(imageUrl, { alt: file.name });
-                        } else {
-                            if (typeof showToast === 'function') {
-                                showToast('Upload thất bại: ' + (result.message || 'Lỗi không xác định'), 'error');
-                            } else {
-                                alert('Upload thất bại: ' + (result.message || 'Lỗi không xác định'));
-                            }
-                        }
-                    })
-                    .catch(error => {
-                        if (typeof showToast === 'function') {
-                            showToast('Lỗi kết nối: ' + error.message, 'error');
-                        } else {
-                            alert('Lỗi kết nối: ' + error.message);
-                        }
-                    });
-                };
-                
-                input.click();
-            }
-        },
         
         // Cấu hình thêm
         branding: false,
@@ -129,10 +38,8 @@ document.addEventListener('DOMContentLoaded', function() {
         resize: true,
         elementpath: false,
         statusbar: true,
+        contextmenu: false,
         
-        // Paste settings
-        paste_data_images: true,
-        paste_as_text: false,
         
         // Link settings
         link_assume_external_targets: 'https',
