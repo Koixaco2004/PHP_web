@@ -8,11 +8,6 @@
         <!-- 403 Illustration -->
         <div class="relative mb-8">
             <div class="text-9xl font-bold text-yellow-200 dark:text-yellow-300 select-none animate-pulse">403</div>
-            <div class="absolute inset-0 flex items-center justify-center">
-                <svg class="w-32 h-32 text-yellow-400 dark:text-yellow-500 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-                </svg>
-            </div>
         </div>
 
         <!-- Error Message -->
