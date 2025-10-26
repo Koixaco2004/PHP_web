@@ -29,7 +29,23 @@ class PostApprovedNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['database'];
+        return ['database', 'mail'];
+    }
+
+    /**
+     * Get the mail representation of the notification.
+     */
+    public function toMail(object $notifiable): MailMessage
+    {
+        return (new MailMessage)
+            ->subject('Bài viết của bạn đã được phê duyệt!')
+            ->greeting('Xin chào ' . $notifiable->name . '!')
+            ->line('Chúng tôi rất vui thông báo rằng bài viết của bạn đã được phê duyệt và hiện đã được xuất bản.')
+            ->line('**Tiêu đề bài viết:** ' . $this->post->title)
+            ->line('**Chuyên mục:** ' . $this->post->category->name)
+            ->action('Xem bài viết', url('/posts/' . $this->post->slug))
+            ->line('Cảm ơn bạn đã đóng góp nội dung chất lượng cho cộng đồng của chúng tôi!')
+            ->salutation('Trân trọng, ' . config('app.name'));
     }
 
     /**

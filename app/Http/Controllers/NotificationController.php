@@ -32,6 +32,21 @@ class NotificationController extends Controller
                     // Rejected posts -> edit page to see rejection reason
                     $redirectUrl = route('posts.edit', $data['post_id']);
                     break;
+                case 'new_post_pending':
+                    // New post pending approval for admin
+                    $post = \App\Models\Post::find($data['post_id']);
+                    if ($post) {
+                        // Nếu bài viết đã được phê duyệt, chuyển đến trang xem bài viết
+                        if ($post->approval_status === 'approved') {
+                            $redirectUrl = route('posts.show', $post->slug);
+                        } else {
+                            // Nếu bài viết chưa được phê duyệt, chuyển đến trang edit để admin xem xét
+                            $redirectUrl = route('posts.edit', $post->id);
+                        }
+                    } else {
+                        $redirectUrl = route('admin.posts.pending');
+                    }
+                    break;
                 case 'reply':
                     // Replies -> view post with comment anchor
                     $post = \App\Models\Post::find($data['post_id']);

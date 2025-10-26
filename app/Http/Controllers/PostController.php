@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\PostImage;
 use App\Models\Category;
+use App\Models\User;
 use App\Services\SearchService;
+use App\Notifications\NewPostPendingNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -93,6 +95,14 @@ class PostController extends Controller
             }
         }
 
+        // Gửi thông báo cho admin nếu bài viết được publish và cần phê duyệt
+        if ($post->status === 'published' && $post->approval_status === 'pending') {
+            $admins = User::where('role', 'admin')->get();
+            foreach ($admins as $admin) {
+                $admin->notify(new NewPostPendingNotification($post));
+            }
+        }
+
         $message = $post->status === 'published'
             ? 'Bài viết đã được gửi đến admin để phê duyệt!'
             : 'Bài viết đã được lưu làm bản nháp thành công!';
@@ -163,6 +173,7 @@ class PostController extends Controller
 
         // Determine approval status based on user role
         $isAdmin = Auth::user()->role === 'admin';
+        $oldApprovalStatus = $post->approval_status; // Lưu trạng thái cũ
         $approvalStatus = $request->status === 'published'
             ? ($isAdmin ? 'approved' : 'pending')
             : $post->approval_status;
@@ -205,6 +216,14 @@ class PostController extends Controller
                         'is_featured' => $imageData['is_featured'] ?? false,
                     ]);
                 }
+            }
+        }
+
+        // Gửi thông báo cho admin nếu bài viết chuyển sang trạng thái pending (từ rejected hoặc draft)
+        if (!$isAdmin && $request->status === 'published' && $approvalStatus === 'pending' && $oldApprovalStatus !== 'pending') {
+            $admins = User::where('role', 'admin')->get();
+            foreach ($admins as $admin) {
+                $admin->notify(new NewPostPendingNotification($post));
             }
         }
 

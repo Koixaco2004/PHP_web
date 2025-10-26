@@ -29,7 +29,24 @@ class PostRejectedNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['database'];
+        return ['database', 'mail'];
+    }
+
+    /**
+     * Get the mail representation of the notification.
+     */
+    public function toMail(object $notifiable): MailMessage
+    {
+        return (new MailMessage)
+            ->subject('Bài viết của bạn đã bị từ chối')
+            ->greeting('Xin chào ' . $notifiable->name . '!')
+            ->line('Rất tiếc, bài viết của bạn đã không được phê duyệt.')
+            ->line('**Tiêu đề bài viết:** ' . $this->post->title)
+            ->line('**Lý do từ chối:** ' . $this->post->rejection_reason)
+            ->line('Vui lòng chỉnh sửa bài viết theo yêu cầu và gửi lại để được xem xét.')
+            ->action('Chỉnh sửa bài viết', url('/posts/' . $this->post->id . '/edit'))
+            ->line('Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng tôi.')
+            ->salutation('Trân trọng, ' . config('app.name'));
     }
 
     /**
