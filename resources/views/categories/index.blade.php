@@ -325,20 +325,22 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('searchInput');
     const categoryRows = document.querySelectorAll('.category-row');
     
-    searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        
-        categoryRows.forEach(row => {
-            const name = row.querySelector('.category-name').textContent.toLowerCase();
-            const description = row.querySelector('.category-description').textContent.toLowerCase();
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
             
-            if (name.includes(searchTerm) || description.includes(searchTerm)) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
+            categoryRows.forEach(row => {
+                const name = row.querySelector('.category-name').textContent.toLowerCase();
+                const description = row.querySelector('.category-description').textContent.toLowerCase();
+                
+                if (name.includes(searchTerm) || description.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
         });
-    });
+    }
     
     window.confirmDelete = function(categoryId, categoryName) {
         deleteFormId = categoryId;
