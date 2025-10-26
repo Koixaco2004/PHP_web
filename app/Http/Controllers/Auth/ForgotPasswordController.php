@@ -10,7 +10,7 @@ use Illuminate\Validation\ValidationException;
 class ForgotPasswordController extends Controller
 {
     /**
-     * Display the form to request a password reset link.
+     * Hiển thị form yêu cầu link đặt lại mật khẩu.
      */
     public function create()
     {
@@ -18,7 +18,7 @@ class ForgotPasswordController extends Controller
     }
 
     /**
-     * Handle an incoming password reset link request.
+     * Xử lý yêu cầu link đặt lại mật khẩu.
      */
     public function store(Request $request)
     {
@@ -26,9 +26,6 @@ class ForgotPasswordController extends Controller
             'email' => ['required', 'email'],
         ]);
 
-        // We will send the password reset link to this user. Once we have attempted
-        // to send the link, we will examine the response then see the message we
-        // need to show to the user. Finally, we'll send out a proper response.
         $status = Password::sendResetLink(
             $request->only('email')
         );

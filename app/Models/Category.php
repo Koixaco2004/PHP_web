@@ -5,6 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Mô hình Category - Quản lý các chuyên mục bài viết.
+ * 
+ * Cung cấp các chức năng lọc, sắp xếp chuyên mục và lấy thông tin bài viết liên quan.
+ */
 class Category extends Model
 {
     use HasFactory;
@@ -25,7 +30,7 @@ class Category extends Model
     ];
 
     /**
-     * Get the posts for the category.
+     * Lấy danh sách bài viết thuộc chuyên mục này.
      */
     public function posts()
     {
@@ -33,7 +38,7 @@ class Category extends Model
     }
 
     /**
-     * Get only active categories.
+     * Scope lọc chỉ các chuyên mục đang hoạt động.
      */
     public function scopeActive($query)
     {
@@ -41,7 +46,7 @@ class Category extends Model
     }
 
     /**
-     * Get categories ordered by sort_order.
+     * Scope sắp xếp chuyên mục theo thứ tự ưu tiên, sau đó theo tên.
      */
     public function scopeOrdered($query)
     {
@@ -49,7 +54,7 @@ class Category extends Model
     }
 
     /**
-     * Get posts count for this category.
+     * Lấy số lượng bài viết đã xuất bản trong chuyên mục này.
      */
     public function getPostsCountAttribute()
     {

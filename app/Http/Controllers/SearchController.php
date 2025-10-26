@@ -19,25 +19,25 @@ class SearchController extends Controller
     }
 
     /**
-     * Display the search page and handle search requests.
+     * Hiển thị trang tìm kiếm và xử lý yêu cầu tìm kiếm.
      */
     public function index(Request $request)
     {
         $query = $request->get('q');
         $filters = $this->extractFilters($request);
-        
-        // Get search results
+
+        // Lấy kết quả tìm kiếm
         $searchResults = $this->searchService->search($query, $filters);
-        
-        // Format search results with highlighting
+
+        // Định dạng kết quả tìm kiếm với việc làm nổi bật
         if (!empty($query)) {
             $searchResults['posts'] = formatSearchResults($searchResults['posts'], $query);
         }
-        
-        // Get filter options
+
+        // Lấy tùy chọn bộ lọc
         $filterOptions = $this->searchService->getFilterOptions();
-        
-        // Prepare data for view
+
+        // Chuẩn bị dữ liệu cho view
         $data = [
             'query' => $query,
             'posts' => $searchResults['posts'],
@@ -52,33 +52,33 @@ class SearchController extends Controller
     }
 
     /**
-     * Handle AJAX search requests for real-time suggestions.
+     * Xử lý yêu cầu tìm kiếm AJAX cho gợi ý thời gian thực.
      */
     public function suggest(Request $request)
     {
         $query = $request->get('q');
-        
+
         if (empty($query) || strlen($query) < 2) {
-            return response()->json([]);
+            return response()->json([]); // Nếu truy vấn quá ngắn, trả về rỗng
         }
 
         $suggestions = $this->searchService->getSuggestions($query);
-        
+
         return response()->json($suggestions);
     }
 
     /**
-     * Get popular search terms.
+     * Lấy các từ khóa tìm kiếm phổ biến.
      */
     public function popular()
     {
         $popularTerms = $this->searchService->getPopularSearchTerms();
-        
+
         return response()->json($popularTerms);
     }
 
     /**
-     * Extract and validate filters from request.
+     * Trích xuất và xác thực bộ lọc từ yêu cầu.
      */
     private function extractFilters(Request $request)
     {
@@ -94,7 +94,7 @@ class SearchController extends Controller
     }
 
     /**
-     * Get available sort options.
+     * Lấy các tùy chọn sắp xếp có sẵn.
      */
     private function getSortOptions()
     {

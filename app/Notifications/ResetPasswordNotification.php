@@ -5,16 +5,23 @@ namespace App\Notifications;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Notifications\Messages\MailMessage;
 
+/**
+ * Thông báo đặt lại mật khẩu tùy chỉnh
+ * 
+ * Lớp này xử lý việc gửi email thông báo đặt lại mật khẩu cho người dùng
+ * với nội dung bằng tiếng Việt.
+ */
 class ResetPasswordNotification extends ResetPassword
 {
     /**
-     * Build the mail representation of the notification.
+     * Tạo nội dung email thông báo đặt lại mật khẩu
      *
-     * @param  mixed  $notifiable
+     * @param  mixed  $notifiable Người dùng nhận thông báo
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
+        // Tạo URL chứa token và email để xác thực yêu cầu đặt lại mật khẩu
         $url = url(config('app.url') . route('password.reset', ['token' => $this->token, 'email' => $notifiable->getEmailForPasswordReset()], false));
 
         return (new MailMessage)

@@ -22,7 +22,7 @@ class PostController extends Controller
         $this->searchService = $searchService;
     }
     /**
-     * Display a listing of the resource.
+     * Hiển thị danh sách bài viết.
      */
     public function index()
     {
@@ -30,7 +30,7 @@ class PostController extends Controller
             $query->where('is_featured', true)->orWhere('sort_order', 0);
         }])->where('status', 'published')->withActiveCategory()->latest()->paginate(10);
 
-        // Get total statistics (matching dashboard logic)
+        // Lấy thống kê tổng hợp (phù hợp với logic dashboard)
         $totalPosts = Post::where('status', 'published')->count();
         $publishedPosts = Post::where('status', 'published')->where('approval_status', 'approved')->count();
         $pendingPosts = Post::where('status', 'published')->where('approval_status', 'pending')->count();
@@ -40,7 +40,7 @@ class PostController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Hiển thị form tạo bài viết mới.
      */
     public function create()
     {
@@ -49,7 +49,7 @@ class PostController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Lưu bài viết mới vào cơ sở dữ liệu.
      */
     public function store(Request $request)
     {
@@ -78,7 +78,7 @@ class PostController extends Controller
             'published_at' => $request->status === 'published' ? now() : null,
         ]);
 
-        // Handle uploaded images
+        // Xử lý hình ảnh đã tải lên
         if ($request->uploaded_images) {
             $uploadedImages = json_decode($request->uploaded_images, true);
 
@@ -111,7 +111,7 @@ class PostController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Hiển thị form chỉnh sửa bài viết.
      */
     public function edit(Post $post)
     {
@@ -122,7 +122,7 @@ class PostController extends Controller
 
         $categories = Category::active()->get();
 
-        // Load images and remove duplicates by URL, also load comments count
+        // Tải hình ảnh và loại bỏ trùng lặp theo URL, cũng tải số lượng bình luận
         $post->loadCount('comments');
         $post->load('images');
         $uniqueImages = $post->images->unique('image_url');
@@ -132,7 +132,7 @@ class PostController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Cập nhật bài viết được chỉ định.
      */
     public function update(Request $request, Post $post)
     {
@@ -151,16 +151,16 @@ class PostController extends Controller
             'deleted_images' => 'nullable|json',
         ]);
 
-        // Generate new slug if title changed
+        // Tạo slug mới nếu tiêu đề thay đổi
         if ($post->title !== $request->title) {
             $newSlug = Str::slug($request->title);
 
-            // If slug is empty, generate a fallback
+            // Nếu slug trống, tạo fallback
             if (empty($newSlug)) {
                 $newSlug = 'post-' . time();
             }
 
-            // Ensure unique slug
+            // Đảm bảo slug duy nhất
             $originalSlug = $newSlug;
             $counter = 1;
             while (Post::where('slug', $newSlug)->where('id', '!=', $post->id)->exists()) {
@@ -171,7 +171,7 @@ class PostController extends Controller
             $newSlug = $post->slug;
         }
 
-        // Determine approval status based on user role
+        // Xác định trạng thái phê duyệt dựa trên vai trò người dùng
         $isAdmin = Auth::user()->role === 'admin';
         $oldApprovalStatus = $post->approval_status; // Lưu trạng thái cũ
         $approvalStatus = $request->status === 'published'
@@ -192,7 +192,7 @@ class PostController extends Controller
             'approved_at' => $isAdmin && $request->status === 'published' ? now() : $post->approved_at,
         ]);
 
-        // Handle deleted images
+        // Xử lý hình ảnh đã xóa
         if ($request->deleted_images) {
             $deletedImages = json_decode($request->deleted_images, true);
             if (is_array($deletedImages)) {
@@ -202,7 +202,7 @@ class PostController extends Controller
             }
         }
 
-        // Handle new uploaded images
+        // Xử lý hình ảnh mới đã tải lên
         if ($request->uploaded_images) {
             $uploadedImages = json_decode($request->uploaded_images, true);
             if (is_array($uploadedImages)) {
@@ -227,10 +227,10 @@ class PostController extends Controller
             }
         }
 
-        // Refresh post to get updated slug
+        // Làm mới bài viết để lấy slug cập nhật
         $post->refresh();
 
-        // Determine message based on approval status
+        // Xác định thông điệp dựa trên trạng thái phê duyệt
         if ($post->status === 'published') {
             $message = $isAdmin
                 ? 'Bài viết được đăng thành công!'
@@ -239,7 +239,7 @@ class PostController extends Controller
             $message = 'Bài viết đã được cập nhật và lưu làm bản nháp thành công!';
         }
 
-        // Redirect logic: If draft, always edit; if published and approved, show; if published and pending, edit
+        // Logic chuyển hướng: Nếu nháp, luôn chỉnh sửa; nếu xuất bản và phê duyệt, hiển thị; nếu xuất bản và chờ, chỉnh sửa
         if ($post->status === 'draft') {
             return redirect()->route('posts.edit', $post)->with('success', $message);
         }
@@ -253,7 +253,7 @@ class PostController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Xóa bài viết được chỉ định.
      */
     public function destroy(Post $post)
     {
@@ -267,7 +267,7 @@ class PostController extends Controller
     }
 
     /**
-     * Upload image for TinyMCE editor
+     * Tải lên hình ảnh cho trình chỉnh sửa TinyMCE.
      */
     public function uploadImage(Request $request)
     {
@@ -311,7 +311,7 @@ class PostController extends Controller
                 'message' => 'Không tìm thấy file'
             ], 400);
         } catch (\Exception $e) {
-            Log::error('TinyMCE Image Upload Error: ' . $e->getMessage());
+            Log::error('Lỗi tải lên hình ảnh TinyMCE: ' . $e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => 'Lỗi upload ảnh: ' . $e->getMessage()

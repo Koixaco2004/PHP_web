@@ -6,17 +6,23 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
+ * CategoryFactory - Tạo dữ liệu giả cho mô hình Category
+ * 
+ * Lớp này tạo ra các bản ghi danh mục với dữ liệu tiếng Việt, bao gồm tên,
+ * mô tả, màu sắc và trạng thái kích hoạt ngẫu nhiên để sử dụng trong testing.
+ * 
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Category>
  */
 class CategoryFactory extends Factory
 {
     /**
-     * Define the model's default state.
+     * Định nghĩa trạng thái mặc định của mô hình
      *
      * @return array<string, mixed>
      */
     public function definition(): array
     {
+        // Danh sách các chủ đề danh mục tiếng Việt
         $vietnameseCategories = [
             'Công nghệ blockchain',
             'Phát triển game',
@@ -30,6 +36,7 @@ class CategoryFactory extends Factory
             'Fintech'
         ];
 
+        // Danh sách các mô tả danh mục tiếng Việt
         $vietnameseDescriptions = [
             'Danh mục chứa các bài viết về công nghệ và lập trình hiện đại.',
             'Chia sẻ kiến thức và kinh nghiệm trong lĩnh vực công nghệ thông tin.',
@@ -38,6 +45,7 @@ class CategoryFactory extends Factory
             'Bài viết chuyên sâu về các công nghệ và framework phổ biến.'
         ];
 
+        // Tạo tên danh mục bằng cách kết hợp chủ đề với số ngẫu nhiên để đảm bảo tính đa dạng
         $name = $this->faker->randomElement($vietnameseCategories) . ' ' . $this->faker->numberBetween(1, 100);
 
         return [
@@ -51,7 +59,9 @@ class CategoryFactory extends Factory
     }
 
     /**
-     * Indicate that the category is active.
+     * Đặt trạng thái danh mục thành kích hoạt
+     * 
+     * @return static
      */
     public function active(): static
     {
@@ -61,7 +71,9 @@ class CategoryFactory extends Factory
     }
 
     /**
-     * Indicate that the category is inactive.
+     * Đặt trạng thái danh mục thành không kích hoạt
+     * 
+     * @return static
      */
     public function inactive(): static
     {

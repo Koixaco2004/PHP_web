@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 class AdminMiddleware
 {
     /**
-     * Handle an incoming request.
+     * Xử lý yêu cầu đến.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
@@ -23,7 +23,7 @@ class AdminMiddleware
 
         /** @var User $user */
         $user = Auth::user();
-        
+
         if (!$user->isAdmin()) {
             abort(403, 'Bạn không có quyền truy cập trang này.');
         }

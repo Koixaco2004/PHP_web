@@ -8,6 +8,10 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use App\Models\Post;
 
+/**
+ * Thông báo cho quản trị viên khi có bài viết mới chờ phê duyệt.
+ * Lưu trữ thông báo trong cơ sở dữ liệu với thông tin chi tiết về bài viết và tác giả.
+ */
 class NewPostPendingNotification extends Notification
 {
     use Queueable;
@@ -15,7 +19,7 @@ class NewPostPendingNotification extends Notification
     public $post;
 
     /**
-     * Create a new notification instance.
+     * Khởi tạo thông báo với bài viết cần phê duyệt.
      */
     public function __construct(Post $post)
     {
@@ -23,9 +27,7 @@ class NewPostPendingNotification extends Notification
     }
 
     /**
-     * Get the notification's delivery channels.
-     *
-     * @return array<int, string>
+     * Xác định kênh phân phối thông báo (chỉ lưu vào cơ sở dữ liệu).
      */
     public function via(object $notifiable): array
     {
@@ -33,7 +35,8 @@ class NewPostPendingNotification extends Notification
     }
 
     /**
-     * Get the database representation of the notification.
+     * Định dạng dữ liệu thông báo để lưu vào cơ sở dữ liệu.
+     * Bao gồm thông tin bài viết và tác giả để hiển thị trong bảng điều khiển.
      */
     public function toDatabase(object $notifiable): array
     {
@@ -48,14 +51,10 @@ class NewPostPendingNotification extends Notification
     }
 
     /**
-     * Get the array representation of the notification.
-     *
-     * @return array<string, mixed>
+     * Định dạng dữ liệu thông báo cho mảng (không sử dụng trong lớp này).
      */
     public function toArray(object $notifiable): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 }

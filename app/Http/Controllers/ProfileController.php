@@ -16,7 +16,7 @@ use Illuminate\Validation\Rules\Password;
 class ProfileController extends Controller
 {
     /**
-     * Display the user's profile.
+     * Hiển thị profile của người dùng.
      */
     public function show()
     {
@@ -30,11 +30,11 @@ class ProfileController extends Controller
     }
 
     /**
-     * Display another user's public profile.
+     * Hiển thị profile công khai của người dùng khác.
      */
     public function showPublic(User $user)
     {
-        // Increment profile views
+        // Tăng số lượt xem profile
         $user->increment('profile_views');
 
         // Chỉ hiển thị bài viết đã published và approved cho public profile
@@ -62,7 +62,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Show the form for editing the user's profile.
+     * Hiển thị form chỉnh sửa profile của người dùng.
      */
     public function edit()
     {
@@ -71,7 +71,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Update the user's profile information.
+     * Cập nhật thông tin profile của người dùng.
      */
     public function update(UpdateProfileRequest $request)
     {
@@ -86,7 +86,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Upload or update user avatar.
+     * Tải lên hoặc cập nhật avatar của người dùng.
      */
     public function uploadAvatar(Request $request)
     {
@@ -96,12 +96,12 @@ class ProfileController extends Controller
 
         $user = Auth::user();
 
-        // Delete old avatar if exists
+        // Xóa avatar cũ nếu tồn tại
         if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
             Storage::disk('public')->delete($user->avatar);
         }
 
-        // Upload new avatar
+        // Tải lên avatar mới
         $avatarPath = $request->file('avatar')->store('avatars', 'public');
 
         User::where('id', $user->id)->update(['avatar' => $avatarPath]);
@@ -110,7 +110,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Show change password form.
+     * Hiển thị form đổi mật khẩu.
      */
     public function showChangePasswordForm()
     {
@@ -119,7 +119,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Update user password.
+     * Cập nhật mật khẩu người dùng.
      */
     public function updatePassword(Request $request)
     {
@@ -143,7 +143,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Show user's posts.
+     * Hiển thị bài viết của người dùng.
      */
     public function posts(Request $request)
     {
@@ -152,27 +152,27 @@ class ProfileController extends Controller
 
         $query = Post::where('user_id', $user->id)->with('category', 'images');
 
-        // Filter by status if specified
+        // Lọc theo trạng thái nếu được chỉ định
         if ($request->has('status') && in_array($request->status, ['published', 'draft'])) {
             $query->where('status', $request->status);
         }
 
-        // Filter by approval status
+        // Lọc theo trạng thái phê duyệt
         if ($request->has('approval') && in_array($request->approval, ['pending', 'approved', 'rejected'])) {
             $query->where('approval_status', $request->approval);
         }
 
-        // Filter by category
+        // Lọc theo chuyên mục
         if ($request->has('category') && $request->category) {
             $query->where('category_id', $request->category);
         }
 
-        // Search by title
+        // Tìm kiếm theo tiêu đề
         if ($request->has('search') && $request->search) {
             $query->where('title', 'like', '%' . $request->search . '%');
         }
 
-        // Sort
+        // Sắp xếp
         $sort = $request->get('sort', 'latest');
         switch ($sort) {
             case 'oldest':
@@ -191,14 +191,14 @@ class ProfileController extends Controller
         $posts = $query->paginate(12);
         $categories = \App\Models\Category::active()->get();
 
-        // Get view mode (normal or grid)
+        // Lấy chế độ xem (bình thường hoặc lưới)
         $viewMode = $request->get('view', 'grid');
 
         return view('profile.posts', compact('user', 'posts', 'categories', 'viewMode'));
     }
 
     /**
-     * Show user's activities.
+     * Hiển thị hoạt động của người dùng.
      */
     public function activities()
     {

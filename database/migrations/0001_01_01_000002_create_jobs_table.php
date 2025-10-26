@@ -7,10 +7,14 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Tạo các bảng cho hệ thống xử lý job và theo dõi lỗi
+     * 
+     * Bao gồm: jobs (hàng đợi công việc), job_batches (nhóm công việc), 
+     * failed_jobs (công việc thất bại)
      */
     public function up(): void
     {
+        // Bảng lưu trữ các công việc đang chờ xử lý
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
             $table->string('queue')->index();
@@ -21,6 +25,7 @@ return new class extends Migration
             $table->unsignedInteger('created_at');
         });
 
+        // Bảng quản lý nhóm công việc và trạng thái xử lý hàng loạt
         Schema::create('job_batches', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->string('name');
@@ -34,6 +39,7 @@ return new class extends Migration
             $table->integer('finished_at')->nullable();
         });
 
+        // Bảng ghi nhận các công việc thất bại để phục vụ debugging và theo dõi
         Schema::create('failed_jobs', function (Blueprint $table) {
             $table->id();
             $table->string('uuid')->unique();
@@ -46,7 +52,7 @@ return new class extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Xóa các bảng được tạo bởi migration khi rollback
      */
     public function down(): void
     {

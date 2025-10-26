@@ -12,7 +12,14 @@ use Illuminate\Support\Facades\DB;
 class SearchService
 {
     /**
-     * Perform search with filters.
+     * Thực hiện tìm kiếm với các bộ lọc
+     *
+     * Tìm kiếm các bài viết theo từ khóa và áp dụng các bộ lọc như danh mục,
+     * tác giả, trạng thái và khoảng thời gian, sau đó sắp xếp kết quả.
+     *
+     * @param string $query Từ khóa tìm kiếm
+     * @param array $filters Mảng các bộ lọc (category, author, status, date_from, date_to, sort, per_page)
+     * @return array Mảng chứa bài viết và tổng số kết quả
      */
     public function search($query, $filters = [])
     {
@@ -38,12 +45,19 @@ class SearchService
     }
 
     /**
-     * Apply search query to builder.
+     * Áp dụng từ khóa tìm kiếm vào truy vấn
+     *
+     * Phân tích từ khóa và tìm kiếm trong các trường tiêu đề, nội dung và tóm tắt.
+     *
+     * @param Builder $builder Truy vấn builder
+     * @param string $query Từ khóa tìm kiếm
+     * @return Builder Truy vấn đã được sửa đổi
      */
     private function applySearchQuery(Builder $builder, string $query): Builder
     {
         $searchTerms = $this->parseSearchTerms($query);
 
+        // Tìm kiếm từng từ khóa trong các trường với logic OR
         return $builder->where(function ($q) use ($searchTerms) {
             foreach ($searchTerms as $term) {
                 $q->orWhere(function ($subQuery) use ($term) {
@@ -56,7 +70,14 @@ class SearchService
     }
 
     /**
-     * Apply filters to builder.
+     * Áp dụng các bộ lọc vào truy vấn
+     *
+     * Lọc bài viết theo danh mục, tác giả, trạng thái và khoảng ngày xuất bản.
+     * Bài viết nháp chỉ có thể được xem bởi tác giả của nó.
+     *
+     * @param Builder $builder Truy vấn builder
+     * @param array $filters Mảng các bộ lọc
+     * @return Builder Truy vấn đã được sửa đổi
      */
     private function applyFilters(Builder $builder, array $filters): Builder
     {
@@ -68,10 +89,9 @@ class SearchService
             $builder->where('user_id', $filters['author']);
         }
 
-        // Draft status chỉ author mới có thể xem, admin không được xem draft của author khác
+        // Bài nháp chỉ tác giả được phép xem, người khác không thể xem nháp của họ
         if (!empty($filters['status']) && Auth::check()) {
             if ($filters['status'] === 'draft') {
-                // Chỉ cho phép xem draft của chính mình
                 $builder->where('status', 'draft')
                     ->where('user_id', Auth::id());
             } elseif ($filters['status'] === 'published') {
@@ -91,7 +111,14 @@ class SearchService
     }
 
     /**
-     * Apply sorting to builder.
+     * Áp dụng sắp xếp kết quả tìm kiếm
+     *
+     * Sắp xếp bài viết theo tiêu chí được chỉ định (mới nhất, cũ nhất, phổ biến, v.v.).
+     *
+     * @param Builder $builder Truy vấn builder
+     * @param string $sort Kiểu sắp xếp
+     * @param string|null $query Từ khóa tìm kiếm (dùng cho sắp xếp theo liên quan)
+     * @return Builder Truy vấn đã được sửa đổi
      */
     private function applySorting(Builder $builder, string $sort, ?string $query = null): Builder
     {
@@ -122,7 +149,14 @@ class SearchService
     }
 
     /**
-     * Apply relevance-based sorting.
+     * Áp dụng sắp xếp dựa trên độ liên quan
+     *
+     * Tính điểm liên quan dựa trên vị trí từ khóa xuất hiện (tiêu đề được ưu tiên cao hơn).
+     * Các từ khóa xuất hiện trước có trọng số lớn hơn.
+     *
+     * @param Builder $builder Truy vấn builder
+     * @param string|null $query Từ khóa tìm kiếm
+     * @return Builder Truy vấn đã được sửa đổi
      */
     private function applyRelevanceSorting(Builder $builder, ?string $query): Builder
     {
@@ -132,10 +166,11 @@ class SearchService
 
         $searchTerms = $this->parseSearchTerms($query);
 
-        // Create relevance scoring
+        // Xây dựng công thức tính điểm liên quan bằng CASE WHEN
+        // Tiêu đề có trọng số 3x, tóm tắt 2x, nội dung 1x
         $relevanceScore = 'CASE ';
         foreach ($searchTerms as $index => $term) {
-            $weight = count($searchTerms) - $index; // Higher weight for first terms
+            $weight = count($searchTerms) - $index;
             $relevanceScore .= "WHEN title LIKE '%{$term}%' THEN " . ($weight * 3) . " ";
             $relevanceScore .= "WHEN excerpt LIKE '%{$term}%' THEN " . ($weight * 2) . " ";
             $relevanceScore .= "WHEN content LIKE '%{$term}%' THEN {$weight} ";
@@ -149,7 +184,12 @@ class SearchService
     }
 
     /**
-     * Parse search terms from query string.
+     * Phân tích từ khóa tìm kiếm
+     *
+     * Tách từ khóa, loại bỏ các từ dừng phổ biến và các từ quá ngắn.
+     *
+     * @param string $query Chuỗi từ khóa
+     * @return array Mảng các từ khóa hợp lệ
      */
     private function parseSearchTerms(string $query): array
     {
@@ -163,7 +203,11 @@ class SearchService
     }
 
     /**
-     * Get filter options for the search form.
+     * Lấy các tùy chọn lọc cho biểu mẫu tìm kiếm
+     *
+     * Trả về danh mục hoạt động và các tác giả có bài viết được xuất bản.
+     *
+     * @return array Mảng chứa danh mục và tác giả
      */
     public function getFilterOptions()
     {
@@ -188,7 +232,12 @@ class SearchService
     }
 
     /**
-     * Get search suggestions for autocomplete.
+     * Lấy gợi ý tìm kiếm để tự động hoàn thành
+     *
+     * Trả về danh sách gợi ý dựa trên tiêu đề bài viết và tên danh mục.
+     *
+     * @param string $query Từ khóa để tìm gợi ý
+     * @return array Mảng các gợi ý
      */
     public function getSuggestions(string $query): array
     {
@@ -198,7 +247,7 @@ class SearchService
 
         $suggestions = [];
 
-        // Get title suggestions
+        // Lấy gợi ý từ tiêu đề bài viết
         $titleSuggestions = Post::published()
             ->where('title', 'like', "%{$query}%")
             ->select('title')
@@ -210,6 +259,7 @@ class SearchService
 
         $suggestions = array_merge($suggestions, $titleSuggestions);
 
+        // Lấy gợi ý từ danh mục
         $categorySuggestions = Category::active()
             ->where('name', 'like', "%{$query}%")
             ->limit(3)
@@ -219,6 +269,7 @@ class SearchService
 
         $suggestions = array_merge($suggestions, $categorySuggestions);
 
+        // Loại bỏ trùng lặp và giới hạn số lượng gợi ý
         $suggestions = array_unique($suggestions);
         $suggestions = array_slice($suggestions, 0, 8);
 
@@ -226,7 +277,11 @@ class SearchService
     }
 
     /**
-     * Get popular search terms (mock implementation).
+     * Lấy danh sách các từ khóa tìm kiếm phổ biến
+     *
+     * Trả về các từ khóa được tìm kiếm nhiều để hiển thị cho người dùng.
+     *
+     * @return array Mảng các từ khóa phổ biến
      */
     public function getPopularSearchTerms(): array
     {
@@ -243,7 +298,13 @@ class SearchService
     }
 
     /**
-     * Get trending posts based on recent views and engagement.
+     * Lấy bài viết xu hướng dựa trên lượt xem và tương tác gần đây
+     *
+     * Trả về các bài viết được xuất bản trong 7 ngày gần đây với lượt xem
+     * và bình luận cao nhất.
+     *
+     * @param int $limit Số bài viết tối đa cần lấy
+     * @return mixed Danh sách bài viết xu hướng
      */
     public function getTrendingPosts(int $limit = 5)
     {
@@ -258,7 +319,13 @@ class SearchService
     }
 
     /**
-     * Get related posts based on category and tags.
+     * Lấy bài viết liên quan dựa trên danh mục
+     *
+     * Trả về các bài viết trong cùng danh mục, không bao gồm bài gốc.
+     *
+     * @param Post $post Bài viết gốc
+     * @param int $limit Số bài viết liên quan tối đa
+     * @return mixed Danh sách bài viết liên quan
      */
     public function getRelatedPosts(Post $post, int $limit = 5)
     {

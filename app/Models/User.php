@@ -7,16 +7,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * Mô hình User - Quản lý dữ liệu người dùng và xác thực
+ * 
+ * Lớp này đại diện cho người dùng trong hệ thống, hỗ trợ xác thực,
+ * quản lý hồ sơ, và tương tác với bài viết, bình luận.
+ */
 class User extends Authenticatable implements MustVerifyEmail
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'name',
         'email',
@@ -33,20 +33,13 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
     /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
+     * Định nghĩa kiểu dữ liệu cho các thuộc tính
      */
     protected function casts(): array
     {
@@ -59,7 +52,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Get the posts for the user.
+     * Lấy danh sách bài viết của người dùng
      */
     public function posts()
     {
@@ -67,7 +60,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Get the comments for the user.
+     * Lấy danh sách bình luận của người dùng
      */
     public function comments()
     {
@@ -75,16 +68,15 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Check if user is admin.
+     * Kiểm tra người dùng có quyền quản trị viên hay không
      */
     public function isAdmin()
     {
         return $this->role === 'admin';
     }
 
-
     /**
-     * Check if user has social login.
+     * Kiểm tra người dùng đã đăng nhập qua mạng xã hội chưa
      */
     public function hasSocialLogin()
     {
@@ -92,7 +84,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Increment profile views.
+     * Tăng số lần xem hồ sơ người dùng
      */
     public function incrementProfileViews()
     {
@@ -100,10 +92,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Send the password reset notification.
-     *
-     * @param  string  $token
-     * @return void
+     * Gửi thông báo đặt lại mật khẩu cho người dùng
      */
     public function sendPasswordResetNotification($token): void
     {
@@ -111,9 +100,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Send the email verification notification.
-     *
-     * @return void
+     * Gửi thông báo xác minh email cho người dùng
      */
     public function sendEmailVerificationNotification(): void
     {

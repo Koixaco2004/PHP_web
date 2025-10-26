@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 class CategoryController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Hiển thị danh sách chuyên mục.
      */
     public function index()
     {
@@ -20,7 +20,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Hiển thị form tạo chuyên mục mới.
      */
     public function create()
     {
@@ -28,7 +28,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Lưu chuyên mục mới vào cơ sở dữ liệu.
      */
     public function store(Request $request)
     {
@@ -48,12 +48,12 @@ class CategoryController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Hiển thị chuyên mục được chỉ định.
      */
     public function show(Category $category)
     {
         $posts = $category->posts()
-            ->with(['user', 'images' => function($query) {
+            ->with(['user', 'images' => function ($query) {
                 $query->where('is_featured', true)->orWhere('sort_order', 0);
             }])
             ->published()
@@ -63,7 +63,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Hiển thị form chỉnh sửa chuyên mục.
      */
     public function edit(Category $category)
     {
@@ -71,7 +71,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Cập nhật chuyên mục được chỉ định.
      */
     public function update(Request $request, Category $category)
     {
@@ -92,7 +92,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Xóa chuyên mục được chỉ định.
      */
     public function destroy(Category $category)
     {

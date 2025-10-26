@@ -14,7 +14,7 @@ use Illuminate\Validation\ValidationException;
 class ResetPasswordController extends Controller
 {
     /**
-     * Display the password reset view.
+     * Hiển thị view đặt lại mật khẩu.
      */
     public function create(Request $request)
     {
@@ -22,7 +22,7 @@ class ResetPasswordController extends Controller
     }
 
     /**
-     * Handle an incoming new password request.
+     * Xử lý yêu cầu mật khẩu mới.
      */
     public function store(Request $request)
     {
@@ -32,9 +32,6 @@ class ResetPasswordController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        // Here we will attempt to reset the user's password. If it is successful we
-        // will update the password on an actual user model and persist it to the
-        // database. Otherwise we will parse the error and return the response.
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user) use ($request) {
@@ -47,9 +44,6 @@ class ResetPasswordController extends Controller
             }
         );
 
-        // If the password was successfully reset, we will redirect the user back to
-        // the application's login screen. If there is an error we can redirect them
-        // back to where they came from with their error message.
         if ($status == Password::PASSWORD_RESET) {
             return redirect()->route('login')->with('status', __($status));
         }

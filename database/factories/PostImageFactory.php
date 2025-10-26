@@ -11,12 +11,14 @@ use App\Models\Post;
 class PostImageFactory extends Factory
 {
     /**
-     * Define the model's default state.
+     * Định nghĩa trạng thái mặc định của model PostImage.
+     * Tạo dữ liệu giả với hình ảnh từ Unsplash và thông tin liên quan.
      *
      * @return array<string, mixed>
      */
     public function definition(): array
     {
+        // Danh sách các URL hình ảnh từ Unsplash với kích thước và chất lượng được tối ưu hóa
         $unsplashImages = [
             'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=600&fit=crop&crop=center&auto=format&q=80',
             'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=600&fit=crop&crop=center&auto=format&q=80',
@@ -48,6 +50,7 @@ class PostImageFactory extends Factory
                 'Công nghệ và innovation',
                 'Team work và collaboration'
             ]),
+            // Caption được tạo với xác suất 60% để tạo dữ liệu đa dạng
             'caption' => fake()->optional(0.6)->randomElement([
                 'Hình ảnh minh họa chủ đề bài viết',
                 'Không gian làm việc hiện đại',
@@ -61,7 +64,8 @@ class PostImageFactory extends Factory
     }
 
     /**
-     * Indicate that the image is featured.
+     * Đánh dấu hình ảnh là ảnh nổi bật.
+     * Đặt thứ tự hiển thị cao nhất (0) để ưu tiên trong danh sách.
      */
     public function featured(): static
     {
@@ -72,12 +76,11 @@ class PostImageFactory extends Factory
     }
 
     /**
-     * Create a small thumbnail image.
+     * Tạo cấu hình cho hình ảnh thumbnail.
+     * Được sử dụng khi cần phiên bản thu nhỏ của hình ảnh gốc.
      */
     public function thumbnail(): static
     {
-        return $this->state(fn(array $attributes) => [
-            // Removed width, height, file_size as they are not used
-        ]);
+        return $this->state(fn(array $attributes) => []);
     }
 }

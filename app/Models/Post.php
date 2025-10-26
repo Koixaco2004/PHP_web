@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
+/**
+ * Model Post - Quản lý bài viết và các mối quan hệ liên quan
+ */
 class Post extends Model
 {
     use HasFactory;
@@ -39,7 +42,7 @@ class Post extends Model
     ];
 
     /**
-     * Get the category that owns the post.
+     * Lấy chuyên mục sở hữu bài viết
      */
     public function category()
     {
@@ -47,7 +50,7 @@ class Post extends Model
     }
 
     /**
-     * Get the user that owns the post.
+     * Lấy người dùng sở hữu bài viết
      */
     public function user()
     {
@@ -55,7 +58,7 @@ class Post extends Model
     }
 
     /**
-     * Get the user who created the post.
+     * Lấy người dùng đã tạo bài viết
      */
     public function creator()
     {
@@ -63,7 +66,7 @@ class Post extends Model
     }
 
     /**
-     * Get the user who last updated the post.
+     * Lấy người dùng đã cập nhật bài viết lần cuối
      */
     public function updater()
     {
@@ -71,7 +74,7 @@ class Post extends Model
     }
 
     /**
-     * Get the admin who approved the post.
+     * Lấy admin đã phê duyệt bài viết
      */
     public function approver()
     {
@@ -79,7 +82,7 @@ class Post extends Model
     }
 
     /**
-     * Get the comments for the post.
+     * Lấy bình luận cho bài viết
      */
     public function comments()
     {
@@ -87,7 +90,7 @@ class Post extends Model
     }
 
     /**
-     * Get only published posts.
+     * Lọc bài viết đã xuất bản (đã duyệt và nằm trong thời gian công khai)
      */
     public function scopePublished($query)
     {
@@ -98,7 +101,7 @@ class Post extends Model
     }
 
     /**
-     * Get posts pending approval.
+     * Lọc bài viết đang chờ phê duyệt
      */
     public function scopePendingApproval($query)
     {
@@ -107,7 +110,7 @@ class Post extends Model
     }
 
     /**
-     * Get approved posts.
+     * Lọc bài viết đã phê duyệt
      */
     public function scopeApproved($query)
     {
@@ -115,7 +118,7 @@ class Post extends Model
     }
 
     /**
-     * Get rejected posts.
+     * Lọc bài viết bị từ chối
      */
     public function scopeRejected($query)
     {
@@ -123,7 +126,7 @@ class Post extends Model
     }
 
     /**
-     * Get posts by category.
+     * Lọc bài viết theo chuyên mục
      */
     public function scopeByCategory($query, $categoryId)
     {
@@ -131,7 +134,7 @@ class Post extends Model
     }
 
     /**
-     * Search posts by keyword.
+     * Tìm kiếm bài viết theo từ khóa trong tiêu đề, nội dung hoặc tóm tắt
      */
     public function scopeSearch($query, $keyword)
     {
@@ -143,7 +146,7 @@ class Post extends Model
     }
 
     /**
-     * Get the images for the post.
+     * Lấy tất cả hình ảnh của bài viết (theo thứ tự)
      */
     public function images()
     {
@@ -151,7 +154,7 @@ class Post extends Model
     }
 
     /**
-     * Get the featured image for the post.
+     * Lấy hình ảnh được đặt làm nổi bật của bài viết
      */
     public function featuredImage()
     {
@@ -159,7 +162,7 @@ class Post extends Model
     }
 
     /**
-     * Get the first image as featured if no featured image is set.
+     * Lấy hình ảnh chính (ưu tiên nổi bật, nếu không có lấy hình đầu tiên)
      */
     public function getMainImageAttribute()
     {
@@ -168,12 +171,13 @@ class Post extends Model
             return $featured->image_url;
         }
 
+        // Fallback lấy hình ảnh đầu tiên nếu không có hình ảnh nổi bật
         $firstImage = $this->images()->first();
         return $firstImage ? $firstImage->image_url : null;
     }
 
     /**
-     * Get featured posts.
+     * Lọc bài viết được đánh dấu nổi bật
      */
     public function scopeFeatured($query)
     {
@@ -181,21 +185,20 @@ class Post extends Model
     }
 
     /**
-     * Get the HTML version of the content (Markdown converted to HTML).
+     * Lấy nội dung dưới dạng HTML (tự động chuyển đổi Markdown nếu cần)
      */
     public function getContentHtmlAttribute()
     {
-        // Check if content is already HTML (contains HTML tags)
+        // Kiểm tra nếu nội dung đã là HTML, nếu không thì chuyển đổi từ Markdown
         if (preg_match('/<[^>]+>/', $this->attributes['content'])) {
             return $this->attributes['content'];
         }
 
-        // Otherwise, convert markdown to HTML
         return Str::markdown($this->attributes['content']);
     }
 
     /**
-     * Get the HTML version of the excerpt (Markdown converted to HTML).
+     * Lấy tóm tắt dưới dạng HTML (chuyển đổi từ Markdown)
      */
     public function getExcerptHtmlAttribute()
     {
@@ -203,7 +206,7 @@ class Post extends Model
     }
 
     /**
-     * Scope to get posts only from active categories.
+     * Lọc bài viết chỉ từ chuyên mục đang hoạt động
      */
     public function scopeWithActiveCategory($query)
     {

@@ -8,12 +8,18 @@ use App\Models\User;
 use App\Models\Comment;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Comment>
+ * CommentFactory - Tạo dữ liệu giả lập cho bình luận
+ * 
+ * Lớp này cung cấp các phương thức để tạo bình luận mẫu với nội dung
+ * tiếng Việt, được liên kết với bài viết và người dùng.
  */
 class CommentFactory extends Factory
 {
     /**
-     * Define the model's default state.
+     * Định nghĩa trạng thái mặc định của mô hình Comment
+     * 
+     * Tạo một bình luận với nội dung ngẫu nhiên từ danh sách tiếng Việt,
+     * kèm theo post_id và user_id được tạo động.
      *
      * @return array<string, mixed>
      */
@@ -46,13 +52,16 @@ class CommentFactory extends Factory
     }
 
     /**
-     * Create a reply comment.
+     * Tạo một bình luận trả lời (nested comment)
+     * 
+     * Thiết lập parent_id để liên kết với bình luận cha,
+     * sử dụng nội dung ngắn hơn cho các trả lời.
      */
     public function reply(): static
     {
         return $this->state(fn(array $attributes) => [
             'parent_id' => Comment::factory(),
-            'content' => $this->faker->paragraph(2), // Shorter replies
+            'content' => $this->faker->paragraph(2),
         ]);
     }
 }

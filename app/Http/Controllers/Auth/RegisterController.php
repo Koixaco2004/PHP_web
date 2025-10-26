@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Hash;
 class RegisterController extends Controller
 {
     /**
-     * Show the registration form.
+     * Hiển thị form đăng ký.
      */
     public function showRegistrationForm()
     {
@@ -20,7 +20,7 @@ class RegisterController extends Controller
     }
 
     /**
-     * Handle the registration request.
+     * Xử lý yêu cầu đăng ký.
      */
     public function register(Request $request)
     {
@@ -34,16 +34,16 @@ class RegisterController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'user', // Default to user role
+            'role' => 'user', // Mặc định vai trò người dùng
         ]);
 
-        // Fire Registered event to trigger verification email
+        // Kích hoạt sự kiện Registered để gửi email xác thực
         event(new Registered($user));
 
-        // Log in user after registration
+        // Đăng nhập người dùng sau khi đăng ký
         Auth::login($user);
 
-        // Redirect to verification notice
+        // Chuyển hướng đến thông báo xác thực
         return redirect()->route('verification.notice')
             ->with('success', 'Đăng ký thành công! Vui lòng kiểm tra email để xác thực tài khoản.');
     }

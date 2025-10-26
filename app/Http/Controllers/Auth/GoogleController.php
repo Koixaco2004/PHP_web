@@ -12,7 +12,7 @@ use Laravel\Socialite\Facades\Socialite;
 class GoogleController extends Controller
 {
     /**
-     * Redirect to Google OAuth
+     * Chuyển hướng đến OAuth của Google.
      */
     public function redirectToGoogle()
     {
@@ -20,32 +20,32 @@ class GoogleController extends Controller
     }
 
     /**
-     * Handle Google OAuth callback
+     * Xử lý callback OAuth của Google.
      */
     public function handleGoogleCallback()
     {
         try {
             $googleUser = Socialite::driver('google')->user();
 
-            // Find user with matching email
+            // Tìm người dùng với email khớp
             $user = User::where('email', $googleUser->getEmail())->first();
 
             if ($user) {
-                // Update Google ID and avatar if user already exists
+                // Cập nhật Google ID và avatar nếu người dùng đã tồn tại
                 $user->update([
                     'google_id' => $googleUser->getId(),
                     'avatar' => $googleUser->getAvatar(),
                     'email_verified_at' => $user->email_verified_at ?? now(), // Verify email if not verified
                 ]);
             } else {
-                // Create new user
+                // Tạo người dùng mới
                 $user = User::create([
                     'name' => $googleUser->getName(),
                     'email' => $googleUser->getEmail(),
                     'google_id' => $googleUser->getId(),
                     'avatar' => $googleUser->getAvatar(),
-                    'password' => Hash::make(Str::random(16)), // Random password
-                    'email_verified_at' => now(), // Google has verified email
+                    'password' => Hash::make(Str::random(16)), // Mật khẩu ngẫu nhiên
+                    'email_verified_at' => now(), // Google đã xác thực email
                     'role' => 'user',
                 ]);
             }

@@ -5,6 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Mô hình PostImage - Đại diện cho hình ảnh của bài viết.
+ * 
+ * Quản lý thông tin hình ảnh liên kết với bài viết, bao gồm URL, 
+ * văn bản thay thế, và thứ tự hiển thị.
+ */
 class PostImage extends Model
 {
     use HasFactory;
@@ -25,7 +31,7 @@ class PostImage extends Model
     ];
 
     /**
-     * Get the post that owns the image.
+     * Lấy bài viết chứa hình ảnh này.
      */
     public function post()
     {
@@ -33,7 +39,7 @@ class PostImage extends Model
     }
 
     /**
-     * Scope to get featured images only.
+     * Lọc để lấy chỉ các hình ảnh được đánh dấu nổi bật.
      */
     public function scopeFeatured($query)
     {
@@ -41,7 +47,7 @@ class PostImage extends Model
     }
 
     /**
-     * Scope to order by sort_order.
+     * Sắp xếp theo thứ tự hiển thị và thời gian tạo.
      */
     public function scopeOrdered($query)
     {

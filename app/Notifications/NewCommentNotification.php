@@ -9,6 +9,10 @@ use Illuminate\Notifications\Notification;
 use App\Models\Post;
 use App\Models\Comment;
 
+/**
+ * Thông báo khi có bình luận mới cho bài viết của người dùng.
+ * Lưu thông báo vào cơ sở dữ liệu để người dùng xem lịch sử.
+ */
 class NewCommentNotification extends Notification
 {
     use Queueable;
@@ -17,7 +21,7 @@ class NewCommentNotification extends Notification
     public $comment;
 
     /**
-     * Create a new notification instance.
+     * Khởi tạo thông báo với bài viết và bình luận.
      */
     public function __construct(Post $post, Comment $comment)
     {
@@ -26,7 +30,8 @@ class NewCommentNotification extends Notification
     }
 
     /**
-     * Get the notification's delivery channels.
+     * Xác định kênh gửi thông báo.
+     * Sử dụng kênh database để lưu trữ thông báo.
      *
      * @return array<int, string>
      */
@@ -36,7 +41,7 @@ class NewCommentNotification extends Notification
     }
 
     /**
-     * Get the database representation of the notification.
+     * Chuẩn bị dữ liệu thông báo để lưu vào cơ sở dữ liệu.
      */
     public function toDatabase(object $notifiable): array
     {
@@ -53,7 +58,7 @@ class NewCommentNotification extends Notification
     }
 
     /**
-     * Get the array representation of the notification.
+     * Chuyển đổi thông báo thành mảng.
      *
      * @return array<string, mixed>
      */

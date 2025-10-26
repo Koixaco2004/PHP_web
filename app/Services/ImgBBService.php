@@ -6,25 +6,37 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Http;
 use Exception;
 
+/**
+ * Dịch vụ tải lên và quản lý hình ảnh trên ImgBB
+ * 
+ * Cung cấp các chức năng tải lên hình ảnh và xóa hình ảnh từ ImgBB API.
+ */
 class ImgBBService
 {
     private $apiKey;
     private $baseUrl = 'https://api.imgbb.com/1/upload';
 
+    /**
+     * Khởi tạo dịch vụ với API key từ cấu hình ứng dụng
+     */
     public function __construct()
     {
         $this->apiKey = config('services.imgbb.api_key');
     }
 
     /**
-     * Upload image to ImgBB
+     * Tải lên hình ảnh lên ImgBB và trả về thông tin chi tiết
+     * 
+     * @param UploadedFile $file - Tệp hình ảnh cần tải lên
+     * @param string|null $name - Tên tuỳ chỉnh cho hình ảnh (nếu không có sẽ dùng tên tệp gốc)
+     * @return array - Mảng chứa kết quả tải lên (thành công/thất bại và dữ liệu liên quan)
      */
     public function uploadImage(UploadedFile $file, $name = null)
     {
         try {
-            // Convert image to base64
+            // Chuyển đổi hình ảnh sang định dạng Base64 để gửi qua HTTP
             $imageData = base64_encode(file_get_contents($file->getRealPath()));
-            
+
             $response = Http::asForm()->post($this->baseUrl, [
                 'key' => $this->apiKey,
                 'image' => $imageData,
@@ -33,7 +45,7 @@ class ImgBBService
 
             if ($response->successful()) {
                 $data = $response->json();
-                
+
                 if ($data['success']) {
                     return [
                         'success' => true,
@@ -50,19 +62,21 @@ class ImgBBService
 
             return [
                 'success' => false,
-                'message' => 'Failed to upload image to ImgBB'
+                'message' => 'Không thể tải lên hình ảnh lên ImgBB'
             ];
-
         } catch (Exception $e) {
             return [
                 'success' => false,
-                'message' => 'Error uploading image: ' . $e->getMessage()
+                'message' => 'Lỗi khi tải lên hình ảnh: ' . $e->getMessage()
             ];
         }
     }
 
     /**
-     * Delete image from ImgBB
+     * Xóa hình ảnh khỏi ImgBB bằng URL xóa
+     * 
+     * @param string $deleteUrl - URL xóa được cung cấp từ ImgBB
+     * @return bool - Trả về true nếu xóa thành công, false nếu thất bại
      */
     public function deleteImage($deleteUrl)
     {

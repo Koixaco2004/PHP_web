@@ -8,6 +8,12 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use App\Models\Post;
 
+/**
+ * Thông báo phê duyệt bài viết
+ * 
+ * Gửi thông báo đến tác giả khi bài viết của họ được phê duyệt và xuất bản,
+ * thông qua email và cơ sở dữ liệu.
+ */
 class PostApprovedNotification extends Notification
 {
     use Queueable;
@@ -15,7 +21,7 @@ class PostApprovedNotification extends Notification
     public $post;
 
     /**
-     * Create a new notification instance.
+     * Khởi tạo instance thông báo phê duyệt bài viết
      */
     public function __construct(Post $post)
     {
@@ -23,9 +29,7 @@ class PostApprovedNotification extends Notification
     }
 
     /**
-     * Get the notification's delivery channels.
-     *
-     * @return array<int, string>
+     * Xác định các kênh gửi thông báo
      */
     public function via(object $notifiable): array
     {
@@ -33,7 +37,7 @@ class PostApprovedNotification extends Notification
     }
 
     /**
-     * Get the mail representation of the notification.
+     * Tạo nội dung email thông báo phê duyệt bài viết
      */
     public function toMail(object $notifiable): MailMessage
     {
@@ -49,7 +53,7 @@ class PostApprovedNotification extends Notification
     }
 
     /**
-     * Get the database representation of the notification.
+     * Tạo dữ liệu thông báo lưu trong cơ sở dữ liệu
      */
     public function toDatabase(object $notifiable): array
     {
@@ -62,9 +66,7 @@ class PostApprovedNotification extends Notification
     }
 
     /**
-     * Get the array representation of the notification.
-     *
-     * @return array<string, mixed>
+     * Tạo dữ liệu thông báo ở định dạng mảng
      */
     public function toArray(object $notifiable): array
     {

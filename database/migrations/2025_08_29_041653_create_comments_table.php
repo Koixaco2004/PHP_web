@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Tạo bảng comments để lưu trữ bình luận của người dùng.
+     * Hỗ trợ bình luận lồng nhau (reply) và phát hiện nội dung độc hại.
      */
     public function up(): void
     {
@@ -16,11 +17,12 @@ return new class extends Migration
             $table->longText('content');
             $table->foreignId('post_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            // Cho phép null để hỗ trợ bình luận gốc, không null thì là reply
             $table->foreignId('parent_id')->nullable()->constrained('comments')->onDelete('cascade');
             $table->boolean('is_toxic')->default(false);
             $table->timestamps();
 
-            // Indexes
+            // Indexes để tối ưu các truy vấn thường xuyên
             $table->index(['post_id', 'created_at']);
             $table->index(['parent_id']);
             $table->index(['user_id']);
@@ -28,7 +30,7 @@ return new class extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Xóa bảng comments khi rollback migration.
      */
     public function down(): void
     {

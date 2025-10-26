@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Tạo bảng lưu trữ bài viết với các trường thông tin bài viết, trạng thái phê duyệt,
+     * và các chỉ mục để tối ưu hiệu suất truy vấn
      */
     public function up(): void
     {
@@ -17,33 +18,39 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->longText('content');
             $table->text('excerpt')->nullable();
+
+            // Trạng thái bài viết: draft (nháp) hoặc published (đã xuất bản)
             $table->enum('status', ['draft', 'published'])->default('draft');
+
+            // Trạng thái phê duyệt bài viết
             $table->enum('approval_status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->text('rejection_reason')->nullable();
+
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null');
             $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamp('approved_at')->nullable();
+
             $table->integer('view_count')->unsigned()->default(0);
             $table->integer('comment_count')->unsigned()->default(0);
             $table->boolean('is_featured')->default(false);
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
 
-            // Indexes for better performance
+            // Chỉ mục để tối ưu hiệu suất truy vấn
             $table->index(['status', 'published_at']);
             $table->index(['approval_status', 'status']);
             $table->index(['category_id', 'status']);
             $table->index(['user_id', 'status']);
             $table->index('is_featured');
-            $table->fullText(['title', 'excerpt']); // Full text search
+            $table->fullText(['title', 'excerpt']);
         });
     }
 
     /**
-     * Reverse the migrations.
+     * Rollback migration - xóa bảng posts
      */
     public function down(): void
     {
