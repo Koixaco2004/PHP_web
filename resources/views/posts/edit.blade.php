@@ -32,7 +32,7 @@
         </div>
         <div class="flex items-center space-x-2 text-sm flex-shrink-0">
             <span class="px-3 py-1 bg-{{ $post->status === 'published' ? 'primary' : 'yellow' }}-100 dark:bg-{{ $post->status === 'published' ? 'primary' : 'yellow' }}-900 text-{{ $post->status === 'published' ? 'primary' : 'yellow' }}-800 dark:text-{{ $post->status === 'published' ? 'primary' : 'yellow' }}-200 rounded-full font-medium whitespace-nowrap">
-                {{ $post->status === 'published' ? '🚀 Đã xuất bản' : '📝 Bản nháp' }}
+                {{ $post->status === 'published' ? 'Đã xuất bản' : 'Bản nháp' }}
             </span>
         </div>
     </div>

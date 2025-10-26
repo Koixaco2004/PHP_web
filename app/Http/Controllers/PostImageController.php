@@ -32,19 +32,16 @@ class PostImageController extends Controller
 
         foreach ($request->file('images') as $index => $file) {
             $result = $this->imgBBService->uploadImage($file);
-            
+
             if ($result['success']) {
                 $image = PostImage::create([
                     'post_id' => $post->id,
                     'image_url' => $result['data']['image_url'],
                     'delete_url' => $result['data']['delete_url'],
-                    'width' => $result['data']['width'],
-                    'height' => $result['data']['height'],
-                    'file_size' => $result['data']['file_size'],
                     'sort_order' => $index,
                     'is_featured' => $index === 0 && !$post->images()->where('is_featured', true)->exists(),
                 ]);
-                
+
                 $uploadedImages[] = $image;
             } else {
                 $errors[] = "Failed to upload image: " . $file->getClientOriginalName();

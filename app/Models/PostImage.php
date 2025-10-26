@@ -17,18 +17,11 @@ class PostImage extends Model
         'caption',
         'sort_order',
         'is_featured',
-        'file_size',
-        'width',
-        'height',
-        'mime_type',
     ];
 
     protected $casts = [
         'is_featured' => 'boolean',
         'sort_order' => 'integer',
-        'file_size' => 'integer',
-        'width' => 'integer',
-        'height' => 'integer',
     ];
 
     /**

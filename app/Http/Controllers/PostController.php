@@ -87,9 +87,6 @@ class PostController extends Controller
                     'delete_url' => $imageData['delete_url'] ?? null,
                     'alt_text' => $imageData['alt_text'] ?? null,
                     'caption' => $imageData['caption'] ?? null,
-                    'width' => $imageData['width'] ?? null,
-                    'height' => $imageData['height'] ?? null,
-                    'file_size' => $imageData['file_size'] ?? null,
                     'sort_order' => $index,
                     'is_featured' => ($imageData['is_featured'] ?? false) || $index === 0, // First image is featured by default
                 ]);
@@ -188,9 +185,6 @@ class PostController extends Controller
                         'caption' => $imageData['caption'] ?? null,
                         'sort_order' => $post->images()->count() + $index,
                         'is_featured' => $imageData['is_featured'] ?? false,
-                        'width' => $imageData['width'] ?? null,
-                        'height' => $imageData['height'] ?? null,
-                        'file_size' => $imageData['file_size'] ?? null,
                     ]);
                 }
             }
