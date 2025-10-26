@@ -287,6 +287,13 @@ document.addEventListener('DOMContentLoaded', function() {
             plugins: {
                 legend: {
                     display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return 'Số bài viết: ' + context.parsed.y;
+                        }
+                    }
                 }
             }
         }
