@@ -58,6 +58,20 @@
 -   **ML Libraries:** Transformers, PyTorch
 -   **Model:** PhoBERT-based toxic comment classifier (4-class classification)
 
+## 🤖 AI Content Moderation
+
+Hệ thống sử dụng mô hình AI để tự động lọc và phân loại bình luận độc hại (toxic comments) nhằm đảm bảo môi trường thảo luận lành mạnh.
+
+### Chi tiết mô hình:
+
+-   **Tên mô hình:** PhoBERT Vietnamese Comment Classifier
+-   **Repository:** [vanhai123/phobert-vi-comment-4class](https://huggingface.co/vanhai123/phobert-vi-comment-4class)
+-   **Phân loại:** 4 lớp (Positive, Negative, Neutral, Toxic)
+-   **Ngôn ngữ:** Tiếng Việt
+-   **Tích hợp:** API Flask chạy song song với Laravel để xử lý real-time
+
+Mô hình được tải tự động khi khởi động Python API và có thể phân loại bình luận đơn lẻ hoặc hàng loạt.
+
 ## ⚙️ Yêu cầu hệ thống
 
 -   PHP >= 8.2, Composer, MySQL, Node.js >= 18.x, NPM, Python >= 3.11 (cho AI toxic filter).
