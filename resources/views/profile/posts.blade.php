@@ -52,7 +52,7 @@
                 </div>
                 <div>
                     <p class="text-sm text-secondary-600 dark:text-gray-300">Đã phê duyệt</p>
-                    <p class="text-2xl font-bold text-secondary-900 dark:text-white">{{ \App\Models\Post::where('user_id', $user->id)->where('approval_status', 'approved')->count() }}</p>
+                    <p class="text-2xl font-bold text-secondary-900 dark:text-white">{{ \App\Models\Post::where('user_id', $user->id)->where('status', 'published')->where('approval_status', 'approved')->count() }}</p>
                 </div>
             </div>
         </div>
@@ -66,7 +66,7 @@
                 </div>
                 <div>
                     <p class="text-sm text-secondary-600 dark:text-gray-300">Chờ duyệt</p>
-                    <p class="text-2xl font-bold text-secondary-900 dark:text-white">{{ \App\Models\Post::where('user_id', $user->id)->where('approval_status', 'pending')->count() }}</p>
+                    <p class="text-2xl font-bold text-secondary-900 dark:text-white">{{ \App\Models\Post::where('user_id', $user->id)->where('status', 'published')->where('approval_status', 'pending')->count() }}</p>
                 </div>
             </div>
         </div>
@@ -81,7 +81,7 @@
                 </div>
                 <div>
                     <p class="text-sm text-secondary-600 dark:text-gray-300">Lượt xem</p>
-                    <p class="text-2xl font-bold text-secondary-900 dark:text-white">{{ \App\Models\Post::where('user_id', $user->id)->sum('view_count') }}</p>
+                    <p class="text-2xl font-bold text-secondary-900 dark:text-white">{{ \App\Models\Post::where('user_id', $user->id)->where('status', 'published')->sum('view_count') }}</p>
                 </div>
             </div>
         </div>
@@ -101,7 +101,7 @@
                 <div>
                     <label class="block text-sm font-medium text-secondary-700 dark:text-gray-300 mb-2">Trạng thái</label>
                     <select name="status" class="w-full px-4 py-2 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white">
-                        <option value="">Tất cả</option>
+                        <option value="">Tất cả bản nháp</option>
                         <option value="published" {{ request('status') == 'published' ? 'selected' : '' }}>Đã xuất bản</option>
                         <option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>Bản nháp</option>
                     </select>

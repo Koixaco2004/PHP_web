@@ -26,13 +26,13 @@ class PostController extends Controller
     {
         $posts = Post::with(['category', 'user', 'images' => function ($query) {
             $query->where('is_featured', true)->orWhere('sort_order', 0);
-        }])->withActiveCategory()->latest()->paginate(10);
+        }])->where('status', 'published')->withActiveCategory()->latest()->paginate(10);
 
         // Get total statistics (matching dashboard logic)
-        $totalPosts = Post::count();
+        $totalPosts = Post::where('status', 'published')->count();
         $publishedPosts = Post::where('status', 'published')->where('approval_status', 'approved')->count();
         $pendingPosts = Post::where('status', 'published')->where('approval_status', 'pending')->count();
-        $totalViews = Post::sum('view_count');
+        $totalViews = Post::where('status', 'published')->sum('view_count');
 
         return view('posts.index', compact('posts', 'totalPosts', 'publishedPosts', 'pendingPosts', 'totalViews'));
     }
@@ -151,6 +151,12 @@ class PostController extends Controller
             $newSlug = $post->slug;
         }
 
+        // Determine approval status based on user role
+        $isAdmin = Auth::user()->role === 'admin';
+        $approvalStatus = $request->status === 'published'
+            ? ($isAdmin ? 'approved' : 'pending')
+            : $post->approval_status;
+
         $post->update([
             'title' => $request->title,
             'slug' => $newSlug,
@@ -159,8 +165,10 @@ class PostController extends Controller
             'status' => $request->status,
             'category_id' => $request->category_id,
             'updated_by' => Auth::id(),
-            'approval_status' => $request->status === 'published' ? 'pending' : $post->approval_status,
+            'approval_status' => $approvalStatus,
             'published_at' => $request->status === 'published' && !$post->published_at ? now() : ($request->status === 'draft' ? null : $post->published_at),
+            'approved_by' => $isAdmin && $request->status === 'published' ? Auth::id() : $post->approved_by,
+            'approved_at' => $isAdmin && $request->status === 'published' ? now() : $post->approved_at,
         ]);
 
         // Handle deleted images
@@ -193,18 +201,26 @@ class PostController extends Controller
         // Refresh post to get updated slug
         $post->refresh();
 
-        $message = $post->status === 'published'
-            ? 'Bài viết đã được cập nhật và gửi đến admin để phê duyệt lại!'
-            : 'Bài viết đã được cập nhật và lưu làm bản nháp thành công!';
+        // Determine message based on approval status
+        if ($post->status === 'published') {
+            $message = $isAdmin
+                ? 'Bài viết được đăng thành công!'
+                : 'Bài viết đã được cập nhật và gửi đến admin để phê duyệt lại!';
+        } else {
+            $message = 'Bài viết đã được cập nhật và lưu làm bản nháp thành công!';
+        }
 
-        // If post is draft, redirect to edit page instead of show page
-        // because show page only displays published posts
+        // Redirect logic: If draft, always edit; if published and approved, show; if published and pending, edit
         if ($post->status === 'draft') {
             return redirect()->route('posts.edit', $post)->with('success', $message);
         }
 
-        // For published posts, redirect to show page
-        return redirect()->route('posts.show', $post->slug)->with('success', $message);
+        if ($post->approval_status === 'approved') {
+            return redirect()->route('posts.show', $post->slug)->with('success', $message);
+        } else {
+            // For pending approval, redirect to edit to avoid 404
+            return redirect()->route('posts.edit', $post)->with('success', $message);
+        }
     }
 
     /**
