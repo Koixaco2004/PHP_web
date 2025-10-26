@@ -33,10 +33,11 @@ class CommentPolicy
 
     /**
      * Determine whether the user can update the model.
+     * Only the owner can edit their comment, not even admins.
      */
     public function update(User $user, Comment $comment): bool
     {
-        return $user->id === $comment->user_id || $user->isAdmin();
+        return $user->id === $comment->user_id;
     }
 
     /**

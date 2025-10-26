@@ -74,6 +74,42 @@ class CommentController extends Controller
         return back()->with('success', 'Bình luận đã được đăng thành công!');
     }
 
+    /**
+     * Update an existing comment.
+     * Only the owner can edit their comment.
+     */
+    public function update(Request $request, Comment $comment)
+    {
+        $this->authorize('update', $comment);
+
+        $request->validate([
+            'content' => 'required|max:1000',
+        ]);
+
+        // Check if the updated comment is toxic using AI
+        $isToxic = $this->toxicCommentService->isToxic($request->content);
+
+        $comment->update([
+            'content' => $request->content,
+            'is_toxic' => $isToxic,
+        ]);
+
+        // Load relationships for the response
+        $comment->load('user', 'children.user');
+
+        // Check if it's an AJAX request
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Bình luận đã được cập nhật!',
+                'comment' => $comment,
+                'is_toxic' => $isToxic,
+            ]);
+        }
+
+        return back()->with('success', 'Bình luận đã được cập nhật!');
+    }
+
 
     /**
      * Delete a comment.
@@ -82,7 +118,21 @@ class CommentController extends Controller
     {
         $this->authorize('delete', $comment);
 
+        $commentId = $comment->id;
+        $isReply = $comment->parent_id !== null;
+
         $comment->delete();
+
+        // Check if it's an AJAX request
+        if (request()->ajax() || request()->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Bình luận đã được xóa!',
+                'comment_id' => $commentId,
+                'is_reply' => $isReply,
+            ]);
+        }
+
         return back()->with('success', 'Bình luận đã được xóa!');
     }
 }

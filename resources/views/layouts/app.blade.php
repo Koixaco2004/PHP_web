@@ -125,6 +125,26 @@
             animation: slide-in-right 0.3s ease-out;
             transition: opacity 0.3s ease-out, transform 0.3s ease-out;
         }
+
+        /* Comment/Reply animations */
+        @keyframes fade-out {
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+        }
+
+        .comment-deleting {
+            animation: fade-out 0.3s ease-out forwards;
+        }
+
+        .comment-item, [data-reply-id] {
+            transition: all 0.3s ease;
+        }
     </style>
     
     <!-- Vite Assets -->

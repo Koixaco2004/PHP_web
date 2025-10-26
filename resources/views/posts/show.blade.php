@@ -528,6 +528,312 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
+    // Delete comment/reply function
+    window.deleteComment = function(commentId, isReply) {
+        if (!confirm('Bạn có chắc chắn muốn xóa bình luận này?')) {
+            return;
+        }
+
+        const deleteUrl = `/comments/${commentId}`;
+        
+        // Add deleting animation class
+        let elementToDelete;
+        if (isReply) {
+            elementToDelete = document.querySelector(`[data-reply-id="${commentId}"]`);
+        } else {
+            elementToDelete = document.querySelector(`[data-comment-id="${commentId}"]`);
+        }
+        
+        if (elementToDelete) {
+            elementToDelete.classList.add('comment-deleting');
+        }
+        
+        fetch(deleteUrl, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Wait for animation to complete before removing
+                setTimeout(() => {
+                    // Show toast notification
+                    if (typeof showToast === 'function') {
+                        showToast(data.message, 'success');
+                    }
+
+                    // Remove the comment/reply element from DOM
+                    if (isReply) {
+                        const replyElement = document.querySelector(`[data-reply-id="${commentId}"]`);
+                        if (replyElement) {
+                            replyElement.remove();
+                        }
+                    } else {
+                        const commentElement = document.querySelector(`[data-comment-id="${commentId}"]`);
+                        if (commentElement) {
+                            commentElement.remove();
+                            
+                            // Update comment count
+                            const commentsCount = document.getElementById('comments-count');
+                            if (commentsCount) {
+                                const currentCount = parseInt(commentsCount.textContent);
+                                commentsCount.textContent = Math.max(0, currentCount - 1);
+                                
+                                // Show "no comments" message if count is 0
+                                if (currentCount - 1 === 0) {
+                                    const commentsList = document.getElementById('comments-list');
+                                    if (commentsList && commentsList.children.length === 0) {
+                                        commentsList.innerHTML = `
+                                            <div class="text-center py-8" id="no-comments-message">
+                                                <svg class="w-16 h-16 text-secondary-300 dark:text-gray-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                                                </svg>
+                                                <h4 class="text-lg font-medium text-secondary-900 dark:text-primary-400-dark mb-2">Chưa có bình luận nào</h4>
+                                                <p class="text-secondary-500 dark:text-gray-400">Hãy là người đầu tiên bình luận về bài viết này!</p>
+                                            </div>
+                                        `;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }, 300); // Wait for animation to complete
+            } else {
+                // Remove animation class on error
+                if (elementToDelete) {
+                    elementToDelete.classList.remove('comment-deleting');
+                }
+                if (typeof showToast === 'function') {
+                    showToast(data.message || 'Có lỗi xảy ra khi xóa bình luận!', 'error');
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // Remove animation class on error
+            if (elementToDelete) {
+                elementToDelete.classList.remove('comment-deleting');
+            }
+            if (typeof showToast === 'function') {
+                showToast('Có lỗi xảy ra khi xóa bình luận!', 'error');
+            }
+        });
+    };
+
+    // Show edit form for comment
+    window.showEditComment = function(commentId) {
+        const displayDiv = document.querySelector(`.comment-content-display-${commentId}`);
+        const editDiv = document.querySelector(`.comment-edit-form-${commentId}`);
+        
+        if (displayDiv && editDiv) {
+            displayDiv.classList.add('hidden');
+            editDiv.classList.remove('hidden');
+            editDiv.querySelector('textarea').focus();
+        }
+    };
+
+    // Cancel edit for comment
+    window.cancelEditComment = function(commentId) {
+        const displayDiv = document.querySelector(`.comment-content-display-${commentId}`);
+        const editDiv = document.querySelector(`.comment-edit-form-${commentId}`);
+        
+        if (displayDiv && editDiv) {
+            editDiv.classList.add('hidden');
+            displayDiv.classList.remove('hidden');
+        }
+    };
+
+    // Save edited comment
+    window.saveEditComment = function(commentId) {
+        const editDiv = document.querySelector(`.comment-edit-form-${commentId}`);
+        const textarea = editDiv.querySelector('textarea');
+        const newContent = textarea.value.trim();
+
+        if (!newContent) {
+            if (typeof showToast === 'function') {
+                showToast('Nội dung bình luận không được để trống!', 'error');
+            }
+            return;
+        }
+
+        const updateUrl = `/comments/${commentId}`;
+        const saveButton = editDiv.querySelector('button[onclick^="saveEditComment"]');
+        const originalButtonText = saveButton.textContent;
+        
+        saveButton.disabled = true;
+        saveButton.textContent = 'Đang lưu...';
+
+        fetch(updateUrl, {
+            method: 'PUT',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ content: newContent })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Show toast notification
+                if (typeof showToast === 'function') {
+                    showToast(data.message, 'success');
+                }
+
+                // Update the displayed content
+                const displayDiv = document.querySelector(`.comment-content-display-${commentId}`);
+                if (displayDiv) {
+                    if (data.is_toxic) {
+                        // If toxic, update with blur effect
+                        displayDiv.innerHTML = `
+                            <div class="relative mb-3">
+                                <p class="text-secondary-700 dark:text-gray-300 transition-all duration-300 blur-sm select-none">
+                                    ${newContent}
+                                </p>
+                            </div>
+                            <button 
+                                onclick="this.previousElementSibling.querySelector('p').classList.toggle('blur-sm'); this.previousElementSibling.querySelector('p').classList.toggle('select-none');" 
+                                class="text-sm text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 mb-3"
+                            >
+                                Hiển thị/Ẩn nội dung
+                            </button>
+                        `;
+                    } else {
+                        // Normal comment
+                        displayDiv.innerHTML = `<p class="text-secondary-700 dark:text-gray-300 mb-3">${newContent}</p>`;
+                    }
+                }
+
+                // Hide edit form and show display
+                cancelEditComment(commentId);
+            } else {
+                if (typeof showToast === 'function') {
+                    showToast(data.message || 'Có lỗi xảy ra khi cập nhật bình luận!', 'error');
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            if (typeof showToast === 'function') {
+                showToast('Có lỗi xảy ra khi cập nhật bình luận!', 'error');
+            }
+        })
+        .finally(() => {
+            saveButton.disabled = false;
+            saveButton.textContent = originalButtonText;
+        });
+    };
+
+    // Show edit form for reply
+    window.showEditReply = function(replyId) {
+        const displayDiv = document.querySelector(`.reply-content-display-${replyId}`);
+        const editDiv = document.querySelector(`.reply-edit-form-${replyId}`);
+        
+        if (displayDiv && editDiv) {
+            displayDiv.classList.add('hidden');
+            editDiv.classList.remove('hidden');
+            editDiv.querySelector('textarea').focus();
+        }
+    };
+
+    // Cancel edit for reply
+    window.cancelEditReply = function(replyId) {
+        const displayDiv = document.querySelector(`.reply-content-display-${replyId}`);
+        const editDiv = document.querySelector(`.reply-edit-form-${replyId}`);
+        
+        if (displayDiv && editDiv) {
+            editDiv.classList.add('hidden');
+            displayDiv.classList.remove('hidden');
+        }
+    };
+
+    // Save edited reply
+    window.saveEditReply = function(replyId) {
+        const editDiv = document.querySelector(`.reply-edit-form-${replyId}`);
+        const textarea = editDiv.querySelector('textarea');
+        const newContent = textarea.value.trim();
+
+        if (!newContent) {
+            if (typeof showToast === 'function') {
+                showToast('Nội dung bình luận không được để trống!', 'error');
+            }
+            return;
+        }
+
+        const updateUrl = `/comments/${replyId}`;
+        const saveButton = editDiv.querySelector('button[onclick^="saveEditReply"]');
+        const originalButtonText = saveButton.textContent;
+        
+        saveButton.disabled = true;
+        saveButton.textContent = 'Đang lưu...';
+
+        fetch(updateUrl, {
+            method: 'PUT',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ content: newContent })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Show toast notification
+                if (typeof showToast === 'function') {
+                    showToast(data.message, 'success');
+                }
+
+                // Update the displayed content
+                const displayDiv = document.querySelector(`.reply-content-display-${replyId}`);
+                if (displayDiv) {
+                    if (data.is_toxic) {
+                        // If toxic, update with blur effect
+                        displayDiv.innerHTML = `
+                            <div class="relative mb-2">
+                                <p class="text-secondary-700 dark:text-gray-300 text-sm transition-all duration-300 blur-sm select-none">
+                                    ${newContent}
+                                </p>
+                            </div>
+                            <button 
+                                onclick="this.previousElementSibling.querySelector('p').classList.toggle('blur-sm'); this.previousElementSibling.querySelector('p').classList.toggle('select-none');" 
+                                class="text-xs text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 mb-2"
+                            >
+                                Hiển thị/Ẩn
+                            </button>
+                        `;
+                    } else {
+                        // Normal reply
+                        displayDiv.innerHTML = `<p class="text-secondary-700 dark:text-gray-300 text-sm">${newContent}</p>`;
+                    }
+                }
+
+                // Hide edit form and show display
+                cancelEditReply(replyId);
+            } else {
+                if (typeof showToast === 'function') {
+                    showToast(data.message || 'Có lỗi xảy ra khi cập nhật bình luận!', 'error');
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            if (typeof showToast === 'function') {
+                showToast('Có lỗi xảy ra khi cập nhật bình luận!', 'error');
+            }
+        })
+        .finally(() => {
+            saveButton.disabled = false;
+            saveButton.textContent = originalButtonText;
+        });
+    };
+
     window.sharePost = function(platform) {
         const url = encodeURIComponent(window.location.href);
         const title = encodeURIComponent(document.title);

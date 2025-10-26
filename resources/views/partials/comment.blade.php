@@ -12,24 +12,40 @@
                     <time class="text-sm text-secondary-500 dark:text-gray-400">{{ $comment->created_at->format('d/m/Y H:i') }}</time>
                 </div>
                 
-                @if($comment->is_toxic)
-                    <!-- Toxic comment with blur effect -->
-                    <div class="relative mb-3">
-                        <p class="text-secondary-700 dark:text-gray-300 transition-all duration-300" :class="!showToxic ? 'blur-sm select-none' : ''">
-                            {{ $comment->content }}
-                        </p>
+                <!-- Comment Content Display -->
+                <div class="comment-content-display-{{ $comment->id }}">
+                    @if($comment->is_toxic)
+                        <!-- Toxic comment with blur effect -->
+                        <div class="relative mb-3">
+                            <p class="text-secondary-700 dark:text-gray-300 transition-all duration-300" :class="!showToxic ? 'blur-sm select-none' : ''">
+                                {{ $comment->content }}
+                            </p>
+                        </div>
+                        <button 
+                            @click="showToxic = !showToxic" 
+                            class="text-sm text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 mb-3"
+                        >
+                            <span x-show="!showToxic">Hiển thị nội dung</span>
+                            <span x-show="showToxic">Ẩn nội dung</span>
+                        </button>
+                    @else
+                        <!-- Normal comment -->
+                        <p class="text-secondary-700 dark:text-gray-300 mb-3">{{ $comment->content }}</p>
+                    @endif
+                </div>
+                
+                <!-- Comment Edit Form (Initially Hidden) -->
+                <div class="comment-edit-form-{{ $comment->id }} hidden mb-3">
+                    <textarea class="w-full px-3 py-2 text-sm border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400" rows="3">{{ $comment->content }}</textarea>
+                    <div class="mt-2 flex items-center space-x-2">
+                        <button onclick="saveEditComment({{ $comment->id }})" class="px-3 py-1.5 text-sm bg-primary-600 dark:bg-primary-100-dark text-white dark:text-primary-900-dark rounded-lg hover:bg-primary-700 dark:hover:bg-primary-200-dark transition-colors duration-200">
+                            Lưu
+                        </button>
+                        <button onclick="cancelEditComment({{ $comment->id }})" class="px-3 py-1.5 text-sm bg-secondary-200 dark:bg-gray-600 text-secondary-700 dark:text-gray-300 rounded-lg hover:bg-secondary-300 dark:hover:bg-gray-500 transition-colors duration-200">
+                            Hủy
+                        </button>
                     </div>
-                    <button 
-                        @click="showToxic = !showToxic" 
-                        class="text-sm text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 mb-3"
-                    >
-                        <span x-show="!showToxic">Hiển thị nội dung</span>
-                        <span x-show="showToxic">Ẩn nội dung</span>
-                    </button>
-                @else
-                    <!-- Normal comment -->
-                    <p class="text-secondary-700 dark:text-gray-300 mb-3">{{ $comment->content }}</p>
-                @endif
+                </div>
                 
                 @auth
                     <div class="flex items-center space-x-4 text-sm">
@@ -39,17 +55,21 @@
                             </svg>
                             Trả lời
                         </button>
+                        @can('update', $comment)
+                            <button onclick="showEditComment({{ $comment->id }})" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium flex items-center">
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                </svg>
+                                Sửa
+                            </button>
+                        @endcan
                         @can('delete', $comment)
-                            <form method="POST" action="{{ route('comments.destroy', $comment) }}" class="inline" onsubmit="return confirm('Bạn có chắc chắn muốn xóa bình luận này?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 font-medium flex items-center">
-                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                    </svg>
-                                    Xóa
-                                </button>
-                            </form>
+                            <button onclick="deleteComment({{ $comment->id }}, false)" class="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 font-medium flex items-center">
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                </svg>
+                                Xóa
+                            </button>
                         @endcan
                     </div>
                 @endauth
