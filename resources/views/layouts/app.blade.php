@@ -737,22 +737,6 @@
             mobileNav.classList.toggle('hidden');
         }
 
-        function markAsRead(notificationId) {
-            fetch(`/notifications/${notificationId}/mark-as-read`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                    'Content-Type': 'application/json',
-                },
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success && data.redirect_url) {
-                    window.location.href = data.redirect_url;
-                }
-            })
-            .catch(error => console.error('Error:', error));
-        }
 
         function markAsReadOnly(notificationId) {
             fetch(`/notifications/${notificationId}/mark-as-read-only`, {
