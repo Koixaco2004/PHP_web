@@ -140,11 +140,9 @@ class ProfileController extends Controller
 
         $query = Post::where('user_id', $user->id)->with('category', 'images');
 
-        // Default to draft only, but allow filter if specified
+        // Filter by status if specified
         if ($request->has('status') && in_array($request->status, ['published', 'draft'])) {
             $query->where('status', $request->status);
-        } else {
-            $query->where('status', 'draft');
         }
 
         // Filter by approval status

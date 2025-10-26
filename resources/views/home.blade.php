@@ -105,7 +105,7 @@
 </div>
 
 <!-- Main Content Section -->
-<div x-data="{ viewMode: 'list' }">
+<div x-data="{ viewMode: 'grid' }">
     <!-- Section Header with View Toggle -->
     <div class="mb-8 flex items-center justify-between">
         <h1 class="text-2xl font-bold text-primary-900 dark:text-primary-400-dark">Tin tức mới nhất</h1>

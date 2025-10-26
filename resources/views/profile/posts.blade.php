@@ -101,7 +101,7 @@
                 <div>
                     <label class="block text-sm font-medium text-secondary-700 dark:text-gray-300 mb-2">Trạng thái</label>
                     <select name="status" class="w-full px-4 py-2 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white">
-                        <option value="">Tất cả bản nháp</option>
+                        <option value="" {{ !request('status') ? 'selected' : '' }}>Tất cả</option>
                         <option value="published" {{ request('status') == 'published' ? 'selected' : '' }}>Đã xuất bản</option>
                         <option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>Bản nháp</option>
                     </select>
