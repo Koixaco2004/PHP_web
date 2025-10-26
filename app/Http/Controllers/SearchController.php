@@ -85,7 +85,6 @@ class SearchController extends Controller
         return [
             'category' => $request->get('category'),
             'author' => $request->get('author'),
-            'status' => $request->get('status'),
             'date_from' => $request->get('date_from'),
             'date_to' => $request->get('date_to'),
             'sort' => $request->get('sort', 'relevance'),

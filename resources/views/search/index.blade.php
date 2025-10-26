@@ -86,18 +86,6 @@
                     </div>
                 </div>
                 
-                @auth
-                    @if(auth()->user()->role === 'admin')
-                        <div class="mt-4">
-                            <label class="block text-sm font-medium text-white mb-2">Trạng thái</label>
-                            <select name="status" class="px-3 py-2 border border-secondary-300 rounded-lg bg-white focus:ring-2 focus:ring-white focus:border-white text-sm">
-                                <option value="">Tất cả trạng thái</option>
-                                <option value="published" {{ request('status') == 'published' ? 'selected' : '' }}>Đã xuất bản</option>
-                                <option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>Bản nháp</option>
-                            </select>
-                        </div>
-                    @endif
-                @endauth
             </div>
         </form>
     </div>
@@ -199,18 +187,8 @@
                     </span>
                 @endif
                 
-                @if(request('status'))
-                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-orange-100 text-orange-800">
-                        {{ request('status') == 'published' ? 'Đã xuất bản' : 'Bản nháp' }}
-                        <a href="?{{ http_build_query(request()->except('status')) }}" class="ml-2 text-orange-600 hover:text-orange-800">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                            </svg>
-                        </a>
-                    </span>
-                @endif
                 
-                @if(request()->anyFilled(['q', 'category', 'author', 'date_from', 'date_to', 'status']))
+                @if(request()->anyFilled(['q', 'category', 'author', 'date_from', 'date_to']))
                     <a href="{{ route('search') }}" class="text-sm text-secondary-600 hover:text-secondary-800 underline">
                         Xóa tất cả bộ lọc
                     </a>
@@ -444,20 +422,6 @@
                 Nhập từ khóa vào ô tìm kiếm ở trên để khám phá nội dung phù hợp với bạn.
             </p>
             
-            <!-- Popular Keywords -->
-            <div class="max-w-2xl mx-auto">
-                <h4 class="text-lg font-medium text-secondary-900 mb-4">Từ khóa phổ biến:</h4>
-                <div class="flex flex-wrap justify-center gap-3">
-                    @php
-                        $popularKeywords = ['công nghệ', 'kinh doanh', 'giáo dục', 'sức khỏe', 'du lịch', 'ẩm thực', 'thể thao', 'giải trí'];
-                    @endphp
-                    @foreach($popularKeywords as $keyword)
-                        <a href="?q={{ $keyword }}" class="inline-flex items-center px-4 py-2 bg-white border border-secondary-300 rounded-full text-sm text-secondary-700 hover:bg-primary-50 hover:border-primary-300 hover:text-primary-700 transition-colors duration-200">
-                            {{ $keyword }}
-                        </a>
-                    @endforeach
-                </div>
-            </div>
         </div>
     @endif
 </div>

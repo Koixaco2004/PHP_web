@@ -89,16 +89,6 @@ class SearchService
             $builder->where('user_id', $filters['author']);
         }
 
-        // Bài nháp chỉ tác giả được phép xem, người khác không thể xem nháp của họ
-        if (!empty($filters['status']) && Auth::check()) {
-            if ($filters['status'] === 'draft') {
-                $builder->where('status', 'draft')
-                    ->where('user_id', Auth::id());
-            } elseif ($filters['status'] === 'published') {
-                $builder->where('status', 'published');
-            }
-        }
-
         if (!empty($filters['date_from'])) {
             $builder->whereDate('published_at', '>=', $filters['date_from']);
         }
