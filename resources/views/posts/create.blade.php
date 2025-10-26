@@ -234,11 +234,10 @@
                         </label>
                         
                         <div class="relative">
-                            <textarea class="block w-full px-4 py-4 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400 @error('content') !border-red-500 !focus:ring-red-500 !focus:border-red-500 dark:bg-red-900/20 @enderror" 
-                                      id="content" 
-                                      name="content" 
-                                      placeholder="Viết nội dung chi tiết cho bài viết..."
-                                      required>{{ old('content') }}</textarea>
+                            <textarea class="block w-full px-4 py-4 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark transition-colors duration-200 bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400 @error('content') !border-red-500 !focus:ring-red-500 !focus:border-red-500 dark:bg-red-900/20 @enderror"
+                                      id="content"
+                                      name="content"
+                                      placeholder="Viết nội dung chi tiết cho bài viết...">{{ old('content') }}</textarea>
                         </div>
                         @error('content')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-400 flex items-center">
@@ -639,6 +638,22 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     document.getElementById('postForm').addEventListener('submit', function(e) {
+        // Validate TinyMCE content
+        if (tinymce && tinymce.get('content')) {
+            tinymce.get('content').save();
+            const content = tinymce.get('content').getContent({format: 'text'}).trim();
+            if (!content) {
+                e.preventDefault();
+                if (typeof showToast === 'function') {
+                    showToast('Vui lòng nhập nội dung bài viết', 'error');
+                } else {
+                    alert('Vui lòng nhập nội dung bài viết');
+                }
+                tinymce.get('content').focus();
+                return;
+            }
+        }
+
         const submitButton = e.submitter;
         if (submitButton && submitButton.name === 'action') {
             if (submitButton.value === 'publish') {
