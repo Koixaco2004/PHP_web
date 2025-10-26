@@ -120,7 +120,15 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center">
                                 <div class="flex-shrink-0 h-10 w-10">
-                                    <img class="h-10 w-10 rounded-full object-cover" src="{{ $user->avatar ?? asset('hello.png') }}" alt="{{ $user->name }}">
+                                    @if($user->avatar)
+                                        @if(Str::startsWith($user->avatar, ['http://', 'https://']))
+                                            <img class="h-10 w-10 rounded-full object-cover" src="{{ $user->avatar }}" alt="{{ $user->name }}" onerror="this.src='{{ asset('hello.png') }}'">
+                                        @else
+                                            <img class="h-10 w-10 rounded-full object-cover" src="{{ asset('storage/' . $user->avatar) }}" alt="{{ $user->name }}" onerror="this.src='{{ asset('hello.png') }}'">
+                                        @endif
+                                    @else
+                                        <img class="h-10 w-10 rounded-full object-cover" src="{{ asset('hello.png') }}" alt="{{ $user->name }}">
+                                    @endif
                                 </div>
                                 <div class="ml-4">
                                     <div class="text-sm font-medium text-secondary-900 dark:text-primary-400-dark">

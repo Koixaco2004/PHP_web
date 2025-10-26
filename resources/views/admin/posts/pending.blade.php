@@ -98,7 +98,11 @@
                                     <div class="flex items-center">
                                         <div class="flex-shrink-0 h-10 w-10">
                                             @if($post->user->avatar)
-                                                <img class="h-10 w-10 rounded-full object-cover" src="{{ $post->user->avatar }}" alt="{{ $post->user->name }}">
+                                                @if(Str::startsWith($post->user->avatar, ['http://', 'https://']))
+                                                    <img class="h-10 w-10 rounded-full object-cover" src="{{ $post->user->avatar }}" alt="{{ $post->user->name }}" onerror="this.src='{{ asset('hello.png') }}'">
+                                                @else
+                                                    <img class="h-10 w-10 rounded-full object-cover" src="{{ asset('storage/' . $post->user->avatar) }}" alt="{{ $post->user->name }}" onerror="this.src='{{ asset('hello.png') }}'">
+                                                @endif
                                             @else
                                                 <div class="h-10 w-10 rounded-full bg-primary-500 flex items-center justify-center">
                                                     <span class="text-white font-medium text-sm">{{ strtoupper(substr($post->user->name, 0, 1)) }}</span>

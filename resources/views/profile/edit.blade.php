@@ -38,8 +38,13 @@
                         <div class="relative">
                             <div class="w-32 h-32 rounded-full overflow-hidden bg-gray-100 dark:bg-gray-700 border-4 border-white dark:border-gray-800 shadow-lg">
                                 @if($user->avatar)
-                                    <img id="avatar-preview" src="{{ asset('storage/' . $user->avatar) }}" alt="{{ $user->name }}" 
-                                         class="w-full h-full object-cover">
+                                    @if(Str::startsWith($user->avatar, ['http://', 'https://']))
+                                        <img id="avatar-preview" src="{{ $user->avatar }}" alt="{{ $user->name }}"
+                                             class="w-full h-full object-cover" onerror="this.src='{{ asset('hello.png') }}'">
+                                    @else
+                                        <img id="avatar-preview" src="{{ asset('storage/' . $user->avatar) }}" alt="{{ $user->name }}"
+                                             class="w-full h-full object-cover" onerror="this.src='{{ asset('hello.png') }}'">
+                                    @endif
                                 @else
                                     <div id="avatar-preview" class="w-full h-full flex items-center justify-center bg-gray-300 dark:bg-gray-600">
                                         <svg class="w-16 h-16 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20">

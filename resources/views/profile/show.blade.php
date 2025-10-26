@@ -18,8 +18,13 @@
                         <div class="relative -mt-16 mb-4 sm:mb-0">
                             <div class="w-32 h-32 rounded-full border-2 border-primary-500 dark:border-primary-400-dark shadow-lg overflow-hidden bg-gray-100 dark:bg-gray-700">
                                 @if($user->avatar)
-                                    <img src="{{ asset('storage/' . $user->avatar) }}" alt="{{ $user->name }}"
-                                         class="w-full h-full object-cover">
+                                    @if(Str::startsWith($user->avatar, ['http://', 'https://']))
+                                        <img src="{{ $user->avatar }}" alt="{{ $user->name }}"
+                                             class="w-full h-full object-cover" onerror="this.src='{{ asset('hello.png') }}'">
+                                    @else
+                                        <img src="{{ asset('storage/' . $user->avatar) }}" alt="{{ $user->name }}"
+                                             class="w-full h-full object-cover" onerror="this.src='{{ asset('hello.png') }}'">
+                                    @endif
                                 @else
                                     <img src="{{ asset('hello.png') }}" alt="Default Avatar"
                                          class="w-full h-full object-cover">

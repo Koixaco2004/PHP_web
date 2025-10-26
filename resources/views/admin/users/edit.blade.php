@@ -42,7 +42,15 @@
                     Tên người dùng
                 </label>
                 <div class="flex items-center space-x-3 p-4 bg-secondary-50 dark:bg-gray-700 rounded-lg">
-                    <img class="h-12 w-12 rounded-full object-cover" src="{{ $user->avatar ?? asset('hello.png') }}" alt="{{ $user->name }}">
+                    @if($user->avatar)
+                        @if(Str::startsWith($user->avatar, ['http://', 'https://']))
+                            <img class="h-12 w-12 rounded-full object-cover" src="{{ $user->avatar }}" alt="{{ $user->name }}" onerror="this.src='{{ asset('hello.png') }}'">
+                        @else
+                            <img class="h-12 w-12 rounded-full object-cover" src="{{ asset('storage/' . $user->avatar) }}" alt="{{ $user->name }}" onerror="this.src='{{ asset('hello.png') }}'">
+                        @endif
+                    @else
+                        <img class="h-12 w-12 rounded-full object-cover" src="{{ asset('hello.png') }}" alt="{{ $user->name }}">
+                    @endif
                     <div>
                         <p class="font-medium text-secondary-900 dark:text-primary-400-dark">{{ $user->name }}</p>
                         <p class="text-sm text-secondary-500 dark:text-gray-300">ID: {{ $user->id }}</p>

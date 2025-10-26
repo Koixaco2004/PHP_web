@@ -183,7 +183,15 @@
                             <td class="px-6 py-4 w-[15%]">
                                 <div class="flex items-center overflow-hidden">
                                     <div class="flex-shrink-0 h-8 w-8">
-                                        <img class="h-8 w-8 rounded-full object-cover" src="{{ $post->user->avatar ?? asset('hello.png') }}" alt="{{ $post->user->name }}">
+                                        @if($post->user->avatar)
+                                            @if(Str::startsWith($post->user->avatar, ['http://', 'https://']))
+                                                <img class="h-8 w-8 rounded-full object-cover" src="{{ $post->user->avatar }}" alt="{{ $post->user->name }}" onerror="this.src='{{ asset('hello.png') }}'">
+                                            @else
+                                                <img class="h-8 w-8 rounded-full object-cover" src="{{ asset('storage/' . $post->user->avatar) }}" alt="{{ $post->user->name }}" onerror="this.src='{{ asset('hello.png') }}'">
+                                            @endif
+                                        @else
+                                            <img class="h-8 w-8 rounded-full object-cover" src="{{ asset('hello.png') }}" alt="{{ $post->user->name }}">
+                                        @endif
                                     </div>
                                     <div class="ml-3 overflow-hidden">
                                         <div class="text-sm font-medium text-secondary-900 dark:text-primary-400-dark truncate">

@@ -285,7 +285,11 @@
                             <div class="flex items-center space-x-3 cursor-pointer" onclick="toggleProfileDropdown()">
                                 <div class="w-10 h-10 rounded-full overflow-hidden ring-2 ring-primary-500">
                                     @if(Auth::user()->avatar)
-                                        <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="{{ Auth::user()->name }}" class="w-full h-full object-cover">
+                                        @if(Str::startsWith(Auth::user()->avatar, ['http://', 'https://']))
+                                            <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}" class="w-full h-full object-cover" onerror="this.src='{{ asset('hello.png') }}'">
+                                        @else
+                                            <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="{{ Auth::user()->name }}" class="w-full h-full object-cover" onerror="this.src='{{ asset('hello.png') }}'">
+                                        @endif
                                     @else
                                         <img src="{{ asset('hello.png') }}" alt="Default Avatar" class="w-full h-full object-cover">
                                     @endif

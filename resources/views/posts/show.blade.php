@@ -129,7 +129,11 @@
                     <div class="flex items-center space-x-6">
                         <div class="flex items-center space-x-3">
                             @if($post->user->avatar)
-                                <img src="{{ asset('storage/' . $post->user->avatar) }}" alt="{{ $post->user->name }}" class="w-10 h-10 rounded-full object-cover border-2 border-primary-500">
+                                @if(Str::startsWith($post->user->avatar, ['http://', 'https://']))
+                                    <img src="{{ $post->user->avatar }}" alt="{{ $post->user->name }}" class="w-10 h-10 rounded-full object-cover border-2 border-primary-500" onerror="this.src='{{ asset('hello.png') }}'">
+                                @else
+                                    <img src="{{ asset('storage/' . $post->user->avatar) }}" alt="{{ $post->user->name }}" class="w-10 h-10 rounded-full object-cover border-2 border-primary-500" onerror="this.src='{{ asset('hello.png') }}'">
+                                @endif
                             @else
                                 <img src="{{ asset('hello.png') }}" alt="Default Avatar" class="w-10 h-10 rounded-full object-cover border-2 border-primary-500">
                             @endif

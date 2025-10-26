@@ -87,7 +87,15 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center">
                                 <div class="flex-shrink-0 h-8 w-8">
-                                    <img class="h-8 w-8 rounded-full object-cover" src="{{ $comment->user->avatar ?? asset('hello.png') }}" alt="{{ $comment->user->name }}">
+                                    @if($comment->user->avatar)
+                                        @if(Str::startsWith($comment->user->avatar, ['http://', 'https://']))
+                                            <img class="h-8 w-8 rounded-full object-cover" src="{{ $comment->user->avatar }}" alt="{{ $comment->user->name }}" onerror="this.src='{{ asset('hello.png') }}'">
+                                        @else
+                                            <img class="h-8 w-8 rounded-full object-cover" src="{{ asset('storage/' . $comment->user->avatar) }}" alt="{{ $comment->user->name }}" onerror="this.src='{{ asset('hello.png') }}'">
+                                        @endif
+                                    @else
+                                        <img class="h-8 w-8 rounded-full object-cover" src="{{ asset('hello.png') }}" alt="{{ $comment->user->name }}">
+                                    @endif
                                 </div>
                                 <div class="ml-3">
                                     <div class="text-sm font-medium text-secondary-900 dark:text-primary-400-dark">
