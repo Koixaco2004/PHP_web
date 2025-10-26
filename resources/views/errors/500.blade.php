@@ -6,12 +6,12 @@
 <div class="min-h-screen flex items-center justify-center px-4">
     <div class="max-w-4xl mx-auto text-center">
         <!-- 500 Illustration -->
-        <div class="relative mb-8 animate-bounce">
+        <div class="relative mb-8">
             <div class="text-9xl font-bold text-primary-900 dark:text-primary-300 select-none">500</div>
         </div>
 
         <!-- Error Message -->
-        <div class="animate-fade-in" style="animation-delay: 0.2s">
+        <div class="">
             <h1 class="text-4xl md:text-5xl font-heading font-bold text-secondary-900 dark:text-primary-400-dark mb-4">
                 Oops! Có lỗi xảy ra
             </h1>
@@ -22,7 +22,7 @@
         </div>
 
         <!-- Action Buttons -->
-        <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 mb-12 animate-slide-up" style="animation-delay: 0.4s">
+        <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 mb-12">
             <button onclick="location.reload()" class="btn-primary inline-flex items-center px-8 py-4 text-lg">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
@@ -39,7 +39,7 @@
         </div>
 
         <!-- Help Section -->
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-secondary-200 dark:border-gray-700 p-8 mb-12 animate-slide-up" style="animation-delay: 0.6s">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-secondary-200 dark:border-gray-700 p-8 mb-12">
             <div class="flex items-center justify-center mb-6">
                 <svg class="w-6 h-6 text-primary-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -98,7 +98,7 @@
 
         <!-- Technical Info (for developers) -->
         @if(config('app.debug'))
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-secondary-200 dark:border-gray-700 p-8 animate-fade-in" style="animation-delay: 0.8s">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-secondary-200 dark:border-gray-700 p-8">
             <div class="flex items-center justify-center mb-3">
                 <svg class="w-6 h-6 text-secondary-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>

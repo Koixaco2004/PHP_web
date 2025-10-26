@@ -8,7 +8,7 @@
 
 @section('content')
 <!-- Page Header -->
-<div class="bg-gradient-to-r from-primary-600 to-primary-800 dark:from-primary-800 dark:to-primary-900 rounded-xl shadow-lg p-8 mb-8 animate-slide-up">
+<div class="bg-gradient-to-r from-primary-600 to-primary-800 dark:from-primary-800 dark:to-primary-900 rounded-xl shadow-lg p-8 mb-8">
     <div class="flex items-center justify-between">
         <div class="flex items-center">
             <div class="w-16 h-16 bg-white bg-opacity-20 dark:bg-white dark:bg-opacity-30 rounded-xl flex items-center justify-center mr-6">
@@ -31,7 +31,7 @@
 </div>
 
 <!-- Comments Table -->
-<div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 animate-slide-up">
+<div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700">
     <div class="px-6 py-4 border-b border-secondary-200 dark:border-gray-700">
         <div class="flex items-center justify-between">
             <h2 class="text-xl font-semibold text-secondary-900 dark:text-primary-400-dark flex items-center">

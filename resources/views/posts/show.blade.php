@@ -5,7 +5,7 @@
 @section('content')
 <!-- Draft Status Alert -->
 @if($post->status === 'draft')
-    <div class="bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-700 rounded-lg p-4 mb-6 animate-fade-in">
+    <div class="bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-700 rounded-lg p-4 mb-6">
         <div class="flex items-center">
             <svg class="w-5 h-5 text-yellow-600 dark:text-yellow-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"/>
@@ -26,7 +26,7 @@
 <!-- Approval Status Alert for Published Posts -->
 @if($post->status === 'published')
     @if($post->approval_status === 'pending')
-        <div class="bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-700 rounded-lg p-4 mb-6 animate-fade-in">
+        <div class="bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-700 rounded-lg p-4 mb-6">
             <div class="flex items-center">
                 <svg class="w-5 h-5 text-yellow-600 dark:text-yellow-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -43,7 +43,7 @@
             </div>
         </div>
     @elseif($post->approval_status === 'rejected')
-        <div class="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg p-4 mb-6 animate-fade-in">
+        <div class="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg p-4 mb-6">
             <div class="flex items-center">
                 <svg class="w-5 h-5 text-red-600 dark:text-red-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -63,7 +63,7 @@
 @endif
 
 <!-- Breadcrumb Navigation -->
-<nav class="flex items-center space-x-2 text-sm text-secondary-500 dark:text-gray-400 mb-6 animate-fade-in">
+<nav class="flex items-center space-x-2 text-sm text-secondary-500 dark:text-gray-400 mb-6">
     <a href="{{ route('home') }}" class="hover:text-primary-600 dark:hover:text-primary-400-dark transition-colors duration-200">Trang chủ</a>
     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -81,7 +81,7 @@
     <!-- Main Article Content -->
     <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Article Header -->
-        <article class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 overflow-hidden mb-8 animate-slide-up">
+        <article class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 overflow-hidden mb-8">
             <!-- Category Badge -->
             <div class="p-6 pb-0">
                 <div class="flex items-center justify-between mb-4">
@@ -250,7 +250,7 @@
         </article>
 
         <!-- Comments Section -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 overflow-hidden animate-slide-up" style="animation-delay: 0.1s">
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 overflow-hidden">
             <div class="p-6 border-b border-secondary-200 dark:border-gray-700 bg-secondary-50 dark:bg-gray-700">
                 <h3 class="text-xl font-heading font-semibold text-secondary-900 dark:text-primary-400-dark flex items-center">
                     <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

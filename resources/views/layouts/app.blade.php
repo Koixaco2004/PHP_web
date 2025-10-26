@@ -108,7 +108,6 @@
             align-items: center;
             justify-content: center;
         }
-
         /* Toast Animation */
         @keyframes slide-in-right {
             from {
@@ -145,6 +144,7 @@
         .comment-item, [data-reply-id] {
             transition: all 0.3s ease;
         }
+
     </style>
     
     <!-- Vite Assets -->

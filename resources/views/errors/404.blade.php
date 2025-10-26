@@ -6,12 +6,12 @@
 <div class="min-h-screen flex items-center justify-center px-4">
     <div class="max-w-4xl mx-auto text-center">
         <!-- 404 Illustration -->
-        <div class="relative mb-8 animate-bounce">
+        <div class="relative mb-8">
             <div class="text-9xl font-bold text-primary-900 dark:text-primary-300 select-none">404</div>
         </div>
 
         <!-- Error Message -->
-        <div class="animate-fade-in" style="animation-delay: 0.2s">
+        <div class="">
             <h1 class="text-4xl md:text-5xl font-heading font-bold text-secondary-900 dark:text-primary-400-dark mb-4">
                 Oops! Trang không tìm thấy
             </h1>
@@ -22,7 +22,7 @@
         </div>
 
         <!-- Action Buttons -->
-        <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 mb-12 animate-slide-up" style="animation-delay: 0.4s">
+        <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 mb-12">
             <a href="{{ route('home') }}" class="btn-primary inline-flex items-center px-8 py-4 text-lg">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
@@ -39,7 +39,7 @@
         </div>
 
         <!-- Search Section -->
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-secondary-200 dark:border-gray-700 p-8 mb-12 animate-slide-up" style="animation-delay: 0.6s">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-secondary-200 dark:border-gray-700 p-8 mb-12">
             <div class="flex items-center mb-6">
                 <svg class="w-6 h-6 text-primary-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
@@ -82,15 +82,6 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(typeWriter, 500);
     }
     
-    window.addEventListener('scroll', function() {
-        const illustration = document.querySelector('.animate-bounce');
-        const scrolled = window.pageYOffset;
-        const rate = scrolled * -0.5;
-        
-        if (illustration) {
-            illustration.style.transform = `translateY(${rate}px)`;
-        }
-    });
     
     const searchInput = document.querySelector('input[name="q"]');
     if (searchInput) {
