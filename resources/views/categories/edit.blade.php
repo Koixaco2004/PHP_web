@@ -30,10 +30,15 @@
                 <p class="text-secondary-600 dark:text-gray-300 mt-1">Cập nhật thông tin cho chuyên mục "{{ $category->name }}"</p>
             </div>
         </div>
-        <div class="hidden md:flex items-center space-x-2 text-sm">
+        <div class="flex flex-col items-end space-y-2 text-sm">
             <span class="px-3 py-1 bg-{{ $category->is_active ? 'green' : 'gray' }}-100 dark:bg-{{ $category->is_active ? 'green' : 'gray' }}-900 text-{{ $category->is_active ? 'green' : 'gray' }}-800 dark:text-{{ $category->is_active ? 'green' : 'gray' }}-200 rounded-full font-medium">
                 {{ $category->is_active ? 'Đang hoạt động' : 'Không hoạt động' }}
             </span>
+            <div class="text-right">
+                <p class="text-secondary-600 dark:text-gray-300">Ngày tạo: {{ $category->created_at->format('d/m/Y') }}</p>
+                <p class="text-secondary-600 dark:text-gray-300">Cập nhật: {{ $category->updated_at->format('d/m/Y') }}</p>
+                <p class="text-secondary-600 dark:text-gray-300">Bài viết: {{ $category->posts_count ?? 0 }}</p>
+            </div>
         </div>
     </div>
 </div>
@@ -145,43 +150,6 @@
                     </div>
                 </div>
 
-                <!-- Category Info -->
-                <div class="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900 dark:to-primary-800 rounded-xl p-6 animate-slide-up lg:col-span-2" style="animation-delay: 0.4s">
-                    <div class="flex items-center mb-4">
-                        <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                        <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-400-dark">Thông tin chuyên mục</h3>
-                    </div>
-                    <div class="space-y-4">
-                        <div class="flex items-center justify-between p-4 bg-secondary-50 dark:bg-gray-700 rounded-lg">
-                            <div>
-                                <h4 class="font-medium text-secondary-900 dark:text-primary-400-dark">Ngày tạo</h4>
-                                <p class="text-sm text-secondary-600 dark:text-gray-300">{{ $category->created_at->format('d/m/Y') }}</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between p-4 bg-secondary-50 dark:bg-gray-700 rounded-lg">
-                            <div>
-                                <h4 class="font-medium text-secondary-900 dark:text-primary-400-dark">Cập nhật cuối</h4>
-                                <p class="text-sm text-secondary-600 dark:text-gray-300">{{ $category->updated_at->format('d/m/Y') }}</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between p-4 bg-secondary-50 dark:bg-gray-700 rounded-lg">
-                            <div>
-                                <h4 class="font-medium text-secondary-900 dark:text-primary-400-dark">Số bài viết</h4>
-                                <p class="text-sm text-secondary-600 dark:text-gray-300">{{ $category->posts_count ?? 0 }} bài viết</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between p-4 bg-secondary-50 dark:bg-gray-700 rounded-lg">
-                            <div>
-                                <h4 class="font-medium text-secondary-900 dark:text-primary-400-dark">Trạng thái</h4>
-                                <p class="text-sm {{ $category->is_active ? 'text-primary-600 dark:text-primary-400-dark' : 'text-red-600 dark:text-red-400' }}">
-                                    {{ $category->is_active ? 'Hoạt động' : 'Không hoạt động' }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- Form Actions -->
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up lg:col-span-2" style="animation-delay: 0.4s">
