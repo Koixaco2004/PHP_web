@@ -210,34 +210,38 @@ document.addEventListener('DOMContentLoaded', function() {
         select.addEventListener('change', function() {
             const userId = this.dataset.userId;
             const newRole = this.value;
+            const currentRole = this.dataset.currentRole;
 
-            if (confirm('Bạn có chắc chắn muốn thay đổi vai trò của người dùng này?')) {
-                fetch(`{{ url('/admin/users') }}/${userId}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({ role: newRole })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Vai trò đã được cập nhật thành công!');
-                    } else {
-                        alert('Có lỗi xảy ra khi cập nhật vai trò.');
-                        this.value = this.dataset.currentRole;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Có lỗi xảy ra khi cập nhật vai trò.');
-                    this.value = this.dataset.currentRole;
-                });
-            } else {
-                this.value = this.dataset.currentRole;
-            }
+            showConfirmationModal(
+                'Xác nhận thay đổi vai trò',
+                `Bạn có chắc chắn muốn thay đổi vai trò của người dùng này thành "${newRole === 'admin' ? 'Admin' : 'User'}"?`,
+                'Cập nhật',
+                function() {
+                    fetch(`{{ url('/admin/users') }}/${userId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({ role: newRole })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            showToast(data.message || 'Vai trò đã được cập nhật thành công!', 'success');
+                        } else {
+                            showToast('Có lỗi xảy ra khi cập nhật vai trò.', 'error');
+                            select.value = currentRole;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        showToast('Có lỗi xảy ra khi cập nhật vai trò.', 'error');
+                        select.value = currentRole;
+                    });
+                }
+            );
         });
     });
 });

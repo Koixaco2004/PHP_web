@@ -281,58 +281,22 @@
     @endif
 </div>
 
-<!-- Delete Confirmation Modal -->
-<div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 dark:bg-black dark:bg-opacity-70 z-50 hidden">
-    <div class="flex items-center justify-center min-h-screen px-4">
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-md w-full animate-slide-up">
-        <div class="p-6">
-            <div class="flex items-center mb-4">
-                <div class="w-10 h-10 bg-red-100 dark:bg-red-900 rounded-full flex items-center justify-center mr-4">
-                    <svg class="w-5 h-5 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L3.732 16c-.77.833.192 2.5 1.732 2.5z"/>
-                    </svg>
-                </div>
-                <div>
-                    <h3 class="text-lg font-heading font-semibold text-secondary-900 dark:text-primary-400-dark">Xác nhận xóa</h3>
-                    <p class="text-secondary-500 dark:text-gray-300 text-sm mt-1">Thao tác này không thể hoàn tác</p>
-                </div>
-            </div>
-            
-            <p class="text-secondary-700 dark:text-gray-300 mb-6">
-                Bạn có chắc chắn muốn xóa chuyên mục <span id="categoryName" class="font-semibold text-secondary-900 dark:text-primary-400-dark"></span> không?
-            </p>
-            
-            <div class="flex space-x-3">
-                <button type="button" onclick="closeDeleteModal()" class="btn-secondary flex-1">
-                    Hủy
-                </button>
-                <button type="button" onclick="submitDelete()" class="flex-1 inline-flex items-center justify-center px-4 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-red-400 dark:focus:ring-offset-gray-800 transition-all duration-200">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                    </svg>
-                    Xóa
-                </button>
-            </div>
-        </div>
-        </div>
-    </div>
-</div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     let deleteFormId = null;
-    
+
     const searchInput = document.getElementById('searchInput');
     const categoryRows = document.querySelectorAll('.category-row');
-    
+
     if (searchInput) {
         searchInput.addEventListener('input', function() {
             const searchTerm = this.value.toLowerCase();
-            
+
             categoryRows.forEach(row => {
                 const name = row.querySelector('.category-name').textContent.toLowerCase();
                 const description = row.querySelector('.category-description').textContent.toLowerCase();
-                
+
                 if (name.includes(searchTerm) || description.includes(searchTerm)) {
                     row.style.display = '';
                 } else {
@@ -341,29 +305,20 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
-    
+
     window.confirmDelete = function(categoryId, categoryName) {
         deleteFormId = categoryId;
-        document.getElementById('categoryName').textContent = categoryName;
-        document.getElementById('deleteModal').classList.remove('hidden');
+        showConfirmationModal(
+            'Xác nhận xóa',
+            `Bạn có chắc chắn muốn xóa chuyên mục "${categoryName}" không?`,
+            'Xóa',
+            function() {
+                if (deleteFormId) {
+                    document.getElementById('delete-form-' + deleteFormId).submit();
+                }
+            }
+        );
     };
-    
-    window.closeDeleteModal = function() {
-        document.getElementById('deleteModal').classList.add('hidden');
-        deleteFormId = null;
-    };
-    
-    window.submitDelete = function() {
-        if (deleteFormId) {
-            document.getElementById('delete-form-' + deleteFormId).submit();
-        }
-    };
-    
-    document.getElementById('deleteModal').addEventListener('click', function(e) {
-        if (e.target === this) {
-            closeDeleteModal();
-        }
-    });
 });
 </script>
 

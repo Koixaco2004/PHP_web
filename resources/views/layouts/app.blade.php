@@ -462,6 +462,9 @@
     <!-- Toast Notification Container -->
     <div id="toast-container" class="fixed top-20 right-4 z-50 space-y-2"></div>
 
+    <!-- Confirmation Modal -->
+    @include('partials.confirmation-modal')
+
     <!-- Modern Footer -->
     <footer class="bg-secondary-50 dark:bg-gray-900 text-gray-900 dark:text-white mt-12 border-t border-gray-200 dark:border-gray-700">
         <div class="px-8 sm:px-12 lg:px-20 xl:px-28">
