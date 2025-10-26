@@ -39,10 +39,10 @@
 </div>
 
 <div class="w-full">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="w-full">
         <!-- Main Form -->
-        <div class="lg:col-span-2">
-            <form method="POST" action="{{ route('categories.update', $category) }}" class="space-y-6">
+        <div class="w-full">
+            <form method="POST" action="{{ route('categories.update', $category) }}" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 @csrf
                 @method('PUT')
                 
@@ -120,7 +120,7 @@
                 </div>
 
                 <!-- Settings -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.3s">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up lg:col-span-2" style="animation-delay: 0.3s">
                     <div class="flex items-center mb-4">
                         <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
@@ -145,8 +145,46 @@
                     </div>
                 </div>
 
+                <!-- Category Info -->
+                <div class="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900 dark:to-primary-800 rounded-xl p-6 animate-slide-up lg:col-span-2" style="animation-delay: 0.4s">
+                    <div class="flex items-center mb-4">
+                        <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <h3 class="text-lg font-semibold text-secondary-900 dark:text-primary-400-dark">Thông tin chuyên mục</h3>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 bg-secondary-50 dark:bg-gray-700 rounded-lg">
+                            <div>
+                                <h4 class="font-medium text-secondary-900 dark:text-primary-400-dark">Ngày tạo</h4>
+                                <p class="text-sm text-secondary-600 dark:text-gray-300">{{ $category->created_at->format('d/m/Y') }}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-secondary-50 dark:bg-gray-700 rounded-lg">
+                            <div>
+                                <h4 class="font-medium text-secondary-900 dark:text-primary-400-dark">Cập nhật cuối</h4>
+                                <p class="text-sm text-secondary-600 dark:text-gray-300">{{ $category->updated_at->format('d/m/Y') }}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-secondary-50 dark:bg-gray-700 rounded-lg">
+                            <div>
+                                <h4 class="font-medium text-secondary-900 dark:text-primary-400-dark">Số bài viết</h4>
+                                <p class="text-sm text-secondary-600 dark:text-gray-300">{{ $category->posts_count ?? 0 }} bài viết</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-secondary-50 dark:bg-gray-700 rounded-lg">
+                            <div>
+                                <h4 class="font-medium text-secondary-900 dark:text-primary-400-dark">Trạng thái</h4>
+                                <p class="text-sm {{ $category->is_active ? 'text-primary-600 dark:text-primary-400-dark' : 'text-red-600 dark:text-red-400' }}">
+                                    {{ $category->is_active ? 'Hoạt động' : 'Không hoạt động' }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Form Actions -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.4s">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up lg:col-span-2" style="animation-delay: 0.4s">
                     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
                         <div class="flex items-center text-sm text-secondary-600 dark:text-gray-300">
                             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -174,112 +212,9 @@
             </form>
         </div>
 
-        <!-- Sidebar -->
-        <div class="lg:col-span-1 space-y-6">
-            <!-- Category Info -->
-            <div class="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900 dark:to-primary-800 rounded-xl p-6 animate-slide-up" style="animation-delay: 0.5s">
-                <div class="flex items-center mb-3">
-                    <svg class="w-5 h-5 text-primary-600 dark:text-primary-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    <h3 class="font-semibold text-primary-800 dark:text-primary-100">Thông tin chuyên mục</h3>
-                </div>
-                <div class="space-y-3 text-sm text-primary-700 dark:text-primary-200">
-                    <div class="flex justify-between">
-                        <span>Ngày tạo:</span>
-                        <span class="font-medium">{{ $category->created_at->format('d/m/Y') }}</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span>Cập nhật cuối:</span>
-                        <span class="font-medium">{{ $category->updated_at->format('d/m/Y') }}</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span>Số bài viết:</span>
-                        <span class="font-medium">{{ $category->posts_count ?? 0 }} bài viết</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span>Trạng thái:</span>
-                        <span class="font-medium {{ $category->is_active ? 'text-primary-600 dark:text-primary-400-dark' : 'text-red-600 dark:text-red-400' }}">
-                            {{ $category->is_active ? 'Hoạt động' : 'Không hoạt động' }}
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Preview -->
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.6s">
-                <div class="flex items-center mb-3">
-                    <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                    </svg>
-                    <h3 class="font-semibold text-secondary-900 dark:text-primary-400-dark">Xem trước</h3>
-                </div>
-                <div class="border border-secondary-200 dark:border-gray-600 rounded-lg p-4">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-8 h-8 bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <div class="font-medium text-secondary-900 dark:text-primary-400-dark" id="preview-name">{{ $category->name }}</div>
-                            <div class="text-sm text-secondary-500 dark:text-gray-400" id="preview-description">
-                                {{ $category->description ?: 'Mô tả chuyên mục' }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Actions -->
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.7s">
-                <div class="flex items-center mb-3">
-                    <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                    </svg>
-                    <h3 class="font-semibold text-secondary-900 dark:text-primary-400-dark">Hành động nhanh</h3>
-                </div>
-                <div class="space-y-2">
-                    <a href="{{ route('categories.show', $category) }}" 
-                       class="flex items-center w-full p-3 text-sm text-secondary-700 dark:text-gray-300 hover:bg-secondary-50 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                        </svg>
-                        Xem chuyên mục
-                    </a>
-                    @if($category->posts_count > 0)
-                    <a href="{{ route('categories.show', $category) }}" 
-                       class="flex items-center w-full p-3 text-sm text-secondary-700 dark:text-gray-300 hover:bg-secondary-50 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
-                        </svg>
-                        Quản lý bài viết ({{ $category->posts_count }})
-                    </a>
-                    @endif
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const nameInput = document.getElementById('name');
-    const descriptionInput = document.getElementById('description');
-    const previewName = document.getElementById('preview-name');
-    const previewDescription = document.getElementById('preview-description');
-    
-    nameInput.addEventListener('input', function() {
-        previewName.textContent = this.value || '{{ $category->name }}';
-    });
-    
-    descriptionInput.addEventListener('input', function() {
-        previewDescription.textContent = this.value || '{{ $category->description ?: "Mô tả chuyên mục" }}';
-    });
-});
-</script>
 
 <style>
 /* Toggle Switch */

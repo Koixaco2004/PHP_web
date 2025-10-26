@@ -32,10 +32,10 @@
 </div>
 
 <div class="w-full">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="w-full">
         <!-- Main Form -->
-        <div class="lg:col-span-2">
-            <form method="POST" action="{{ route('categories.store') }}" class="space-y-6">
+        <div class="w-full">
+            <form method="POST" action="{{ route('categories.store') }}" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 @csrf
                 
                 <!-- Category Name -->
@@ -112,7 +112,7 @@
                 </div>
 
                 <!-- Settings -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.3s">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up lg:col-span-2" style="animation-delay: 0.3s">
                     <div class="flex items-center mb-4">
                         <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
@@ -137,7 +137,7 @@
                 </div>
 
                 <!-- Form Actions -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.4s">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up lg:col-span-2" style="animation-delay: 0.4s">
                     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
                         <div class="flex items-center text-sm text-secondary-600 dark:text-gray-300">
                             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -165,105 +165,9 @@
             </form>
         </div>
 
-        <!-- Sidebar -->
-        <div class="lg:col-span-1 space-y-6">
-            <!-- Tips -->
-            <div class="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900 dark:to-primary-800 rounded-xl p-6 animate-slide-up" style="animation-delay: 0.5s">
-                <div class="flex items-center mb-3">
-                    <svg class="w-5 h-5 text-primary-600 dark:text-primary-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
-                    </svg>
-                    <h3 class="font-semibold text-primary-800 dark:text-primary-100">Gợi ý</h3>
-                </div>
-                <ul class="space-y-2 text-sm text-primary-700 dark:text-primary-200">
-                    <li class="flex items-start">
-                        <svg class="w-4 h-4 mt-0.5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                        </svg>
-                        Chọn tên ngắn gọn, dễ hiểu
-                    </li>
-                    <li class="flex items-start">
-                        <svg class="w-4 h-4 mt-0.5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                        </svg>
-                        Mô tả rõ ràng nội dung chuyên mục
-                    </li>
-                    <li class="flex items-start">
-                        <svg class="w-4 h-4 mt-0.5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                        </svg>
-                        Kiểm tra trạng thái hoạt động
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Preview -->
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.6s">
-                <div class="flex items-center mb-3">
-                    <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                    </svg>
-                    <h3 class="font-semibold text-secondary-900 dark:text-primary-400-dark">Xem trước</h3>
-                </div>
-                <div class="border border-secondary-200 dark:border-gray-600 rounded-lg p-4">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-8 h-8 bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <div class="font-medium text-secondary-900 dark:text-primary-400-dark" id="preview-name">Tên chuyên mục</div>
-                            <div class="text-sm text-secondary-500 dark:text-gray-400" id="preview-description">Mô tả chuyên mục</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Recent Categories -->
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.7s">
-                <div class="flex items-center mb-3">
-                    <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    <h3 class="font-semibold text-secondary-900 dark:text-primary-400-dark">Chuyên mục gần đây</h3>
-                </div>
-                <div class="space-y-2 text-sm">
-                    <div class="flex items-center justify-between p-2 hover:bg-secondary-50 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200">
-                        <span class="text-secondary-700 dark:text-gray-300">Tin tức</span>
-                        <span class="text-secondary-500 dark:text-gray-400">5 bài viết</span>
-                    </div>
-                    <div class="flex items-center justify-between p-2 hover:bg-secondary-50 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200">
-                        <span class="text-secondary-700 dark:text-gray-300">Công nghệ</span>
-                        <span class="text-secondary-500 dark:text-gray-400">12 bài viết</span>
-                    </div>
-                    <div class="flex items-center justify-between p-2 hover:bg-secondary-50 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200">
-                        <span class="text-secondary-700 dark:text-gray-300">Thể thao</span>
-                        <span class="text-secondary-500 dark:text-gray-400">8 bài viết</span>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const nameInput = document.getElementById('name');
-    const descriptionInput = document.getElementById('description');
-    const previewName = document.getElementById('preview-name');
-    const previewDescription = document.getElementById('preview-description');
-    
-    nameInput.addEventListener('input', function() {
-        previewName.textContent = this.value || 'Tên chuyên mục';
-    });
-    
-    descriptionInput.addEventListener('input', function() {
-        previewDescription.textContent = this.value || 'Mô tả chuyên mục';
-    });
-});
-</script>
 
 <style>
 /* Toggle Switch */
