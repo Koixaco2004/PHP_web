@@ -48,6 +48,7 @@ class NewCommentNotification extends Notification
             'comment_content' => $this->comment->content,
             'user_id' => $this->comment->user->id,
             'user_name' => $this->comment->user->name,
+            'type' => 'comment',
         ];
     }
 
@@ -66,6 +67,7 @@ class NewCommentNotification extends Notification
             'comment_content' => $this->comment->content,
             'user_id' => $this->comment->user->id,
             'user_name' => $this->comment->user->name,
+            'type' => 'comment',
         ];
     }
 }
