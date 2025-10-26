@@ -124,19 +124,6 @@
                 </div>
             </div>
             
-            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-                <div class="flex items-center">
-                    <div class="p-3 bg-primary-100 dark:bg-primary-900-dark rounded-full">
-                        <svg class="w-6 h-6 text-primary-600 dark:text-primary-400-dark" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"></path>
-                        </svg>
-                    </div>
-                    <div class="ml-4">
-                        <p class="text-2xl font-semibold text-gray-900 dark:text-primary-400-dark">{{ $user->role === 'admin' ? 'Admin' : 'User' }}</p>
-                        <p class="text-gray-500 dark:text-gray-400">Vai trò</p>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <!-- Tabs -->
@@ -217,6 +204,10 @@
                                 </div>
                             </div>
                         @endforeach
+                    </div>
+                    <!-- Pagination -->
+                    <div class="mt-6">
+                        {{ $posts->links() }}
                     </div>
                 @else
                     <div class="text-center py-12">
