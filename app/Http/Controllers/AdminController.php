@@ -80,6 +80,10 @@ class AdminController extends Controller
             'role' => $request->role,
         ]);
 
+        if ($request->expectsJson()) {
+            return response()->json(['success' => true, 'message' => 'Vai trò đã được cập nhật thành công!']);
+        }
+
         return redirect()->route('admin.users.index')->with('success', 'Thông tin người dùng đã được cập nhật!');
     }
 

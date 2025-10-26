@@ -31,7 +31,7 @@
 
 <!-- Edit Form -->
 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-8 animate-slide-up">
-    <form method="POST" action="{{ route('admin.users.update', $user) }}" class="space-y-6">
+    <form method="POST" action="{{ route('admin.users.update', $user) }}" class="space-y-6" onsubmit="return confirm('Bạn có chắc chắn muốn cập nhật thông tin người dùng này?')">
         @csrf
         @method('PUT')
 
