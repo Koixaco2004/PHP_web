@@ -9,10 +9,18 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\NewCommentNotification;
 use App\Notifications\NewReplyNotification;
+use App\Services\ToxicCommentService;
 
 class CommentController extends Controller
 {
     use AuthorizesRequests;
+
+    protected ToxicCommentService $toxicCommentService;
+
+    public function __construct(ToxicCommentService $toxicCommentService)
+    {
+        $this->toxicCommentService = $toxicCommentService;
+    }
 
     /**
      * Store a newly created comment.
@@ -24,11 +32,15 @@ class CommentController extends Controller
             'parent_id' => 'nullable|exists:comments,id',
         ]);
 
+        // Check if the comment is toxic using AI
+        $isToxic = $this->toxicCommentService->isToxic($request->content);
+
         $comment = Comment::create([
             'content' => $request->content,
             'post_id' => $post->id,
             'user_id' => Auth::id(),
             'parent_id' => $request->parent_id,
+            'is_toxic' => $isToxic,
         ]);
 
         // Load relationships for the response

@@ -49,4 +49,12 @@ return [
         'redirect' => env('GOOGLE_REDIRECT_URL', 'http://localhost:8000/auth/google/callback'),
     ],
 
+    'huggingface' => [
+        'token' => env('HUGGINGFACE_API_TOKEN'),
+    ],
+
+    'toxic_api' => [
+        'url' => env('TOXIC_API_URL', 'http://127.0.0.1:5000/classify'),
+    ],
+
 ];

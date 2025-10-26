@@ -1,4 +1,4 @@
-<div class="comment-item animate-slide-up" data-comment-id="{{ $comment->id }}">
+<div class="comment-item animate-slide-up" data-comment-id="{{ $comment->id }}" x-data="{ showToxic: false }">
     <div class="flex space-x-4">
         <div class="flex-shrink-0">
             <div class="w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center">
@@ -11,7 +11,25 @@
                     <h5 class="font-semibold text-secondary-900 dark:text-primary-400-dark">{{ $comment->user->name }}</h5>
                     <time class="text-sm text-secondary-500 dark:text-gray-400">{{ $comment->created_at->format('d/m/Y H:i') }}</time>
                 </div>
-                <p class="text-secondary-700 dark:text-gray-300 mb-3">{{ $comment->content }}</p>
+                
+                @if($comment->is_toxic)
+                    <!-- Toxic comment with blur effect -->
+                    <div class="relative mb-3">
+                        <p class="text-secondary-700 dark:text-gray-300 transition-all duration-300" :class="!showToxic ? 'blur-sm select-none' : ''">
+                            {{ $comment->content }}
+                        </p>
+                    </div>
+                    <button 
+                        @click="showToxic = !showToxic" 
+                        class="text-sm text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 mb-3"
+                    >
+                        <span x-show="!showToxic">Hiển thị nội dung</span>
+                        <span x-show="showToxic">Ẩn nội dung</span>
+                    </button>
+                @else
+                    <!-- Normal comment -->
+                    <p class="text-secondary-700 dark:text-gray-300 mb-3">{{ $comment->content }}</p>
+                @endif
                 
                 @auth
                     <div class="flex items-center space-x-4 text-sm">
