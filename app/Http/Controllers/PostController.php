@@ -248,7 +248,7 @@ class PostController extends Controller
     /**
      * Xóa bài viết được chỉ định.
      */
-    public function destroy(Post $post)
+    public function destroy(Request $request, Post $post)
     {
         // Check if user can delete this post (author or admin)
         if ($post->user_id !== Auth::id() && Auth::user()->role !== 'admin') {
@@ -256,7 +256,27 @@ class PostController extends Controller
         }
 
         $post->delete();
-        return redirect()->route('posts.index')->with('success', 'Bài viết đã được xóa thành công!');
+
+        // Determine redirect based on previous page and user role
+        $referer = $request->header('referer');
+        $redirect = route('posts.index'); // Default to admin posts
+
+        if ($referer) {
+            if (str_contains($referer, '/profile/posts')) {
+                $redirect = route('profile.posts');
+            } elseif (str_contains($referer, '/admin/posts')) {
+                $redirect = route('posts.index');
+            } elseif (str_contains($referer, '/posts/') && str_contains($referer, '/edit')) {
+                // From edit page
+                if (Auth::user()->role === 'admin') {
+                    $redirect = route('posts.index');
+                } else {
+                    $redirect = route('profile.posts');
+                }
+            }
+        }
+
+        return redirect($redirect)->with('success', 'Bài viết đã được xóa thành công!');
     }
 
     /**
