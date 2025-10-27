@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
         Paginator::defaultView('vendor.pagination.tailwind');
 
         // Chia sẻ danh mục (chỉ những danh mục hoạt động) với các view chỉ định
-        // Thực hiện truy vấn này để lấy số lượng bài viết đã xuất bản cho mỗi danh mục,
+        // Thực hiện truy vấn này để lấy số lượng bài viết đã được phê duyệt cho mỗi danh mục,
         // từ đó hỗ trợ hiển thị tính toán động trong thanh điều hướng
         View::composer(['layouts.app', 'home', 'posts.*'], function ($view) {
             $navigationCategories = Category::active()

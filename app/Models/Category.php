@@ -54,7 +54,7 @@ class Category extends Model
     }
 
     /**
-     * Lấy số lượng bài viết đã xuất bản trong chuyên mục này.
+     * Lấy số lượng bài viết đã được phê duyệt trong chuyên mục này.
      */
     public function getPostsCountAttribute()
     {

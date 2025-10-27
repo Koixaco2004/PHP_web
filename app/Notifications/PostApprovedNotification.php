@@ -11,7 +11,8 @@ use App\Models\Post;
 /**
  * Thông báo phê duyệt bài viết
  * 
- * Gửi thông báo đến tác giả khi bài viết của họ được phê duyệt và xuất bản,
+ * /**
+ * Gửi thông báo đến tác giả khi bài viết của họ được phê duyệt,
  * thông qua email và cơ sở dữ liệu.
  */
 class PostApprovedNotification extends Notification
@@ -44,7 +45,7 @@ class PostApprovedNotification extends Notification
         return (new MailMessage)
             ->subject('Bài viết của bạn đã được phê duyệt!')
             ->greeting('Xin chào ' . $notifiable->name . '!')
-            ->line('Chúng tôi rất vui thông báo rằng bài viết của bạn đã được phê duyệt và hiện đã được xuất bản.')
+            ->line('Chúng tôi rất vui thông báo rằng bài viết của bạn đã được phê duyệt và hiện đã được hiển thị công khai.')
             ->line('**Tiêu đề bài viết:** ' . $this->post->title)
             ->line('**Chuyên mục:** ' . $this->post->category->name)
             ->action('Xem bài viết', url('/posts/' . $this->post->slug))

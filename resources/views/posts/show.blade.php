@@ -3,16 +3,16 @@
 @section('title', $post->title)
 
 @section('content')
-<!-- Draft Status Alert -->
-@if($post->status === 'draft')
+<!-- Approval Status Alert -->
+@if($post->approval_status === 'pending')
     <div class="bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-700 rounded-lg p-4 mb-6">
         <div class="flex items-center">
             <svg class="w-5 h-5 text-yellow-600 dark:text-yellow-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
             <div>
-                <p class="text-yellow-800 dark:text-yellow-200 font-medium">Bài viết ở trạng thái bản nháp</p>
-                <p class="text-yellow-700 dark:text-yellow-300 text-sm">Chỉ bạn và quản trị viên có thể xem bài viết này. Công chúng chưa thể truy cập.</p>
+                <p class="text-yellow-800 dark:text-yellow-200 font-medium">Bài viết đang chờ phê duyệt</p>
+                <p class="text-yellow-700 dark:text-yellow-300 text-sm">Bài viết của bạn đang được quản trị viên xem xét. Sau khi được phê duyệt, bài viết sẽ hiển thị công khai.</p>
             </div>
             @if(auth()->check() && (auth()->user()->id === $post->user_id || auth()->user()->role === 'admin'))
                 <a href="{{ route('posts.edit', $post) }}" class="ml-auto btn-secondary text-sm">
@@ -21,45 +21,23 @@
             @endif
         </div>
     </div>
-@endif
-
-<!-- Approval Status Alert for Published Posts -->
-@if($post->status === 'published')
-    @if($post->approval_status === 'pending')
-        <div class="bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-700 rounded-lg p-4 mb-6">
-            <div class="flex items-center">
-                <svg class="w-5 h-5 text-yellow-600 dark:text-yellow-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                <div>
-                    <p class="text-yellow-800 dark:text-yellow-200 font-medium">Bài viết đang chờ phê duyệt</p>
-                    <p class="text-yellow-700 dark:text-yellow-300 text-sm">Bài viết của bạn đang được quản trị viên xem xét. Sau khi được phê duyệt, bài viết sẽ hiển thị công khai.</p>
-                </div>
-                @if(auth()->check() && (auth()->user()->id === $post->user_id || auth()->user()->role === 'admin'))
-                    <a href="{{ route('posts.edit', $post) }}" class="ml-auto btn-secondary text-sm">
-                        Chỉnh sửa
-                    </a>
-                @endif
+@elseif($post->approval_status === 'rejected')
+    <div class="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg p-4 mb-6">
+        <div class="flex items-center">
+            <svg class="w-5 h-5 text-red-600 dark:text-red-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <div>
+                <p class="text-red-800 dark:text-red-200 font-medium">Bài viết đã bị từ chối</p>
+                <p class="text-red-700 dark:text-red-300 text-sm">Bài viết của bạn chưa đạt yêu cầu để hiển thị công khai. Vui lòng chỉnh sửa và gửi lại.</p>
             </div>
+            @if(auth()->check() && (auth()->user()->id === $post->user_id || auth()->user()->role === 'admin'))
+                <a href="{{ route('posts.edit', $post) }}" class="ml-auto btn-secondary text-sm">
+                    Chỉnh sửa
+                </a>
+            @endif
         </div>
-    @elseif($post->approval_status === 'rejected')
-        <div class="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg p-4 mb-6">
-            <div class="flex items-center">
-                <svg class="w-5 h-5 text-red-600 dark:text-red-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                <div>
-                    <p class="text-red-800 dark:text-red-200 font-medium">Bài viết đã bị từ chối</p>
-                    <p class="text-red-700 dark:text-red-300 text-sm">Bài viết của bạn chưa đạt yêu cầu để xuất bản. Vui lòng chỉnh sửa và gửi lại.</p>
-                </div>
-                @if(auth()->check() && (auth()->user()->id === $post->user_id || auth()->user()->role === 'admin'))
-                    <a href="{{ route('posts.edit', $post) }}" class="ml-auto btn-secondary text-sm">
-                        Chỉnh sửa
-                    </a>
-                @endif
-            </div>
-        </div>
-    @endif
+    </div>
 @endif
 
 <!-- Breadcrumb Navigation -->
@@ -329,7 +307,7 @@
         @php
             $relatedPosts = \App\Models\Post::where('category_id', $post->category_id)
                 ->where('id', '!=', $post->id)
-                ->where('status', 'published')
+                ->where('approval_status', 'approved')
                 ->latest()
                 ->take(3)
                 ->get();

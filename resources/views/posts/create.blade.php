@@ -9,7 +9,7 @@
     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
     </svg>
-    <a href="{{ route('posts.index') }}" class="hover:text-primary-600 dark:hover:text-primary-400-dark transition-colors duration-200">Quản lý bài viết</a>
+    <a href="{{ url()->previous() ?: route('home') }}" class="hover:text-primary-600 dark:hover:text-primary-400-dark transition-colors duration-200">Quản lý bài viết</a>
     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
     </svg>
@@ -26,7 +26,7 @@
         </div>
         <div>
             <h1 class="text-3xl font-heading font-bold text-secondary-900 dark:text-primary-400-dark">Tạo bài viết mới</h1>
-            <p class="text-secondary-600 dark:text-gray-300 mt-1">Viết và xuất bản nội dung mới cho website</p>
+            <p class="text-secondary-600 dark:text-gray-300 mt-1">Viết và đăng nội dung mới cho website</p>
         </div>
     </div>
 </div>
@@ -37,10 +37,10 @@
         <input type="hidden" name="uploaded_images" id="uploadedImages" value="[]">
         <input type="hidden" name="featured_image" id="featuredImageInput" value="">
 
-        <!-- Metadata Section: Full Width -->
+        <!-- Metadata Section: 2 columns -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <!-- Post Title -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6">
                     <div class="flex items-center mb-4">
                         <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
@@ -113,13 +113,10 @@
                         <p class="mt-1 text-xs text-secondary-500 dark:text-gray-400">Chọn chuyên mục phù hợp để phân loại bài viết</p>
                     </div>
                 </div>
-            </div>
+        </div>
 
-            <!-- Hidden Status Field (will be set by submit buttons) -->
-            <input type="hidden" name="status" id="status" value="draft">
-
-            <!-- Excerpt and Stats Section: 2 columns -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Excerpt and Stats Section: 2 columns -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <!-- Excerpt: 2 cols -->
                 <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6">
                     <div class="flex items-center mb-4">
@@ -175,10 +172,10 @@
                         </div>
                     </div>
                 </div>
-            </div>
+        </div>
 
-            <!-- Image Upload: Full Width -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6">
+        <!-- Image Upload Section -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6">
                     <div class="flex items-center mb-4">
                         <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
@@ -216,11 +213,10 @@
                             <p class="text-sm text-secondary-600 dark:text-gray-300 mt-1" id="progressText">Đang upload...</p>
                         </div>
                     </div>
-                    </div>
                 </div>
 
-                <!-- Content Editor with TinyMCE -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 mt-6">
+        <!-- Content Editor with TinyMCE -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6">
                     <div class="flex items-center mb-4">
                         <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
@@ -251,43 +247,37 @@
                     </div>
                 </div>
 
-                <!-- Form Actions -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 mt-6">
-                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
-                        <div class="flex items-center text-sm text-secondary-600 dark:text-gray-300">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                            Các trường có dấu <span class="text-red-500">*</span> là bắt buộc
-                        </div>
-                        
-                        <div class="flex space-x-3">
-                            <a href="{{ route('posts.index') }}" class="btn-secondary flex items-center">
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                </svg>
-                                Hủy
-                            </a>
-                            <button type="submit" name="action" value="draft" class="btn-secondary flex items-center">
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3-3m0 0l-3 3m3-3v12"/>
-                                </svg>
-                                Lưu nháp
-                            </button>
-                            <button type="submit" name="action" value="publish" class="btn-primary flex items-center">
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
-                                </svg>
-                                Xuất bản
-                            </button>
-                        </div>
-                    </div>
+        <!-- Submit Actions Section -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6">
+            <div class="flex items-center justify-between flex-wrap gap-4">
+                <div class="flex items-center text-sm text-secondary-600 dark:text-gray-400">
+                    <svg class="w-5 h-5 mr-2 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    Các trường có dấu <span class="text-red-500">*</span> là bắt buộc
                 </div>
-            </form>
+                
+                <div class="flex space-x-3">
+                    <button type="button" onclick="goBack()" class="btn-secondary flex items-center">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                        Hủy
+                    </button>
+                    <button type="submit" class="btn-primary flex items-center">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                        </svg>
+                        Đăng bài
+                    </button>
+                </div>
+            </div>
         </div>
+    </form>
+</div>
 
-        <!-- Image Gallery Modal -->
-<div id="imageGalleryModal" class="fixed inset-0 bg-black bg-opacity-50 dark:bg-black dark:bg-opacity-70 z-50 hidden">
+<!-- Image Gallery Modal -->
+<div id="imageGalleryModal" class="fixed inset-0 z-50 hidden" style="background-color: rgba(0, 0, 0, 0.5);">
     <div class="flex items-center justify-center p-4 min-h-full">
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
             <div class="flex items-center justify-between p-6 border-b border-secondary-200 dark:border-gray-700">
@@ -353,6 +343,19 @@
 </div>
 
 <script>
+function goBack() {
+    if (window.history.length > 1) {
+        window.history.back();
+    } else {
+        // Fallback: redirect to home or appropriate page based on user role
+        @if(Auth::check() && Auth::user()->role === 'admin')
+            window.location.href = '{{ route('admin.dashboard') }}';
+        @else
+            window.location.href = '{{ route('home') }}';
+        @endif
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const titleInput = document.getElementById('title');
     const contentInput = document.getElementById('content');
@@ -653,22 +656,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
         }
-
-        const submitButton = e.submitter;
-        if (submitButton && submitButton.name === 'action') {
-            if (submitButton.value === 'publish') {
-                document.getElementById('status').value = 'published';
-            } else if (submitButton.value === 'draft') {
-                document.getElementById('status').value = 'draft';
-            }
-        }
     });
     
     let autoSaveTimeout;
     function autoSave() {
         clearTimeout(autoSaveTimeout);
         autoSaveTimeout = setTimeout(() => {
-            console.log('Auto-saving draft...');
+            console.log('Auto-saving...');
         }, 30000);
     }
     

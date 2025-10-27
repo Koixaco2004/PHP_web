@@ -54,7 +54,7 @@
         </div>
     </div>
 
-    <!-- Published Posts -->
+    <!-- Approved Posts -->
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 hover:shadow-lg dark:hover:shadow-gray-900/20 transition-shadow duration-300">
         <div class="flex items-center">
             <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center mr-4">
@@ -63,7 +63,7 @@
                 </svg>
             </div>
             <div class="flex-1">
-                <p class="text-sm text-secondary-600 dark:text-gray-300 mb-1">Đã xuất bản</p>
+                <p class="text-sm text-secondary-600 dark:text-gray-300 mb-1">Đã phê duyệt</p>
                 <p class="text-2xl font-bold text-secondary-900 dark:text-primary-400-dark">{{ $stats['published_posts'] }}</p>
             </div>
         </div>
@@ -169,7 +169,7 @@
                     </div>
                     <div>
                         <p class="font-medium text-blue-900 dark:text-blue-100">Tạo bài viết mới</p>
-                        <p class="text-xs text-blue-700 dark:text-blue-200">Viết và xuất bản nội dung</p>
+                        <p class="text-xs text-blue-700 dark:text-blue-200">Viết và đăng nội dung</p>
                     </div>
                 </a>
 

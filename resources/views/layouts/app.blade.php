@@ -21,132 +21,7 @@
     
     <!-- Icons - Heroicons -->
     <script src="https://cdn.jsdelivr.net/npm/heroicons@2.0.18/24/outline/index.js"></script>
-    
-    <!-- Custom Scrollbar Styles -->
-    <style>
-        /* Custom Scrollbar for entire application */
-        * {
-            scrollbar-width: thin;
-            scrollbar-color: #22c55e #f1f5f9;
-        }
-        
-        *::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        
-        *::-webkit-scrollbar-track {
-            background: #f1f5f9;
-            border-radius: 10px;
-        }
-        
-        *::-webkit-scrollbar-thumb {
-            background: #22c55e;
-            border-radius: 10px;
-        }
-        
-        *::-webkit-scrollbar-thumb:hover {
-            background: #16a34a;
-        }
-        
-        /* Dark mode scrollbar */
-        .dark * {
-            scrollbar-color: #22c55e #374151;
-        }
-        
-        .dark *::-webkit-scrollbar-track {
-            background: #374151;
-        }
-        
-        .dark *::-webkit-scrollbar-thumb {
-            background: #22c55e;
-        }
-        
-        .dark *::-webkit-scrollbar-thumb:hover {
-            background: #22c55e;
-        }
-        
-        /* Custom Scrollbar for Modal - Enhanced */
-        .modal-scrollbar::-webkit-scrollbar {
-            width: 10px;
-        }
-        
-        .modal-scrollbar::-webkit-scrollbar-track {
-            background: #e5e7eb;
-            border-radius: 10px;
-        }
-        
-        .modal-scrollbar::-webkit-scrollbar-thumb {
-            background: #22c55e;
-            border-radius: 10px;
-            border: 2px solid #e5e7eb;
-        }
-        
-        .modal-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #16a34a;
-        }
-        
-        .dark .modal-scrollbar {
-            scrollbar-color: #22c55e #1f2937;
-        }
-        
-        .dark .modal-scrollbar::-webkit-scrollbar-track {
-            background: #1f2937;
-        }
-        
-        .dark .modal-scrollbar::-webkit-scrollbar-thumb {
-            background: #22c55e;
-            border-color: #1f2937;
-        }
-        
-        .dark .modal-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #22c55e;
-        }
 
-        .notification-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        /* Toast Animation */
-        @keyframes slide-in-right {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        .animate-slide-in-right {
-            animation: slide-in-right 0.3s ease-out;
-            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
-        }
-
-        /* Comment/Reply animations */
-        @keyframes fade-out {
-            from {
-                opacity: 1;
-                transform: scale(1);
-            }
-            to {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-        }
-
-        .comment-deleting {
-            animation: fade-out 0.3s ease-out forwards;
-        }
-
-        .comment-item, [data-reply-id] {
-            transition: all 0.3s ease;
-        }
-
-    </style>
-    
     <!-- Vite Assets -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -191,6 +66,9 @@
 
                     @auth
                         @if(Auth::user()->isAdmin())
+                            <a href="{{ route('posts.create') }}" class="text-primary-600 hover:text-primary-900 font-medium text-sm dark:text-primary-400-dark dark:hover:text-primary-300-dark">
+                                Viết bài
+                            </a>
                             <a href="{{ route('admin.dashboard') }}" class="text-primary-600 hover:text-primary-900 font-medium text-sm dark:text-primary-400-dark dark:hover:text-primary-300-dark">
                                 Dashboard
                             </a>
@@ -317,6 +195,12 @@
                                     </a>
                                     @if(Auth::user()->isAdmin())
                                         <div class="border-t border-gray-100 my-1 dark:border-gray-600"></div>
+                                        <a href="{{ route('profile.posts') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
+                                            <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                            </svg>
+                                            Bài viết của tôi
+                                        </a>
                                         <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
                                             <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>

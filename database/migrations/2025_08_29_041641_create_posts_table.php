@@ -19,9 +19,6 @@ return new class extends Migration
             $table->longText('content');
             $table->text('excerpt')->nullable();
 
-            // Trạng thái bài viết: draft (nháp) hoặc published (đã xuất bản)
-            $table->enum('status', ['draft', 'published'])->default('draft');
-
             // Trạng thái phê duyệt bài viết
             $table->enum('approval_status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->text('rejection_reason')->nullable();
@@ -40,10 +37,10 @@ return new class extends Migration
             $table->timestamps();
 
             // Chỉ mục để tối ưu hiệu suất truy vấn
-            $table->index(['status', 'published_at']);
-            $table->index(['approval_status', 'status']);
-            $table->index(['category_id', 'status']);
-            $table->index(['user_id', 'status']);
+            $table->index('published_at');
+            $table->index('approval_status');
+            $table->index('category_id');
+            $table->index('user_id');
             $table->index('is_featured');
             $table->fullText(['title', 'excerpt']);
         });

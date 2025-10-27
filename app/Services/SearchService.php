@@ -72,8 +72,7 @@ class SearchService
     /**
      * Áp dụng các bộ lọc vào truy vấn
      *
-     * Lọc bài viết theo danh mục, tác giả, trạng thái và khoảng ngày xuất bản.
-     * Bài viết nháp chỉ có thể được xem bởi tác giả của nó.
+     * Lọc bài viết theo danh mục, tác giả, và khoảng thời gian đăng bài.
      *
      * @param Builder $builder Truy vấn builder
      * @param array $filters Mảng các bộ lọc
@@ -195,7 +194,7 @@ class SearchService
     /**
      * Lấy các tùy chọn lọc cho biểu mẫu tìm kiếm
      *
-     * Trả về danh mục hoạt động và các tác giả có bài viết được xuất bản.
+     * Trả về danh mục hoạt động và các tác giả có bài viết đã được phê duyệt.
      *
      * @return array Mảng chứa danh mục và tác giả
      */
@@ -290,7 +289,7 @@ class SearchService
     /**
      * Lấy bài viết xu hướng dựa trên lượt xem và tương tác gần đây
      *
-     * Trả về các bài viết được xuất bản trong 7 ngày gần đây với lượt xem
+     * Trả về các bài viết đã được phê duyệt trong 7 ngày gần đây với lượt xem
      * và bình luận cao nhất.
      *
      * @param int $limit Số bài viết tối đa cần lấy

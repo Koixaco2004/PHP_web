@@ -52,7 +52,7 @@
                 </div>
                 <div>
                     <p class="text-sm text-secondary-600 dark:text-gray-300">Đã phê duyệt</p>
-                    <p class="text-2xl font-bold text-secondary-900 dark:text-white">{{ \App\Models\Post::where('user_id', $user->id)->where('status', 'published')->where('approval_status', 'approved')->count() }}</p>
+                    <p class="text-2xl font-bold text-secondary-900 dark:text-white">{{ \App\Models\Post::where('user_id', $user->id)->where('approval_status', 'approved')->count() }}</p>
                 </div>
             </div>
         </div>
@@ -66,7 +66,7 @@
                 </div>
                 <div>
                     <p class="text-sm text-secondary-600 dark:text-gray-300">Chờ duyệt</p>
-                    <p class="text-2xl font-bold text-secondary-900 dark:text-white">{{ \App\Models\Post::where('user_id', $user->id)->where('status', 'published')->where('approval_status', 'pending')->count() }}</p>
+                    <p class="text-2xl font-bold text-secondary-900 dark:text-white">{{ \App\Models\Post::where('user_id', $user->id)->where('approval_status', 'pending')->count() }}</p>
                 </div>
             </div>
         </div>
@@ -81,7 +81,7 @@
                 </div>
                 <div>
                     <p class="text-sm text-secondary-600 dark:text-gray-300">Lượt xem</p>
-                    <p class="text-2xl font-bold text-secondary-900 dark:text-white">{{ \App\Models\Post::where('user_id', $user->id)->where('status', 'published')->sum('view_count') }}</p>
+                    <p class="text-2xl font-bold text-secondary-900 dark:text-white">{{ \App\Models\Post::where('user_id', $user->id)->sum('view_count') }}</p>
                 </div>
             </div>
         </div>
@@ -90,21 +90,11 @@
     <!-- Filters -->
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 mb-8">
         <form method="GET" action="{{ route('profile.posts') }}" class="space-y-4">
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <!-- Search -->
                 <div>
                     <label class="block text-sm font-medium text-secondary-700 dark:text-gray-300 mb-2">Tìm kiếm</label>
                     <input type="text" name="search" value="{{ request('search') }}" placeholder="Tìm theo tiêu đề..." class="w-full px-4 py-2 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white">
-                </div>
-
-                <!-- Status Filter -->
-                <div>
-                    <label class="block text-sm font-medium text-secondary-700 dark:text-gray-300 mb-2">Trạng thái</label>
-                    <select name="status" class="w-full px-4 py-2 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white">
-                        <option value="" {{ !request('status') ? 'selected' : '' }}>Tất cả</option>
-                        <option value="published" {{ request('status') == 'published' ? 'selected' : '' }}>Đã xuất bản</option>
-                        <option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>Bản nháp</option>
-                    </select>
                 </div>
 
                 <!-- Approval Filter -->
@@ -209,18 +199,16 @@
                                     {{ $post->category->name }}
                                 </span>
                                 @php
-                                    $tagClasses = match(true) {
-                                        $post->status == 'draft' && $post->approval_status == 'pending' => 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
-                                        $post->status == 'published' && $post->approval_status == 'approved' => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-                                        $post->status == 'published' && $post->approval_status == 'pending' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
-                                        $post->status == 'published' && $post->approval_status == 'rejected' => 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
+                                    $tagClasses = match($post->approval_status) {
+                                        'approved' => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+                                        'pending' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+                                        'rejected' => 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
                                         default => 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
                                     };
-                                    $tagText = match(true) {
-                                        $post->status == 'draft' && $post->approval_status == 'pending' => 'Bản nháp',
-                                        $post->status == 'published' && $post->approval_status == 'approved' => 'Đã duyệt',
-                                        $post->status == 'published' && $post->approval_status == 'pending' => 'Chờ duyệt',
-                                        $post->status == 'published' && $post->approval_status == 'rejected' => 'Bị từ chối',
+                                    $tagText = match($post->approval_status) {
+                                        'approved' => 'Đã duyệt',
+                                        'pending' => 'Chờ duyệt',
+                                        'rejected' => 'Bị từ chối',
                                         default => 'Không xác định',
                                     };
                                 @endphp
@@ -262,7 +250,7 @@
                                     <form action="{{ route('posts.destroy', $post) }}" method="POST" class="inline-block">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300" onclick="return confirm('Bạn có chắc chắn muốn xóa bài viết này?')">
+                                        <button type="submit" class="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300" onclick="showConfirmationModal('Xác nhận xóa', 'Bạn có chắc chắn muốn xóa bài viết này?', 'Xóa', () => { this.closest('form').submit(); }, 'delete'); return false;">
                                             Xóa
                                         </button>
                                     </form>
@@ -294,18 +282,16 @@
                                         {{ $post->category->name }}
                                     </span>
                                     @php
-                                        $tagClasses = match(true) {
-                                            $post->status == 'draft' && $post->approval_status == 'pending' => 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
-                                            $post->status == 'published' && $post->approval_status == 'approved' => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-                                            $post->status == 'published' && $post->approval_status == 'pending' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
-                                            $post->status == 'published' && $post->approval_status == 'rejected' => 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
+                                        $tagClasses = match($post->approval_status) {
+                                            'approved' => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+                                            'pending' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+                                            'rejected' => 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
                                             default => 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
                                         };
-                                        $tagText = match(true) {
-                                            $post->status == 'draft' && $post->approval_status == 'pending' => 'Bản nháp',
-                                            $post->status == 'published' && $post->approval_status == 'approved' => 'Đã duyệt',
-                                            $post->status == 'published' && $post->approval_status == 'pending' => 'Chờ duyệt',
-                                            $post->status == 'published' && $post->approval_status == 'rejected' => 'Bị từ chối',
+                                        $tagText = match($post->approval_status) {
+                                            'approved' => 'Đã duyệt',
+                                            'pending' => 'Chờ duyệt',
+                                            'rejected' => 'Bị từ chối',
                                             default => 'Không xác định',
                                         };
                                     @endphp
@@ -348,7 +334,7 @@
                                         <form action="{{ route('posts.destroy', $post) }}" method="POST" class="inline-block">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 font-medium" onclick="return confirm('Bạn có chắc chắn muốn xóa bài viết này?')">
+                                            <button type="submit" class="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 font-medium" onclick="showConfirmationModal('Xác nhận xóa', 'Bạn có chắc chắn muốn xóa bài viết này?', 'Xóa', () => { this.closest('form').submit(); }, 'delete'); return false;">
                                                 Xóa
                                             </button>
                                         </form>

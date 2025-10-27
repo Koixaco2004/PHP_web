@@ -39,13 +39,9 @@ class PostFactory extends Factory
         ];
 
         $title = $this->faker->randomElement($vietnameseTitles) . ' ' . $this->faker->numberBetween(1, 1000);
-        $isPublished = $this->faker->boolean(70);
 
-        // Xác định trạng thái phê duyệt: chỉ bài đã xuất bản mới có cơ hội được phê duyệt
-        $approvalStatus = 'pending';
-        if ($isPublished) {
-            $approvalStatus = $this->faker->boolean(80) ? 'approved' : 'pending';
-        }
+        // Xác định trạng thái phê duyệt: mặc định là approved với 80% xác suất
+        $approvalStatus = $this->faker->boolean(80) ? 'approved' : 'pending';
 
         $htmlContent = $this->generateHtmlContent();
         $excerpt = $this->generateExcerpt();
@@ -53,8 +49,8 @@ class PostFactory extends Factory
         $userId = User::factory();
         $createdAt = $this->faker->dateTimeBetween('-1 year', 'now');
 
-        // Thời gian phê duyệt chỉ được thiết lập nếu bài viết được phê duyệt và đã xuất bản
-        $approvedAt = ($approvalStatus === 'approved' && $isPublished)
+        // Thời gian phê duyệt chỉ được thiết lập nếu bài viết được phê duyệt
+        $approvedAt = ($approvalStatus === 'approved')
             ? $this->faker->dateTimeBetween($createdAt, 'now')
             : null;
 
@@ -63,7 +59,6 @@ class PostFactory extends Factory
             'slug' => Str::slug($title) . '-' . $this->faker->unique()->numberBetween(1, 10000),
             'content' => $htmlContent,
             'excerpt' => $excerpt,
-            'status' => $isPublished ? 'published' : 'draft',
             'approval_status' => $approvalStatus,
             'category_id' => Category::factory(),
             'user_id' => $userId,
@@ -74,7 +69,7 @@ class PostFactory extends Factory
             'view_count' => $this->faker->numberBetween(0, 5000),
             'comment_count' => $this->faker->numberBetween(0, 50),
             'is_featured' => $this->faker->boolean(15),
-            'published_at' => $isPublished ? $createdAt : null,
+            'published_at' => $createdAt,
             'created_at' => $createdAt,
         ];
     }
@@ -196,30 +191,31 @@ class PostFactory extends Factory
     }
 
     /**
-     * Thiết lập bài viết ở trạng thái đã xuất bản
-     * Đặt status thành 'published' và gán thời gian xuất bản
+     * Thiết lập bài viết đã được phê duyệt
+     * Đặt approval_status thành 'approved' và gán thời gian đăng bài
      *
      * @return static
      */
-    public function published(): static
+    public function approved(): static
     {
         return $this->state(fn(array $attributes) => [
-            'status' => 'published',
+            'approval_status' => 'approved',
             'published_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
         ]);
     }
 
     /**
-     * Thiết lập bài viết ở trạng thái nháp
-     * Đặt status thành 'draft' và không gán thời gian xuất bản
+     * Thiết lập bài viết đang chờ phê duyệt
+     * Đặt approval_status thành 'pending'
      *
      * @return static
      */
-    public function draft(): static
+    public function pending(): static
     {
         return $this->state(fn(array $attributes) => [
-            'status' => 'draft',
-            'published_at' => null,
+            'approval_status' => 'pending',
+            'approved_by' => null,
+            'approved_at' => null,
         ]);
     }
 

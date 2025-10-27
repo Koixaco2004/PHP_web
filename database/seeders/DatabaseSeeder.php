@@ -130,7 +130,7 @@ class DatabaseSeeder extends Seeder
             }
         }
 
-        // Đánh dấu 5 bài viết được xuất bản gần đây làm nổi bật
+        // Đánh dấu 5 bài viết đã được phê duyệt gần đây làm nổi bật
         Post::published()->inRandomOrder()->limit(5)->update(['is_featured' => true]);
     }
 }
