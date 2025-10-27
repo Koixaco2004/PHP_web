@@ -9,11 +9,7 @@
     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
     </svg>
-    @if(Auth::check() && Auth::user()->role === 'admin')
-        <a href="{{ route('admin.dashboard') }}" class="hover:text-primary-600 dark:hover:text-primary-400-dark transition-colors duration-200">Quản lý bài viết</a>
-    @else
-        <a href="{{ route('profile.posts') }}" class="hover:text-primary-600 dark:hover:text-primary-400-dark transition-colors duration-200">Quản lý bài viết</a>
-    @endif
+    <a href="{{ url()->previous() ?: route('home') }}" class="hover:text-primary-600 dark:hover:text-primary-400-dark transition-colors duration-200">Quản lý bài viết</a>
     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
     </svg>
@@ -262,21 +258,12 @@
                 </div>
                 
                 <div class="flex space-x-3">
-                    @if(Auth::check() && Auth::user()->role === 'admin')
-                        <a href="{{ route('admin.dashboard') }}" class="btn-secondary flex items-center">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                            </svg>
-                            Hủy
-                        </a>
-                    @else
-                        <a href="{{ route('profile.posts') }}" class="btn-secondary flex items-center">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                            </svg>
-                            Hủy
-                        </a>
-                    @endif
+                    <button type="button" onclick="goBack()" class="btn-secondary flex items-center">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                        Hủy
+                    </button>
                     <button type="submit" class="btn-primary flex items-center">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
@@ -356,6 +343,19 @@
 </div>
 
 <script>
+function goBack() {
+    if (window.history.length > 1) {
+        window.history.back();
+    } else {
+        // Fallback: redirect to home or appropriate page based on user role
+        @if(Auth::check() && Auth::user()->role === 'admin')
+            window.location.href = '{{ route('admin.dashboard') }}';
+        @else
+            window.location.href = '{{ route('home') }}';
+        @endif
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const titleInput = document.getElementById('title');
     const contentInput = document.getElementById('content');
