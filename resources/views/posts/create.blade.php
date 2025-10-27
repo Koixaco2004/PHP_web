@@ -37,10 +37,10 @@
         <input type="hidden" name="uploaded_images" id="uploadedImages" value="[]">
         <input type="hidden" name="featured_image" id="featuredImageInput" value="">
 
-        <!-- Metadata Section: Full Width -->
+        <!-- Metadata Section: 2 columns -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <!-- Post Title -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6">
                     <div class="flex items-center mb-4">
                         <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
@@ -113,35 +113,10 @@
                         <p class="mt-1 text-xs text-secondary-500 dark:text-gray-400">Chọn chuyên mục phù hợp để phân loại bài viết</p>
                     </div>
                 </div>
-            </div>
+        </div>
 
-            <!-- Submit Actions Section: Full Width -->
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6">
-                    <div class="flex items-center justify-between flex-wrap gap-4">
-                        <div class="flex items-center text-sm text-secondary-600 dark:text-gray-400">
-                            <svg class="w-5 h-5 mr-2 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                            Các trường có dấu <span class="text-red-500">*</span> là bắt buộc
-                        </div>
-                        
-                        <div class="flex space-x-3">
-                            <a href="{{ route('posts.index') }}" class="btn-secondary flex items-center">
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                </svg>
-                                Hủy
-                            </a>
-                            <button type="submit" class="btn-primary flex items-center">
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
-                                </svg>
-                                Đăng bài
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Excerpt and Stats Section: 2 columns -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <!-- Excerpt: 2 cols -->
                 <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6">
                     <div class="flex items-center mb-4">
@@ -197,10 +172,10 @@
                         </div>
                     </div>
                 </div>
-            </div>
+        </div>
 
-            <!-- Image Upload: Full Width -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6">
+        <!-- Image Upload Section -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6">
                     <div class="flex items-center mb-4">
                         <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
@@ -238,11 +213,10 @@
                             <p class="text-sm text-secondary-600 dark:text-gray-300 mt-1" id="progressText">Đang upload...</p>
                         </div>
                     </div>
-                    </div>
                 </div>
 
-                <!-- Content Editor with TinyMCE -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 mt-6">
+        <!-- Content Editor with TinyMCE -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6">
                     <div class="flex items-center mb-4">
                         <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
@@ -272,10 +246,38 @@
                         <p class="mt-1 text-xs text-secondary-500 dark:text-gray-400">Sử dụng trình soạn thảo WYSIWYG để định dạng nội dung một cách trực quan</p>
                     </div>
                 </div>
-            </div>
 
-            <!-- Excerpt and Stats Section: 2 columns -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Submit Actions Section -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6">
+            <div class="flex items-center justify-between flex-wrap gap-4">
+                <div class="flex items-center text-sm text-secondary-600 dark:text-gray-400">
+                    <svg class="w-5 h-5 mr-2 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    Các trường có dấu <span class="text-red-500">*</span> là bắt buộc
+                </div>
+                
+                <div class="flex space-x-3">
+                    <a href="{{ route('posts.index') }}" class="btn-secondary flex items-center">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                        Hủy
+                    </a>
+                    <button type="submit" class="btn-primary flex items-center">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                        </svg>
+                        Đăng bài
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Image Gallery Modal -->
+<div id="imageGalleryModal" class="fixed inset-0 z-50 hidden" style="background-color: rgba(0, 0, 0, 0.5);">
     <div class="flex items-center justify-center p-4 min-h-full">
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
             <div class="flex items-center justify-between p-6 border-b border-secondary-200 dark:border-gray-700">
