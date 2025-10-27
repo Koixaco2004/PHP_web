@@ -47,21 +47,6 @@
     @apply bg-primary-900-dark text-primary-100-dark hover:bg-primary-800-dark border-primary-700-dark focus:ring-primary-400-dark;
   }
 
-  .card {
-    @apply bg-white rounded-lg border border-primary-200 overflow-hidden hover:shadow-sm transition-all duration-200;
-  }
-
-  .card.dark {
-    @apply bg-primary-900-dark border-primary-700-dark hover:border-primary-600-dark;
-  }
-
-  .article-card {
-    @apply bg-white rounded-lg p-6 border border-primary-200 hover:border-primary-300 transition-all duration-200;
-  }
-
-  .article-card.dark {
-    @apply bg-primary-900-dark border-primary-700-dark hover:border-primary-600-dark;
-  }
 
   /* Dark mode specific components */
   .dark-mode-toggle {
@@ -93,17 +78,6 @@
     margin-bottom: 0 !important;
   }
 
-  /* Dropdown styles */
-  .dropdown-enter {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-
-  .dropdown-enter-active {
-    opacity: 1;
-    transform: translateY(0);
-    transition: all 0.2s ease-out;
-  }
 
   .categories-dropdown {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
@@ -208,17 +182,93 @@
     overflow: hidden;
   }
 
-  .animate-marquee {
-    animation: marquee 25s linear infinite;
+}
+
+/* Custom Scrollbar for entire application */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #22c55e #f1f5f9;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #22c55e;
+  border-radius: 10px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #16a34a;
+}
+
+/* Dark mode scrollbar */
+.dark * {
+  scrollbar-color: #22c55e #374151;
+}
+
+.dark *::-webkit-scrollbar-track {
+  background: #374151;
+}
+
+.dark *::-webkit-scrollbar-thumb {
+  background: #22c55e;
+}
+
+.dark *::-webkit-scrollbar-thumb:hover {
+  background: #22c55e;
+}
+
+
+.notification-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Toast Animation */
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
   }
 
-  @keyframes marquee {
-    0% {
-      transform: translateX(100%);
-    }
-
-    100% {
-      transform: translateX(-100%);
-    }
+  to {
+    transform: translateX(0);
+    opacity: 1;
   }
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s ease-out;
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+/* Comment/Reply animations */
+@keyframes fade-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+.comment-deleting {
+  animation: fade-out 0.3s ease-out forwards;
+}
+
+.comment-item,
+[data-reply-id] {
+  transition: all 0.3s ease;
 }
