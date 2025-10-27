@@ -18,7 +18,7 @@ class PostImageController extends Controller
     }
 
     /**
-     * Upload multiple images for a post
+     * Tải lên nhiều hình ảnh cho bài viết.
      */
     public function store(Request $request, Post $post): JsonResponse
     {
@@ -32,19 +32,16 @@ class PostImageController extends Controller
 
         foreach ($request->file('images') as $index => $file) {
             $result = $this->imgBBService->uploadImage($file);
-            
+
             if ($result['success']) {
                 $image = PostImage::create([
                     'post_id' => $post->id,
                     'image_url' => $result['data']['image_url'],
                     'delete_url' => $result['data']['delete_url'],
-                    'width' => $result['data']['width'],
-                    'height' => $result['data']['height'],
-                    'file_size' => $result['data']['file_size'],
                     'sort_order' => $index,
                     'is_featured' => $index === 0 && !$post->images()->where('is_featured', true)->exists(),
                 ]);
-                
+
                 $uploadedImages[] = $image;
             } else {
                 $errors[] = "Failed to upload image: " . $file->getClientOriginalName();
@@ -60,7 +57,7 @@ class PostImageController extends Controller
     }
 
     /**
-     * Update image details
+     * Cập nhật chi tiết hình ảnh.
      */
     public function update(Request $request, PostImage $image): JsonResponse
     {
@@ -71,7 +68,7 @@ class PostImageController extends Controller
             'is_featured' => 'nullable|boolean',
         ]);
 
-        // If setting as featured, remove featured from other images of the same post
+        // Nếu đặt làm nổi bật, loại bỏ nổi bật từ các hình ảnh khác của cùng bài viết
         if ($request->is_featured) {
             PostImage::where('post_id', $image->post_id)
                 ->where('id', '!=', $image->id)
@@ -88,11 +85,11 @@ class PostImageController extends Controller
     }
 
     /**
-     * Delete an image
+     * Xóa hình ảnh.
      */
     public function destroy(PostImage $image): JsonResponse
     {
-        // Delete from ImgBB
+        // Xóa từ ImgBB
         if ($image->delete_url) {
             $this->imgBBService->deleteImage($image->delete_url);
         }
@@ -106,7 +103,7 @@ class PostImageController extends Controller
     }
 
     /**
-     * Get all images for a post
+     * Lấy tất cả hình ảnh cho bài viết.
      */
     public function index(Post $post): JsonResponse
     {
@@ -119,11 +116,11 @@ class PostImageController extends Controller
     }
 
     /**
-     * Set featured image
+     * Đặt hình ảnh nổi bật.
      */
     public function setFeatured(PostImage $image): JsonResponse
     {
-        // Remove featured from other images of the same post
+        // Loại bỏ nổi bật từ các hình ảnh khác của cùng bài viết
         PostImage::where('post_id', $image->post_id)
             ->where('id', '!=', $image->id)
             ->update(['is_featured' => false]);

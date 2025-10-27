@@ -12,18 +12,20 @@ use Illuminate\Support\Str;
 class UserFactory extends Factory
 {
     /**
-     * The current password being used by the factory.
+     * Mật khẩu mặc định được sử dụng bởi factory.
      */
     protected static ?string $password;
 
     /**
-     * Define the model's default state.
+     * Định nghĩa trạng thái mặc định của model User.
+     * Sinh dữ liệu giả định cho người dùng với tên tiếng Việt, email, vai trò và các thông tin cá nhân khác.
      *
      * @return array<string, mixed>
      */
     public function definition(): array
     {
         $faker = fake('vi_VN');
+        // Danh sách tên tiếng Việt để sinh dữ liệu giả định
         $vietnameseNames = [
             'Nguyễn Văn An',
             'Trần Thị Bình',
@@ -51,6 +53,7 @@ class UserFactory extends Factory
             'name' => $faker->randomElement($vietnameseNames),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
+            // Sử dụng static property để đảm bảo tất cả user trong một lần factory đều có cùng mật khẩu hash
             'password' => static::$password ??= Hash::make('password'),
             'role' => fake()->randomElement(['admin', 'user']),
             'google_id' => null,
@@ -83,7 +86,7 @@ class UserFactory extends Factory
     }
 
     /**
-     * Indicate that the model's email address should be unverified.
+     * Đặt email chưa được xác thực cho user.
      */
     public function unverified(): static
     {
@@ -93,7 +96,7 @@ class UserFactory extends Factory
     }
 
     /**
-     * Indicate that the user should be an admin.
+     * Đặt vai trò là admin cho user.
      */
     public function admin(): static
     {
@@ -103,7 +106,7 @@ class UserFactory extends Factory
     }
 
     /**
-     * Indicate that the user should be a regular user.
+     * Đặt vai trò là user thường cho user.
      */
     public function user(): static
     {
@@ -112,9 +115,8 @@ class UserFactory extends Factory
         ]);
     }
 
-
     /**
-     * Indicate that the user has Google login.
+     * Đặt user đã đăng nhập qua Google với google_id.
      */
     public function withGoogle(): static
     {

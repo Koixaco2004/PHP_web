@@ -108,7 +108,6 @@
             align-items: center;
             justify-content: center;
         }
-
         /* Toast Animation */
         @keyframes slide-in-right {
             from {
@@ -145,6 +144,7 @@
         .comment-item, [data-reply-id] {
             transition: all 0.3s ease;
         }
+
     </style>
     
     <!-- Vite Assets -->
@@ -223,11 +223,14 @@
                             <!-- Notifications Dropdown Menu -->
                             <div id="notificationsDropdown" class="hidden absolute right-0 mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-50 dark:bg-gray-800 dark:border-gray-700 max-h-96 overflow-y-auto" style="z-index: 60;">
                                 <div class="py-2">
-                                    <div class="px-4 py-2 border-b border-gray-100 dark:border-gray-600">
+                                    <div class="px-4 py-2 border-b border-gray-100 dark:border-gray-600 flex items-center justify-between">
                                         <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Thông báo</h3>
+                                        @if(Auth::user()->unreadNotifications->count() > 0)
+                                            <button class="mark-all-read-btn text-xs text-primary-600 dark:text-primary-400 hover:underline">Đánh dấu tất cả đã đọc</button>
+                                        @endif
                                     </div>
                                     @forelse(Auth::user()->notifications()->take(10)->get() as $notification)
-                                        <div class="px-4 py-3 border-b border-gray-100 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer" onclick="markAsRead({{ $notification->id }})">
+                                        <div class="px-4 py-3 border-b border-gray-100 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer notification-item" data-notification-id="{{ $notification->id }}">
                                             <div class="flex items-start space-x-3">
                                                 <div class="flex-shrink-0">
                                                     @if(($notification->data['type'] ?? '') == 'approved')
@@ -253,7 +256,14 @@
                                                     <p class="text-xs text-gray-500 dark:text-gray-400">{{ $notification->created_at->diffForHumans() }}</p>
                                                 </div>
                                                 @if($notification->read_at == null)
-                                                    <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                                    <div class="flex items-center space-x-2">
+                                                        <button onclick="event.stopPropagation(); markAsReadOnly('{{ $notification->id }}')" class="p-1 hover:bg-gray-200 dark:hover:bg-gray-600 rounded mark-read-btn" title="Đánh dấu đã đọc">
+                                                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                                            </svg>
+                                                        </button>
+                                                        <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                                    </div>
                                                 @endif
                                             </div>
                                         </div>
@@ -275,7 +285,11 @@
                             <div class="flex items-center space-x-3 cursor-pointer" onclick="toggleProfileDropdown()">
                                 <div class="w-10 h-10 rounded-full overflow-hidden ring-2 ring-primary-500">
                                     @if(Auth::user()->avatar)
-                                        <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="{{ Auth::user()->name }}" class="w-full h-full object-cover">
+                                        @if(Str::startsWith(Auth::user()->avatar, ['http://', 'https://']))
+                                            <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}" class="w-full h-full object-cover" onerror="this.src='{{ asset('hello.png') }}'">
+                                        @else
+                                            <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="{{ Auth::user()->name }}" class="w-full h-full object-cover" onerror="this.src='{{ asset('hello.png') }}'">
+                                        @endif
                                     @else
                                         <img src="{{ asset('hello.png') }}" alt="Default Avatar" class="w-full h-full object-cover">
                                     @endif
@@ -461,6 +475,9 @@
 
     <!-- Toast Notification Container -->
     <div id="toast-container" class="fixed top-20 right-4 z-50 space-y-2"></div>
+
+    <!-- Confirmation Modal -->
+    @include('partials.confirmation-modal')
 
     <!-- Modern Footer -->
     <footer class="bg-secondary-50 dark:bg-gray-900 text-gray-900 dark:text-white mt-12 border-t border-gray-200 dark:border-gray-700">
@@ -724,7 +741,34 @@
             mobileNav.classList.toggle('hidden');
         }
 
-        function markAsRead(notificationId) {
+
+        function markAsReadOnly(notificationId) {
+            fetch(`/notifications/${notificationId}/mark-as-read-only`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update UI: hide the mark as read button and the blue dot
+                    const notificationElement = document.querySelector(`[data-notification-id="${notificationId}"]`);
+                    if (notificationElement) {
+                        const markButton = notificationElement.querySelector('.mark-read-btn');
+                        const dot = notificationElement.querySelector('.bg-blue-500');
+                        if (markButton) markButton.parentElement.remove();
+                        if (dot) dot.remove();
+                    }
+                    // Update unread count
+                    updateUnreadCount();
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function redirectToNotification(notificationId) {
             fetch(`/notifications/${notificationId}/mark-as-read`, {
                 method: 'POST',
                 headers: {
@@ -736,6 +780,54 @@
             .then(data => {
                 if (data.success && data.redirect_url) {
                     window.location.href = data.redirect_url;
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function updateUnreadCount() {
+            // Optionally, update the unread count badge
+            fetch('/api/notifications/unread-count', {
+                method: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                const badge = document.querySelector('.notification-icon .bg-red-500');
+                if (badge) {
+                    if (data.count > 0) {
+                        badge.textContent = data.count;
+                    } else {
+                        badge.remove();
+                    }
+                }
+            })
+            .catch(error => console.error('Error updating count:', error));
+        }
+
+        function markAllAsRead() {
+            fetch('/notifications/mark-all-as-read', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Hide all mark as read buttons and dots
+                    const markButtons = document.querySelectorAll('.mark-read-btn');
+                    markButtons.forEach(button => button.parentElement.remove());
+                    const dots = document.querySelectorAll('.bg-blue-500');
+                    dots.forEach(dot => dot.remove());
+                    // Update unread count
+                    updateUnreadCount();
+                    // Hide the mark all button
+                    const markAllButton = document.querySelector('.mark-all-read-btn');
+                    if (markAllButton) markAllButton.remove();
                 }
             })
             .catch(error => console.error('Error:', error));
@@ -771,6 +863,31 @@
                     document.getElementById('mobileNav').classList.add('hidden');
                 });
             });
+
+            // Add event listeners for notifications
+            const notificationItems = document.querySelectorAll('.notification-item');
+            notificationItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const id = this.getAttribute('data-notification-id');
+                    redirectToNotification(id);
+                });
+            });
+
+            const markReadButtons = document.querySelectorAll('.mark-read-btn');
+            markReadButtons.forEach(button => {
+                button.addEventListener('click', function(event) {
+                    event.stopPropagation();
+                    const id = this.closest('[data-notification-id]').getAttribute('data-notification-id');
+                    markAsReadOnly(id);
+                });
+            });
+
+            const markAllButton = document.querySelector('.mark-all-read-btn');
+            if (markAllButton) {
+                markAllButton.addEventListener('click', function() {
+                    markAllAsRead();
+                });
+            }
         });
 
         // Toast Notification System

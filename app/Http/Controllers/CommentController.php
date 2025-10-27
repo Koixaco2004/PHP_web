@@ -23,7 +23,7 @@ class CommentController extends Controller
     }
 
     /**
-     * Store a newly created comment.
+     * Lưu bình luận mới.
      */
     public function store(Request $request, Post $post)
     {
@@ -32,7 +32,7 @@ class CommentController extends Controller
             'parent_id' => 'nullable|exists:comments,id',
         ]);
 
-        // Check if the comment is toxic using AI
+        // Kiểm tra bình luận có độc hại bằng AI
         $isToxic = $this->toxicCommentService->isToxic($request->content);
 
         $comment = Comment::create([
@@ -43,7 +43,7 @@ class CommentController extends Controller
             'is_toxic' => $isToxic,
         ]);
 
-        // Load relationships for the response
+        // Tải quan hệ cho phản hồi
         $comment->load('user', 'children.user');
 
         if ($request->parent_id) {
@@ -57,9 +57,9 @@ class CommentController extends Controller
             }
         }
 
-        // Check if it's an AJAX request
+        // Kiểm tra nếu là yêu cầu AJAX
         if ($request->ajax() || $request->wantsJson()) {
-            // Return different views based on whether it's a reply or parent comment
+            // Trả về view khác nhau dựa trên việc là phản hồi hay bình luận gốc
             $view = $request->parent_id ? 'partials.reply' : 'partials.comment';
             $data = $request->parent_id ? ['reply' => $comment, 'post' => $post] : ['comment' => $comment, 'post' => $post];
 
@@ -75,8 +75,8 @@ class CommentController extends Controller
     }
 
     /**
-     * Update an existing comment.
-     * Only the owner can edit their comment.
+     * Cập nhật bình luận hiện có.
+     * Chỉ chủ sở hữu mới có thể chỉnh sửa.
      */
     public function update(Request $request, Comment $comment)
     {
@@ -86,7 +86,7 @@ class CommentController extends Controller
             'content' => 'required|max:1000',
         ]);
 
-        // Check if the updated comment is toxic using AI
+        // Kiểm tra bình luận cập nhật có độc hại bằng AI
         $isToxic = $this->toxicCommentService->isToxic($request->content);
 
         $comment->update([
@@ -94,10 +94,10 @@ class CommentController extends Controller
             'is_toxic' => $isToxic,
         ]);
 
-        // Load relationships for the response
+        // Tải quan hệ cho phản hồi
         $comment->load('user', 'children.user');
 
-        // Check if it's an AJAX request
+        // Kiểm tra nếu là yêu cầu AJAX
         if ($request->ajax() || $request->wantsJson()) {
             return response()->json([
                 'success' => true,
@@ -112,7 +112,7 @@ class CommentController extends Controller
 
 
     /**
-     * Delete a comment.
+     * Xóa bình luận.
      */
     public function destroy(Comment $comment)
     {
@@ -123,7 +123,7 @@ class CommentController extends Controller
 
         $comment->delete();
 
-        // Check if it's an AJAX request
+        // Kiểm tra nếu là yêu cầu AJAX
         if (request()->ajax() || request()->wantsJson()) {
             return response()->json([
                 'success' => true,

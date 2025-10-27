@@ -7,13 +7,13 @@ from flask import Flask, request, jsonify
 from transformers import pipeline
 import logging
 
-# Setup logging
+# Cấu hình logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 
-# Load model once when server starts
+# Tải model khi server khởi động
 logger.info("Loading model: vanhai123/phobert-vi-comment-4class")
 try:
     classifier = pipeline(
@@ -28,7 +28,11 @@ except Exception as e:
 
 @app.route('/health', methods=['GET'])
 def health():
-    """Health check endpoint"""
+    """
+    Kiểm tra trạng thái server và model
+    
+    Trả về trạng thái hoạt động của server và xác nhận model đã được tải.
+    """
     return jsonify({
         'status': 'ok',
         'model_loaded': classifier is not None
@@ -38,7 +42,10 @@ def health():
 @app.route('/classify', methods=['POST'])
 def classify():
     """
-    Classify comment toxicity
+    Phân loại độ độc hại của một bình luận
+    
+    Nhận text từ request, sử dụng model để xác định nhãn (tích cực, tiêu cực, trung lập, độc hại)
+    và trả về kết quả với độ tin cậy.
     
     Request body:
     {
@@ -62,7 +69,6 @@ def classify():
         }), 500
     
     try:
-        # Get text from request
         data = request.get_json()
         
         if not data or 'text' not in data:
@@ -79,19 +85,18 @@ def classify():
                 'error': 'Text cannot be empty'
             }), 400
         
-        # Classify the text
-        result = classifier(text, top_k=None)  # Get all scores
+        # Gọi model để phân loại text và lấy toàn bộ điểm số
+        result = classifier(text, top_k=None)
         
-        # Get top prediction
+        # Lấy kết quả dự đoán hàng đầu
         top_prediction = result[0]
         label = top_prediction['label']
         score = top_prediction['score']
         
-        # Check if toxic
-        # Model returns: LABEL_0 (positive), LABEL_1 (negative), LABEL_2 (neutral), LABEL_3 (toxic)
+        # Xác định xem bình luận có độc hại (LABEL_3) hay không
         is_toxic = label == 'LABEL_3'
         
-        # Convert label to readable format
+        # Chuyển đổi nhãn mô hình thành dạng dễ đọc
         label_map = {
             'LABEL_0': 'positive',
             'LABEL_1': 'negative', 
@@ -125,7 +130,9 @@ def classify():
 @app.route('/batch-classify', methods=['POST'])
 def batch_classify():
     """
-    Classify multiple comments at once
+    Phân loại độ độc hại của nhiều bình luận cùng một lúc
+    
+    Xử lý danh sách các text và trả về kết quả phân loại cho từng bình luận.
     
     Request body:
     {
@@ -155,18 +162,28 @@ def batch_classify():
                 'error': '"texts" must be an array'
             }), 400
         
-        # Classify all texts
+        # Ánh xạ nhãn mô hình sang dạng dễ đọc
+        label_map = {
+            'LABEL_0': 'positive',
+            'LABEL_1': 'negative', 
+            'LABEL_2': 'neutral',
+            'LABEL_3': 'toxic'
+        }
+        
+        # Phân loại từng text trong danh sách
         results = []
         for text in texts:
             if text and text.strip():
                 result = classifier(text, top_k=None)
                 top_prediction = result[0]
+                label = top_prediction['label']
+                readable_label = label_map.get(label, label)
                 
                 results.append({
                     'text': text,
-                    'label': top_prediction['label'],
+                    'label': readable_label,
                     'score': float(top_prediction['score']),
-                    'is_toxic': top_prediction['label'].lower() == 'toxic'
+                    'is_toxic': label == 'LABEL_3'
                 })
         
         return jsonify({

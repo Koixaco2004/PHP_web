@@ -4,7 +4,7 @@
 
 @section('content')
 <!-- Page Header -->
-<div class="bg-gradient-to-r from-primary-600 to-primary-800 dark:from-primary-800 dark:to-primary-900 rounded-xl shadow-lg p-8 mb-8 animate-slide-up">
+<div class="bg-gradient-to-r from-primary-600 to-primary-800 dark:from-primary-800 dark:to-primary-900 rounded-xl shadow-lg p-8 mb-8">
     <div class="flex items-center justify-between">
         <div class="flex items-center">
             <div class="w-16 h-16 bg-white bg-opacity-20 dark:bg-white dark:bg-opacity-30 rounded-xl flex items-center justify-center mr-6">
@@ -98,7 +98,11 @@
                                     <div class="flex items-center">
                                         <div class="flex-shrink-0 h-10 w-10">
                                             @if($post->user->avatar)
-                                                <img class="h-10 w-10 rounded-full object-cover" src="{{ $post->user->avatar }}" alt="{{ $post->user->name }}">
+                                                @if(Str::startsWith($post->user->avatar, ['http://', 'https://']))
+                                                    <img class="h-10 w-10 rounded-full object-cover" src="{{ $post->user->avatar }}" alt="{{ $post->user->name }}" onerror="this.src='{{ asset('hello.png') }}'">
+                                                @else
+                                                    <img class="h-10 w-10 rounded-full object-cover" src="{{ asset('storage/' . $post->user->avatar) }}" alt="{{ $post->user->name }}" onerror="this.src='{{ asset('hello.png') }}'">
+                                                @endif
                                             @else
                                                 <div class="h-10 w-10 rounded-full bg-primary-500 flex items-center justify-center">
                                                     <span class="text-white font-medium text-sm">{{ strtoupper(substr($post->user->name, 0, 1)) }}</span>

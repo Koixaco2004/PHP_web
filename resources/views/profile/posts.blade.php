@@ -52,7 +52,7 @@
                 </div>
                 <div>
                     <p class="text-sm text-secondary-600 dark:text-gray-300">Đã phê duyệt</p>
-                    <p class="text-2xl font-bold text-secondary-900 dark:text-white">{{ \App\Models\Post::where('user_id', $user->id)->where('approval_status', 'approved')->count() }}</p>
+                    <p class="text-2xl font-bold text-secondary-900 dark:text-white">{{ \App\Models\Post::where('user_id', $user->id)->where('status', 'published')->where('approval_status', 'approved')->count() }}</p>
                 </div>
             </div>
         </div>
@@ -66,7 +66,7 @@
                 </div>
                 <div>
                     <p class="text-sm text-secondary-600 dark:text-gray-300">Chờ duyệt</p>
-                    <p class="text-2xl font-bold text-secondary-900 dark:text-white">{{ \App\Models\Post::where('user_id', $user->id)->where('approval_status', 'pending')->count() }}</p>
+                    <p class="text-2xl font-bold text-secondary-900 dark:text-white">{{ \App\Models\Post::where('user_id', $user->id)->where('status', 'published')->where('approval_status', 'pending')->count() }}</p>
                 </div>
             </div>
         </div>
@@ -81,7 +81,7 @@
                 </div>
                 <div>
                     <p class="text-sm text-secondary-600 dark:text-gray-300">Lượt xem</p>
-                    <p class="text-2xl font-bold text-secondary-900 dark:text-white">{{ \App\Models\Post::where('user_id', $user->id)->sum('view_count') }}</p>
+                    <p class="text-2xl font-bold text-secondary-900 dark:text-white">{{ \App\Models\Post::where('user_id', $user->id)->where('status', 'published')->sum('view_count') }}</p>
                 </div>
             </div>
         </div>
@@ -101,7 +101,7 @@
                 <div>
                     <label class="block text-sm font-medium text-secondary-700 dark:text-gray-300 mb-2">Trạng thái</label>
                     <select name="status" class="w-full px-4 py-2 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white">
-                        <option value="">Tất cả</option>
+                        <option value="" {{ !request('status') ? 'selected' : '' }}>Tất cả</option>
                         <option value="published" {{ request('status') == 'published' ? 'selected' : '' }}>Đã xuất bản</option>
                         <option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>Bản nháp</option>
                     </select>
@@ -209,19 +209,23 @@
                                     {{ $post->category->name }}
                                 </span>
                                 @php
-                                    $approvalClasses = match($post->approval_status) {
-                                        'approved' => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-                                        'pending' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
-                                        default => 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
+                                    $tagClasses = match(true) {
+                                        $post->status == 'draft' && $post->approval_status == 'pending' => 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
+                                        $post->status == 'published' && $post->approval_status == 'approved' => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+                                        $post->status == 'published' && $post->approval_status == 'pending' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+                                        $post->status == 'published' && $post->approval_status == 'rejected' => 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
+                                        default => 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
                                     };
-                                    $approvalText = match($post->approval_status) {
-                                        'approved' => 'Đã duyệt',
-                                        'pending' => 'Chờ duyệt',
-                                        default => 'Từ chối',
+                                    $tagText = match(true) {
+                                        $post->status == 'draft' && $post->approval_status == 'pending' => 'Bản nháp',
+                                        $post->status == 'published' && $post->approval_status == 'approved' => 'Đã duyệt',
+                                        $post->status == 'published' && $post->approval_status == 'pending' => 'Chờ duyệt',
+                                        $post->status == 'published' && $post->approval_status == 'rejected' => 'Bị từ chối',
+                                        default => 'Không xác định',
                                     };
                                 @endphp
-                                <span class="px-2 py-1 text-xs font-semibold rounded-full {{ $approvalClasses }}">
-                                    {{ $approvalText }}
+                                <span class="px-2 py-1 text-xs font-semibold rounded-full {{ $tagClasses }}">
+                                    {{ $tagText }}
                                 </span>
                             </div>
                             
@@ -281,26 +285,23 @@
                                         {{ $post->category->name }}
                                     </span>
                                     @php
-                                        $approvalClasses = match($post->approval_status) {
-                                            'approved' => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-                                            'pending' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
-                                            default => 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
+                                        $tagClasses = match(true) {
+                                            $post->status == 'draft' && $post->approval_status == 'pending' => 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
+                                            $post->status == 'published' && $post->approval_status == 'approved' => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+                                            $post->status == 'published' && $post->approval_status == 'pending' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+                                            $post->status == 'published' && $post->approval_status == 'rejected' => 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
+                                            default => 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
                                         };
-                                        $approvalText = match($post->approval_status) {
-                                            'approved' => 'Đã duyệt',
-                                            'pending' => 'Chờ duyệt',
-                                            default => 'Từ chối',
+                                        $tagText = match(true) {
+                                            $post->status == 'draft' && $post->approval_status == 'pending' => 'Bản nháp',
+                                            $post->status == 'published' && $post->approval_status == 'approved' => 'Đã duyệt',
+                                            $post->status == 'published' && $post->approval_status == 'pending' => 'Chờ duyệt',
+                                            $post->status == 'published' && $post->approval_status == 'rejected' => 'Bị từ chối',
+                                            default => 'Không xác định',
                                         };
-                                        $statusClasses = $post->status == 'published' 
-                                            ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
-                                            : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300';
-                                        $statusText = $post->status == 'published' ? 'Đã xuất bản' : 'Bản nháp';
                                     @endphp
-                                    <span class="px-2 py-1 text-xs font-semibold rounded-full {{ $approvalClasses }}">
-                                        {{ $approvalText }}
-                                    </span>
-                                    <span class="px-2 py-1 text-xs font-semibold rounded-full {{ $statusClasses }}">
-                                        {{ $statusText }}
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full {{ $tagClasses }}">
+                                        {{ $tagText }}
                                     </span>
                                 </div>
                                 

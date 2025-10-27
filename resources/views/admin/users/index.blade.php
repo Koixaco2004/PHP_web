@@ -8,7 +8,7 @@
 
 @section('content')
 <!-- Page Header -->
-<div class="bg-gradient-to-r from-primary-600 to-primary-800 dark:from-primary-800 dark:to-primary-900 rounded-xl shadow-lg p-8 mb-8 animate-slide-up">
+<div class="bg-gradient-to-r from-primary-600 to-primary-800 dark:from-primary-800 dark:to-primary-900 rounded-xl shadow-lg p-8 mb-8">
     <div class="flex items-center justify-between">
         <div class="flex items-center">
             <div class="w-16 h-16 bg-white bg-opacity-20 dark:bg-white dark:bg-opacity-30 rounded-xl flex items-center justify-center mr-6">
@@ -32,7 +32,7 @@
 
 <!-- Quick Stats -->
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6">
         <div class="flex items-center">
             <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center mr-4">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -46,7 +46,7 @@
         </div>
     </div>
 
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.1s">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6">
         <div class="flex items-center">
             <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center mr-4">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -60,7 +60,7 @@
         </div>
     </div>
 
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.2s">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6">
         <div class="flex items-center">
             <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center mr-4">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -76,7 +76,7 @@
 </div>
 
 <!-- Users Table -->
-<div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 animate-slide-up">
+<div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700">
     <div class="px-6 py-4 border-b border-secondary-200 dark:border-gray-700">
         <div class="flex items-center justify-between">
             <h2 class="text-xl font-semibold text-secondary-900 dark:text-primary-400-dark flex items-center">
@@ -120,7 +120,15 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center">
                                 <div class="flex-shrink-0 h-10 w-10">
-                                    <img class="h-10 w-10 rounded-full object-cover" src="{{ $user->avatar ?? asset('hello.png') }}" alt="{{ $user->name }}">
+                                    @if($user->avatar)
+                                        @if(Str::startsWith($user->avatar, ['http://', 'https://']))
+                                            <img class="h-10 w-10 rounded-full object-cover" src="{{ $user->avatar }}" alt="{{ $user->name }}" onerror="this.src='{{ asset('hello.png') }}'">
+                                        @else
+                                            <img class="h-10 w-10 rounded-full object-cover" src="{{ asset('storage/' . $user->avatar) }}" alt="{{ $user->name }}" onerror="this.src='{{ asset('hello.png') }}'">
+                                        @endif
+                                    @else
+                                        <img class="h-10 w-10 rounded-full object-cover" src="{{ asset('hello.png') }}" alt="{{ $user->name }}">
+                                    @endif
                                 </div>
                                 <div class="ml-4">
                                     <div class="text-sm font-medium text-secondary-900 dark:text-primary-400-dark">
@@ -169,7 +177,7 @@
                                         @method('DELETE')
                                         <button type="submit"
                                                 class="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300 transition-colors duration-200"
-                                                onclick="return confirm('Bạn có chắc chắn muốn xóa người dùng này?')">
+                                                onclick="showConfirmationModal('Xác nhận xóa', 'Bạn có chắc chắn muốn xóa người dùng này?', 'Xóa', function() { this.closest('form').submit(); }); return false;">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                             </svg>
@@ -210,33 +218,38 @@ document.addEventListener('DOMContentLoaded', function() {
         select.addEventListener('change', function() {
             const userId = this.dataset.userId;
             const newRole = this.value;
+            const currentRole = this.dataset.currentRole;
 
-            if (confirm('Bạn có chắc chắn muốn thay đổi vai trò của người dùng này?')) {
-                fetch(`{{ url('/admin/users') }}/${userId}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({ role: newRole })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Vai trò đã được cập nhật thành công!');
-                    } else {
-                        alert('Có lỗi xảy ra khi cập nhật vai trò.');
-                        this.value = this.dataset.currentRole;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Có lỗi xảy ra khi cập nhật vai trò.');
-                    this.value = this.dataset.currentRole;
-                });
-            } else {
-                this.value = this.dataset.currentRole;
-            }
+            showConfirmationModal(
+                'Xác nhận thay đổi vai trò',
+                `Bạn có chắc chắn muốn thay đổi vai trò của người dùng này thành "${newRole === 'admin' ? 'Admin' : 'User'}"?`,
+                'Cập nhật',
+                function() {
+                    fetch(`{{ url('/admin/users') }}/${userId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({ role: newRole })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            showToast(data.message || 'Vai trò đã được cập nhật thành công!', 'success');
+                        } else {
+                            showToast('Có lỗi xảy ra khi cập nhật vai trò.', 'error');
+                            select.value = currentRole;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        showToast('Có lỗi xảy ra khi cập nhật vai trò.', 'error');
+                        select.value = currentRole;
+                    });
+                }
+            );
         });
     });
 });

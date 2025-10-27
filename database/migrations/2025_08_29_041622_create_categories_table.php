@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Tạo bảng categories để lưu trữ các danh mục sản phẩm
      */
     public function up(): void
     {
@@ -16,18 +16,19 @@ return new class extends Migration
             $table->string('name', 100);
             $table->string('slug', 120)->unique();
             $table->text('description')->nullable();
-            $table->string('color', 7)->default('#22c55e'); // Primary-500 color for UI
+            // Mặc định màu xanh lá để hiển thị trong giao diện người dùng
+            $table->string('color', 7)->default('#22c55e');
             $table->boolean('is_active')->default(true);
             $table->integer('sort_order')->default(0);
             $table->timestamps();
 
-            // Indexes
+            // Tạo chỉ mục để tối ưu hóa truy vấn theo trạng thái hoạt động và thứ tự sắp xếp
             $table->index(['is_active', 'sort_order']);
         });
     }
 
     /**
-     * Reverse the migrations.
+     * Xóa bảng categories khi rollback
      */
     public function down(): void
     {

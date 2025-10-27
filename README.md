@@ -13,7 +13,7 @@
 
 ### 🎯 Người dùng thường (User):
 
--   Đăng ký/đăng nhập với email & password, Google OAuth.
+-   Đăng ký/đăng nhập với email & password (có xác minh email), Google OAuth, quên mật khẩu.
 -   Tạo và quản lý bài viết với trình soạn thảo rich text, upload hình ảnh qua ImgBB API.
 -   Tìm kiếm nâng cao, bình luận phân cấp với lọc nội dung toxic tự động, nhận thông báo real-time.
 -   Quản lý profile cá nhân và đổi mật khẩu.
@@ -30,7 +30,7 @@
 
 -   **Framework:** Laravel (PHP)
 -   **ORM:** Eloquent
--   **Authentication:** Laravel Auth + Google OAuth
+-   **Authentication:** Laravel Auth + Laravel Socialite (Google OAuth)
 -   **Notifications:** Database channel
 
 ### Database:
@@ -41,7 +41,7 @@
 ### Frontend:
 
 -   **CSS Framework:** TailwindCSS
--   **JavaScript:** Vanilla JS + Axios
+-   **JavaScript:** Vanilla JS + Axios + TinyMCE (Rich Text Editor) + Chart.js (Dashboard Charts) + Lottie-web (Animations)
 -   **Build Tool:** Vite
 
 ### API & Services:
@@ -57,6 +57,20 @@
 -   **Framework:** Flask (REST API)
 -   **ML Libraries:** Transformers, PyTorch
 -   **Model:** PhoBERT-based toxic comment classifier (4-class classification)
+
+## 🤖 AI Content Moderation
+
+Hệ thống sử dụng mô hình AI để tự động lọc và phân loại bình luận độc hại (toxic comments) nhằm đảm bảo môi trường thảo luận lành mạnh.
+
+### Chi tiết mô hình:
+
+-   **Tên mô hình:** PhoBERT Vietnamese Comment Classifier
+-   **Repository:** [vanhai123/phobert-vi-comment-4class](https://huggingface.co/vanhai123/phobert-vi-comment-4class)
+-   **Phân loại:** 4 lớp (Positive, Negative, Neutral, Toxic)
+-   **Ngôn ngữ:** Tiếng Việt
+-   **Tích hợp:** API Flask chạy song song với Laravel để xử lý real-time
+
+Mô hình được tải tự động khi khởi động Python API và có thể phân loại bình luận đơn lẻ hoặc hàng loạt.
 
 ## ⚙️ Yêu cầu hệ thống
 
@@ -142,9 +156,9 @@ API sẽ chạy tại `http://127.0.0.1:5000`. Model sẽ tự động download 
     IMGBB_API_KEY=your_imgbb_api_key_here
     ```
 
-#### Email (Thông báo qua email):
+#### Email (Thông báo qua email và xác minh):
 
-Cấu hình SMTP trong `.env` (ví dụ Gmail):
+Cấu hình SMTP trong `.env` (ví dụ Gmail) cho thông báo, xác minh email và reset mật khẩu:
 
 ```env
 MAIL_MAILER=smtp
@@ -153,12 +167,14 @@ MAIL_PORT=587
 MAIL_USERNAME=your_email@gmail.com
 MAIL_PASSWORD=your_app_password
 MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS="hello@example.com"
+MAIL_FROM_NAME="${APP_NAME}"
 ```
 
 ### Bước 7: Build assets và chạy server
 
 ```bash
-npm run dev
+npm run build
 php artisan serve
 ```
 

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\PostImage;
 use App\Models\Category;
+use App\Models\User;
 use App\Services\SearchService;
+use App\Notifications\NewPostPendingNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -20,25 +22,25 @@ class PostController extends Controller
         $this->searchService = $searchService;
     }
     /**
-     * Display a listing of the resource.
+     * Hiển thị danh sách bài viết.
      */
     public function index()
     {
         $posts = Post::with(['category', 'user', 'images' => function ($query) {
             $query->where('is_featured', true)->orWhere('sort_order', 0);
-        }])->withActiveCategory()->latest()->paginate(10);
+        }])->where('status', 'published')->withActiveCategory()->latest()->paginate(10);
 
-        // Get total statistics (matching dashboard logic)
-        $totalPosts = Post::count();
+        // Lấy thống kê tổng hợp (phù hợp với logic dashboard)
+        $totalPosts = Post::where('status', 'published')->count();
         $publishedPosts = Post::where('status', 'published')->where('approval_status', 'approved')->count();
         $pendingPosts = Post::where('status', 'published')->where('approval_status', 'pending')->count();
-        $totalViews = Post::sum('view_count');
+        $totalViews = Post::where('status', 'published')->sum('view_count');
 
         return view('posts.index', compact('posts', 'totalPosts', 'publishedPosts', 'pendingPosts', 'totalViews'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Hiển thị form tạo bài viết mới.
      */
     public function create()
     {
@@ -47,7 +49,7 @@ class PostController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Lưu bài viết mới vào cơ sở dữ liệu.
      */
     public function store(Request $request)
     {
@@ -76,7 +78,7 @@ class PostController extends Controller
             'published_at' => $request->status === 'published' ? now() : null,
         ]);
 
-        // Handle uploaded images
+        // Xử lý hình ảnh đã tải lên
         if ($request->uploaded_images) {
             $uploadedImages = json_decode($request->uploaded_images, true);
 
@@ -87,12 +89,17 @@ class PostController extends Controller
                     'delete_url' => $imageData['delete_url'] ?? null,
                     'alt_text' => $imageData['alt_text'] ?? null,
                     'caption' => $imageData['caption'] ?? null,
-                    'width' => $imageData['width'] ?? null,
-                    'height' => $imageData['height'] ?? null,
-                    'file_size' => $imageData['file_size'] ?? null,
                     'sort_order' => $index,
                     'is_featured' => ($imageData['is_featured'] ?? false) || $index === 0, // First image is featured by default
                 ]);
+            }
+        }
+
+        // Gửi thông báo cho admin nếu bài viết được publish và cần phê duyệt
+        if ($post->status === 'published' && $post->approval_status === 'pending') {
+            $admins = User::where('role', 'admin')->get();
+            foreach ($admins as $admin) {
+                $admin->notify(new NewPostPendingNotification($post));
             }
         }
 
@@ -104,13 +111,18 @@ class PostController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Hiển thị form chỉnh sửa bài viết.
      */
     public function edit(Post $post)
     {
+        // Check if user can edit this post (author or admin)
+        if ($post->user_id !== Auth::id() && Auth::user()->role !== 'admin') {
+            abort(403, 'Bạn không có quyền chỉnh sửa bài viết này.');
+        }
+
         $categories = Category::active()->get();
 
-        // Load images and remove duplicates by URL, also load comments count
+        // Tải hình ảnh và loại bỏ trùng lặp theo URL, cũng tải số lượng bình luận
         $post->loadCount('comments');
         $post->load('images');
         $uniqueImages = $post->images->unique('image_url');
@@ -120,10 +132,15 @@ class PostController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Cập nhật bài viết được chỉ định.
      */
     public function update(Request $request, Post $post)
     {
+        // Check if user can update this post (author or admin)
+        if ($post->user_id !== Auth::id() && Auth::user()->role !== 'admin') {
+            abort(403, 'Bạn không có quyền cập nhật bài viết này.');
+        }
+
         $request->validate([
             'title' => 'required|max:255',
             'content' => 'required',
@@ -134,16 +151,16 @@ class PostController extends Controller
             'deleted_images' => 'nullable|json',
         ]);
 
-        // Generate new slug if title changed
+        // Tạo slug mới nếu tiêu đề thay đổi
         if ($post->title !== $request->title) {
             $newSlug = Str::slug($request->title);
 
-            // If slug is empty, generate a fallback
+            // Nếu slug trống, tạo fallback
             if (empty($newSlug)) {
                 $newSlug = 'post-' . time();
             }
 
-            // Ensure unique slug
+            // Đảm bảo slug duy nhất
             $originalSlug = $newSlug;
             $counter = 1;
             while (Post::where('slug', $newSlug)->where('id', '!=', $post->id)->exists()) {
@@ -154,6 +171,13 @@ class PostController extends Controller
             $newSlug = $post->slug;
         }
 
+        // Xác định trạng thái phê duyệt dựa trên vai trò người dùng
+        $isAdmin = Auth::user()->role === 'admin';
+        $oldApprovalStatus = $post->approval_status; // Lưu trạng thái cũ
+        $approvalStatus = $request->status === 'published'
+            ? ($isAdmin ? 'approved' : 'pending')
+            : $post->approval_status;
+
         $post->update([
             'title' => $request->title,
             'slug' => $newSlug,
@@ -162,11 +186,13 @@ class PostController extends Controller
             'status' => $request->status,
             'category_id' => $request->category_id,
             'updated_by' => Auth::id(),
-            'approval_status' => $request->status === 'published' ? 'pending' : $post->approval_status,
+            'approval_status' => $approvalStatus,
             'published_at' => $request->status === 'published' && !$post->published_at ? now() : ($request->status === 'draft' ? null : $post->published_at),
+            'approved_by' => $isAdmin && $request->status === 'published' ? Auth::id() : $post->approved_by,
+            'approved_at' => $isAdmin && $request->status === 'published' ? now() : $post->approved_at,
         ]);
 
-        // Handle deleted images
+        // Xử lý hình ảnh đã xóa
         if ($request->deleted_images) {
             $deletedImages = json_decode($request->deleted_images, true);
             if (is_array($deletedImages)) {
@@ -176,7 +202,7 @@ class PostController extends Controller
             }
         }
 
-        // Handle new uploaded images
+        // Xử lý hình ảnh mới đã tải lên
         if ($request->uploaded_images) {
             $uploadedImages = json_decode($request->uploaded_images, true);
             if (is_array($uploadedImages)) {
@@ -188,42 +214,60 @@ class PostController extends Controller
                         'caption' => $imageData['caption'] ?? null,
                         'sort_order' => $post->images()->count() + $index,
                         'is_featured' => $imageData['is_featured'] ?? false,
-                        'width' => $imageData['width'] ?? null,
-                        'height' => $imageData['height'] ?? null,
-                        'file_size' => $imageData['file_size'] ?? null,
                     ]);
                 }
             }
         }
 
-        // Refresh post to get updated slug
+        // Gửi thông báo cho admin nếu bài viết chuyển sang trạng thái pending (từ rejected hoặc draft)
+        if (!$isAdmin && $request->status === 'published' && $approvalStatus === 'pending' && $oldApprovalStatus !== 'pending') {
+            $admins = User::where('role', 'admin')->get();
+            foreach ($admins as $admin) {
+                $admin->notify(new NewPostPendingNotification($post));
+            }
+        }
+
+        // Làm mới bài viết để lấy slug cập nhật
         $post->refresh();
 
-        $message = $post->status === 'published'
-            ? 'Bài viết đã được cập nhật và gửi đến admin để phê duyệt lại!'
-            : 'Bài viết đã được cập nhật và lưu làm bản nháp thành công!';
+        // Xác định thông điệp dựa trên trạng thái phê duyệt
+        if ($post->status === 'published') {
+            $message = $isAdmin
+                ? 'Bài viết được đăng thành công!'
+                : 'Bài viết đã được cập nhật và gửi đến admin để phê duyệt lại!';
+        } else {
+            $message = 'Bài viết đã được cập nhật và lưu làm bản nháp thành công!';
+        }
 
-        // If post is draft, redirect to edit page instead of show page
-        // because show page only displays published posts
+        // Logic chuyển hướng: Nếu nháp, luôn chỉnh sửa; nếu xuất bản và phê duyệt, hiển thị; nếu xuất bản và chờ, chỉnh sửa
         if ($post->status === 'draft') {
             return redirect()->route('posts.edit', $post)->with('success', $message);
         }
 
-        // For published posts, redirect to show page
-        return redirect()->route('posts.show', $post->slug)->with('success', $message);
+        if ($post->approval_status === 'approved') {
+            return redirect()->route('posts.show', $post->slug)->with('success', $message);
+        } else {
+            // For pending approval, redirect to edit to avoid 404
+            return redirect()->route('posts.edit', $post)->with('success', $message);
+        }
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Xóa bài viết được chỉ định.
      */
     public function destroy(Post $post)
     {
+        // Check if user can delete this post (author or admin)
+        if ($post->user_id !== Auth::id() && Auth::user()->role !== 'admin') {
+            abort(403, 'Bạn không có quyền xóa bài viết này.');
+        }
+
         $post->delete();
         return redirect()->route('posts.index')->with('success', 'Bài viết đã được xóa thành công!');
     }
 
     /**
-     * Upload image for TinyMCE editor
+     * Tải lên hình ảnh cho trình chỉnh sửa TinyMCE.
      */
     public function uploadImage(Request $request)
     {
@@ -235,7 +279,7 @@ class PostController extends Controller
             if ($request->hasFile('file')) {
                 $image = $request->file('file');
 
-                // Use ImgBB service if available
+                // Use ImgBB service
                 if (config('services.imgbb.key')) {
                     $imgbbService = app(\App\Services\ImgBBService::class);
                     $result = $imgbbService->uploadImage($image);
@@ -248,20 +292,18 @@ class PostController extends Controller
                                 'delete_url' => $result['data']['delete_url'] ?? null,
                             ]
                         ]);
+                    } else {
+                        return response()->json([
+                            'success' => false,
+                            'message' => $result['message'] ?? 'Upload thất bại'
+                        ], 400);
                     }
+                } else {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'ImgBB API key chưa được cấu hình'
+                    ], 400);
                 }
-
-                // Fallback to local storage
-                $filename = time() . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
-                $path = $image->storeAs('uploads/tinymce', $filename, 'public');
-
-                return response()->json([
-                    'success' => true,
-                    'data' => [
-                        'url' => asset('storage/' . $path),
-                        'delete_url' => null,
-                    ]
-                ]);
             }
 
             return response()->json([
@@ -269,7 +311,7 @@ class PostController extends Controller
                 'message' => 'Không tìm thấy file'
             ], 400);
         } catch (\Exception $e) {
-            Log::error('TinyMCE Image Upload Error: ' . $e->getMessage());
+            Log::error('Lỗi tải lên hình ảnh TinyMCE: ' . $e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => 'Lỗi upload ảnh: ' . $e->getMessage()

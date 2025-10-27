@@ -8,7 +8,7 @@
 
 @section('content')
 <!-- Page Header -->
-<div class="bg-gradient-to-r from-primary-600 to-primary-800 dark:from-primary-800 dark:to-primary-900 rounded-xl shadow-lg p-8 mb-8 animate-slide-up">
+<div class="bg-gradient-to-r from-primary-600 to-primary-800 dark:from-primary-800 dark:to-primary-900 rounded-xl shadow-lg p-8 mb-8">
     <div class="flex items-center justify-between">
         <div class="flex items-center">
             <div class="w-16 h-16 bg-white bg-opacity-20 dark:bg-white dark:bg-opacity-30 rounded-xl flex items-center justify-center mr-6">
@@ -42,7 +42,7 @@
 
 <!-- Quick Stats -->
 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6">
         <div class="flex items-center">
             <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center mr-4">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -56,7 +56,7 @@
         </div>
     </div>
 
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.1s">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6">
         <div class="flex items-center">
             <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center mr-4">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -70,7 +70,7 @@
         </div>
     </div>
 
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.2s">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6">
         <div class="flex items-center">
             <div class="w-12 h-12 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-lg flex items-center justify-center mr-4">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -84,7 +84,7 @@
         </div>
     </div>
 
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.3s">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6">
         <div class="flex items-center">
             <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-lg flex items-center justify-center mr-4">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -101,7 +101,7 @@
 </div>
 
 <!-- Posts Table -->
-<div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 animate-slide-up">
+<div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700">
     <div class="px-6 py-4 border-b border-secondary-200 dark:border-gray-700">
         <div class="flex items-center justify-between">
             <h2 class="text-xl font-semibold text-secondary-900 dark:text-primary-400-dark flex items-center">
@@ -183,7 +183,15 @@
                             <td class="px-6 py-4 w-[15%]">
                                 <div class="flex items-center overflow-hidden">
                                     <div class="flex-shrink-0 h-8 w-8">
-                                        <img class="h-8 w-8 rounded-full object-cover" src="{{ $post->user->avatar ?? asset('hello.png') }}" alt="{{ $post->user->name }}">
+                                        @if($post->user->avatar)
+                                            @if(Str::startsWith($post->user->avatar, ['http://', 'https://']))
+                                                <img class="h-8 w-8 rounded-full object-cover" src="{{ $post->user->avatar }}" alt="{{ $post->user->name }}" onerror="this.src='{{ asset('hello.png') }}'">
+                                            @else
+                                                <img class="h-8 w-8 rounded-full object-cover" src="{{ asset('storage/' . $post->user->avatar) }}" alt="{{ $post->user->name }}" onerror="this.src='{{ asset('hello.png') }}'">
+                                            @endif
+                                        @else
+                                            <img class="h-8 w-8 rounded-full object-cover" src="{{ asset('hello.png') }}" alt="{{ $post->user->name }}">
+                                        @endif
                                     </div>
                                     <div class="ml-3 overflow-hidden">
                                         <div class="text-sm font-medium text-secondary-900 dark:text-primary-400-dark truncate">
@@ -251,7 +259,7 @@
                                             <button type="submit"
                                                     class="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300 transition-colors duration-200"
                                                     title="Xóa bài viết"
-                                                    onclick="return confirm('Bạn có chắc chắn muốn xóa bài viết này?')">
+                                                    onclick="showConfirmationModal('Xác nhận xóa', 'Bạn có chắc chắn muốn xóa bài viết này?', 'Xóa', function() { document.getElementById('delete-form-{{ $post->id }}').submit(); }); return false;">
                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                                 </svg>

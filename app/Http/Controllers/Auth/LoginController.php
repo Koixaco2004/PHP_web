@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
 {
     /**
-     * Show the login form.
+     * Hiển thị form đăng nhập.
      */
     public function showLoginForm()
     {
@@ -17,7 +17,7 @@ class LoginController extends Controller
     }
 
     /**
-     * Handle the login request.
+     * Xử lý yêu cầu đăng nhập.
      */
     public function login(Request $request)
     {
@@ -29,7 +29,7 @@ class LoginController extends Controller
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
 
-            // Check if email is verified
+            // Kiểm tra nếu email đã xác thực
             /** @var \App\Models\User $user */
             $user = Auth::user();
             if (!$user->hasVerifiedEmail()) {

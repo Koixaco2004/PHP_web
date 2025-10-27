@@ -18,8 +18,13 @@
                         <div class="relative -mt-16 mb-4 sm:mb-0">
                             <div class="w-32 h-32 rounded-full border-2 border-primary-500 dark:border-primary-400-dark shadow-lg overflow-hidden bg-gray-100 dark:bg-gray-700">
                                 @if($user->avatar)
-                                    <img src="{{ asset('storage/' . $user->avatar) }}" alt="{{ $user->name }}"
-                                         class="w-full h-full object-cover">
+                                    @if(Str::startsWith($user->avatar, ['http://', 'https://']))
+                                        <img src="{{ $user->avatar }}" alt="{{ $user->name }}"
+                                             class="w-full h-full object-cover" onerror="this.src='{{ asset('hello.png') }}'">
+                                    @else
+                                        <img src="{{ asset('storage/' . $user->avatar) }}" alt="{{ $user->name }}"
+                                             class="w-full h-full object-cover" onerror="this.src='{{ asset('hello.png') }}'">
+                                    @endif
                                 @else
                                     <img src="{{ asset('hello.png') }}" alt="Default Avatar"
                                          class="w-full h-full object-cover">
@@ -82,13 +87,6 @@
                                 {{ \Carbon\Carbon::parse($user->date_of_birth)->format('d/m/Y') }}
                             </span>
                         @endif
-                        <span class="flex items-center">
-                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
-                                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"></path>
-                            </svg>
-                            {{ $user->profile_views }} lượt xem
-                        </span>
                     </div>
                 </div>
             </div>
@@ -109,10 +107,10 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
                 <div class="flex items-center">
-                    <div class="p-3 bg-primary-100 rounded-full">
+                    <div class="p-3 bg-primary-100 dark:bg-primary-900-dark rounded-full">
                         <svg class="w-6 h-6 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd"></path>
                         </svg>
@@ -123,17 +121,18 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
                 <div class="flex items-center">
                     <div class="p-3 bg-primary-100 dark:bg-primary-900-dark rounded-full">
-                        <svg class="w-6 h-6 text-primary-600 dark:text-primary-400-dark" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"></path>
+                        <svg class="w-6 h-6 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
+                            <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"></path>
                         </svg>
                     </div>
                     <div class="ml-4">
-                        <p class="text-2xl font-semibold text-gray-900 dark:text-primary-400-dark">{{ $user->role === 'admin' ? 'Admin' : 'User' }}</p>
-                        <p class="text-gray-500 dark:text-gray-400">Vai trò</p>
+                        <p class="text-2xl font-semibold text-gray-900 dark:text-primary-400-dark">{{ $user->profile_views }}</p>
+                        <p class="text-gray-500 dark:text-gray-400">Lượt xem</p>
                     </div>
                 </div>
             </div>
@@ -217,6 +216,10 @@
                                 </div>
                             </div>
                         @endforeach
+                    </div>
+                    <!-- Pagination -->
+                    <div class="mt-6">
+                        {{ $posts->links() }}
                     </div>
                 @else
                     <div class="text-center py-12">

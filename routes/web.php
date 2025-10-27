@@ -26,10 +26,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware(['admin'])->group(function () {
         Route::get('/admin/posts', [PostController::class, 'index'])->name('posts.index');
-        Route::get('/admin/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
-        Route::put('/admin/posts/{post}', [PostController::class, 'update'])->name('posts.update');
-        Route::delete('/admin/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
     });
+
+    // User can edit their own posts, admin can edit any
+    Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit')->middleware('auth');
+    Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.update')->middleware('auth');
+    Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy')->middleware('auth');
 
     Route::prefix('posts/{post}/images')->name('posts.images.')->group(function () {
         Route::get('/', [PostImageController::class, 'index'])->name('index');
@@ -46,6 +48,9 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 
     Route::post('/notifications/{notification}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.mark-as-read');
+    Route::post('/notifications/{notification}/mark-as-read-only', [NotificationController::class, 'markAsReadOnly'])->name('notifications.mark-as-read-only');
+    Route::post('/notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-as-read');
+    Route::get('/api/notifications/unread-count', [NotificationController::class, 'getUnreadCount'])->name('api.notifications.unread-count');
 });
 
 // Routes requiring verified email

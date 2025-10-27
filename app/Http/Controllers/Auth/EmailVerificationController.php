@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 class EmailVerificationController extends Controller
 {
     /**
-     * Display the email verification notice.
+     * Hiển thị thông báo xác thực email.
      */
     public function notice()
     {
@@ -23,7 +23,7 @@ class EmailVerificationController extends Controller
     }
 
     /**
-     * Mark the authenticated user's email address as verified.
+     * Đánh dấu địa chỉ email của người dùng đã xác thực.
      */
     public function verify(EmailVerificationRequest $request)
     {
@@ -40,7 +40,7 @@ class EmailVerificationController extends Controller
     }
 
     /**
-     * Resend the email verification notification.
+     * Gửi lại thông báo xác thực email.
      */
     public function resend(Request $request)
     {

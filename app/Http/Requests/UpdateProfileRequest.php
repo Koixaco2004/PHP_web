@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 class UpdateProfileRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Xác định nếu người dùng được phép thực hiện yêu cầu này.
      */
     public function authorize(): bool
     {
@@ -15,7 +15,7 @@ class UpdateProfileRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Lấy các quy tắc validation áp dụng cho yêu cầu.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
@@ -33,7 +33,7 @@ class UpdateProfileRequest extends FormRequest
     }
 
     /**
-     * Get the error messages for the defined validation rules.
+     * Lấy các thông điệp lỗi cho các quy tắc validation đã định nghĩa.
      */
     public function messages(): array
     {

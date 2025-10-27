@@ -1,4 +1,4 @@
-<div class="comment-item animate-slide-up" data-comment-id="{{ $comment->id }}" x-data="{ showToxic: false }">
+<div class="comment-item" data-comment-id="{{ $comment->id }}" x-data="{ showToxic: false }">
     <div class="flex space-x-4">
         <div class="flex-shrink-0">
             <div class="w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center">

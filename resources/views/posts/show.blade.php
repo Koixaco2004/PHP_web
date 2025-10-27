@@ -5,7 +5,7 @@
 @section('content')
 <!-- Draft Status Alert -->
 @if($post->status === 'draft')
-    <div class="bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-700 rounded-lg p-4 mb-6 animate-fade-in">
+    <div class="bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-700 rounded-lg p-4 mb-6">
         <div class="flex items-center">
             <svg class="w-5 h-5 text-yellow-600 dark:text-yellow-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"/>
@@ -26,7 +26,7 @@
 <!-- Approval Status Alert for Published Posts -->
 @if($post->status === 'published')
     @if($post->approval_status === 'pending')
-        <div class="bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-700 rounded-lg p-4 mb-6 animate-fade-in">
+        <div class="bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-700 rounded-lg p-4 mb-6">
             <div class="flex items-center">
                 <svg class="w-5 h-5 text-yellow-600 dark:text-yellow-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -43,7 +43,7 @@
             </div>
         </div>
     @elseif($post->approval_status === 'rejected')
-        <div class="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg p-4 mb-6 animate-fade-in">
+        <div class="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg p-4 mb-6">
             <div class="flex items-center">
                 <svg class="w-5 h-5 text-red-600 dark:text-red-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -63,7 +63,7 @@
 @endif
 
 <!-- Breadcrumb Navigation -->
-<nav class="flex items-center space-x-2 text-sm text-secondary-500 dark:text-gray-400 mb-6 animate-fade-in">
+<nav class="flex items-center space-x-2 text-sm text-secondary-500 dark:text-gray-400 mb-6">
     <a href="{{ route('home') }}" class="hover:text-primary-600 dark:hover:text-primary-400-dark transition-colors duration-200">Trang chủ</a>
     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -81,7 +81,7 @@
     <!-- Main Article Content -->
     <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Article Header -->
-        <article class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 overflow-hidden mb-8 animate-slide-up">
+        <article class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 overflow-hidden mb-8">
             <!-- Category Badge -->
             <div class="p-6 pb-0">
                 <div class="flex items-center justify-between mb-4">
@@ -129,7 +129,11 @@
                     <div class="flex items-center space-x-6">
                         <div class="flex items-center space-x-3">
                             @if($post->user->avatar)
-                                <img src="{{ asset('storage/' . $post->user->avatar) }}" alt="{{ $post->user->name }}" class="w-10 h-10 rounded-full object-cover border-2 border-primary-500">
+                                @if(Str::startsWith($post->user->avatar, ['http://', 'https://']))
+                                    <img src="{{ $post->user->avatar }}" alt="{{ $post->user->name }}" class="w-10 h-10 rounded-full object-cover border-2 border-primary-500" onerror="this.src='{{ asset('hello.png') }}'">
+                                @else
+                                    <img src="{{ asset('storage/' . $post->user->avatar) }}" alt="{{ $post->user->name }}" class="w-10 h-10 rounded-full object-cover border-2 border-primary-500" onerror="this.src='{{ asset('hello.png') }}'">
+                                @endif
                             @else
                                 <img src="{{ asset('hello.png') }}" alt="Default Avatar" class="w-10 h-10 rounded-full object-cover border-2 border-primary-500">
                             @endif
@@ -246,7 +250,7 @@
         </article>
 
         <!-- Comments Section -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 overflow-hidden animate-slide-up" style="animation-delay: 0.1s">
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 overflow-hidden">
             <div class="p-6 border-b border-secondary-200 dark:border-gray-700 bg-secondary-50 dark:bg-gray-700">
                 <h3 class="text-xl font-heading font-semibold text-secondary-900 dark:text-primary-400-dark flex items-center">
                     <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -530,98 +534,101 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Delete comment/reply function
     window.deleteComment = function(commentId, isReply) {
-        if (!confirm('Bạn có chắc chắn muốn xóa bình luận này?')) {
-            return;
-        }
+        showConfirmationModal(
+            'Xác nhận xóa',
+            'Bạn có chắc chắn muốn xóa bình luận này?',
+            'Xóa',
+            function() {
+                const deleteUrl = `/comments/${commentId}`;
 
-        const deleteUrl = `/comments/${commentId}`;
-        
-        // Add deleting animation class
-        let elementToDelete;
-        if (isReply) {
-            elementToDelete = document.querySelector(`[data-reply-id="${commentId}"]`);
-        } else {
-            elementToDelete = document.querySelector(`[data-comment-id="${commentId}"]`);
-        }
-        
-        if (elementToDelete) {
-            elementToDelete.classList.add('comment-deleting');
-        }
-        
-        fetch(deleteUrl, {
-            method: 'DELETE',
-            headers: {
-                'X-CSRF-TOKEN': csrfToken,
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Wait for animation to complete before removing
-                setTimeout(() => {
-                    // Show toast notification
-                    if (typeof showToast === 'function') {
-                        showToast(data.message, 'success');
+                // Add deleting animation class
+                let elementToDelete;
+                if (isReply) {
+                    elementToDelete = document.querySelector(`[data-reply-id="${commentId}"]`);
+                } else {
+                    elementToDelete = document.querySelector(`[data-comment-id="${commentId}"]`);
+                }
+
+                if (elementToDelete) {
+                    elementToDelete.classList.add('comment-deleting');
+                }
+
+                fetch(deleteUrl, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
                     }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Wait for animation to complete before removing
+                        setTimeout(() => {
+                            // Show toast notification
+                            if (typeof showToast === 'function') {
+                                showToast(data.message, 'success');
+                            }
 
-                    // Remove the comment/reply element from DOM
-                    if (isReply) {
-                        const replyElement = document.querySelector(`[data-reply-id="${commentId}"]`);
-                        if (replyElement) {
-                            replyElement.remove();
-                        }
-                    } else {
-                        const commentElement = document.querySelector(`[data-comment-id="${commentId}"]`);
-                        if (commentElement) {
-                            commentElement.remove();
-                            
-                            // Update comment count
-                            const commentsCount = document.getElementById('comments-count');
-                            if (commentsCount) {
-                                const currentCount = parseInt(commentsCount.textContent);
-                                commentsCount.textContent = Math.max(0, currentCount - 1);
-                                
-                                // Show "no comments" message if count is 0
-                                if (currentCount - 1 === 0) {
-                                    const commentsList = document.getElementById('comments-list');
-                                    if (commentsList && commentsList.children.length === 0) {
-                                        commentsList.innerHTML = `
-                                            <div class="text-center py-8" id="no-comments-message">
-                                                <svg class="w-16 h-16 text-secondary-300 dark:text-gray-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-                                                </svg>
-                                                <h4 class="text-lg font-medium text-secondary-900 dark:text-primary-400-dark mb-2">Chưa có bình luận nào</h4>
-                                                <p class="text-secondary-500 dark:text-gray-400">Hãy là người đầu tiên bình luận về bài viết này!</p>
-                                            </div>
-                                        `;
+                            // Remove the comment/reply element from DOM
+                            if (isReply) {
+                                const replyElement = document.querySelector(`[data-reply-id="${commentId}"]`);
+                                if (replyElement) {
+                                    replyElement.remove();
+                                }
+                            } else {
+                                const commentElement = document.querySelector(`[data-comment-id="${commentId}"]`);
+                                if (commentElement) {
+                                    commentElement.remove();
+
+                                    // Update comment count
+                                    const commentsCount = document.getElementById('comments-count');
+                                    if (commentsCount) {
+                                        const currentCount = parseInt(commentsCount.textContent);
+                                        commentsCount.textContent = Math.max(0, currentCount - 1);
+
+                                        // Show "no comments" message if count is 0
+                                        if (currentCount - 1 === 0) {
+                                            const commentsList = document.getElementById('comments-list');
+                                            if (commentsList && commentsList.children.length === 0) {
+                                                commentsList.innerHTML = `
+                                                    <div class="text-center py-8" id="no-comments-message">
+                                                        <svg class="w-16 h-16 text-secondary-300 dark:text-gray-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                                                        </svg>
+                                                        <h4 class="text-lg font-medium text-secondary-900 dark:text-primary-400-dark mb-2">Chưa có bình luận nào</h4>
+                                                        <p class="text-secondary-500 dark:text-gray-400">Hãy là người đầu tiên bình luận về bài viết này!</p>
+                                                    </div>
+                                                `;
+                                            }
+                                        }
                                     }
                                 }
                             }
+                        }, 300); // Wait for animation to complete
+                    } else {
+                        // Remove animation class on error
+                        if (elementToDelete) {
+                            elementToDelete.classList.remove('comment-deleting');
+                        }
+                        if (typeof showToast === 'function') {
+                            showToast(data.message || 'Có lỗi xảy ra khi xóa bình luận!', 'error');
                         }
                     }
-                }, 300); // Wait for animation to complete
-            } else {
-                // Remove animation class on error
-                if (elementToDelete) {
-                    elementToDelete.classList.remove('comment-deleting');
-                }
-                if (typeof showToast === 'function') {
-                    showToast(data.message || 'Có lỗi xảy ra khi xóa bình luận!', 'error');
-                }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Remove animation class on error
+                    if (elementToDelete) {
+                        elementToDelete.classList.remove('comment-deleting');
+                    }
+                    if (typeof showToast === 'function') {
+                        showToast('Có lỗi xảy ra khi xóa bình luận!', 'error');
+                    }
+                });
             }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            // Remove animation class on error
-            if (elementToDelete) {
-                elementToDelete.classList.remove('comment-deleting');
-            }
-            if (typeof showToast === 'function') {
-                showToast('Có lỗi xảy ra khi xóa bình luận!', 'error');
-            }
-        });
+        );
     };
 
     // Show edit form for comment
@@ -907,11 +914,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (successful) {
                     showCopySuccess();
                 } else {
-                    alert('Không thể sao chép liên kết!');
+                    if (typeof showToast === 'function') {
+                        showToast('Không thể sao chép liên kết!', 'error');
+                    } else {
+                        alert('Không thể sao chép liên kết!');
+                    }
                 }
             } catch (err) {
                 console.error('Fallback copy failed:', err);
-                alert('Không thể sao chép liên kết!');
+                if (typeof showToast === 'function') {
+                    showToast('Không thể sao chép liên kết!', 'error');
+                } else {
+                    alert('Không thể sao chép liên kết!');
+                }
             }
 
             document.body.removeChild(textArea);

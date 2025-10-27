@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class LogoutController extends Controller
 {
     /**
-     * Handle the logout request.
+     * Xử lý yêu cầu đăng xuất.
      */
     public function logout(Request $request)
     {

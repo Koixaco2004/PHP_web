@@ -4,7 +4,7 @@
 
 @section('content')
 <!-- Breadcrumb -->
-<nav class="flex items-center space-x-2 text-sm text-secondary-500 dark:text-gray-400 mb-6 animate-fade-in">
+<nav class="flex items-center space-x-2 text-sm text-secondary-500 dark:text-gray-400 mb-6">
     <a href="{{ route('home') }}" class="hover:text-primary-600 dark:hover:text-primary-400-dark transition-colors duration-200">Trang chủ</a>
     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -13,7 +13,7 @@
 </nav>
 
 <!-- Category Header -->
-<div class="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900 dark:to-primary-800 rounded-2xl p-8 mb-8 animate-slide-up">
+<div class="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900 dark:to-primary-800 rounded-2xl p-8 mb-8">
     <div class="max-w-4xl mx-auto">
         <div class="flex items-center justify-between mb-4">
             <div class="flex items-center space-x-3">
@@ -85,7 +85,7 @@
         <!-- Articles List -->
         <div class="space-y-6">
             @forelse($posts as $index => $post)
-                <article class="bg-white dark:bg-gray-800 rounded-lg border border-primary-200 dark:border-gray-700 overflow-hidden p-6 hover:shadow-md dark:hover:shadow-gray-900/20 transition-all duration-300 animate-slide-up group" style="animation-delay: {{ $index * 0.1 }}s">
+                <article class="bg-white dark:bg-gray-800 rounded-lg border border-primary-200 dark:border-gray-700 overflow-hidden p-6 hover:shadow-md dark:hover:shadow-gray-900/20 transition-all duration-300 group">
                     <div class="flex space-x-6">
                         <!-- Article Thumbnail -->
                         <div class="w-32 h-24 bg-gradient-to-br from-secondary-100 dark:from-gray-700 to-secondary-200 dark:to-gray-600 rounded-lg overflow-hidden flex-shrink-0 group-hover:shadow-md transition-all duration-300">
@@ -213,7 +213,7 @@
     <!-- Sidebar -->
     <div class="lg:col-span-4">
         <!-- Category Info -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 mb-6 animate-slide-up" style="animation-delay: 0.2s">
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 mb-6">
             <div class="flex items-center mb-4">
                 <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -234,7 +234,7 @@
         </div>
 
         <!-- Related Categories -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 animate-slide-up" style="animation-delay: 0.4s">
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6">
             <div class="flex items-center mb-4">
                 <svg class="w-5 h-5 text-accent-600 dark:text-accent-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>

@@ -5,6 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Model Comment
+ * 
+ * Đại diện cho một bình luận trong hệ thống, hỗ trợ cấu trúc phân cấp (bình luận và phản hồi)
+ * và khả năng phát hiện nội dung có độc hại.
+ */
 class Comment extends Model
 {
     use HasFactory;
@@ -22,7 +28,7 @@ class Comment extends Model
     ];
 
     /**
-     * Get the post that owns the comment.
+     * Lấy bài viết sở hữu bình luận
      */
     public function post()
     {
@@ -30,7 +36,7 @@ class Comment extends Model
     }
 
     /**
-     * Get the user that owns the comment.
+     * Lấy người dùng sở hữu bình luận
      */
     public function user()
     {
@@ -38,7 +44,7 @@ class Comment extends Model
     }
 
     /**
-     * Get the parent comment.
+     * Lấy bình luận cha (dùng cho phản hồi bình luận)
      */
     public function parent()
     {
@@ -46,7 +52,7 @@ class Comment extends Model
     }
 
     /**
-     * Get the child comments.
+     * Lấy tất cả bình luận con (phản hồi)
      */
     public function children()
     {
@@ -54,7 +60,7 @@ class Comment extends Model
     }
 
     /**
-     * Get only top-level comments (no parent).
+     * Lấy chỉ các bình luận cấp cao nhất (không có cha)
      */
     public function scopeTopLevel($query)
     {
@@ -62,13 +68,17 @@ class Comment extends Model
     }
 
     /**
-     * Get comment depth level.
+     * Tính độ sâu của bình luận trong cấu trúc phân cấp
+     * 
+     * Độ sâu được xác định bằng số lần phải đi lên cây để đạt bình luận gốc.
+     * Ví dụ: bình luận gốc có độ sâu = 0, phản hồi trực tiếp = 1, v.v.
      */
     public function getDepthAttribute()
     {
         $depth = 0;
         $parent = $this->parent;
 
+        // Lặp lên cây bình luận để đếm số cấp độ
         while ($parent) {
             $depth++;
             $parent = $parent->parent;

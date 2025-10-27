@@ -17,7 +17,7 @@ class HomeController extends Controller
         $this->searchService = $searchService;
     }
     /**
-     * Display the home page.
+     * Hiển thị trang chủ.
      */
     public function index(Request $request)
     {
@@ -34,7 +34,7 @@ class HomeController extends Controller
     }
 
     /**
-     * Display the specified post.
+     * Hiển thị bài viết được chỉ định.
      */
     public function show($slug)
     {
@@ -42,17 +42,17 @@ class HomeController extends Controller
             $q->with('user', 'children.user')->whereNull('parent_id')->latest();
         }, 'images'])->where('slug', $slug);
 
-        // If user is authenticated, check permissions
+        // Nếu người dùng đã xác thực, kiểm tra quyền
         if (Auth::check()) {
             $user = Auth::user();
             $post = $query->firstOrFail();
 
-            // Draft posts can only be viewed by the author
+            // Bài viết nháp chỉ có thể xem bởi tác giả
             if ($post->status === 'draft' && $post->user_id !== $user->id) {
                 abort(404);
             }
 
-            // For published posts, check if user is author or if post is approved
+            // Đối với bài viết đã xuất bản, kiểm tra nếu người dùng là tác giả hoặc bài viết đã được phê duyệt
             if ($post->status === 'published') {
                 if ($post->approval_status !== 'approved' && $post->user_id !== $user->id) {
                     // Non-authors can only see approved published posts
@@ -60,22 +60,22 @@ class HomeController extends Controller
                 }
             }
         } else {
-            // For public users, only show published and approved posts
+            // Đối với người dùng công khai, chỉ hiển thị bài viết đã xuất bản và phê duyệt
             $post = $query->published()->firstOrFail();
         }
 
-        // Remove duplicate images by URL
+        // Loại bỏ hình ảnh trùng lặp theo URL
         if ($post->images) {
             $uniqueImages = $post->images->unique('image_url');
             $post->setRelation('images', $uniqueImages);
         }
 
-        // Only increment view count for published and approved posts
+        // Chỉ tăng số lượt xem cho bài viết đã xuất bản và phê duyệt
         if ($post->status === 'published' && $post->approval_status === 'approved') {
             $post->increment('view_count');
         }
 
-        // Get related posts using SearchService
+        // Lấy bài viết liên quan bằng SearchService
         $relatedPosts = $this->searchService->getRelatedPosts($post, 3);
 
         return view('posts.show', compact('post', 'relatedPosts'));

@@ -4,7 +4,7 @@ use Illuminate\Support\Str;
 
 if (!function_exists('highlightSearchTerm')) {
     /**
-     * Highlight search terms in text.
+     * Làm nổi bật các từ khóa tìm kiếm trong văn bản.
      */
     function highlightSearchTerm($text, $term)
     {
@@ -32,7 +32,7 @@ if (!function_exists('highlightSearchTerm')) {
 
 if (!function_exists('formatSearchResults')) {
     /**
-     * Format search results with proper highlighting.
+     * Định dạng kết quả tìm kiếm với việc làm nổi bật phù hợp.
      */
     function formatSearchResults($posts, $query)
     {

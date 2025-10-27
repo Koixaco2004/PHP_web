@@ -4,7 +4,7 @@
 
 @section('content')
 <!-- Search Header -->
-<div class="bg-gradient-to-r from-primary-600 to-primary-800 rounded-xl shadow-lg p-8 mb-8 animate-slide-up">
+<div class="bg-gradient-to-r from-primary-600 to-primary-800 rounded-xl shadow-lg p-8 mb-8">
     <div class="max-w-4xl mx-auto">
         <div class="text-center mb-6">
             <h1 class="text-4xl font-heading font-bold text-white mb-4">
@@ -19,22 +19,17 @@
         <form method="GET" action="{{ route('search') }}" class="relative">
             <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
                 <div class="flex-1 relative">
-                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <svg class="w-6 h-6 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                        </svg>
-                    </div>
-                    <input type="text" 
-                           name="q" 
-                           value="{{ $query ?? request('q') }}" 
-                           placeholder="Nhập từ khóa tìm kiếm..." 
-                           class="block w-full pl-12 pr-4 py-4 text-lg border border-secondary-300 rounded-xl bg-white focus:ring-2 focus:ring-white focus:border-white transition-colors duration-200"
+                    <input type="text"
+                           name="q"
+                           value="{{ $query ?? request('q') }}"
+                           placeholder="Nhập từ khóa tìm kiếm..."
+                           class="block w-full pl-4 pr-4 py-4 text-lg text-secondary-900 dark:text-primary-100-dark border border-secondary-300 dark:border-primary-700-dark rounded-xl bg-white dark:bg-primary-900-dark focus:ring-2 focus:ring-white dark:focus:ring-primary-700-dark focus:border-white dark:focus:border-primary-700-dark transition-colors duration-200"
                            autocomplete="off"
                            autofocus>
                 </div>
                 
                 <div class="flex space-x-2">
-                    <select name="category" class="px-4 py-4 border border-secondary-300 rounded-xl bg-white focus:ring-2 focus:ring-white focus:border-white transition-colors duration-200">
+                    <select name="category" class="px-4 py-4 text-secondary-900 dark:text-primary-100-dark border border-secondary-300 dark:border-primary-700-dark rounded-xl bg-white dark:bg-primary-900-dark focus:ring-2 focus:ring-white dark:focus:ring-primary-700-dark focus:border-white dark:focus:border-primary-700-dark transition-colors duration-200">
                         <option value="">Tất cả chuyên mục</option>
                         @if(isset($categories))
                             @foreach($categories as $category)
@@ -60,7 +55,7 @@
                     <!-- Author Filter -->
                     <div>
                         <label class="block text-sm font-medium text-white mb-2">Tác giả</label>
-                        <select name="author" class="w-full px-3 py-2 border border-secondary-300 rounded-lg bg-white focus:ring-2 focus:ring-white focus:border-white text-sm">
+                        <select name="author" class="w-full px-3 py-2 text-secondary-900 dark:text-primary-100-dark border border-secondary-300 dark:border-primary-700-dark rounded-lg bg-white dark:bg-primary-900-dark focus:ring-2 focus:ring-white dark:focus:ring-primary-700-dark focus:border-white dark:focus:border-primary-700-dark text-sm">
                             <option value="">Tất cả tác giả</option>
                             @if(isset($authors))
                                 @foreach($authors as $author)
@@ -75,29 +70,17 @@
                     <!-- Date Range -->
                     <div>
                         <label class="block text-sm font-medium text-white mb-2">Từ ngày</label>
-                        <input type="date" name="date_from" value="{{ request('date_from') }}" 
-                               class="w-full px-3 py-2 border border-secondary-300 rounded-lg bg-white focus:ring-2 focus:ring-white focus:border-white text-sm">
+                        <input type="date" name="date_from" value="{{ request('date_from') }}"
+                               class="w-full px-3 py-2 text-secondary-900 dark:text-primary-100-dark border border-secondary-300 dark:border-primary-700-dark rounded-lg bg-white dark:bg-primary-900-dark focus:ring-2 focus:ring-white dark:focus:ring-primary-700-dark focus:border-white dark:focus:border-primary-700-dark text-sm">
                     </div>
                     
                     <div>
                         <label class="block text-sm font-medium text-white mb-2">Đến ngày</label>
-                        <input type="date" name="date_to" value="{{ request('date_to') }}" 
-                               class="w-full px-3 py-2 border border-secondary-300 rounded-lg bg-white focus:ring-2 focus:ring-white focus:border-white text-sm">
+                        <input type="date" name="date_to" value="{{ request('date_to') }}"
+                               class="w-full px-3 py-2 text-secondary-900 dark:text-primary-100-dark border border-secondary-300 dark:border-primary-700-dark rounded-lg bg-white dark:bg-primary-900-dark focus:ring-2 focus:ring-white dark:focus:ring-primary-700-dark focus:border-white dark:focus:border-primary-700-dark text-sm">
                     </div>
                 </div>
                 
-                @auth
-                    @if(auth()->user()->role === 'admin')
-                        <div class="mt-4">
-                            <label class="block text-sm font-medium text-white mb-2">Trạng thái</label>
-                            <select name="status" class="px-3 py-2 border border-secondary-300 rounded-lg bg-white focus:ring-2 focus:ring-white focus:border-white text-sm">
-                                <option value="">Tất cả trạng thái</option>
-                                <option value="published" {{ request('status') == 'published' ? 'selected' : '' }}>Đã xuất bản</option>
-                                <option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>Bản nháp</option>
-                            </select>
-                        </div>
-                    @endif
-                @endauth
             </div>
         </form>
     </div>
@@ -106,7 +89,7 @@
 <div class="max-w-7xl mx-auto px-4">
     @if(isset($query) && $query)
         <!-- Search Results Header -->
-        <div class="mb-8 animate-fade-in">
+        <div class="mb-8">
             <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
                 <div>
                     <h2 class="text-2xl font-semibold text-secondary-900 mb-2">
@@ -125,7 +108,7 @@
                 <!-- Sort Options -->
                 <div class="flex items-center space-x-4 mt-4 md:mt-0">
                     <span class="text-sm text-secondary-600">Sắp xếp:</span>
-                    <select onchange="updateSort(this.value)" class="text-sm border border-secondary-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                    <select onchange="updateSort(this.value)" class="text-sm text-secondary-900 dark:text-primary-100-dark border border-secondary-300 dark:border-primary-700-dark rounded-lg px-3 py-2 bg-white dark:bg-primary-900-dark focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-700-dark focus:border-primary-500 dark:focus:border-primary-700-dark">
                         @if(isset($sortOptions))
                             @foreach($sortOptions as $value => $label)
                                 <option value="{{ $value }}" {{ request('sort') == $value ? 'selected' : '' }}>{{ $label }}</option>
@@ -199,18 +182,8 @@
                     </span>
                 @endif
                 
-                @if(request('status'))
-                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-orange-100 text-orange-800">
-                        {{ request('status') == 'published' ? 'Đã xuất bản' : 'Bản nháp' }}
-                        <a href="?{{ http_build_query(request()->except('status')) }}" class="ml-2 text-orange-600 hover:text-orange-800">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                            </svg>
-                        </a>
-                    </span>
-                @endif
                 
-                @if(request()->anyFilled(['q', 'category', 'author', 'date_from', 'date_to', 'status']))
+                @if(request()->anyFilled(['q', 'category', 'author', 'date_from', 'date_to']))
                     <a href="{{ route('search') }}" class="text-sm text-secondary-600 hover:text-secondary-800 underline">
                         Xóa tất cả bộ lọc
                     </a>
@@ -224,7 +197,7 @@
                 <!-- Results List -->
                 <div class="lg:col-span-2 space-y-6">
                     @foreach($posts as $index => $post)
-                        <article class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6 hover:shadow-md transition-shadow duration-300 animate-slide-up" style="animation-delay: {{ $index * 0.1 }}s">
+                        <article class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6 hover:shadow-md transition-shadow duration-300">
                             <div class="flex items-start space-x-4">
                                 <div class="w-20 h-20 bg-gradient-to-br from-primary-100 to-primary-200 rounded-lg overflow-hidden flex-shrink-0">
                                     @if($post->main_image)
@@ -302,7 +275,7 @@
                 <!-- Sidebar -->
                 <div class="lg:col-span-1 space-y-6">
                     <!-- Popular Categories -->
-                    <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6 animate-slide-up" style="animation-delay: 0.2s">
+                    <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6">
                         <h3 class="text-lg font-semibold text-secondary-900 mb-4 flex items-center">
                             <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
@@ -329,7 +302,7 @@
                     
                     <!-- Popular Authors -->
                     @if(isset($authors) && $authors->count() > 0)
-                        <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6 animate-slide-up" style="animation-delay: 0.3s">
+                        <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6">
                             <h3 class="text-lg font-semibold text-secondary-900 mb-4 flex items-center">
                                 <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
@@ -354,7 +327,7 @@
                     @endif
                     
                     <!-- Search Tips -->
-                    <div class="bg-gradient-to-br from-accent-50 to-accent-100 rounded-xl p-6 animate-slide-up" style="animation-delay: 0.4s">
+                    <div class="bg-gradient-to-br from-accent-50 to-accent-100 rounded-xl p-6">
                         <h3 class="text-lg font-semibold text-accent-900 mb-4 flex items-center">
                             <svg class="w-5 h-5 text-accent-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
@@ -391,7 +364,7 @@
                     </div>
                     
                     <!-- Recent Searches -->
-                    <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6 animate-slide-up" style="animation-delay: 0.6s">
+                    <div class="bg-white rounded-xl shadow-sm border border-secondary-200 p-6">
                         <h3 class="text-lg font-semibold text-secondary-900 mb-4 flex items-center">
                             <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -407,7 +380,7 @@
             </div>
         @else
             <!-- No Results -->
-            <div class="text-center py-16 animate-fade-in">
+            <div class="text-center py-16">
                 <svg class="w-24 h-24 text-secondary-400 mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                 </svg>
@@ -444,20 +417,6 @@
                 Nhập từ khóa vào ô tìm kiếm ở trên để khám phá nội dung phù hợp với bạn.
             </p>
             
-            <!-- Popular Keywords -->
-            <div class="max-w-2xl mx-auto">
-                <h4 class="text-lg font-medium text-secondary-900 mb-4">Từ khóa phổ biến:</h4>
-                <div class="flex flex-wrap justify-center gap-3">
-                    @php
-                        $popularKeywords = ['công nghệ', 'kinh doanh', 'giáo dục', 'sức khỏe', 'du lịch', 'ẩm thực', 'thể thao', 'giải trí'];
-                    @endphp
-                    @foreach($popularKeywords as $keyword)
-                        <a href="?q={{ $keyword }}" class="inline-flex items-center px-4 py-2 bg-white border border-secondary-300 rounded-full text-sm text-secondary-700 hover:bg-primary-50 hover:border-primary-300 hover:text-primary-700 transition-colors duration-200">
-                            {{ $keyword }}
-                        </a>
-                    @endforeach
-                </div>
-            </div>
         </div>
     @endif
 </div>

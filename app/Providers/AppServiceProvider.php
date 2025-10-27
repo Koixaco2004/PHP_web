@@ -7,10 +7,15 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Pagination\Paginator;
 use App\Models\Category;
 
+/**
+ * Nhà cung cấp dịch vụ ứng dụng - Cấu hình các dịch vụ chung của ứng dụng.
+ * Chịu trách nhiệm khởi tạo cài đặt toàn cục như phân trang, dữ liệu được chia sẻ giữa các view.
+ */
 class AppServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
+     * Đăng ký các dịch vụ ứng dụng.
+     * Được gọi khi ứng dụng khởi động, trước khi các dịch vụ khác được khởi động.
      */
     public function register(): void
     {
@@ -18,14 +23,17 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bootstrap any application services.
+     * Khởi động các dịch vụ ứng dụng.
+     * Được gọi sau khi tất cả dịch vụ đã được đăng ký, dùng để cấu hình và khởi tạo các tính năng.
      */
     public function boot(): void
     {
-        // Use custom pagination view
+        // Sử dụng giao diện phân trang tùy chỉnh với Tailwind CSS
         Paginator::defaultView('vendor.pagination.tailwind');
 
-        // Share categories with specific views for navigation
+        // Chia sẻ danh mục (chỉ những danh mục hoạt động) với các view chỉ định
+        // Thực hiện truy vấn này để lấy số lượng bài viết đã xuất bản cho mỗi danh mục,
+        // từ đó hỗ trợ hiển thị tính toán động trong thanh điều hướng
         View::composer(['layouts.app', 'home', 'posts.*'], function ($view) {
             $navigationCategories = Category::active()
                 ->withCount(['posts' => function ($query) {

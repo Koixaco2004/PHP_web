@@ -47,7 +47,11 @@
                                             <div class="flex items-center space-x-4 mb-6 text-sm">
                                                 <div class="flex items-center space-x-2">
                                                     @if($post->user->avatar)
-                                                        <img src="{{ asset('storage/' . $post->user->avatar) }}" alt="{{ $post->user->name }}" class="w-7 h-7 rounded-full object-cover border-2 border-white">
+                                                        @if(Str::startsWith($post->user->avatar, ['http://', 'https://']))
+                                                            <img src="{{ $post->user->avatar }}" alt="{{ $post->user->name }}" class="w-7 h-7 rounded-full object-cover border-2 border-white" onerror="this.src='{{ asset('hello.png') }}'">
+                                                        @else
+                                                            <img src="{{ asset('storage/' . $post->user->avatar) }}" alt="{{ $post->user->name }}" class="w-7 h-7 rounded-full object-cover border-2 border-white" onerror="this.src='{{ asset('hello.png') }}'">
+                                                        @endif
                                                     @else
                                                         <img src="{{ asset('hello.png') }}" alt="Default Avatar" class="w-7 h-7 rounded-full object-cover border-2 border-white">
                                                     @endif
@@ -105,7 +109,7 @@
 </div>
 
 <!-- Main Content Section -->
-<div x-data="{ viewMode: 'list' }">
+<div x-data="{ viewMode: 'grid' }">
     <!-- Section Header with View Toggle -->
     <div class="mb-8 flex items-center justify-between">
         <h1 class="text-2xl font-bold text-primary-900 dark:text-primary-400-dark">Tin tức mới nhất</h1>
@@ -162,7 +166,11 @@
                         <div class="flex items-center justify-between pt-3 border-t border-primary-100 dark:border-gray-700">
                             <div class="flex items-center space-x-2">
                                 @if($post->user->avatar)
-                                    <img src="{{ asset('storage/' . $post->user->avatar) }}" alt="{{ $post->user->name }}" class="w-6 h-6 rounded-full object-cover border-2 border-primary-500">
+                                    @if(Str::startsWith($post->user->avatar, ['http://', 'https://']))
+                                        <img src="{{ $post->user->avatar }}" alt="{{ $post->user->name }}" class="w-6 h-6 rounded-full object-cover border-2 border-primary-500" onerror="this.src='{{ asset('hello.png') }}'">
+                                    @else
+                                        <img src="{{ asset('storage/' . $post->user->avatar) }}" alt="{{ $post->user->name }}" class="w-6 h-6 rounded-full object-cover border-2 border-primary-500" onerror="this.src='{{ asset('hello.png') }}'">
+                                    @endif
                                 @else
                                     <img src="{{ asset('hello.png') }}" alt="Default Avatar" class="w-6 h-6 rounded-full object-cover border-2 border-primary-500">
                                 @endif
@@ -212,7 +220,11 @@
                     <div class="flex items-center justify-between pt-3 border-t border-primary-100 dark:border-gray-700 mt-auto">
                         <div class="flex items-center space-x-2">
                             @if($post->user->avatar)
-                                <img src="{{ asset('storage/' . $post->user->avatar) }}" alt="{{ $post->user->name }}" class="w-6 h-6 rounded-full object-cover border-2 border-primary-500">
+                                @if(Str::startsWith($post->user->avatar, ['http://', 'https://']))
+                                    <img src="{{ $post->user->avatar }}" alt="{{ $post->user->name }}" class="w-6 h-6 rounded-full object-cover border-2 border-primary-500" onerror="this.src='{{ asset('hello.png') }}'">
+                                @else
+                                    <img src="{{ asset('storage/' . $post->user->avatar) }}" alt="{{ $post->user->name }}" class="w-6 h-6 rounded-full object-cover border-2 border-primary-500" onerror="this.src='{{ asset('hello.png') }}'">
+                                @endif
                             @else
                                 <img src="{{ asset('hello.png') }}" alt="Default Avatar" class="w-6 h-6 rounded-full object-cover border-2 border-primary-500">
                             @endif

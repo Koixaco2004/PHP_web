@@ -13,7 +13,8 @@ use Illuminate\Support\Str;
 class PostFactory extends Factory
 {
     /**
-     * Define the model's default state.
+     * Định nghĩa trạng thái mặc định của model Post
+     * Tạo dữ liệu giả cho bài viết với các thuộc tính như tiêu đề, nội dung, trạng thái phê duyệt, v.v.
      *
      * @return array<string, mixed>
      */
@@ -40,17 +41,19 @@ class PostFactory extends Factory
         $title = $this->faker->randomElement($vietnameseTitles) . ' ' . $this->faker->numberBetween(1, 1000);
         $isPublished = $this->faker->boolean(70);
 
+        // Xác định trạng thái phê duyệt: chỉ bài đã xuất bản mới có cơ hội được phê duyệt
         $approvalStatus = 'pending';
         if ($isPublished) {
             $approvalStatus = $this->faker->boolean(80) ? 'approved' : 'pending';
         }
 
         $htmlContent = $this->generateHtmlContent();
-
         $excerpt = $this->generateExcerpt();
 
         $userId = User::factory();
         $createdAt = $this->faker->dateTimeBetween('-1 year', 'now');
+
+        // Thời gian phê duyệt chỉ được thiết lập nếu bài viết được phê duyệt và đã xuất bản
         $approvedAt = ($approvalStatus === 'approved' && $isPublished)
             ? $this->faker->dateTimeBetween($createdAt, 'now')
             : null;
@@ -77,7 +80,10 @@ class PostFactory extends Factory
     }
 
     /**
-     * Generate HTML content for the post
+     * Tạo nội dung HTML cho bài viết
+     * Xây dựng cấu trúc bài viết bao gồm các tiêu đề, đoạn văn, danh sách, trích dẫn và hình ảnh
+     *
+     * @return string Nội dung HTML của bài viết
      */
     private function generateHtmlContent(): string
     {
@@ -123,12 +129,14 @@ class PostFactory extends Factory
         $imageIndex = 0;
 
         for ($i = 0; $i < $sectionCount; $i++) {
+            // Thêm tiêu đề cho các section sau section đầu tiên
             if ($i > 0) {
                 $html .= '<h2 class="text-2xl font-bold mt-8 mb-4 text-gray-900 dark:text-gray-100">' . $this->faker->randomElement($headings) . '</h2>';
             }
 
             $html .= '<p class="mb-4 leading-relaxed text-gray-900 dark:text-gray-100">' . $this->faker->randomElement($paragraphs) . '</p>';
 
+            // Thêm hình ảnh với xác suất 40%
             if ($this->faker->boolean(40)) {
                 $html .= '{{POST_IMAGE_' . $imageIndex . '}}';
                 $imageIndex++;
@@ -136,6 +144,7 @@ class PostFactory extends Factory
 
             $html .= '<p class="mb-4 leading-relaxed text-gray-900 dark:text-gray-100">' . $this->faker->randomElement($paragraphs) . '</p>';
 
+            // Thêm danh sách với xác suất 30%
             if ($this->faker->boolean(30)) {
                 $items = $this->faker->randomElement($listItems);
                 $html .= '<ul class="list-disc list-inside mb-6 space-y-2 ml-4">';
@@ -145,6 +154,7 @@ class PostFactory extends Factory
                 $html .= '</ul>';
             }
 
+            // Thêm trích dẫn với xác suất 25%
             if ($this->faker->boolean(25)) {
                 $html .= '<blockquote class="border-l-4 border-blue-500 dark:border-blue-400 pl-6 py-4 my-6 italic bg-gray-50 dark:bg-gray-800 rounded-r-lg">';
                 $html .= '<p class="text-gray-700 dark:text-gray-300">"' . $this->faker->randomElement($quotes) . '"</p>';
@@ -152,7 +162,7 @@ class PostFactory extends Factory
             }
         }
 
-        // Add conclusion
+        // Thêm phần kết luận
         $html .= '<h2 class="text-2xl font-bold mt-8 mb-4 text-gray-900 dark:text-gray-100">Kết luận</h2>';
         $html .= '<p class="mb-4 leading-relaxed text-gray-900 dark:text-gray-100">' . $this->faker->randomElement($paragraphs) . '</p>';
 
@@ -164,7 +174,10 @@ class PostFactory extends Factory
     }
 
     /**
-     * Generate excerpt for the post
+     * Tạo văn bản mô tả ngắn cho bài viết
+     * Chọn ngẫu nhiên một đoạn văn bản để dùng làm excerpt
+     *
+     * @return string Văn bản mô tả của bài viết
      */
     private function generateExcerpt(): string
     {
@@ -183,7 +196,10 @@ class PostFactory extends Factory
     }
 
     /**
-     * Indicate that the post is published.
+     * Thiết lập bài viết ở trạng thái đã xuất bản
+     * Đặt status thành 'published' và gán thời gian xuất bản
+     *
+     * @return static
      */
     public function published(): static
     {
@@ -194,7 +210,10 @@ class PostFactory extends Factory
     }
 
     /**
-     * Indicate that the post is draft.
+     * Thiết lập bài viết ở trạng thái nháp
+     * Đặt status thành 'draft' và không gán thời gian xuất bản
+     *
+     * @return static
      */
     public function draft(): static
     {
@@ -205,7 +224,10 @@ class PostFactory extends Factory
     }
 
     /**
-     * Indicate that the post is featured.
+     * Đánh dấu bài viết là nổi bật
+     * Đặt cờ is_featured thành true để bài viết xuất hiện ở vị trí ưu tiên
+     *
+     * @return static
      */
     public function featured(): static
     {

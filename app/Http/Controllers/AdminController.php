@@ -11,19 +11,22 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\PostApprovedNotification;
 use App\Notifications\PostRejectedNotification;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
     use AuthorizesRequests;
     /**
-     * Display admin dashboard.
+     * Hiển thị bảng điều khiển quản trị.
      */
-    public function dashboard()
+    public function dashboard(Request $request)
     {
+        $months = $request->get('months', 6);
+
         $stats = [
             'total_posts' => Post::where('status', 'published')->count(),
             'published_posts' => Post::where('status', 'published')->where('approval_status', 'approved')->count(),
-            'draft_posts' => Post::where('status', 'draft')->where('user_id', Auth::id())->count(), // Chỉ đếm draft của chính admin
+            'draft_posts' => Post::where('status', 'draft')->where('user_id', Auth::id())->count(), // Chỉ đếm các bài viết nháp của admin hiện tại
             'pending_posts' => Post::where('status', 'published')->where('approval_status', 'pending')->count(),
             'total_categories' => Category::count(),
             'active_categories' => Category::where('is_active', true)->count(),
@@ -32,18 +35,54 @@ class AdminController extends Controller
             'admin_users' => User::where('role', 'admin')->count(),
         ];
 
-        // Chỉ hiển thị bài viết đã published trong recent posts (không bao gồm draft)
+        // Tính toán phần trăm thay đổi theo tháng cho tổng số bài viết
+        $currentMonth = Carbon::now();
+        $previousMonth = Carbon::now()->subMonth();
+
+        $currentPosts = Post::where('status', 'published')
+            ->whereMonth('created_at', $currentMonth->month)
+            ->whereYear('created_at', $currentMonth->year)
+            ->count();
+
+        $previousPosts = Post::where('status', 'published')
+            ->whereMonth('created_at', $previousMonth->month)
+            ->whereYear('created_at', $previousMonth->year)
+            ->count();
+
+        if ($previousPosts > 0) {
+            $percentageChange = (($currentPosts - $previousPosts) / $previousPosts) * 100;
+        } else {
+            $percentageChange = $currentPosts > 0 ? 100 : 0; // If no previous posts, 100% if current > 0, else 0
+        }
+
+        $stats['posts_change_percentage'] = round($percentageChange, 1);
+
+        // Chuẩn bị dữ liệu biểu đồ cho N tháng gần nhất
+        $chartData = [];
+        for ($i = $months - 1; $i >= 0; $i--) {
+            $date = Carbon::now()->subMonths($i);
+            $count = Post::where('status', 'published')
+                ->whereMonth('created_at', $date->month)
+                ->whereYear('created_at', $date->year)
+                ->count();
+            $chartData[] = [
+                'month' => $date->format('M Y'),
+                'count' => $count
+            ];
+        }
+
+        // Chỉ hiển thị bài viết đã xuất bản trong danh sách gần đây
         $recentPosts = Post::with(['category', 'user'])
             ->where('status', 'published')
             ->latest()
             ->limit(5)
             ->get();
 
-        return view('admin.dashboard', compact('stats', 'recentPosts'));
+        return view('admin.dashboard', compact('stats', 'recentPosts', 'chartData'));
     }
 
     /**
-     * Display a listing of users.
+     * Hiển thị danh sách người dùng.
      */
     public function users()
     {
@@ -58,7 +97,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Show the form for editing a user.
+     * Hiển thị form chỉnh sửa người dùng.
      */
     public function editUser(User $user)
     {
@@ -66,7 +105,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Update the specified user.
+     * Cập nhật người dùng được chỉ định.
      */
     public function updateUser(Request $request, User $user)
     {
@@ -80,11 +119,15 @@ class AdminController extends Controller
             'role' => $request->role,
         ]);
 
+        if ($request->expectsJson()) {
+            return response()->json(['success' => true, 'message' => 'Vai trò đã được cập nhật thành công!']);
+        }
+
         return redirect()->route('admin.users.index')->with('success', 'Thông tin người dùng đã được cập nhật!');
     }
 
     /**
-     * Remove the specified user.
+     * Xóa người dùng được chỉ định.
      */
     public function destroyUser(User $user)
     {
@@ -100,7 +143,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Display a listing of comments.
+     * Hiển thị danh sách bình luận.
      */
     public function comments()
     {
@@ -110,7 +153,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Remove the specified comment.
+     * Xóa bình luận được chỉ định.
      */
     public function destroyComment(Comment $comment)
     {
@@ -120,7 +163,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Display pending posts for approval.
+     * Hiển thị bài viết đang chờ phê duyệt.
      */
     public function pendingPosts()
     {
@@ -133,7 +176,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Approve a post.
+     * Phê duyệt bài viết.
      */
     public function approvePost(Post $post)
     {
@@ -150,7 +193,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Reject a post.
+     * Từ chối bài viết.
      */
     public function rejectPost(Request $request, Post $post)
     {

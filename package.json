@@ -16,6 +16,7 @@
         "vite": "^7.0.4"
     },
     "dependencies": {
+        "chart.js": "^4.4.0",
         "lottie-web": "^5.13.0"
     }
 }
