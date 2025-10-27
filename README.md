@@ -3,9 +3,9 @@
 
 # SmurfExpress News Portal
 
-**Hệ thống Portal tin tức chuyên nghiệp** được xây dựng bằng Laravel với kiến trúc hiện đại, đầy đủ tính năng quản lý nội dung (CMS), hệ thống phê duyệt bài viết, thông báo real-time và tích hợp API bên thứ ba.
+**Hệ thống Portal tin tức chuyên nghiệp** được xây dựng bằng Laravel với kiến trúc hiện đại, đầy đủ tính năng quản lý nội dung (CMS), hệ thống phê duyệt bài viết, thông báo và tích hợp API bên thứ ba.
 
-Đây là đồ án môn học **Lập trình mã nguồn mở** của nhóm 4 thành viên.
+Đồ án môn học **Lập trình mã nguồn mở**.
 
 </div>
 
@@ -197,5 +197,5 @@ Truy cập: http://localhost:8000
 ---
 
 <div align="center">
-  <p>Made with ❤️ by SmurfExpress Team</p>
+  <p>Made with ❤️ by Smurf Team (Làng Xì Trum)</p>
 </div>
