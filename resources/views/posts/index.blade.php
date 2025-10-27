@@ -64,7 +64,7 @@
                 </svg>
             </div>
             <div class="flex-1">
-                <p class="text-sm text-secondary-600 dark:text-gray-300 mb-1">Đã xuất bản</p>
+                <p class="text-sm text-secondary-600 dark:text-gray-300 mb-1">Đã phê duyệt</p>
                 <p class="text-2xl font-bold text-primary-600 dark:text-primary-400-dark">{{ $publishedPosts }}</p>
             </div>
         </div>

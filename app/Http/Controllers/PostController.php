@@ -28,13 +28,13 @@ class PostController extends Controller
     {
         $posts = Post::with(['category', 'user', 'images' => function ($query) {
             $query->where('is_featured', true)->orWhere('sort_order', 0);
-        }])->where('status', 'published')->withActiveCategory()->latest()->paginate(10);
+        }])->withActiveCategory()->latest()->paginate(10);
 
         // Lấy thống kê tổng hợp (phù hợp với logic dashboard)
-        $totalPosts = Post::where('status', 'published')->count();
-        $publishedPosts = Post::where('status', 'published')->where('approval_status', 'approved')->count();
-        $pendingPosts = Post::where('status', 'published')->where('approval_status', 'pending')->count();
-        $totalViews = Post::where('status', 'published')->sum('view_count');
+        $totalPosts = Post::count();
+        $publishedPosts = Post::where('approval_status', 'approved')->count();
+        $pendingPosts = Post::where('approval_status', 'pending')->count();
+        $totalViews = Post::sum('view_count');
 
         return view('posts.index', compact('posts', 'totalPosts', 'publishedPosts', 'pendingPosts', 'totalViews'));
     }
@@ -58,24 +58,20 @@ class PostController extends Controller
             'content' => 'required',
             'category_id' => 'required|exists:categories,id',
             'excerpt' => 'nullable|max:500',
-            'status' => 'required|in:draft,published',
             'uploaded_images' => 'nullable|json',
         ]);
-
-
 
         $post = Post::create([
             'title' => $request->title,
             'slug' => Str::slug($request->title),
             'content' => $request->content,
             'excerpt' => $request->excerpt,
-            'status' => $request->status,
-            'approval_status' => $request->status === 'published' ? 'pending' : 'pending',
+            'approval_status' => 'pending',
             'category_id' => $request->category_id,
             'user_id' => Auth::id(),
             'created_by' => Auth::id(),
             'updated_by' => Auth::id(),
-            'published_at' => $request->status === 'published' ? now() : null,
+            'published_at' => now(),
         ]);
 
         // Xử lý hình ảnh đã tải lên
@@ -95,19 +91,15 @@ class PostController extends Controller
             }
         }
 
-        // Gửi thông báo cho admin nếu bài viết được publish và cần phê duyệt
-        if ($post->status === 'published' && $post->approval_status === 'pending') {
+        // Gửi thông báo cho admin nếu bài viết cần phê duyệt
+        if ($post->approval_status === 'pending') {
             $admins = User::where('role', 'admin')->get();
             foreach ($admins as $admin) {
                 $admin->notify(new NewPostPendingNotification($post));
             }
         }
 
-        $message = $post->status === 'published'
-            ? 'Bài viết đã được gửi đến admin để phê duyệt!'
-            : 'Bài viết đã được lưu làm bản nháp thành công!';
-
-        return redirect()->route('posts.show', $post->slug)->with('success', $message);
+        return redirect()->route('posts.show', $post->slug)->with('success', 'Bài viết đã được gửi đến admin để phê duyệt!');
     }
 
     /**
@@ -146,7 +138,6 @@ class PostController extends Controller
             'content' => 'required',
             'category_id' => 'required|exists:categories,id',
             'excerpt' => 'nullable|max:500',
-            'status' => 'required|in:draft,published',
             'uploaded_images' => 'nullable|json',
             'deleted_images' => 'nullable|json',
         ]);
@@ -174,22 +165,19 @@ class PostController extends Controller
         // Xác định trạng thái phê duyệt dựa trên vai trò người dùng
         $isAdmin = Auth::user()->role === 'admin';
         $oldApprovalStatus = $post->approval_status; // Lưu trạng thái cũ
-        $approvalStatus = $request->status === 'published'
-            ? ($isAdmin ? 'approved' : 'pending')
-            : $post->approval_status;
+        $approvalStatus = $isAdmin ? 'approved' : 'pending';
 
         $post->update([
             'title' => $request->title,
             'slug' => $newSlug,
             'content' => $request->content,
             'excerpt' => $request->excerpt,
-            'status' => $request->status,
             'category_id' => $request->category_id,
             'updated_by' => Auth::id(),
             'approval_status' => $approvalStatus,
-            'published_at' => $request->status === 'published' && !$post->published_at ? now() : ($request->status === 'draft' ? null : $post->published_at),
-            'approved_by' => $isAdmin && $request->status === 'published' ? Auth::id() : $post->approved_by,
-            'approved_at' => $isAdmin && $request->status === 'published' ? now() : $post->approved_at,
+            'published_at' => !$post->published_at ? now() : $post->published_at,
+            'approved_by' => $isAdmin ? Auth::id() : $post->approved_by,
+            'approved_at' => $isAdmin ? now() : $post->approved_at,
         ]);
 
         // Xử lý hình ảnh đã xóa
@@ -219,8 +207,8 @@ class PostController extends Controller
             }
         }
 
-        // Gửi thông báo cho admin nếu bài viết chuyển sang trạng thái pending (từ rejected hoặc draft)
-        if (!$isAdmin && $request->status === 'published' && $approvalStatus === 'pending' && $oldApprovalStatus !== 'pending') {
+        // Gửi thông báo cho admin nếu bài viết chuyển sang trạng thái pending (từ rejected)
+        if (!$isAdmin && $approvalStatus === 'pending' && $oldApprovalStatus !== 'pending') {
             $admins = User::where('role', 'admin')->get();
             foreach ($admins as $admin) {
                 $admin->notify(new NewPostPendingNotification($post));
@@ -231,19 +219,11 @@ class PostController extends Controller
         $post->refresh();
 
         // Xác định thông điệp dựa trên trạng thái phê duyệt
-        if ($post->status === 'published') {
-            $message = $isAdmin
-                ? 'Bài viết được đăng thành công!'
-                : 'Bài viết đã được cập nhật và gửi đến admin để phê duyệt lại!';
-        } else {
-            $message = 'Bài viết đã được cập nhật và lưu làm bản nháp thành công!';
-        }
+        $message = $isAdmin
+            ? 'Bài viết được đăng thành công!'
+            : 'Bài viết đã được cập nhật và gửi đến admin để phê duyệt lại!';
 
-        // Logic chuyển hướng: Nếu nháp, luôn chỉnh sửa; nếu xuất bản và phê duyệt, hiển thị; nếu xuất bản và chờ, chỉnh sửa
-        if ($post->status === 'draft') {
-            return redirect()->route('posts.edit', $post)->with('success', $message);
-        }
-
+        // Logic chuyển hướng: Nếu phê duyệt, hiển thị; nếu chờ, chỉnh sửa
         if ($post->approval_status === 'approved') {
             return redirect()->route('posts.show', $post->slug)->with('success', $message);
         } else {

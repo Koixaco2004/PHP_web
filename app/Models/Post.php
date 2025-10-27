@@ -18,7 +18,6 @@ class Post extends Model
         'slug',
         'content',
         'excerpt',
-        'status',
         'approval_status',
         'rejection_reason',
         'category_id',
@@ -90,12 +89,11 @@ class Post extends Model
     }
 
     /**
-     * Lọc bài viết đã xuất bản (đã duyệt và nằm trong thời gian công khai)
+     * Lọc bài viết đã được phê duyệt và công khai
      */
     public function scopePublished($query)
     {
-        return $query->where('status', 'published')
-            ->where('approval_status', 'approved')
+        return $query->where('approval_status', 'approved')
             ->whereNotNull('published_at')
             ->where('published_at', '<=', now());
     }
@@ -105,8 +103,7 @@ class Post extends Model
      */
     public function scopePendingApproval($query)
     {
-        return $query->where('status', 'published')
-            ->where('approval_status', 'pending');
+        return $query->where('approval_status', 'pending');
     }
 
     /**

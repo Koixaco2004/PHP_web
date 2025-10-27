@@ -26,7 +26,7 @@
         </div>
         <div>
             <h1 class="text-3xl font-heading font-bold text-secondary-900 dark:text-primary-400-dark">Tạo bài viết mới</h1>
-            <p class="text-secondary-600 dark:text-gray-300 mt-1">Viết và xuất bản nội dung mới cho website</p>
+            <p class="text-secondary-600 dark:text-gray-300 mt-1">Viết và đăng nội dung mới cho website</p>
         </div>
     </div>
 </div>
@@ -115,10 +115,32 @@
                 </div>
             </div>
 
-            <!-- Hidden Status Field (will be set by submit buttons) -->
-            <input type="hidden" name="status" id="status" value="draft">
-
-            <!-- Excerpt and Stats Section: 2 columns -->
+            <!-- Submit Actions Section: Full Width -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6">
+                    <div class="flex items-center justify-between flex-wrap gap-4">
+                        <div class="flex items-center text-sm text-secondary-600 dark:text-gray-400">
+                            <svg class="w-5 h-5 mr-2 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            Các trường có dấu <span class="text-red-500">*</span> là bắt buộc
+                        </div>
+                        
+                        <div class="flex space-x-3">
+                            <a href="{{ route('posts.index') }}" class="btn-secondary flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                                Hủy
+                            </a>
+                            <button type="submit" class="btn-primary flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                                </svg>
+                                Đăng bài
+                            </button>
+                        </div>
+                    </div>
+                </div>
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <!-- Excerpt: 2 cols -->
                 <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6">
@@ -250,44 +272,10 @@
                         <p class="mt-1 text-xs text-secondary-500 dark:text-gray-400">Sử dụng trình soạn thảo WYSIWYG để định dạng nội dung một cách trực quan</p>
                     </div>
                 </div>
+            </div>
 
-                <!-- Form Actions -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 mt-6">
-                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
-                        <div class="flex items-center text-sm text-secondary-600 dark:text-gray-300">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                            Các trường có dấu <span class="text-red-500">*</span> là bắt buộc
-                        </div>
-                        
-                        <div class="flex space-x-3">
-                            <a href="{{ route('posts.index') }}" class="btn-secondary flex items-center">
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                </svg>
-                                Hủy
-                            </a>
-                            <button type="submit" name="action" value="draft" class="btn-secondary flex items-center">
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3-3m0 0l-3 3m3-3v12"/>
-                                </svg>
-                                Lưu nháp
-                            </button>
-                            <button type="submit" name="action" value="publish" class="btn-primary flex items-center">
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
-                                </svg>
-                                Xuất bản
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-
-        <!-- Image Gallery Modal -->
-<div id="imageGalleryModal" class="fixed inset-0 bg-black bg-opacity-50 dark:bg-black dark:bg-opacity-70 z-50 hidden">
+            <!-- Excerpt and Stats Section: 2 columns -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
     <div class="flex items-center justify-center p-4 min-h-full">
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
             <div class="flex items-center justify-between p-6 border-b border-secondary-200 dark:border-gray-700">
@@ -653,22 +641,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
         }
-
-        const submitButton = e.submitter;
-        if (submitButton && submitButton.name === 'action') {
-            if (submitButton.value === 'publish') {
-                document.getElementById('status').value = 'published';
-            } else if (submitButton.value === 'draft') {
-                document.getElementById('status').value = 'draft';
-            }
-        }
     });
     
     let autoSaveTimeout;
     function autoSave() {
         clearTimeout(autoSaveTimeout);
         autoSaveTimeout = setTimeout(() => {
-            console.log('Auto-saving draft...');
+            console.log('Auto-saving...');
         }, 30000);
     }
     

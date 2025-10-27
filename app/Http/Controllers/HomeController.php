@@ -47,20 +47,13 @@ class HomeController extends Controller
             $user = Auth::user();
             $post = $query->firstOrFail();
 
-            // Bài viết nháp chỉ có thể xem bởi tác giả
-            if ($post->status === 'draft' && $post->user_id !== $user->id) {
+            // Chỉ tác giả hoặc bài viết đã được phê duyệt mới có thể xem
+            if ($post->approval_status !== 'approved' && $post->user_id !== $user->id) {
+                // Non-authors can only see approved posts
                 abort(404);
             }
-
-            // Đối với bài viết đã xuất bản, kiểm tra nếu người dùng là tác giả hoặc bài viết đã được phê duyệt
-            if ($post->status === 'published') {
-                if ($post->approval_status !== 'approved' && $post->user_id !== $user->id) {
-                    // Non-authors can only see approved published posts
-                    abort(404);
-                }
-            }
         } else {
-            // Đối với người dùng công khai, chỉ hiển thị bài viết đã xuất bản và phê duyệt
+            // Đối với người dùng công khai, chỉ hiển thị bài viết đã phê duyệt
             $post = $query->published()->firstOrFail();
         }
 
@@ -70,8 +63,8 @@ class HomeController extends Controller
             $post->setRelation('images', $uniqueImages);
         }
 
-        // Chỉ tăng số lượt xem cho bài viết đã xuất bản và phê duyệt
-        if ($post->status === 'published' && $post->approval_status === 'approved') {
+        // Chỉ tăng số lượt xem cho bài viết đã phê duyệt
+        if ($post->approval_status === 'approved') {
             $post->increment('view_count');
         }
 

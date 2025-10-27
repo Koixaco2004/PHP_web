@@ -37,23 +37,20 @@ class ProfileController extends Controller
         // Tăng số lượt xem profile
         $user->increment('profile_views');
 
-        // Chỉ hiển thị bài viết đã published và approved cho public profile
+        // Chỉ hiển thị bài viết đã approved cho public profile
         $posts = Post::where('user_id', $user->id)
-            ->where('status', 'published')
             ->where('approval_status', 'approved')
             ->with('category')
             ->latest()
             ->paginate(5);
 
-        // Tính số bài viết published và approved
+        // Tính số bài viết approved
         $publishedPostsCount = Post::where('user_id', $user->id)
-            ->where('status', 'published')
             ->where('approval_status', 'approved')
             ->count();
 
-        // Tính số bình luận từ các bài viết published và approved
+        // Tính số bình luận từ các bài viết approved
         $publishedPostsIds = Post::where('user_id', $user->id)
-            ->where('status', 'published')
             ->where('approval_status', 'approved')
             ->pluck('id');
         $totalComments = Comment::whereIn('post_id', $publishedPostsIds)->count();
@@ -151,11 +148,6 @@ class ProfileController extends Controller
         $user = Auth::user();
 
         $query = Post::where('user_id', $user->id)->with('category', 'images');
-
-        // Lọc theo trạng thái nếu được chỉ định
-        if ($request->has('status') && in_array($request->status, ['published', 'draft'])) {
-            $query->where('status', $request->status);
-        }
 
         // Lọc theo trạng thái phê duyệt
         if ($request->has('approval') && in_array($request->approval, ['pending', 'approved', 'rejected'])) {

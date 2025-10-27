@@ -24,10 +24,10 @@ class AdminController extends Controller
         $months = $request->get('months', 6);
 
         $stats = [
-            'total_posts' => Post::where('status', 'published')->count(),
-            'published_posts' => Post::where('status', 'published')->where('approval_status', 'approved')->count(),
-            'draft_posts' => Post::where('status', 'draft')->where('user_id', Auth::id())->count(), // Chỉ đếm các bài viết nháp của admin hiện tại
-            'pending_posts' => Post::where('status', 'published')->where('approval_status', 'pending')->count(),
+            'total_posts' => Post::count(),
+            'published_posts' => Post::where('approval_status', 'approved')->count(),
+            'draft_posts' => 0, // Draft không còn tồn tại
+            'pending_posts' => Post::where('approval_status', 'pending')->count(),
             'total_categories' => Category::count(),
             'active_categories' => Category::where('is_active', true)->count(),
             'total_comments' => Comment::count(),
@@ -39,13 +39,11 @@ class AdminController extends Controller
         $currentMonth = Carbon::now();
         $previousMonth = Carbon::now()->subMonth();
 
-        $currentPosts = Post::where('status', 'published')
-            ->whereMonth('created_at', $currentMonth->month)
+        $currentPosts = Post::whereMonth('created_at', $currentMonth->month)
             ->whereYear('created_at', $currentMonth->year)
             ->count();
 
-        $previousPosts = Post::where('status', 'published')
-            ->whereMonth('created_at', $previousMonth->month)
+        $previousPosts = Post::whereMonth('created_at', $previousMonth->month)
             ->whereYear('created_at', $previousMonth->year)
             ->count();
 
@@ -61,8 +59,7 @@ class AdminController extends Controller
         $chartData = [];
         for ($i = $months - 1; $i >= 0; $i--) {
             $date = Carbon::now()->subMonths($i);
-            $count = Post::where('status', 'published')
-                ->whereMonth('created_at', $date->month)
+            $count = Post::whereMonth('created_at', $date->month)
                 ->whereYear('created_at', $date->year)
                 ->count();
             $chartData[] = [
@@ -71,9 +68,8 @@ class AdminController extends Controller
             ];
         }
 
-        // Chỉ hiển thị bài viết đã xuất bản trong danh sách gần đây
+        // Hiển thị tất cả bài viết trong danh sách gần đây
         $recentPosts = Post::with(['category', 'user'])
-            ->where('status', 'published')
             ->latest()
             ->limit(5)
             ->get();

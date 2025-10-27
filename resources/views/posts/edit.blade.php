@@ -30,11 +30,6 @@
                 <p class="text-sm md:text-base text-secondary-600 dark:text-gray-300 mt-1 truncate">Cập nhật nội dung cho "{{ Str::limit($post->title, 50) }}"</p>
             </div>
         </div>
-        <div class="flex items-center space-x-2 text-sm flex-shrink-0">
-            <span class="px-3 py-1 bg-{{ $post->status === 'published' ? 'primary' : 'yellow' }}-100 dark:bg-{{ $post->status === 'published' ? 'primary' : 'yellow' }}-900 text-{{ $post->status === 'published' ? 'primary' : 'yellow' }}-800 dark:text-{{ $post->status === 'published' ? 'primary' : 'yellow' }}-200 rounded-full font-medium whitespace-nowrap">
-                {{ $post->status === 'published' ? 'Đã xuất bản' : 'Bản nháp' }}
-            </span>
-        </div>
     </div>
 </div>
 
@@ -66,7 +61,7 @@
 @endif
 
 <!-- Admin Approval Section (Chỉ hiển thị cho admin khi xem bài pending) -->
-@if(Auth::check() && Auth::user()->role === 'admin' && $post->approval_status === 'pending' && $post->status !== 'draft')
+@if(Auth::check() && Auth::user()->role === 'admin' && $post->approval_status === 'pending')
 <div class="bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-500 p-6 mb-8 rounded-lg">
     <div class="flex items-start justify-between">
         <div class="flex items-start flex-1">
@@ -229,12 +224,9 @@
                     </div>
                 </div>
             </div>
-                
-            <!-- Hidden Status Field (will be set by submit buttons) -->
-            <input type="hidden" name="status" id="status" value="{{ old('status', $post->status) }}">
 
-                <!-- Excerpt and Stats Section: 2 columns -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Excerpt and Stats Section: 2 columns -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <!-- Excerpt: 2 cols -->
                     <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6">
                     <div class="flex items-center mb-4">
@@ -405,21 +397,11 @@
                                 Hủy
                             </a>
                             
-                            @if(Auth::check() && Auth::user()->id === $post->user_id)
-                                <!-- Author có thể lưu nháp -->
-                                <button type="submit" name="action" value="draft" class="btn-secondary flex items-center">
-                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3-3m0 0l-3 3m3-3v12"/>
-                                    </svg>
-                                    Lưu nháp
-                                </button>
-                            @endif
-                            
-                            <button type="submit" name="action" value="update" class="btn-primary flex items-center">
+                            <button type="submit" class="btn-primary flex items-center">
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                 </svg>
-                                {{ Auth::check() && Auth::user()->role === 'admin' ? 'Phê duyệt & Cập nhật' : 'Xuất bản' }}
+                                {{ Auth::check() && Auth::user()->role === 'admin' ? 'Phê duyệt & Cập nhật' : 'Cập nhật' }}
                             </button>
 
                             @if(Auth::check() && (Auth::user()->id === $post->user_id || Auth::user()->role === 'admin'))
@@ -535,21 +517,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     contentInput.addEventListener('input', updateStats);
     updateStats();
-    
-    document.getElementById('editForm').addEventListener('submit', function(e) {
-        const submitButton = e.submitter;
-        if (submitButton && submitButton.name === 'action') {
-            if (submitButton.value === 'draft') {
-                document.getElementById('status').value = 'draft';
-            } else if (submitButton.value === 'update') {
-                // Giữ nguyên status hiện tại hoặc set là published nếu đang ở draft
-                const currentStatus = document.getElementById('status').value;
-                if (currentStatus === 'draft') {
-                    document.getElementById('status').value = 'published';
-                }
-            }
-        }
-    });
     
     let autoSaveTimeout;
     function autoSave() {
