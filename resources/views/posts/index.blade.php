@@ -1,10 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Quản lý bài viết')
-
-@php
-    use Illuminate\Support\Facades\Auth;
-@endphp
+@section('title', 'Quản lý Bài viết')
 
 @section('content')
 <!-- Page Header -->
@@ -18,282 +14,371 @@
             </div>
             <div>
                 <h1 class="text-4xl font-heading font-bold text-white">Quản lý Bài viết</h1>
-                <p class="text-primary-100 dark:text-primary-200 mt-2">Chỉnh sửa và quản lý tất cả bài viết</p>
+                <p class="text-primary-100 dark:text-primary-200 mt-2">Quản lý và phê duyệt các bài viết từ tác giả</p>
             </div>
         </div>
         <div class="hidden lg:flex items-center space-x-3">
-            @if(Auth::check() && Auth::user()->role === 'admin')
-                <a href="{{ route('admin.posts.pending') }}" class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-lg font-semibold flex items-center transition-colors duration-200">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    Phê duyệt bài viết
-                </a>
-            @endif
-            <a href="{{ route('posts.create') }}" class="bg-white text-primary-600 hover:bg-primary-50 px-6 py-3 rounded-lg font-semibold flex items-center transition-colors duration-200">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            <a href="{{ route('admin.posts.pending') }}" class="px-4 py-2 bg-white bg-opacity-20 hover:bg-opacity-30 text-white rounded-lg transition-all duration-200">
+                <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
-                Thêm bài viết mới
+                Phê duyệt bài viết
+            </a>
+            <a href="{{ route('admin.dashboard') }}" class="px-4 py-2 bg-white bg-opacity-20 hover:bg-opacity-30 text-white rounded-lg transition-all duration-200">
+                <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                Quay lại Dashboard
             </a>
         </div>
     </div>
 </div>
 
-<!-- Quick Stats -->
-<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+<!-- Statistics Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6">
         <div class="flex items-center">
-            <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center mr-4">
+            <div class="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center mr-4">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                 </svg>
             </div>
-            <div class="flex-1">
-                <p class="text-sm text-secondary-600 dark:text-gray-300 mb-1">Tổng bài viết</p>
-                <p class="text-2xl font-bold text-primary-600 dark:text-primary-400-dark">{{ $totalPosts }}</p>
+            <div>
+                <p class="text-sm text-secondary-600 dark:text-gray-300">Tổng bài viết</p>
+                <p class="text-2xl font-bold text-secondary-900 dark:text-white">{{ $totalPosts }}</p>
             </div>
         </div>
     </div>
-
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6">
         <div class="flex items-center">
-            <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center mr-4">
+            <div class="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center mr-4">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
             </div>
-            <div class="flex-1">
-                <p class="text-sm text-secondary-600 dark:text-gray-300 mb-1">Đã phê duyệt</p>
-                <p class="text-2xl font-bold text-primary-600 dark:text-primary-400-dark">{{ $publishedPosts }}</p>
+            <div>
+                <p class="text-sm text-secondary-600 dark:text-gray-300">Đã phê duyệt</p>
+                <p class="text-2xl font-bold text-secondary-900 dark:text-white">{{ $publishedPosts }}</p>
             </div>
         </div>
     </div>
-
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6">
         <div class="flex items-center">
-            <div class="w-12 h-12 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-lg flex items-center justify-center mr-4">
+            <div class="w-12 h-12 bg-yellow-500 rounded-lg flex items-center justify-center mr-4">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
             </div>
-            <div class="flex-1">
-                <p class="text-sm text-secondary-600 dark:text-gray-300 mb-1">Chờ phê duyệt</p>
-                <p class="text-2xl font-bold text-primary-600 dark:text-primary-400-dark">{{ $pendingPosts }}</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6">
-        <div class="flex items-center">
-            <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-lg flex items-center justify-center mr-4">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                </svg>
-            </div>
-            <div class="flex-1">
-                <p class="text-sm text-secondary-600 dark:text-gray-300 mb-1">Tổng lượt xem</p>
-                <p class="text-2xl font-bold text-primary-600 dark:text-primary-400-dark">{{ $totalViews }}</p>
+            <div>
+                <p class="text-sm text-secondary-600 dark:text-gray-300">Chờ phê duyệt</p>
+                <p class="text-2xl font-bold text-secondary-900 dark:text-white">{{ $pendingPosts }}</p>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Posts Table -->
+<!-- Posts List -->
 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700">
-    <div class="px-6 py-4 border-b border-secondary-200 dark:border-gray-700">
-        <div class="flex items-center justify-between">
-            <h2 class="text-xl font-semibold text-secondary-900 dark:text-primary-400-dark flex items-center">
-                <svg class="w-5 h-5 text-primary-600 dark:text-primary-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
-                </svg>
-                Danh sách Bài viết
-            </h2>
-            <div class="flex items-center space-x-2">
-                <span class="text-sm text-secondary-600 dark:text-gray-300">
-                    Hiển thị {{ $posts->firstItem() ?? 0 }} - {{ $posts->lastItem() ?? 0 }} của {{ $posts->total() }} bài viết
-                </span>
-            </div>
-        </div>
-    </div>
+    <div class="p-6">
+        <h2 class="text-xl font-semibold text-secondary-900 dark:text-white mb-4">Danh sách bài viết</h2>
 
-    <div class="overflow-x-auto">
-        @if($posts->count() > 0)
-            <table class="min-w-full table-fixed">
-                <thead class="bg-secondary-50 dark:bg-gray-700">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider w-[40%]">
-                            Bài viết
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider w-[15%]">
-                            Chuyên mục
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider w-[15%]">
-                            Tác giả
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider w-[12%]">
-                            Trạng thái
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider w-[10%]">
-                            Ngày tạo
-                        </th>
-                        <th class="px-6 py-3 text-center text-xs font-medium text-secondary-500 dark:text-gray-300 uppercase tracking-wider w-[8%]">
-                            Hành động
-                        </th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white dark:bg-gray-800 divide-y divide-secondary-200 dark:divide-gray-700">
-                    @foreach($posts as $post)
-                        <tr class="hover:bg-secondary-50 dark:hover:bg-gray-700 transition-colors duration-200">
-                            <td class="px-6 py-4 w-[40%]">
-                                <div class="flex flex-col space-y-3 overflow-hidden">
-                                    <!-- Hình ảnh -->
-                                    <div class="flex justify-start flex-shrink-0">
-                                        @if($post->main_image)
-                                            <img src="{{ $post->main_image }}" alt="{{ $post->title }}" class="h-24 w-32 rounded-lg object-cover shadow-sm">
-                                        @else
-                                            <div class="h-24 w-32 bg-secondary-100 dark:bg-gray-700 rounded-lg flex items-center justify-center shadow-sm">
-                                                <svg class="w-8 h-8 text-secondary-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4a2 2 0 012-2z"/>
-                                                </svg>
-                                            </div>
-                                        @endif
-                                    </div>
-                                    <!-- Title và Description -->
-                                    <div class="space-y-1 overflow-hidden">
-                                        <div class="text-sm font-medium text-secondary-900 dark:text-primary-400-dark">
-                                            <a href="{{ route('posts.show', $post->slug) }}" target="_blank" class="hover:text-primary-600 dark:hover:text-primary-300 transition-colors duration-200 line-clamp-2 break-words overflow-hidden">
-                                                {{ $post->title }}
-                                            </a>
-                                        </div>
-                                        <div class="text-xs text-secondary-500 dark:text-gray-400 line-clamp-2 break-words overflow-hidden">
-                                            {{ $post->excerpt ?? strip_tags(Str::limit($post->content, 100)) }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 w-[15%]">
-                                <div class="overflow-hidden">
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 break-words">
-                                        {{ $post->category->name }}
-                                    </span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 w-[15%]">
-                                <div class="flex items-center overflow-hidden">
-                                    <div class="flex-shrink-0 h-8 w-8">
-                                        @if($post->user->avatar)
-                                            @if(Str::startsWith($post->user->avatar, ['http://', 'https://']))
-                                                <img class="h-8 w-8 rounded-full object-cover" src="{{ $post->user->avatar }}" alt="{{ $post->user->name }}" onerror="this.src='{{ asset('hello.png') }}'">
-                                            @else
-                                                <img class="h-8 w-8 rounded-full object-cover" src="{{ asset('storage/' . $post->user->avatar) }}" alt="{{ $post->user->name }}" onerror="this.src='{{ asset('hello.png') }}'">
-                                            @endif
-                                        @else
-                                            <img class="h-8 w-8 rounded-full object-cover" src="{{ asset('hello.png') }}" alt="{{ $post->user->name }}">
-                                        @endif
-                                    </div>
-                                    <div class="ml-3 overflow-hidden">
-                                        <div class="text-sm font-medium text-secondary-900 dark:text-primary-400-dark truncate">
-                                            {{ $post->user->name }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 w-[12%]">
-                                <div class="overflow-hidden">
-                                    @if($post->approval_status === 'approved')
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 whitespace-nowrap">
-                                            ✓ Đã duyệt
-                                        </span>
-                                    @elseif($post->approval_status === 'pending')
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 whitespace-nowrap">
-                                            ⏳ Chờ duyệt
-                                        </span>
-                                    @else
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 whitespace-nowrap">
-                                            ✕ Từ chối
-                                        </span>
-                                    @endif
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 w-[10%]">
-                                <div class="text-sm text-secondary-500 dark:text-gray-300 whitespace-nowrap">
-                                    <div>{{ $post->created_at->format('d/m/Y') }}</div>
-                                    <div class="text-xs">{{ $post->created_at->format('H:i') }}</div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 w-[8%]">
-                                <div class="flex items-center justify-center space-x-2">
-                                    @if($post->approval_status === 'pending')
-                                        <!-- Chỉ hiển thị nút Xem cho bài pending -->
-                                        <a href="{{ route('posts.edit', $post) }}"
-                                           class="inline-flex items-center px-3 py-1.5 bg-primary-100 hover:bg-primary-200 dark:bg-primary-900 dark:hover:bg-primary-800 text-primary-700 dark:text-primary-300 rounded-lg transition-colors duration-200 text-xs font-medium"
-                                           title="Xem & phê duyệt">
-                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                                            </svg>
-                                            Xem
-                                        </a>
-                                    @else
-                                        <!-- Hiển thị đầy đủ các nút cho bài đã duyệt hoặc từ chối -->
-                                        <a href="{{ route('posts.show', $post->slug) }}" target="_blank"
-                                           class="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300 transition-colors duration-200"
-                                           title="Xem bài viết">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                                            </svg>
-                                        </a>
-                                        <a href="{{ route('posts.edit', $post) }}"
-                                           class="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 transition-colors duration-200"
-                                           title="Chỉnh sửa">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                                            </svg>
-                                        </a>
-                                        <form method="POST" action="{{ route('posts.destroy', $post) }}" class="inline" id="delete-form-{{ $post->id }}">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                    class="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300 transition-colors duration-200"
-                                                    title="Xóa bài viết"
-                                                    onclick="showConfirmationModal('Xác nhận xóa', 'Bạn có chắc chắn muốn xóa bài viết này?', 'Xóa', function() { document.getElementById('delete-form-{{ $post->id }}').submit(); }); return false;">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                                </svg>
-                                            </button>
-                                        </form>
-                                    @endif
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        @else
-            <div class="px-6 py-12 text-center">
-                <svg class="w-12 h-12 text-secondary-400 dark:text-gray-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        @if($posts->isEmpty())
+            <div class="text-center py-12">
+                <svg class="w-16 h-16 mx-auto text-secondary-400 dark:text-gray-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                 </svg>
-                <p class="text-secondary-600 dark:text-gray-300 mb-2">Chưa có bài viết nào.</p>
-                <p class="text-sm text-secondary-500 dark:text-gray-400 mb-4">Bắt đầu bằng cách tạo bài viết đầu tiên của bạn.</p>
-                <a href="{{ route('posts.create') }}" class="btn-primary inline-flex items-center">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                    </svg>
-                    Tạo bài viết đầu tiên
-                </a>
+                <p class="text-secondary-600 dark:text-gray-400 text-lg">Không có bài viết nào</p>
+            </div>
+        @else
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-secondary-200 dark:divide-gray-700">
+                    <thead class="bg-secondary-50 dark:bg-gray-900">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-400 uppercase tracking-wider">
+                                Bài viết
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-400 uppercase tracking-wider">
+                                Tác giả
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-400 uppercase tracking-wider">
+                                Chuyên mục
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-400 uppercase tracking-wider">
+                                Trạng thái
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-secondary-500 dark:text-gray-400 uppercase tracking-wider">
+                                Ngày tạo
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-secondary-500 dark:text-gray-400 uppercase tracking-wider">
+                                Hành động
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-secondary-200 dark:divide-gray-700">
+                        @foreach($posts as $post)
+                            <tr class="hover:bg-secondary-50 dark:hover:bg-gray-700 transition-colors duration-150">
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center">
+                                        <div class="flex-1">
+                                            <div class="text-sm font-medium text-secondary-900 dark:text-white">
+                                                {{ Str::limit($post->title, 50) }}
+                                            </div>
+                                            <div class="text-sm text-secondary-500 dark:text-gray-400">
+                                                {{ Str::limit(strip_tags($post->excerpt), 80) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-10 w-10">
+                                            @if($post->user->avatar)
+                                                @if(Str::startsWith($post->user->avatar, ['http://', 'https://']))
+                                                    <img class="h-10 w-10 rounded-full object-cover" src="{{ $post->user->avatar }}" alt="{{ $post->user->name }}" onerror="this.src='{{ asset('hello.png') }}'">
+                                                @else
+                                                    <img class="h-10 w-10 rounded-full object-cover" src="{{ asset('storage/' . $post->user->avatar) }}" alt="{{ $post->user->name }}" onerror="this.src='{{ asset('hello.png') }}'">
+                                                @endif
+                                            @else
+                                                <div class="h-10 w-10 rounded-full bg-primary-500 flex items-center justify-center">
+                                                    <span class="text-white font-medium text-sm">{{ strtoupper(substr($post->user->name, 0, 1)) }}</span>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <div class="ml-3">
+                                            <div class="text-sm font-medium text-secondary-900 dark:text-white">
+                                                {{ $post->user->name }}
+                                            </div>
+                                            <div class="text-sm text-secondary-500 dark:text-gray-400">
+                                                {{ $post->user->email }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200">
+                                        {{ $post->category->name }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    @if($post->approval_status === 'approved')
+                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                                            Đã phê duyệt
+                                        </span>
+                                    @elseif($post->approval_status === 'pending')
+                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
+                                            Chờ duyệt
+                                        </span>
+                                    @elseif($post->approval_status === 'rejected')
+                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">
+                                            Từ chối
+                                        </span>
+                                    @else
+                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200">
+                                            {{ ucfirst($post->approval_status) }}
+                                        </span>
+                                    @endif
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary-500 dark:text-gray-400">
+                                    {{ $post->created_at->format('d/m/Y H:i') }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                                    <div class="flex items-center justify-center space-x-2">
+                                        @if($post->approval_status === 'pending')
+                                            <!-- View Icon -->
+                                            <a href="{{ route('posts.edit', $post) }}"
+                                               class="inline-flex items-center p-2 bg-primary-100 hover:bg-primary-200 dark:bg-primary-900 dark:hover:bg-primary-800 text-primary-700 dark:text-primary-300 rounded-lg transition-colors duration-200"
+                                               title="Xem bài viết">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                                </svg>
+                                            </a>
+                                            <!-- Approve Icon -->
+                                            <form method="POST" action="{{ route('admin.posts.approve', $post) }}" class="inline">
+                                                @csrf
+                                                <button type="submit"
+                                                        class="inline-flex items-center p-2 bg-green-100 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-800 text-green-700 dark:text-green-300 rounded-lg transition-colors duration-200"
+                                                        title="Duyệt bài viết"
+                                                        onclick="return confirm('Bạn có chắc chắn muốn duyệt bài viết này?')">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                                    </svg>
+                                                </button>
+                                            </form>
+                                            <!-- Reject Icon -->
+                                            <button type="button"
+                                                    onclick="openRejectModal({{ $post->id }}, '{{ addslashes($post->title) }}')"
+                                                    class="inline-flex items-center p-2 bg-red-100 hover:bg-red-200 dark:bg-red-900 dark:hover:bg-red-800 text-red-700 dark:text-red-300 rounded-lg transition-colors duration-200"
+                                                    title="Từ chối bài viết">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                                </svg>
+                                            </button>
+                                        @elseif($post->approval_status === 'approved')
+                                            <!-- View Icon -->
+                                            <a href="{{ route('posts.show', $post->slug) }}"
+                                               class="inline-flex items-center p-2 bg-primary-100 hover:bg-primary-200 dark:bg-primary-900 dark:hover:bg-primary-800 text-primary-700 dark:text-primary-300 rounded-lg transition-colors duration-200"
+                                               title="Xem bài viết">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                                </svg>
+                                            </a>
+                                            <!-- Edit Icon -->
+                                            <a href="{{ route('posts.edit', $post) }}"
+                                               class="inline-flex items-center p-2 bg-blue-100 hover:bg-blue-200 dark:bg-blue-900 dark:hover:bg-blue-800 text-blue-700 dark:text-blue-300 rounded-lg transition-colors duration-200"
+                                               title="Chỉnh sửa bài viết">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                                </svg>
+                                            </a>
+                                            <!-- Delete Icon -->
+                                            <form method="POST" action="{{ route('posts.destroy', $post) }}" class="inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                        class="inline-flex items-center p-2 bg-red-100 hover:bg-red-200 dark:bg-red-900 dark:hover:bg-red-800 text-red-700 dark:text-red-300 rounded-lg transition-colors duration-200"
+                                                        title="Xóa bài viết"
+                                                        onclick="return confirm('Bạn có chắc chắn muốn xóa bài viết này?')">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                                    </svg>
+                                                </button>
+                                            </form>
+                                        @else
+                                            <!-- Edit Icon for other statuses -->
+                                            <a href="{{ route('posts.edit', $post) }}"
+                                               class="inline-flex items-center p-2 bg-primary-100 hover:bg-primary-200 dark:bg-primary-900 dark:hover:bg-primary-800 text-primary-700 dark:text-primary-300 rounded-lg transition-colors duration-200"
+                                               title="Chỉnh sửa bài viết">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                                </svg>
+                                            </a>
+                                        @endif
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="mt-6">
+                {{ $posts->links() }}
             </div>
         @endif
     </div>
-
-    <!-- Pagination -->
-    @if($posts->hasPages())
-        <div class="px-6 py-4 border-t border-secondary-200 dark:border-gray-700">
-            {{ $posts->links() }}
-        </div>
-    @endif
 </div>
+
+<!-- Reject Modal -->
+<div id="rejectModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 dark:bg-gray-900 dark:bg-opacity-75 overflow-y-auto h-full w-full z-50">
+    <div class="relative top-20 mx-auto p-5 border w-full max-w-md shadow-lg rounded-xl bg-white dark:bg-gray-800">
+        <div class="mt-3">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Từ chối bài viết</h3>
+                <button onclick="closeRejectModal()" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <form id="rejectForm" method="POST">
+                @csrf
+                <input type="hidden" id="rejectPostId" name="post_id">
+                
+                <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                    Bạn đang từ chối bài viết: <span id="rejectPostTitle" class="font-semibold text-gray-900 dark:text-white"></span>
+                </p>
+
+                <!-- Reason Dropdown -->
+                <div class="mb-4">
+                    <label for="reasonSelect" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Lý do từ chối <span class="text-red-500">*</span>
+                    </label>
+                    <select id="reasonSelect" 
+                            name="rejection_reason_type"
+                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400-dark focus:border-transparent"
+                            onchange="toggleCustomReason()"
+                            required>
+                        <option value="">-- Chọn lý do --</option>
+                        <option value="Nội dung vi phạm quy định cộng đồng">Nội dung vi phạm quy định cộng đồng</option>
+                        <option value="Tiêu đề không phù hợp hoặc spam">Tiêu đề không phù hợp hoặc spam</option>
+                        <option value="Nội dung thiếu chính xác hoặc sai sự thật">Nội dung thiếu chính xác hoặc sai sự thật</option>
+                        <option value="Bài viết trùng lặp">Bài viết trùng lặp</option>
+                        <option value="Chất lượng nội dung không đạt yêu cầu">Chất lượng nội dung không đạt yêu cầu</option>
+                        <option value="Hình ảnh không phù hợp">Hình ảnh không phù hợp</option>
+                        <option value="other">Khác (nhập lý do)</option>
+                    </select>
+                </div>
+
+                <!-- Custom Reason Input -->
+                <div id="customReasonDiv" class="mb-4 hidden">
+                    <label for="customReason" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Nhập lý do cụ thể <span class="text-red-500">*</span>
+                    </label>
+                    <textarea id="customReason"
+                              name="custom_rejection_reason"
+                              rows="3"
+                              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400-dark focus:border-transparent"
+                              placeholder="Nhập lý do từ chối chi tiết..."></textarea>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex justify-end space-x-3 mt-6">
+                    <button type="button"
+                            onclick="closeRejectModal()"
+                            class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-150">
+                        Hủy bỏ
+                    </button>
+                    <button type="submit"
+                            class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-150">
+                        Xác nhận từ chối
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function openRejectModal(postId, postTitle) {
+    document.getElementById('rejectModal').classList.remove('hidden');
+    document.getElementById('rejectPostId').value = postId;
+    document.getElementById('rejectPostTitle').textContent = postTitle;
+    document.getElementById('rejectForm').action = `/admin/posts/${postId}/reject`;
+}
+
+function closeRejectModal() {
+    document.getElementById('rejectModal').classList.add('hidden');
+    document.getElementById('reasonSelect').value = '';
+    document.getElementById('customReason').value = '';
+    document.getElementById('customReasonDiv').classList.add('hidden');
+}
+
+function toggleCustomReason() {
+    const select = document.getElementById('reasonSelect');
+    const customDiv = document.getElementById('customReasonDiv');
+    const customInput = document.getElementById('customReason');
+    
+    if (select.value === 'other') {
+        customDiv.classList.remove('hidden');
+        customInput.required = true;
+    } else {
+        customDiv.classList.add('hidden');
+        customInput.required = false;
+        customInput.value = '';
+    }
+}
+
+// Close modal when clicking outside
+document.getElementById('rejectModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeRejectModal();
+    }
+});
+</script>
 @endsection

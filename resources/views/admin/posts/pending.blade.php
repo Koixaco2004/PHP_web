@@ -129,16 +129,36 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
                                     <div class="flex items-center justify-center space-x-2">
-                                        <!-- View/Edit Button - Chuyển đến trang edit để phê duyệt -->
-                                        <a href="{{ route('posts.edit', $post) }}" 
-                                           class="inline-flex items-center px-3 py-1.5 bg-primary-100 hover:bg-primary-200 dark:bg-primary-900 dark:hover:bg-primary-800 text-primary-700 dark:text-primary-300 rounded-lg transition-colors duration-200"
-                                           title="Xem & phê duyệt bài viết">
-                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <!-- View Icon -->
+                                        <a href="{{ route('posts.edit', $post) }}"
+                                           class="inline-flex items-center p-2 bg-primary-100 hover:bg-primary-200 dark:bg-primary-900 dark:hover:bg-primary-800 text-primary-700 dark:text-primary-300 rounded-lg transition-colors duration-200"
+                                           title="Xem bài viết">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
                                             </svg>
-                                            Xem
                                         </a>
+                                        <!-- Approve Icon -->
+                                        <form method="POST" action="{{ route('admin.posts.approve', $post) }}" class="inline">
+                                            @csrf
+                                            <button type="submit"
+                                                    class="inline-flex items-center p-2 bg-green-100 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-800 text-green-700 dark:text-green-300 rounded-lg transition-colors duration-200"
+                                                    title="Duyệt bài viết"
+                                                    onclick="return confirm('Bạn có chắc chắn muốn duyệt bài viết này?')">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                                </svg>
+                                            </button>
+                                        </form>
+                                        <!-- Reject Icon -->
+                                        <button type="button"
+                                                onclick="openRejectModal({{ $post->id }}, '{{ addslashes($post->title) }}')"
+                                                class="inline-flex items-center p-2 bg-red-100 hover:bg-red-200 dark:bg-red-900 dark:hover:bg-red-800 text-red-700 dark:text-red-300 rounded-lg transition-colors duration-200"
+                                                title="Từ chối bài viết">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                            </svg>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
