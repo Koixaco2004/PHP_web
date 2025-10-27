@@ -61,17 +61,25 @@ class PostController extends Controller
             'uploaded_images' => 'nullable|json',
         ]);
 
+        // Xác định trạng thái phê duyệt dựa trên vai trò người dùng
+        $isAdmin = Auth::user()->role === 'admin';
+        $approvalStatus = $isAdmin ? 'approved' : 'pending';
+        $approvedBy = $isAdmin ? Auth::id() : null;
+        $approvedAt = $isAdmin ? now() : null;
+
         $post = Post::create([
             'title' => $request->title,
             'slug' => Str::slug($request->title),
             'content' => $request->content,
             'excerpt' => $request->excerpt,
-            'approval_status' => 'pending',
+            'approval_status' => $approvalStatus,
             'category_id' => $request->category_id,
             'user_id' => Auth::id(),
             'created_by' => Auth::id(),
             'updated_by' => Auth::id(),
             'published_at' => now(),
+            'approved_by' => $approvedBy,
+            'approved_at' => $approvedAt,
         ]);
 
         // Xử lý hình ảnh đã tải lên
@@ -99,7 +107,12 @@ class PostController extends Controller
             }
         }
 
-        return redirect()->route('posts.show', $post->slug)->with('success', 'Bài viết đã được gửi đến admin để phê duyệt!');
+        // Xác định thông điệp dựa trên trạng thái phê duyệt
+        $message = $isAdmin
+            ? 'Bài viết đã được đăng thành công!'
+            : 'Bài viết đã được gửi đến admin để phê duyệt!';
+
+        return redirect()->route('posts.show', $post->slug)->with('success', $message);
     }
 
     /**

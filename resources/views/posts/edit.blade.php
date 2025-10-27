@@ -9,7 +9,11 @@
     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
     </svg>
-    <a href="{{ route('posts.index') }}" class="hover:text-primary-600 dark:hover:text-primary-400-dark transition-colors duration-200">Quản lý bài viết</a>
+    @if(Auth::check() && Auth::user()->role === 'admin')
+        <a href="{{ route('admin.dashboard') }}" class="hover:text-primary-600 dark:hover:text-primary-400-dark transition-colors duration-200">Quản lý bài viết</a>
+    @else
+        <a href="{{ route('profile.posts') }}" class="hover:text-primary-400-dark transition-colors duration-200">Quản lý bài viết</a>
+    @endif
     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
     </svg>
@@ -390,12 +394,21 @@
                         </div>
                         
                         <div class="flex space-x-3">
-                            <a href="{{ route('posts.index') }}" class="btn-secondary flex items-center">
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                </svg>
-                                Hủy
-                            </a>
+                            @if(Auth::check() && Auth::user()->role === 'admin')
+                                <a href="{{ route('admin.dashboard') }}" class="btn-secondary flex items-center">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                    </svg>
+                                    Hủy
+                                </a>
+                            @else
+                                <a href="{{ route('profile.posts') }}" class="btn-secondary flex items-center">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                    </svg>
+                                    Hủy
+                                </a>
+                            @endif
                             
                             <button type="submit" class="btn-primary flex items-center">
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
