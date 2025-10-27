@@ -66,7 +66,7 @@
 @endif
 
 <!-- Admin Approval Section (Chỉ hiển thị cho admin khi xem bài pending) -->
-@if(Auth::check() && Auth::user()->role === 'admin' && $post->approval_status === 'pending')
+@if(Auth::check() && Auth::user()->role === 'admin' && $post->approval_status === 'pending' && $post->status !== 'draft')
 <div class="bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-500 p-6 mb-8 rounded-lg">
     <div class="flex items-start justify-between">
         <div class="flex items-start flex-1">
