@@ -250,7 +250,7 @@
                                     <form action="{{ route('posts.destroy', $post) }}" method="POST" class="inline-block">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300" onclick="return confirm('Bạn có chắc chắn muốn xóa bài viết này?')">
+                                        <button type="submit" class="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300" onclick="showConfirmationModal('Xác nhận xóa', 'Bạn có chắc chắn muốn xóa bài viết này?', 'Xóa', () => { this.closest('form').submit(); }, 'delete'); return false;">
                                             Xóa
                                         </button>
                                     </form>
@@ -334,7 +334,7 @@
                                         <form action="{{ route('posts.destroy', $post) }}" method="POST" class="inline-block">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 font-medium" onclick="return confirm('Bạn có chắc chắn muốn xóa bài viết này?')">
+                                            <button type="submit" class="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 font-medium" onclick="showConfirmationModal('Xác nhận xóa', 'Bạn có chắc chắn muốn xóa bài viết này?', 'Xóa', () => { this.closest('form').submit(); }, 'delete'); return false;">
                                                 Xóa
                                             </button>
                                         </form>
