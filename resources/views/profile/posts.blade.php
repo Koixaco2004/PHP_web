@@ -255,9 +255,18 @@
                                         {{ $post->comment_count }}
                                     </span>
                                 </div>
-                                <a href="{{ route('posts.edit', $post) }}" class="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300">
-                                    Chỉnh sửa
-                                </a>
+                                <div class="flex items-center space-x-2">
+                                    <a href="{{ route('posts.edit', $post) }}" class="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300">
+                                        Chỉnh sửa
+                                    </a>
+                                    <form action="{{ route('posts.destroy', $post) }}" method="POST" class="inline-block">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300" onclick="return confirm('Bạn có chắc chắn muốn xóa bài viết này?')">
+                                            Xóa
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -332,9 +341,18 @@
                                         </span>
                                         <span>{{ $post->created_at->format('d/m/Y') }}</span>
                                     </div>
-                                    <a href="{{ route('posts.edit', $post) }}" class="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium">
-                                        Chỉnh sửa →
-                                    </a>
+                                    <div class="flex items-center space-x-2">
+                                        <a href="{{ route('posts.edit', $post) }}" class="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium">
+                                            Chỉnh sửa →
+                                        </a>
+                                        <form action="{{ route('posts.destroy', $post) }}" method="POST" class="inline-block">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 font-medium" onclick="return confirm('Bạn có chắc chắn muốn xóa bài viết này?')">
+                                                Xóa
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
