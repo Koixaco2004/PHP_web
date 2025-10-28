@@ -157,13 +157,11 @@
             </div>
 
             <!-- Featured Image -->
-            @if($post->main_image)
-                <div class="mb-6">
-                    <img src="{{ $post->main_image }}"
-                         alt="{{ $post->title }}"
-                         class="w-full h-64 md:h-80 object-cover rounded-lg shadow-sm">
-                </div>
-            @endif
+            <div class="mb-6">
+                <img src="{{ $post->main_image }}"
+                     alt="{{ $post->title }}"
+                     class="w-full h-64 md:h-80 object-cover rounded-lg shadow-sm">
+            </div>
 
             <!-- Article Content -->
             <div class="p-6">
@@ -315,11 +313,9 @@
         
         @forelse($relatedPosts as $relatedPost)
             <article class="bg-white dark:bg-gray-800 rounded-lg border border-primary-200 dark:border-gray-700 hover:shadow-md dark:hover:shadow-gray-900/20 transition-all duration-200 overflow-hidden">
-                @if($relatedPost->main_image)
-                    <div class="h-48 overflow-hidden">
-                        <img src="{{ $relatedPost->main_image }}" alt="{{ $relatedPost->title }}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
-                    </div>
-                @endif
+                <div class="h-48 overflow-hidden">
+                    <img src="{{ $relatedPost->main_image }}" alt="{{ $relatedPost->title }}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                </div>
                 <div class="p-4">
                     <div class="flex items-center justify-between mb-2">
                         <span class="text-xs font-medium text-primary-600 dark:text-primary-400-dark bg-primary-50 dark:bg-primary-900-dark px-2 py-1 rounded">

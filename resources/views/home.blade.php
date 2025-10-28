@@ -14,17 +14,11 @@
                         <div class="w-full flex-shrink-0">
                             <div class="relative h-[450px] md:h-[500px] lg:h-[550px]">
                                 <!-- Background Image -->
-                                @if($post->main_image)
-                                    <div class="absolute inset-0">
-                                        <img src="{{ $post->main_image }}" alt="{{ $post->title }}" class="w-full h-full object-cover">
-                                        <!-- Gradient Overlay từ trái sang phải - Đậm hơn -->
-                                        <div class="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent"></div>
-                                    </div>
-                                @else
-                                    <div class="absolute inset-0 bg-gradient-to-r from-primary-600 to-primary-800 dark:from-primary-100-dark dark:to-primary-200-dark">
-                                        <div class="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent"></div>
-                                    </div>
-                                @endif
+                                <div class="absolute inset-0">
+                                    <img src="{{ $post->main_image }}" alt="{{ $post->title }}" class="w-full h-full object-cover">
+                                    <!-- Gradient Overlay từ trái sang phải - Đậm hơn -->
+                                    <div class="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent"></div>
+                                </div>
                                 
                                 <!-- Content Overlay -->
                                 <div class="relative h-full flex items-center">
@@ -140,11 +134,9 @@
         @forelse($posts as $index => $post)
             <article class="bg-white dark:bg-gray-800 rounded-lg border border-primary-200 dark:border-gray-700 hover:shadow-md dark:hover:shadow-gray-900/20 transition-all duration-200 overflow-hidden">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-0">
-                    @if($post->main_image)
-                        <div class="md:col-span-1 h-48 md:h-auto overflow-hidden">
-                            <img src="{{ $post->main_image }}" alt="{{ $post->title }}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
-                        </div>
-                    @endif
+                    <div class="md:col-span-1 h-48 md:h-auto overflow-hidden">
+                        <img src="{{ $post->main_image }}" alt="{{ $post->title }}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                    </div>
                     <div class="md:col-span-2 p-6">
                         <div class="flex items-center justify-between mb-3">
                             <span class="text-xs font-medium text-primary-600 dark:text-primary-400-dark bg-primary-50 dark:bg-primary-900-dark px-2 py-1 rounded">
@@ -194,11 +186,9 @@
     <div x-show="viewMode === 'grid'" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @forelse($posts as $index => $post)
             <article class="bg-white dark:bg-gray-800 rounded-lg border border-primary-200 dark:border-gray-700 hover:shadow-md dark:hover:shadow-gray-900/20 transition-all duration-200 overflow-hidden flex flex-col">
-                @if($post->main_image)
-                    <div class="h-48 overflow-hidden flex-shrink-0">
-                        <img src="{{ $post->main_image }}" alt="{{ $post->title }}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
-                    </div>
-                @endif
+                <div class="h-48 overflow-hidden flex-shrink-0">
+                    <img src="{{ $post->main_image }}" alt="{{ $post->title }}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                </div>
                 <div class="p-6 flex flex-col flex-grow">
                     <div class="flex items-center justify-between mb-3">
                         <span class="text-xs font-medium text-primary-600 dark:text-primary-400-dark bg-primary-50 dark:bg-primary-900-dark px-2 py-1 rounded">

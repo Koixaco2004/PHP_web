@@ -208,11 +208,9 @@
                                             </span>
                                         </div>
                                     </div>
-                                    @if($post->main_image)
-                                        <div class="ml-4 flex-shrink-0">
-                                            <img src="{{ $post->main_image }}" alt="" class="w-20 h-20 object-cover rounded-lg">
-                                        </div>
-                                    @endif
+                                    <div class="ml-4 flex-shrink-0">
+                                        <img src="{{ $post->main_image }}" alt="" class="w-20 h-20 object-cover rounded-lg">
+                                    </div>
                                 </div>
                             </div>
                         @endforeach

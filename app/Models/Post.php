@@ -159,7 +159,7 @@ class Post extends Model
     }
 
     /**
-     * Lấy hình ảnh chính (ưu tiên nổi bật, nếu không có lấy hình đầu tiên)
+     * Lấy hình ảnh chính (ưu tiên nổi bật, nếu không có lấy hình đầu tiên, cuối cùng dùng feature.png)
      */
     public function getMainImageAttribute()
     {
@@ -170,7 +170,12 @@ class Post extends Model
 
         // Fallback lấy hình ảnh đầu tiên nếu không có hình ảnh nổi bật
         $firstImage = $this->images()->first();
-        return $firstImage ? $firstImage->image_url : null;
+        if ($firstImage) {
+            return $firstImage->image_url;
+        }
+
+        // Fallback cuối cùng: sử dụng feature.png
+        return asset('feature.png');
     }
 
     /**

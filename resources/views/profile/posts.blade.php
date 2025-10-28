@@ -183,15 +183,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                 @foreach($posts as $post)
                     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                        @if($post->images->isNotEmpty())
-                            <img src="{{ $post->images->first()->image_url }}" alt="{{ $post->title }}" class="w-full h-48 object-cover">
-                        @else
-                            <div class="w-full h-48 bg-gradient-to-br from-primary-100 to-primary-200 dark:from-primary-900 dark:to-primary-800 flex items-center justify-center">
-                                <svg class="w-16 h-16 text-primary-400 dark:text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                </svg>
-                            </div>
-                        @endif
+                        <img src="{{ $post->main_image }}" alt="{{ $post->title }}" class="w-full h-48 object-cover">
                         
                         <div class="p-6">
                             <div class="flex items-center justify-between mb-3">
@@ -266,15 +258,7 @@
                 @foreach($posts as $post)
                     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 hover:shadow-lg transition-shadow duration-300">
                         <div class="flex items-start space-x-6">
-                            @if($post->images->isNotEmpty())
-                                <img src="{{ $post->images->first()->image_url }}" alt="{{ $post->title }}" class="w-32 h-32 object-cover rounded-lg flex-shrink-0">
-                            @else
-                                <div class="w-32 h-32 bg-gradient-to-br from-primary-100 to-primary-200 dark:from-primary-900 dark:to-primary-800 rounded-lg flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-12 h-12 text-primary-400 dark:text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                    </svg>
-                                </div>
-                            @endif
+                            <img src="{{ $post->main_image }}" alt="{{ $post->title }}" class="w-32 h-32 object-cover rounded-lg flex-shrink-0">
                             
                             <div class="flex-1 min-w-0">
                                 <div class="flex items-center space-x-2 mb-2">
