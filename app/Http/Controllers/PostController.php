@@ -9,7 +9,6 @@ use App\Models\User;
 use App\Services\SearchService;
 use App\Notifications\NewPostPendingNotification;
 use App\Notifications\PostUpdatedNotification;
-use App\Notifications\PostApprovedNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -173,14 +172,6 @@ class PostController extends Controller
             'deleted_images' => 'nullable|json',
         ]);
 
-        // Lưu trạng thái ban đầu để so sánh
-        $originalData = [
-            'title' => $post->title,
-            'content' => $post->content,
-            'excerpt' => $post->excerpt,
-            'category_id' => $post->category_id,
-        ];
-
         // Tạo slug mới nếu tiêu đề thay đổi
         if ($post->title !== $request->title) {
             $newSlug = Str::slug($request->title);
@@ -205,14 +196,6 @@ class PostController extends Controller
         $isAdmin = Auth::user()->role === 'admin';
         $oldApprovalStatus = $post->approval_status; // Lưu trạng thái cũ
         $approvalStatus = $isAdmin ? 'approved' : 'pending';
-
-        // Kiểm tra có thay đổi dữ liệu không
-        $hasContentChanges = (
-            $originalData['title'] !== $request->title ||
-            $originalData['content'] !== $request->content ||
-            $originalData['excerpt'] !== $request->excerpt ||
-            $originalData['category_id'] != $request->category_id
-        );
 
         // Prepare update data
         $updateData = [
@@ -264,13 +247,9 @@ class PostController extends Controller
 
         // Xử lý thông báo
         if ($isAdmin) {
-            // Admin cập nhật bài viết
+            // Admin cập nhật bài viết đã được phê duyệt - gửi thông báo cho tác giả
             if ($oldApprovalStatus === 'approved' && $post->user_id !== Auth::id()) {
-                // Gửi thông báo đến author khi admin cập nhật bài viết đã approved
                 $post->user->notify(new PostUpdatedNotification($post));
-            } elseif ($oldApprovalStatus === 'pending' && $post->user_id !== Auth::id()) {
-                // Admin approve bài viết pending, gửi thông báo với thông tin có thay đổi
-                $post->user->notify(new PostApprovedNotification($post, $hasContentChanges));
             }
         } else {
             // Author cập nhật bài viết

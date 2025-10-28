@@ -20,15 +20,13 @@ class PostApprovedNotification extends Notification
     use Queueable;
 
     public $post;
-    public $hasChanges;
 
     /**
      * Khởi tạo instance thông báo phê duyệt bài viết
      */
-    public function __construct(Post $post, $hasChanges = false)
+    public function __construct(Post $post)
     {
         $this->post = $post;
-        $this->hasChanges = $hasChanges;
     }
 
     /**
@@ -44,37 +42,26 @@ class PostApprovedNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $subject = $this->hasChanges ? 'Bài viết của bạn đã được cập nhật và phê duyệt!' : 'Bài viết của bạn đã được phê duyệt!';
-        $line = $this->hasChanges
-            ? 'Chúng tôi rất vui thông báo rằng bài viết của bạn đã được cập nhật, phê duyệt và hiện đã được hiển thị công khai.'
-            : 'Chúng tôi rất vui thông báo rằng bài viết của bạn đã được phê duyệt và hiện đã được hiển thị công khai.';
-
         return (new MailMessage)
-            ->subject($subject)
+            ->subject('Bài viết của bạn đã được phê duyệt!')
             ->greeting('Xin chào ' . $notifiable->name . '!')
-            ->line($line)
+            ->line('Chúng tôi rất vui thông báo rằng bài viết của bạn đã được phê duyệt và hiện đã được hiển thị công khai.')
             ->line('**Tiêu đề bài viết:** ' . $this->post->title)
             ->line('**Chuyên mục:** ' . $this->post->category->name)
             ->action('Xem bài viết', url('/posts/' . $this->post->slug))
             ->line('Cảm ơn bạn đã đóng góp nội dung chất lượng cho cộng đồng của chúng tôi!')
             ->salutation('Trân trọng, ' . config('app.name'));
     }
-
     /**
      * Tạo dữ liệu thông báo lưu trong cơ sở dữ liệu
      */
     public function toDatabase(object $notifiable): array
     {
-        $message = $this->hasChanges
-            ? 'Bài viết của bạn đã được cập nhật và phê duyệt.'
-            : 'Bài viết của bạn đã được phê duyệt.';
-
         return [
-            'message' => $message,
+            'message' => 'Bài viết của bạn đã được phê duyệt.',
             'post_id' => $this->post->id,
             'post_title' => $this->post->title,
             'type' => 'approved',
-            'has_changes' => $this->hasChanges,
         ];
     }
 
@@ -83,16 +70,11 @@ class PostApprovedNotification extends Notification
      */
     public function toArray(object $notifiable): array
     {
-        $message = $this->hasChanges
-            ? 'Bài viết của bạn đã được cập nhật và phê duyệt.'
-            : 'Bài viết của bạn đã được phê duyệt.';
-
         return [
-            'message' => $message,
+            'message' => 'Bài viết của bạn đã được phê duyệt.',
             'post_id' => $this->post->id,
             'post_title' => $this->post->title,
             'type' => 'approved',
-            'has_changes' => $this->hasChanges,
         ];
     }
 }
