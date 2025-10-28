@@ -176,14 +176,16 @@ class AdminController extends Controller
      */
     public function approvePost(Post $post)
     {
+        $hasChanges = false;
+
         $post->update([
             'approval_status' => 'approved',
             'approved_by' => Auth::id(),
             'approved_at' => now(),
         ]);
 
-        // Gửi thông báo đến tác giả
-        $post->user->notify(new PostApprovedNotification($post));
+        // Gửi thông báo đến tác giả với thông tin về việc có thay đổi hay không
+        $post->user->notify(new PostApprovedNotification($post, $hasChanges));
 
         return redirect()->back()->with('success', 'Bài viết đã được phê duyệt!');
     }
@@ -211,6 +213,11 @@ class AdminController extends Controller
 
         $post->user->notify(new PostRejectedNotification($post));
 
-        return redirect()->back()->with('success', 'Bài viết đã bị từ chối!');
+        // Redirect về trang quản lý bài viết
+        if ($request->expectsJson()) {
+            return response()->json(['success' => true, 'message' => 'Bài viết đã bị từ chối!', 'redirect' => route('posts.index')]);
+        }
+
+        return redirect()->route('posts.index')->with('success', 'Bài viết đã bị từ chối!');
     }
 }

@@ -8,6 +8,8 @@ use App\Models\Category;
 use App\Models\User;
 use App\Services\SearchService;
 use App\Notifications\NewPostPendingNotification;
+use App\Notifications\PostUpdatedNotification;
+use App\Notifications\PostApprovedNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -26,9 +28,16 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with(['category', 'user', 'images' => function ($query) {
+        // Nếu là admin, không hiển thị bài viết bị rejected
+        $postsQuery = Post::with(['category', 'user', 'images' => function ($query) {
             $query->where('is_featured', true)->orWhere('sort_order', 0);
-        }])->withActiveCategory()->latest()->paginate(10);
+        }])->withActiveCategory();
+
+        if (Auth::user() && Auth::user()->role === 'admin') {
+            $postsQuery->where('approval_status', '!=', 'rejected');
+        }
+
+        $posts = $postsQuery->latest()->paginate(10);
 
         // Lấy thống kê tổng hợp (phù hợp với logic dashboard)
         $totalPosts = Post::count();
@@ -125,6 +134,11 @@ class PostController extends Controller
             abort(403, 'Bạn không có quyền chỉnh sửa bài viết này.');
         }
 
+        // Admin không thể chỉnh sửa bài viết đã bị reject, chỉ author mới được phép
+        if (Auth::user()->role === 'admin' && $post->approval_status === 'rejected') {
+            abort(403, 'Bài viết đã bị từ chối không thể chỉnh sửa bởi admin. Chỉ tác giả mới có thể chỉnh sửa.');
+        }
+
         $categories = Category::active()->get();
 
         // Tải hình ảnh và loại bỏ trùng lặp theo URL, cũng tải số lượng bình luận
@@ -141,9 +155,13 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        // Check if user can update this post (author or admin)
         if ($post->user_id !== Auth::id() && Auth::user()->role !== 'admin') {
             abort(403, 'Bạn không có quyền cập nhật bài viết này.');
+        }
+
+        // Admin không thể chỉnh sửa bài viết đã bị reject, chỉ author mới được phép
+        if (Auth::user()->role === 'admin' && $post->approval_status === 'rejected') {
+            abort(403, 'Bài viết đã bị từ chối không thể chỉnh sửa bởi admin. Chỉ tác giả mới có thể chỉnh sửa.');
         }
 
         $request->validate([
@@ -154,6 +172,14 @@ class PostController extends Controller
             'uploaded_images' => 'nullable|json',
             'deleted_images' => 'nullable|json',
         ]);
+
+        // Lưu trạng thái ban đầu để so sánh
+        $originalData = [
+            'title' => $post->title,
+            'content' => $post->content,
+            'excerpt' => $post->excerpt,
+            'category_id' => $post->category_id,
+        ];
 
         // Tạo slug mới nếu tiêu đề thay đổi
         if ($post->title !== $request->title) {
@@ -179,6 +205,14 @@ class PostController extends Controller
         $isAdmin = Auth::user()->role === 'admin';
         $oldApprovalStatus = $post->approval_status; // Lưu trạng thái cũ
         $approvalStatus = $isAdmin ? 'approved' : 'pending';
+
+        // Kiểm tra có thay đổi dữ liệu không
+        $hasContentChanges = (
+            $originalData['title'] !== $request->title ||
+            $originalData['content'] !== $request->content ||
+            $originalData['excerpt'] !== $request->excerpt ||
+            $originalData['category_id'] != $request->category_id
+        );
 
         // Prepare update data
         $updateData = [
@@ -228,11 +262,24 @@ class PostController extends Controller
             }
         }
 
-        // Gửi thông báo cho admin nếu bài viết chuyển sang trạng thái pending (từ rejected)
-        if (!$isAdmin && $approvalStatus === 'pending' && $oldApprovalStatus !== 'pending') {
-            $admins = User::where('role', 'admin')->get();
-            foreach ($admins as $admin) {
-                $admin->notify(new NewPostPendingNotification($post));
+        // Xử lý thông báo
+        if ($isAdmin) {
+            // Admin cập nhật bài viết
+            if ($oldApprovalStatus === 'approved' && $post->user_id !== Auth::id()) {
+                // Gửi thông báo đến author khi admin cập nhật bài viết đã approved
+                $post->user->notify(new PostUpdatedNotification($post));
+            } elseif ($oldApprovalStatus === 'pending' && $post->user_id !== Auth::id()) {
+                // Admin approve bài viết pending, gửi thông báo với thông tin có thay đổi
+                $post->user->notify(new PostApprovedNotification($post, $hasContentChanges));
+            }
+        } else {
+            // Author cập nhật bài viết
+            // Gửi thông báo cho admin nếu bài viết chuyển sang trạng thái pending (từ rejected)
+            if ($approvalStatus === 'pending' && $oldApprovalStatus !== 'pending') {
+                $admins = User::where('role', 'admin')->get();
+                foreach ($admins as $admin) {
+                    $admin->notify(new NewPostPendingNotification($post));
+                }
             }
         }
 

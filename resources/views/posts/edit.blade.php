@@ -380,6 +380,7 @@
                         </div>
 
                         <!-- Form Actions -->
+                        @if(!(Auth::check() && Auth::user()->role === 'admin' && $post->approval_status === 'pending'))
                         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-6 mt-6">
                     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
                         <div class="flex items-center text-sm text-secondary-600 dark:text-gray-300">
@@ -397,11 +398,12 @@
                                 Hủy
                             </button>
                             
-                            <button type="submit" class="btn-primary flex items-center">
+                            <button type="submit" class="btn-primary flex items-center" 
+                                    onclick="return confirmSubmit(event)">
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                 </svg>
-                                {{ Auth::check() && Auth::user()->role === 'admin' ? 'Phê duyệt & Cập nhật' : 'Cập nhật' }}
+                                {{ Auth::check() && Auth::user()->role === 'admin' ? 'Cập nhật & Phê duyệt' : 'Cập nhật' }}
                             </button>
 
                             @if(Auth::check() && (Auth::user()->id === $post->user_id || Auth::user()->role === 'admin'))
@@ -415,6 +417,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
     </form>
     
     <!-- Delete Form (Outside main form to avoid nesting) -->
@@ -974,6 +977,25 @@ function toggleCustomReason() {
         customField.classList.add('hidden');
     }
 }
+
+// Confirmation function for submit button
+function confirmSubmit(event) {
+    @if(Auth::check() && Auth::user()->role === 'admin')
+        event.preventDefault();
+        showConfirmationModal(
+            'Xác nhận cập nhật & phê duyệt',
+            'Bạn có chắc chắn muốn phê duyệt và cập nhật bài viết này?',
+            'Xác nhận',
+            function() {
+                document.getElementById('editForm').submit();
+            },
+            'approve'
+        );
+        return false;
+    @else
+        return true; // Author không cần confirm
+    @endif
+}
 </script>
 
 <!-- Reject Modal (for admin) -->
@@ -1010,24 +1032,25 @@ function toggleCustomReason() {
                             class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 bg-white dark:bg-gray-700 dark:text-white"
                             onchange="toggleCustomReason()"
                             required>
-                        <option value="">Chọn lý do</option>
-                        <option value="Nội dung không phù hợp">Nội dung không phù hợp</option>
-                        <option value="Vi phạm quy định">Vi phạm quy định</option>
-                        <option value="Thông tin sai lệch">Thông tin sai lệch</option>
-                        <option value="Chất lượng kém">Chất lượng kém</option>
-                        <option value="Trùng lặp nội dung">Trùng lặp nội dung</option>
-                        <option value="other">Lý do khác...</option>
+                        <option value="">-- Chọn lý do --</option>
+                        <option value="Nội dung vi phạm quy định cộng đồng">Nội dung vi phạm quy định cộng đồng</option>
+                        <option value="Tiêu đề không phù hợp hoặc spam">Tiêu đề không phù hợp hoặc spam</option>
+                        <option value="Nội dung thiếu chính xác hoặc sai sự thật">Nội dung thiếu chính xác hoặc sai sự thật</option>
+                        <option value="Bài viết trùng lặp">Bài viết trùng lặp</option>
+                        <option value="Chất lượng nội dung không đạt yêu cầu">Chất lượng nội dung không đạt yêu cầu</option>
+                        <option value="Hình ảnh không phù hợp">Hình ảnh không phù hợp</option>
+                        <option value="other">Khác (nhập lý do)</option>
                     </select>
                 </div>
 
                 <!-- Custom Reason Field -->
                 <div id="customReasonField" class="mb-4 hidden">
                     <label for="custom_rejection_reason" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Nhập lý do cụ thể
+                        Nhập lý do cụ thể <span class="text-red-500">*</span>
                     </label>
                     <textarea id="custom_rejection_reason" 
                               name="custom_rejection_reason" 
-                              rows="4" 
+                              rows="3" 
                               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 bg-white dark:bg-gray-700 dark:text-white"
                               placeholder="Nhập lý do từ chối chi tiết..."></textarea>
                 </div>
@@ -1052,4 +1075,7 @@ function toggleCustomReason() {
 
 <!-- Include TinyMCE Configuration -->
 @include('posts.partials.tinymce-config')
+
+<!-- Include Confirmation Modal -->
+@include('partials.confirmation-modal')
 @endsection
