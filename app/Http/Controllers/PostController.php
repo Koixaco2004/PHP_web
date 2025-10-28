@@ -180,7 +180,8 @@ class PostController extends Controller
         $oldApprovalStatus = $post->approval_status; // Lưu trạng thái cũ
         $approvalStatus = $isAdmin ? 'approved' : 'pending';
 
-        $post->update([
+        // Prepare update data
+        $updateData = [
             'title' => $request->title,
             'slug' => $newSlug,
             'content' => $request->content,
@@ -191,7 +192,14 @@ class PostController extends Controller
             'published_at' => !$post->published_at ? now() : $post->published_at,
             'approved_by' => $isAdmin ? Auth::id() : $post->approved_by,
             'approved_at' => $isAdmin ? now() : $post->approved_at,
-        ]);
+        ];
+
+        // Xóa rejection_reason khi bài viết được gửi lại để phê duyệt
+        if (!$isAdmin && $oldApprovalStatus === 'rejected') {
+            $updateData['rejection_reason'] = null;
+        }
+
+        $post->update($updateData);
 
         // Xử lý hình ảnh đã xóa
         if ($request->deleted_images) {
