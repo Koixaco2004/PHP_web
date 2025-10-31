@@ -29,6 +29,20 @@
     }
 }
 
+/* Force-hide any element that triggers the mobile nav toggle (hamburger) globally */
+[onclick="toggleMobileNav()"],
+[onclick="toggleMobileNav()"] * {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    background: transparent !important;
+}
+
 /* Custom component classes */
 @layer components {
     .btn-primary {
@@ -322,7 +336,7 @@
     nav .relative > #categoriesDropdown,
     nav .relative > .categories-dropdown {
         position: fixed !important;
-        top: 64px !important; /* offset below header/nav - adjust if needed */
+        top: 115px !important; /* offset below header/nav - moved down slightly */
         left: 1rem !important;
         right: 1rem !important;
         width: auto !important;
