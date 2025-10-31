@@ -29,6 +29,23 @@
     }
 }
 
+/* Nudge the logo further left on small screens */
+@media (max-width: 767px) {
+    /* target the logo container: keep it fixed-size and push remaining items right */
+    header > div > div.flex.items-center.justify-between > div:first-child {
+        flex: 0 0 auto !important;
+        margin-right: auto !important;
+        padding-left: 0 !important;
+    }
+
+    /* ensure the logo link itself has no transform/margins that cause centering */
+    header > div > div.flex.items-center.justify-between > div:first-child a {
+        margin-left: 0 !important;
+        transform: none !important;
+        padding-left: 0 !important;
+    }
+}
+
 /* Make site header logo smaller (targets common logo file and classes) */
 header img[src$="logo.png"],
 img[src$="logo.png"].site-logo,
@@ -46,6 +63,109 @@ img[src$="logo.png"].site-logo,
     .logo img,
     .brand img {
         height: 22px !important;
+    }
+}
+
+/* Tighten and right-align authenticated header controls on mobile */
+@media (max-width: 767px) {
+    /* If auth group uses space-x-6 or similar, reduce gap and push to right */
+    header .flex.items-center.space-x-6,
+    header > div > div.flex.items-center.justify-between > .flex.items-center,
+    header .auth-buttons,
+    header .header-auth {
+        margin-left: auto !important; /* push group to right */
+        gap: 0.25rem !important; /* tighter spacing between items */
+        padding-right: 0.5rem !important; /* small buffer from screen edge */
+        align-items: center !important;
+    }
+
+    /* Reduce spacing for dark-mode toggle and small icon wrappers */
+    header .dark-mode-toggle {
+        margin-right: 0 !important;
+        padding: 4px !important;
+        width: 34px !important;
+        height: 34px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    header .notification-icon {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding: 4px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    /* Tighten the 'Viết bài' / other auth links so they don't create big gaps */
+    header a.btn-primary,
+    header a[href*="/new"],
+    header a[href*="/post"],
+    header a[href*="/write"] {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding-left: 6px !important;
+        padding-right: 6px !important;
+        min-width: 0 !important;
+        font-size: 14px !important;
+    }
+
+    /* Ensure items don't wrap and stay compact */
+    header .flex.items-center.space-x-6 > * {
+        white-space: nowrap !important;
+    }
+}
+
+/* Ensure header search input and submit button keep the same height on mobile
+   and the search icon is visible and centered. */
+@media (max-width: 767px) {
+    /* compact search on small screens */
+    header .flex-1.max-w-md.mx-8 {
+        overflow: visible !important;
+        max-width: 240px !important; /* keep search compact */
+        width: auto !important;
+    }
+
+    header .flex-1.max-w-md.mx-8 input[name="q"],
+    header .flex-1.max-w-md.mx-8 input[type="text"][name="q"] {
+        height: 36px !important;
+        padding-top: 0.4rem !important;
+        padding-bottom: 0.4rem !important;
+        padding-left: 0.6rem !important;
+        padding-right: 0.6rem !important;
+        font-size: 14px !important;
+        line-height: 1 !important;
+        box-sizing: border-box !important;
+        width: calc(100% - 44px) !important; /* leave room for submit button */
+        max-width: calc(100% - 44px) !important;
+        border-radius: 0.5rem !important;
+    }
+
+    header .flex-1.max-w-md.mx-8 button[type="submit"] {
+        height: 36px !important;
+        min-width: 36px !important;
+        width: 36px !important;
+        padding: 0 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        top: auto !important;
+        transform: none !important;
+        right: 0.4rem !important;
+        border-radius: 0.5rem !important;
+    }
+
+    header .flex-1.max-w-md.mx-8 button[type="submit"] svg {
+        width: 16px !important;
+        height: 16px !important;
+        display: block !important;
+    }
+
+    /* If the search input uses absolute positioned button, ensure the relative wrapper doesn't clip */
+    header .flex-1.max-w-md.mx-8 .relative {
+        overflow: visible !important;
     }
 }
 
@@ -179,7 +299,6 @@ img[src$="logo.png"].site-logo,
             @apply bottom-6 right-6 p-3;
         }
     }
-
     /* Animation for button appearance */
     @keyframes fadeInUp {
         from {
@@ -457,6 +576,338 @@ img[src$="logo.png"].site-logo,
     }
 }
 
+/* Mobile fix: show the header search (it's hidden by "hidden md:flex") and lift it a bit
+   so it sits above the navigation links on small screens. Keeps the desktop behavior intact. */
+@media (max-width: 767px) {
+    /* Make header allow wrapping and stack the search below the logo/nav on small screens so it
+       doesn't overlap the auth links. This uses a static flow (no absolute) and keeps desktop
+       behavior unchanged. */
+    header .flex.items-center.justify-between,
+    header .flex.items-center {
+        flex-wrap: wrap !important;
+        height: auto !important;
+        gap: 0.35rem !important;
+        align-items: center !important;
+    }
+
+    /* target the search container: make it full-width and placed after the logo */
+    header .flex-1.max-w-md.mx-8 {
+        display: flex !important; /* override the `hidden md:flex` so it appears on mobile */
+        position: static !important;
+        transform: none !important;
+        left: auto !important;
+        top: auto !important;
+        width: 100% !important;
+        max-width: none !important;
+        order: 3 !important; /* place after logo and nav */
+        margin: 0.4rem 0 !important;
+        padding: 0 0.5rem !important;
+        z-index: 1 !important; /* keep below any dropdowns */
+    }
+
+    /* make the input fill the available width and be slightly more compact on mobile */
+    header .flex-1.max-w-md.mx-8 form .w-full {
+        width: 100% !important;
+        max-width: none !important;
+    }
+
+    header .flex-1.max-w-md.mx-8 input[name="q"] {
+        height: 40px !important;
+        font-size: 0.95rem !important;
+    }
+
+    /* keep submit button aligned inside the input */
+    header .flex-1.max-w-md.mx-8 button[type="submit"] {
+        right: 0.75rem !important;
+    }
+}
+
+@media (max-width: 767px) {
+    /* ensure logo and nav/auth stay on the first row and the search is pushed to its own row */
+    header .flex.items-center.justify-between > .flex:first-child {
+        order: 1 !important; /* logo */
+    }
+
+    header .flex.items-center.justify-between > .flex.items-center.space-x-6,
+    header .flex.items-center.justify-between > .flex.items-center {
+        order: 2 !important; /* nav / auth group */
+        margin-left: 0.25rem !important;
+    }
+
+    /* search already set to order:3; make sure it spans full width */
+    header .flex-1.max-w-md.mx-8 {
+        width: 100% !important;
+    }
+}
+
+/* Strong override: make the header search always occupy its own full-width row on small screens */
+@media (max-width: 767px) {
+    /* ensure header row wraps */
+    header,
+    header > div,
+    header > div > div {
+        -webkit-flex-wrap: wrap !important;
+        flex-wrap: wrap !important;
+    }
+
+    /* force the search container to act as a full-width block row */
+    header .flex-1.max-w-md.mx-8,
+    header > div > div > .flex-1.max-w-md.mx-8 {
+        display: block !important;
+        order: 999 !important; /* put it after other header items */
+        flex: 0 0 100% !important;
+        -webkit-flex: 0 0 100% !important;
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0.45rem 0 !important;
+        padding: 0 0.5rem !important;
+        align-self: stretch !important;
+    }
+
+    /* make sure inner form/input fill that width */
+    header .flex-1.max-w-md.mx-8 form,
+    header .flex-1.max-w-md.mx-8 .relative {
+        width: 100% !important;
+        max-width: none !important;
+    }
+
+    header .flex-1.max-w-md.mx-8 input[name="q"] {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        height: 40px !important;
+    }
+
+    /* ensure logo and auth/nav keep their natural size and stay before search */
+    header
+        > div
+        > div.flex.items-center.justify-between
+        > .flex.items-center:first-child,
+    header
+        > div
+        > div.flex.items-center.justify-between
+        > .flex.items-center.space-x-6,
+    header > div > div.flex.items-center.justify-between > .flex.items-center {
+        order: 0 !important;
+        flex: 0 0 auto !important;
+        width: auto !important;
+    }
+}
+
+/* Mobile-only: keep logo pinned to the left and prevent shifting when auth controls are present */
+@media (max-width: 767px) {
+    /* Target the header flex row and pin the first child (logo) to the left */
+    header
+        > div
+        > .flex.items-center.justify-between
+        > .flex.items-center:first-child {
+        flex: 0 0 auto !important;
+        margin-right: auto !important; /* push other items to the right */
+        padding-left: 0.25rem !important;
+    }
+
+    /* Ensure the header row remains positioned normally (avoid unexpected centering) */
+    header > div > .flex.items-center.justify-between {
+        position: relative !important;
+    }
+}
+
+/* Mobile: push nav/auth to the right and tighten spacing so search below doesn't show a large empty gap */
+@media (max-width: 767px) {
+    /* right-align the nav/auth group on the header's first row */
+    header
+        > div
+        > div.flex.items-center.justify-between
+        > .flex.items-center.space-x-6 {
+        margin-left: auto !important; /* pushes this group to the right */
+        order: 2 !important; /* keep it on the first row */
+        align-self: center !important;
+        gap: 0.5rem !important; /* slightly tighter spacing between icons/links */
+    }
+
+    /* If the nav/auth group uses .auth-buttons or .header-auth wrapper, tighten it too */
+    header .auth-buttons,
+    header .header-auth {
+        margin-left: auto !important;
+        gap: 0.5rem !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+
+    /* Collapse spacing inside auth group to make dark-toggle and 'Viết bài' sit near the notification */
+    header
+        > div
+        > div.flex.items-center.justify-between
+        > .flex.items-center.space-x-6 {
+        gap: 0.06rem !important; /* almost no gap */
+    }
+
+    header
+        > div
+        > div.flex.items-center.justify-between
+        > .flex.items-center.space-x-6
+        > * {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding-left: 0.15rem !important;
+        padding-right: 0.15rem !important;
+    }
+
+    /* specifically reduce space between Viết bài and notification */
+    header a.btn-primary {
+        margin-right: 0.15rem !important;
+    }
+
+    header .notification-icon {
+        margin-left: 0.05rem !important;
+    }
+
+    /* reduce right padding on the search row to avoid extra white space */
+    header .flex-1.max-w-md.mx-8 {
+        padding-right: 0.25rem !important;
+        padding-left: 0.25rem !important;
+    }
+
+    /* Bring dark-mode toggle and 'Viết bài' closer to notification */
+    header .dark-mode-toggle,
+    header a.btn-primary,
+    header a[href*="/post"],
+    header a[href*="/write"] {
+        margin-left: 0.125rem !important; /* ~2px */
+        margin-right: 0.125rem !important;
+    }
+
+    /* Small gap between Viết bài and notification */
+    header .notification-icon {
+        margin-left: 0.06rem !important; /* ~1px */
+    }
+
+    /* Force header horizontal padding to be smaller on mobile so content sits closer to left edge */
+    header > div.px-8,
+    header > div[class*="px-"] {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+    }
+
+    /* Ensure the logo group is flush left */
+    header
+        > div
+        > div.flex.items-center.justify-between
+        > .flex.items-center:first-child,
+    header > div > div.flex.items-center.justify-between > .flex:first-child {
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+        align-self: center !important;
+    }
+}
+
+/* Extra-tight mobile positioning for dark-mode toggle + auth links */
+@media (max-width: 767px) {
+    /* make the auth group tighter and align to the right edge */
+    header
+        > div
+        > div.flex.items-center.justify-between
+        > .flex.items-center.space-x-6 {
+        margin-left: auto !important;
+        gap: 0.2rem !important; /* tighter */
+        padding-right: 0.35rem !important; /* nudge further to the right */
+        padding-left: 0.15rem !important;
+    }
+
+    /* reduce spacing for the dark-mode button and auth links */
+    header .dark-mode-toggle {
+        margin: 0 !important;
+        margin-right: 0.15rem !important;
+        padding: 5px !important;
+        width: 32px !important;
+        height: 32px !important;
+        order: 0 !important;
+    }
+
+    header a[href*="/login"],
+    header a[href*="login"] {
+        margin: 0 !important;
+        margin-right: 0.15rem !important; /* bring login closer to register */
+        order: 1 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+    }
+
+    header a[href*="/register"],
+    header a[href*="register"] {
+        margin: 0 !important;
+        order: 2 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        padding-left: 0.2rem !important;
+        padding-right: 0.2rem !important;
+    }
+
+    /* if there's a notification/icon wrapper, keep it compact */
+    header .notification-icon {
+        margin-right: 0.25rem !important;
+    }
+}
+
+/* Stronger, structural selectors to guarantee stacking on variants of the header markup */
+@media (max-width: 767px) {
+    /* ensure parent row allows wrapping */
+    header > div > div.flex.items-center.justify-between {
+        flex-wrap: wrap !important;
+        height: auto !important;
+        gap: 0.35rem !important;
+    }
+
+    /* explicit ordering using direct-child selectors to avoid mismatches */
+    header
+        > div
+        > div.flex.items-center.justify-between
+        > .flex.items-center:first-child {
+        order: 1 !important; /* logo */
+        width: auto !important;
+    }
+
+    header
+        > div
+        > div.flex.items-center.justify-between
+        > .flex.items-center.space-x-6 {
+        order: 2 !important; /* nav / auth */
+        width: auto !important;
+    }
+
+    header
+        > div
+        > div.flex.items-center.justify-between
+        > .flex-1.max-w-md.mx-8 {
+        order: 3 !important; /* search row below */
+        display: flex !important;
+        position: static !important;
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0.45rem 0 !important;
+        padding: 0 0.5rem !important;
+        transform: none !important;
+        z-index: 1 !important;
+    }
+}
+
+/* Add some extra top/bottom padding to the header on small screens so
+   the absolute-positioned search has room and doesn't cover the logo/auth */
+@media (max-width: 767px) {
+    header {
+        padding-top: 0.6rem !important;
+        padding-bottom: 0.6rem !important;
+    }
+}
+
+/* Reduce the container horizontal padding on mobile so right-aligned auth
+   group sits closer to the screen edge. */
+@media (max-width: 767px) {
+    header > div {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+    }
+}
+
 /* Target the actual header title span (e.g. <span class="text-xl">SmurfExpress</span>) and make it smaller on mobile */
 @media (max-width: 767px) {
     header .flex.items-center a > span.text-xl,
@@ -575,6 +1026,217 @@ img[src$="logo.png"].site-logo,
     }
 }
 
+/* Search page: shrink the category select on mobile so it doesn't overlap the search button */
+@media (max-width: 767px) {
+    /* target the search header area (gradient card) and general forms */
+    .bg-gradient-to-r select[name="category"],
+    form select[name="category"] {
+        width: 60% !important;
+        max-width: 260px !important;
+        min-width: 120px !important;
+        box-sizing: border-box !important;
+        display: inline-block !important;
+    }
+
+    /* keep submit button compact but show text; set small font and keep icon visible */
+    .bg-gradient-to-r .flex.space-x-2 > button[type="submit"],
+    form .flex.space-x-2 > button[type="submit"] {
+        width: auto !important;
+        min-width: 68px !important;
+        height: 36px !important;
+        padding: 0.25rem 0.5rem !important;
+        box-sizing: border-box !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border-radius: 0.5rem !important;
+        font-size: 12px !important;
+        line-height: 1 !important;
+        overflow: visible !important;
+    }
+
+    /* ensure the SVG inside is visible and centered */
+    .bg-gradient-to-r .flex.space-x-2 > button[type="submit"] svg,
+    form .flex.space-x-2 > button[type="submit"] svg {
+        width: 16px !important;
+        height: 16px !important;
+        margin: 0 !important;
+        display: inline-block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        color: inherit !important;
+        stroke: currentColor !important;
+        fill: none !important;
+    }
+
+    /* ensure the select and button sit inline and centered within their wrapper */
+    .bg-gradient-to-r .flex.space-x-2,
+    form .flex.space-x-2 {
+        align-items: center !important;
+        justify-content: flex-start !important;
+    }
+
+    /* For the header search card specifically, expand the submit button to show text
+       and align the right edge with the input above. This overrides the icon-only rule. */
+    .bg-gradient-to-r form .flex.space-x-2 {
+        width: 100% !important;
+        justify-content: flex-end !important; /* push select+button to the right */
+    }
+
+    .bg-gradient-to-r form .flex.space-x-2 > select[name="category"] {
+        width: auto !important;
+        max-width: calc(
+            100% - 92px
+        ) !important; /* leave room for the button + icon */
+        min-width: 120px !important;
+        display: inline-block !important;
+        margin-right: 0.5rem !important;
+    }
+
+    .bg-gradient-to-r form .flex.space-x-2 > button[type="submit"] {
+        /* restore text label and make button align with input's right edge */
+        width: auto !important;
+        min-width: 84px !important;
+        height: 36px !important;
+        padding: 0.35rem 0.6rem !important;
+        font-size: 12px !important;
+        line-height: 1 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border-radius: 0.5rem !important;
+        overflow: visible !important;
+    }
+
+    /* Highly specific overrides to guarantee the search icon is visible and the button isn't clipped */
+    .bg-gradient-to-r form .flex.space-x-2,
+    .bg-gradient-to-r form .flex.space-x-2 > button[type="submit"],
+    .bg-gradient-to-r form .flex.space-x-2 > button[type="submit"] svg {
+        overflow: visible !important;
+        display: inline-flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    /* Target the exact button classes used in template to ensure high specificity */
+    .bg-gradient-to-r
+        button.px-8.py-4.bg-white.text-primary-600.font-semibold.rounded-xl.flex.items-center[type="submit"] {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        overflow: visible !important;
+        padding: 0.35rem 0.7rem !important;
+        height: 36px !important;
+        min-width: 80px !important;
+        font-size: 12px !important;
+    }
+
+    .bg-gradient-to-r
+        button.px-8.py-4.bg-white.text-primary-600.font-semibold.rounded-xl.flex.items-center[type="submit"]
+        svg {
+        display: inline-block !important;
+        width: 16px !important;
+        height: 16px !important;
+        margin-right: 0.12rem !important; /* tighten spacing */
+        visibility: visible !important;
+        opacity: 1 !important;
+        stroke: currentColor !important;
+        fill: none !important;
+    }
+
+    /* Put icon and text very close together inside the button on mobile */
+    .bg-gradient-to-r
+        button.px-8.py-4.bg-white.text-primary-600.font-semibold.rounded-xl[type="submit"] {
+        gap: 0.12rem !important;
+        padding-left: 0.45rem !important;
+        padding-right: 0.5rem !important;
+        justify-content: center !important;
+    }
+
+    /* Override utility class mr-2 inside this button on mobile to shrink space further */
+    .bg-gradient-to-r
+        button.px-8.py-4.bg-white.text-primary-600.font-semibold.rounded-xl[type="submit"]
+        .mr-2 {
+        margin-right: 0.12rem !important;
+    }
+
+    /* Strong override to guarantee the SVG icon is visible and not clipped for header search button */
+    .bg-gradient-to-r form .flex.space-x-2 > button[type="submit"],
+    .bg-gradient-to-r form .flex.space-x-2 > button[type="submit"] svg,
+    .bg-gradient-to-r form .flex.space-x-2 > button[type="submit"] svg * {
+        display: inline-block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    .bg-gradient-to-r form .flex.space-x-2 > button[type="submit"] svg {
+        width: 18px !important;
+        height: 18px !important;
+        margin-right: 0.4rem !important;
+        color: inherit !important;
+    }
+
+    /* If the SVG uses stroke on its path, force a visible stroke color and width */
+    .bg-gradient-to-r form .flex.space-x-2 > button[type="submit"] svg path,
+    .bg-gradient-to-r form .flex.space-x-2 > button[type="submit"] svg circle,
+    .bg-gradient-to-r form .flex.space-x-2 > button[type="submit"] svg line {
+        stroke: currentColor !important;
+        stroke-width: 2 !important;
+        fill: none !important;
+    }
+
+    .bg-gradient-to-r form .flex.space-x-2 > button[type="submit"] svg {
+        width: 18px !important;
+        height: 18px !important;
+        margin-right: 0.5rem !important;
+        display: inline-block !important;
+    }
+
+    /* Make icon slightly smaller to match the compact button */
+    .bg-gradient-to-r form .flex.space-x-2 > button[type="submit"] svg {
+        width: 16px !important;
+        height: 16px !important;
+        margin-right: 0.4rem !important;
+        display: inline-block !important;
+    }
+
+    /* Reduce select font-size/padding on mobile and prevent long text from wrapping */
+    .bg-gradient-to-r form .flex.space-x-2 > select[name="category"],
+    form .flex.space-x-2 > select[name="category"] {
+        font-size: 13px !important;
+        padding-top: 0.35rem !important;
+        padding-bottom: 0.35rem !important;
+        padding-left: 0.6rem !important;
+        padding-right: 0.6rem !important;
+        line-height: 1 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        max-width: 70% !important;
+    }
+
+    /* Keep the submit button text on one line and align horizontally with the icon */
+    .bg-gradient-to-r form .flex.space-x-2 > button[type="submit"],
+    form .flex.space-x-2 > button[type="submit"] {
+        white-space: nowrap !important;
+        display: inline-flex !important;
+        flex-direction: row !important;
+        gap: 0.4rem !important;
+        align-items: center !important;
+        justify-content: center !important;
+        height: 36px !important;
+        min-width: 88px !important;
+        padding: 0.35rem 0.6rem !important;
+        font-size: 14px !important;
+    }
+
+    /* Ensure options inside select inherit the smaller font for mobile */
+    .bg-gradient-to-r form .flex.space-x-2 > select[name="category"] option,
+    form .flex.space-x-2 > select[name="category"] option {
+        font-size: 13px !important;
+    }
+}
+
 /* Mobile: keep login / register buttons side-by-side and preserve their colors */
 @media (max-width: 767px) {
     /* Ensure the standard button components don't become full-width or stacked */
@@ -608,5 +1270,38 @@ img[src$="logo.png"].site-logo,
         flex-direction: row !important;
         align-items: center !important;
         gap: 0.5rem !important;
+    }
+}
+
+@media (max-width: 767px) {
+    /* Make the category select match the search input/button height and align the contents */
+    select[name="category"],
+    header .flex-1.max-w-md.mx-8 .flex.space-x-2 select {
+        height: 40px !important; /* match input/button */
+        min-height: 40px !important;
+        padding-top: 0.5rem !important;
+        padding-bottom: 0.5rem !important;
+        padding-left: 0.75rem !important;
+        padding-right: 0.75rem !important;
+        line-height: 1 !important;
+        box-sizing: border-box !important;
+        border-radius: 0.5rem !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        vertical-align: middle !important;
+    }
+
+    /* Ensure the select's sibling button and wrapper align vertically */
+    header .flex-1.max-w-md.mx-8 .flex.space-x-2 {
+        align-items: center !important;
+    }
+
+    /* If the submit button exists next to the select, keep same height (already set) */
+    header .flex-1.max-w-md.mx-8 .flex.space-x-2 button[type="submit"] {
+        height: 40px !important;
+        min-height: 40px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
     }
 }
