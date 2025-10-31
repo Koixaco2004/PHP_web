@@ -29,6 +29,53 @@
     }
 }
 
+/* Expand reply bubble horizontally to the left on mobile, without covering avatar */
+@media (max-width: 767px) {
+    /* Make the threaded container use relative positioning so children can shift safely */
+    .mt-4.ml-8 {
+        position: relative !important;
+        padding-left: 0.5rem !important;
+    }
+
+    /* Let the reply bubble extend left by 20px but keep it behind the avatar using z-index */
+    [data-reply-id] .bg-primary-50,
+    [data-reply-id] .bg-secondary-50 {
+        margin-left: -20px !important; /* extend bubble into left gutter */
+        padding-left: calc(
+            1rem + 20px
+        ) !important; /* keep inner text away from left edge */
+        max-width: calc(100% + 20px) !important;
+        box-sizing: border-box !important;
+        position: relative !important;
+        z-index: 0 !important; /* place behind avatar */
+    }
+
+    /* Ensure avatar sits above the bubble so it remains visible and not overlapped */
+    .comment-item .flex-shrink-0 {
+        position: relative !important;
+        z-index: 2 !important;
+    }
+
+    /* If reply bubble contains icons/badges on the right, allow them to wrap instead of forcing narrow width */
+    [data-reply-id] .bg-primary-50 .flex.items-center,
+    [data-reply-id] .bg-secondary-50 .flex.items-center {
+        flex-wrap: wrap !important;
+    }
+}
+
+/* Mobile-only: make reply author name match parent comment name without changing desktop */
+@media (max-width: 767px) {
+    /* target only reply blocks to avoid touching desktop styles */
+    [data-reply-id] h5,
+    .reply-content-display h5,
+    [class^="reply-content-display-"] h5,
+    [class*=" reply-content-display-"] h5 {
+        font-size: 1rem !important; /* same as .text-base / parent */
+        line-height: 1.2 !important;
+        font-weight: 600 !important;
+    }
+}
+
 /* Nudge the logo further left on small screens */
 @media (max-width: 767px) {
     /* target the logo container: keep it fixed-size and push remaining items right */
@@ -424,6 +471,24 @@ img[src$="logo.png"].site-logo,
 
 /* Mobile-only: thin white draggable bar under the main nav (CSS-only, does not modify Blade) */
 @media (max-width: 767px) {
+    /* Mobile: make reply 'Gửi' button slightly bigger than the previous tiny size */
+    @media (max-width: 767px) {
+        /* Target the reply form submit button specifically and increase padding/size */
+        .reply-form .mt-2 button[type="submit"],
+        .reply-form .mt-2 button[type="submit"].px-3.py-1\.5 {
+            padding: 0 8px !important;
+            font-size: 12px !important;
+            line-height: 1 !important;
+            height: 26px !important;
+            min-width: 44px !important;
+            max-width: 80px !important;
+            border-radius: 8px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            box-sizing: border-box !important;
+        }
+    }
     /* Target the nav container that holds the links. This selector is specific and only applies on small screens. */
     nav .px-8 .flex.items-center.space-x-8,
     nav > div > .flex.items-center.space-x-8 {
@@ -1273,6 +1338,121 @@ img[src$="logo.png"].site-logo,
     }
 }
 
+/* Mobile tweaks for comment avatar + text sizes (only affects <=767px) */
+@media (max-width: 767px) {
+    /* Reduce main comment avatar (was w-12 h-12 -> ~48px); make it slightly smaller */
+    .comment-item .w-12.h-12 {
+        width: 36px !important;
+        height: 36px !important;
+        min-width: 36px !important;
+        min-height: 36px !important;
+    }
+
+    /* Reduce the initials inside the avatar */
+    .comment-item .w-12.h-12 > span,
+    .comment-item .w-12.h-12 span {
+        font-size: 14px !important;
+        line-height: 1 !important;
+    }
+
+    /* Reduce reply/avatar used in reply forms (was w-8 h-8 -> ~32px) */
+    .comment-item .w-8.h-8,
+    #reply-form-\* .w-8.h-8,
+    .reply-form .w-8.h-8 {
+        width: 32px !important;
+        height: 32px !important;
+        min-width: 32px !important;
+        min-height: 32px !important;
+    }
+
+    /* Shrink name, timestamp and comment text slightly for mobile */
+    .comment-item h5 {
+        font-size: 14px !important;
+        line-height: 1.1 !important;
+    }
+
+    .comment-item time {
+        font-size: 12px !important;
+        line-height: 1 !important;
+    }
+
+    .comment-item .bg-secondary-50 p,
+    .comment-item p {
+        font-size: 14px !important;
+    }
+
+    /* Tighten spacing inside the comment box */
+    .comment-item .bg-secondary-50 {
+        padding: 0.5rem !important; /* was p-4 */
+    }
+
+    /* Place reply/edit/delete inline with the name on mobile (like desktop) */
+    .comment-item .bg-secondary-50 {
+        position: relative !important;
+    }
+
+    /* Keep name and controls on the same row on mobile (inline like desktop) */
+    .comment-item .bg-secondary-50 .flex.items-center.justify-between {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 0.35rem !important;
+    }
+
+    /* Place the auth controls inline to the right of the header row */
+    .comment-item .bg-secondary-50 > .flex.items-center.space-x-4.text-sm,
+    .comment-item .bg-secondary-50 .flex.items-center.space-x-4.text-sm {
+        position: static !important;
+        display: flex !important;
+        gap: 0.4rem !important;
+        align-items: center !important;
+        margin-left: 0.5rem !important;
+    }
+
+    /* Keep timestamp inline (small) */
+    .comment-item .bg-secondary-50 .flex.items-center.justify-between time {
+        display: inline-block !important;
+        font-size: 12px !important;
+        color: #6b7280 !important; /* muted */
+        margin-left: 0.5rem !important;
+    }
+
+    /* Reduce sizes of small controls (reply/edit/delete) inside comments */
+    .comment-item .text-sm,
+    .comment-item .flex.items-center.space-x-4 .text-sm {
+        font-size: 12px !important;
+    }
+
+    /* Make reply textarea slightly smaller on mobile */
+    .reply-form textarea,
+    .comment-edit-form-\* textarea,
+    .comment-item textarea {
+        font-size: 13px !important;
+    }
+
+    /* When editing a comment, expand the textarea horizontally and vertically
+       so the editor has more room. This targets dynamic classes like
+       .comment-edit-form-<id> (escaped above) used in templates. */
+    .comment-edit-form-\* textarea,
+    .comment-item textarea.comment-edit,
+    .comment-item .comment-edit-form-\* textarea {
+        width: calc(100% + 24px) !important; /* extend beyond container a bit */
+        margin-left: -12px !important; /* center the extended width */
+        max-width: none !important;
+        box-sizing: border-box !important;
+        min-height: 6rem !important; /* ~96px, taller editor */
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+        font-size: 14px !important; /* slightly larger for editing */
+    }
+
+    /* Keep the left/right spacing tighter so mobile list looks compact */
+    .comment-item .flex.space-x-4 {
+        gap: 0.5rem !important;
+    }
+}
+
 @media (max-width: 767px) {
     /* Make the category select match the search input/button height and align the contents */
     select[name="category"],
@@ -1305,3 +1485,317 @@ img[src$="logo.png"].site-logo,
         justify-content: center !important;
     }
 }
+
+/* Ensure avatars are perfect circles on mobile and not distorted by transforms */
+@media (max-width: 767px) {
+    /* main comment avatar */
+    .comment-item .w-12.h-12,
+    .comment-item .flex-shrink-0 > .w-12.h-12,
+    .comment-item .w-10.h-10,
+    .comment-item .flex-shrink-0 > .w-10.h-10,
+    [data-reply-id] .w-10.h-10,
+    .reply-form .w-8.h-8 {
+        width: 40px !important;
+        height: 40px !important;
+        min-width: 40px !important;
+        min-height: 40px !important;
+        border-radius: 9999px !important;
+        overflow: hidden !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 0 !important;
+        transform: none !important; /* override transforms */
+    }
+
+    /* specifically smaller reply avatars */
+    [data-reply-id] .w-10.h-10,
+    .reply-form .w-8.h-8 {
+        width: 36px !important;
+        height: 36px !important;
+        min-width: 36px !important;
+        min-height: 36px !important;
+    }
+
+    /* center initials and ensure line-height matches container for vertical centering */
+    .comment-item .w-12.h-12 > span,
+    .comment-item .w-10.h-10 > span,
+    [data-reply-id] .w-10.h-10 > span,
+    .reply-form .w-8.h-8 > span {
+        display: block !important;
+        width: 100% !important;
+        text-align: center !important;
+        line-height: 1 !important;
+        font-size: 13px !important;
+    }
+}
+
+/* Make reply content font-size match parent comment content */
+/* Targets dynamic classes like reply-content-display-<id> */
+[class^="reply-content-display-"] p,
+[class*=" reply-content-display-"] p {
+    font-size: 1rem !important; /* same as .text-base */
+    line-height: 1.6 !important; /* match parent spacing */
+}
+
+/* Also ensure non-dynamic replies (if any) follow same sizing */
+.reply-content-display p {
+    font-size: 1rem !important;
+    line-height: 1.6 !important;
+}
+
+/* Extra strong override: make reply content exactly match parent comment content */
+.comment-item .bg-secondary-50 p,
+.comment-item .bg-primary-50 p,
+[data-reply-id] .bg-primary-50 p,
+[data-reply-id] .bg-secondary-50 p,
+.reply-content-display p,
+[class^="reply-content-display-"] p,
+[class*=" reply-content-display-"] p {
+    font-size: 1rem !important;
+    line-height: 1.6 !important;
+    font-weight: 400 !important;
+    color: inherit !important;
+}
+
+/* Force reply username size to match parent comment username */
+.comment-item h5,
+[data-reply-id] h5,
+.reply-content-display h5,
+[class^="reply-content-display-"] h5,
+[class*=" reply-content-display-"] h5 {
+    font-size: 1rem !important; /* same as parent */
+    line-height: 1.2 !important;
+    font-weight: 600 !important;
+}
+
+/* Mobile fix: keep replies indented without pushing main comment */
+@media (max-width: 767px) {
+    /* Remove left margin that shifts layout; use padding and border for indent */
+    .mt-4.ml-8 {
+        margin-left: 0 !important;
+        padding-left: 0.75rem !important;
+        border-left: 2px solid rgba(34, 197, 94, 0.18) !important; /* light green like design */
+        box-sizing: border-box !important;
+        width: 100% !important;
+    }
+
+    /* Ensure nested replies occupy full width and don't force horizontal scroll */
+    .mt-4.ml-8 .flex,
+    .mt-4.ml-8 .bg-primary-50,
+    .mt-4.ml-8 .bg-secondary-50 {
+        max-width: 100% !important;
+        width: auto !important;
+        box-sizing: border-box !important;
+        word-break: break-word !important;
+    }
+}
+
+/* Make reply bubble slightly extend left on mobile so internal text has more room */
+@media (max-width: 767px) {
+    [data-reply-id] .bg-primary-50,
+    [data-reply-id] .bg-secondary-50 {
+        /* Do not transform; instead increase padding and allow extra width so text has room */
+        transform: none !important;
+        margin-left: -24px !important; /* extend bubble leftwards more */
+        padding-left: calc(
+            1rem + 8px
+        ) !important; /* inner text moved left but still clear of edge */
+        max-width: calc(100% + 24px) !important;
+        box-sizing: border-box !important;
+    }
+
+    /* For nested replies inside the threaded container, apply the same shift */
+    .mt-4.ml-8 [data-reply-id] .bg-primary-50,
+    .mt-4.ml-8 [data-reply-id] .bg-secondary-50 {
+        transform: none !important;
+        margin-left: -24px !important;
+        padding-left: calc(1rem + 8px) !important;
+        max-width: calc(100% + 24px) !important;
+    }
+}
+
+/* Mobile: make reply form textarea a bit shorter and buttons smaller to avoid overflow */
+@media (max-width: 767px) {
+    /* Limit textarea width inside the reply row (account for avatar + gap) */
+    .reply-form .flex.items-start .flex-1 textarea,
+    .reply-form textarea {
+        /* allow the textarea to extend into the left gutter so it's visually longer */
+        max-width: calc(100% + 24px) !important;
+        margin-left: -12px !important; /* extend leftwards a bit */
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+        width: calc(100% + 12px) !important;
+        padding-left: 8px !important; /* keep text away from left edge */
+        font-size: 13px !important;
+    }
+
+    /* Ensure flex child can shrink so textarea can occupy available space */
+    .reply-form .flex.items-start .flex-1 {
+        min-width: 0 !important;
+    }
+
+    /* Shrink the send/cancel buttons inside reply form */
+    .reply-form .mt-2 button {
+        padding: 0 6px !important; /* reduce vertical padding to shorten button */
+        font-size: 10px !important;
+        line-height: 1 !important;
+        min-width: 36px !important;
+        height: 20px !important; /* shorter */
+        width: auto !important;
+        max-width: 48px !important; /* cap width */
+        white-space: nowrap !important;
+        text-align: center !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    /* Make the button group more compact */
+    .reply-form .mt-2 {
+        gap: 0.4rem !important;
+        align-items: center !important;
+    }
+
+    /* Further shrink send/cancel buttons specifically for very small screens */
+    .reply-form .mt-2 button[type="submit"],
+    .reply-form .mt-2 button[type="button"],
+    .comment-item .bg-secondary-50 .mt-2 button {
+        padding: 0 6px !important;
+        font-size: 10px !important;
+        height: 20px !important;
+        line-height: 1 !important;
+        min-width: 36px !important;
+        width: auto !important;
+        max-width: 48px !important;
+        border-radius: 6px !important;
+        box-sizing: border-box !important;
+        white-space: nowrap !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    /* If there is a standalone primary large button inside a narrow container, cap its width */
+    .reply-form .mt-2 button.btn-primary,
+    .reply-form .mt-2 .btn-primary,
+    .comment-item .bg-secondary-50 .btn-primary {
+        padding-left: 6px !important;
+        padding-right: 6px !important;
+        font-size: 10px !important;
+        min-width: 40px !important;
+        max-width: 56px !important;
+        height: 20px !important;
+        width: auto !important;
+    }
+
+    /* TEMP DEBUG: highlight comment boxes on mobile so you can confirm mobile CSS is active
+       Remove this block after verification. */
+    .comment-item .bg-secondary-50 {
+        box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.12) inset !important;
+    }
+}
+
+/* Strong mobile override: force reply/send buttons as compact as possible */
+@media (max-width: 767px) {
+    .reply-form .mt-2 button,
+    .reply-form .mt-2 button[type="submit"],
+    .reply-form .mt-2 button[type="button"],
+    .comment-item .bg-secondary-50 .mt-2 button,
+    .comment-item .bg-secondary-50 .mt-2 .btn-primary {
+        padding: 0 4px !important;
+        font-size: 9px !important;
+        height: 18px !important;
+        line-height: 1 !important;
+        min-width: 28px !important;
+        max-width: 40px !important;
+        width: auto !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+        border-radius: 6px !important;
+    }
+
+    /* Specific enforcement: make sure the 'Gửi' (submit) button in reply forms
+       matches the 'Hủy' button sizing on small screens. Some utility classes
+       (px-3, py-1.5, etc.) can make the submit button larger; this selector
+       is intentionally very specific and uses !important to override them. */
+    .reply-form .mt-2 button[type="submit"].px-3.py-1\.5,
+    .reply-form .mt-2 button[type="submit"],
+    .comment-item .bg-secondary-50 .mt-2 button[type="submit"],
+    .reply-form .mt-2 .bg-primary-600,
+    .reply-form .mt-2 .bg-primary-600.dark {
+        padding: 0 6px !important; /* match cancel */
+        font-size: 10px !important;
+        height: 20px !important;
+        line-height: 1 !important;
+        min-width: 36px !important;
+        max-width: 56px !important;
+        border-radius: 6px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-sizing: border-box !important;
+    }
+}
+
+/* Mobile: enlarge reply 'Gửi' button more per user's request */
+@media (max-width: 767px) {
+    form.reply-form[data-parent-id] .mt-2 > button[type="submit"],
+    .reply-form .mt-2 button[type="submit"],
+    .reply-form .mt-2 .bg-primary-600,
+    .reply-form .mt-2 button[type="submit"].px-3.py-1\.5,
+    /* Also target the cancel button so its font-size/height match submit */
+    form.reply-form[data-parent-id] .mt-2 > button[type="button"],
+    .reply-form .mt-2 button[type="button"],
+    .reply-form .mt-2 button[type="button"].px-3.py-1\.5,
+    .reply-form .mt-2 .bg-secondary-200,
+    .reply-form .mt-2 .bg-secondary-200.dark {
+        padding: 0 12px !important;
+        font-size: 14px !important;
+        line-height: 1 !important;
+        height: 34px !important;
+        min-width: 56px !important;
+        max-width: 120px !important;
+        border-radius: 10px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-sizing: border-box !important;
+    }
+}
+
+/* Move avatar circle slightly to the left when composing a reply so it sits closer to the textarea */
+.reply-form .flex-shrink-0 {
+    /* small left nudge to visually separate avatar from input box edge */
+    margin-left: -6px !important;
+    position: relative !important;
+    left: -4px !important;
+}
+
+@media (max-width: 767px) {
+    /* on small screens move it a bit more so it doesn't overlap content */
+    .reply-form .flex-shrink-0 {
+        margin-left: -10px !important;
+        left: -6px !important;
+    }
+}
+
+
+    /* Very specific mobile override: ensure reply author name equals parent size
+       Targets h5 elements inside reply containers even if they carry Tailwind
+       utility classes like text-sm. Only applies to mobile viewports. Placed
+       at file end to win in cascade. */
+    @media (max-width: 767px) {
+        /* match parent comment (text-base / 1rem) */
+        [data-reply-id] h5.text-sm,
+        [data-reply-id] h5[class*="text-sm"],
+        .reply-content-display h5.text-sm,
+        .reply-content-display h5[class*="text-sm"],
+        [class^="reply-content-display-"] h5.text-sm,
+        [class*=" reply-content-display-"] h5.text-sm {
+            font-size: 1rem !important;
+            line-height: 1.2 !important;
+            font-weight: 600 !important;
+        }
+    }
