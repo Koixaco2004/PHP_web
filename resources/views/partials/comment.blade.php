@@ -105,10 +105,25 @@
 
             <!-- Replies (nested comments) -->
             @if($comment->children->count() > 0)
-                <div class="mt-4 ml-8 space-y-4 border-l-2 border-primary-200 dark:border-gray-600 pl-4" id="replies-{{ $comment->id }}">
-                    @foreach($comment->children as $reply)
-                        @include('partials.reply', ['reply' => $reply, 'post' => $post])
-                    @endforeach
+                <div class="mt-4 ml-8 border-l-2 border-primary-200 dark:border-gray-600 pl-4" id="replies-{{ $comment->id }}" x-data="{ showAllReplies: false }">
+                    <div class="space-y-4">
+                        @foreach($comment->children as $index => $reply)
+                            <div x-show="showAllReplies || {{ $index }} < 3">
+                                @include('partials.reply', ['reply' => $reply, 'post' => $post])
+                            </div>
+                        @endforeach
+                    </div>
+                    
+                    <!-- Load More Replies Button -->
+                    @if($comment->children->count() > 3)
+                        <div class="mt-4">
+                            <button @click="showAllReplies = !showAllReplies" 
+                                    class="text-sm px-4 py-1.5 bg-secondary-100 dark:bg-gray-700 text-secondary-700 dark:text-gray-300 rounded-lg hover:bg-secondary-200 dark:hover:bg-gray-600 transition-colors duration-200 font-medium">
+                                <span x-show="!showAllReplies">Xem thêm câu trả lời ({{ $comment->children->count() - 3 }})</span>
+                                <span x-show="showAllReplies">Thu gọn câu trả lời</span>
+                            </button>
+                        </div>
+                    @endif
                 </div>
             @else
                 <div class="mt-4 ml-8 space-y-4 border-l-2 border-primary-200 dark:border-gray-600 pl-4 hidden" id="replies-{{ $comment->id }}">

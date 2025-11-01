@@ -280,18 +280,33 @@
                 @endauth
 
                 <!-- Comments List -->
-                <div class="space-y-6" id="comments-list">
-                    @forelse($post->comments->whereNull('parent_id')->sortByDesc('created_at') as $comment)
-                        @include('partials.comment', ['comment' => $comment, 'post' => $post])
-                    @empty
-                        <div class="text-center py-8" id="no-comments-message">
-                            <svg class="w-16 h-16 text-secondary-300 dark:text-gray-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-                            </svg>
-                            <h4 class="text-lg font-medium text-secondary-900 dark:text-primary-400-dark mb-2">Chưa có bình luận nào</h4>
-                            <p class="text-secondary-500 dark:text-gray-400">Hãy là người đầu tiên bình luận về bài viết này!</p>
+                <div x-data="{ showAllComments: false }">
+                    <div class="space-y-6" id="comments-list">
+                        @forelse($post->comments->whereNull('parent_id')->sortByDesc('created_at') as $index => $comment)
+                            <div x-show="showAllComments || {{ $index }} < 3">
+                                @include('partials.comment', ['comment' => $comment, 'post' => $post])
+                            </div>
+                        @empty
+                            <div class="text-center py-8" id="no-comments-message">
+                                <svg class="w-16 h-16 text-secondary-300 dark:text-gray-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                                </svg>
+                                <h4 class="text-lg font-medium text-secondary-900 dark:text-primary-400-dark mb-2">Chưa có bình luận nào</h4>
+                                <p class="text-secondary-500 dark:text-gray-400">Hãy là người đầu tiên bình luận về bài viết này!</p>
+                            </div>
+                        @endforelse
+                    </div>
+                    
+                    <!-- Load More Comments Button -->
+                    @if($post->comments->whereNull('parent_id')->count() > 3)
+                        <div class="mt-6 text-center">
+                            <button @click="showAllComments = !showAllComments" 
+                                    class="px-6 py-2 bg-secondary-100 dark:bg-gray-700 text-secondary-700 dark:text-gray-300 rounded-lg hover:bg-secondary-200 dark:hover:bg-gray-600 transition-colors duration-200 font-medium">
+                                <span x-show="!showAllComments">Xem thêm bình luận ({{ $post->comments->whereNull('parent_id')->count() - 3 }})</span>
+                                <span x-show="showAllComments">Thu gọn bình luận</span>
+                            </button>
                         </div>
-                    @endforelse
+                    @endif
                 </div>
             </div>
         </div>
