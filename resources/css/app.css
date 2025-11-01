@@ -29,6 +29,39 @@
     }
 }
 
+/* Mobile: keep password requirement items inline (icon + text on one row)
+   so they look like desktop. Targets the register/change-password #password-requirements
+   items which use .flex.items-center markup. */
+@media (max-width: 767px) {
+    #password-requirements .flex.items-center,
+    #password-requirements > .flex.items-center {
+        display: flex !important;
+        flex-direction: row !important; /* force horizontal */
+        align-items: center !important;
+        gap: 0.5rem !important;
+        white-space: nowrap !important; /* keep icon and text on same line */
+        overflow: visible !important;
+    }
+
+    /* Slightly reduce svg size and margin so they fit better on narrow screens */
+    #password-requirements .flex.items-center svg,
+    #password-requirements > .flex.items-center svg {
+        width: 14px !important;
+        height: 14px !important;
+        margin-right: 0.4rem !important;
+        flex-shrink: 0 !important;
+    }
+
+    /* Keep the label readable but allow truncation only if absolutely necessary */
+    #password-requirements .flex.items-center span,
+    #password-requirements > .flex.items-center span {
+        font-size: 13px !important;
+        color: inherit !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+}
+
 /* Hide thumbnails inside the 'Bài viết gần đây' / recent-posts widget and
    collapse leftover spacing so the text uses the full width of the item. */
 /* This targets the #posts container used in templates and a fallback .recent-posts
@@ -99,6 +132,58 @@
     body header .flex-1.max-w-md.mx-8 * {
         z-index: 0 !important;
         position: relative !important;
+    }
+}
+
+/* Mobile: ensure the 'Hoặc đăng nhập với' divider shows lines on both sides
+   and the label stays centered above them. Targets the existing markup
+   structure: a .relative parent with a child .relative.flex.justify-center.text-sm */
+@media (max-width: 767px) {
+    .relative > .relative.flex.justify-center.text-sm {
+        position: relative !important;
+        z-index: 10 !important;
+        display: block !important;
+        text-align: center !important;
+    }
+
+    .relative > .relative.flex.justify-center.text-sm span {
+        position: relative !important;
+        z-index: 20 !important; /* stay above the lines */
+        display: inline-block !important;
+        padding: 0 0.5rem !important;
+        background: #ffffff !important; /* default card background */
+        color: inherit !important;
+    }
+
+    /* Draw left and right lines using pseudo-elements so both sides always appear */
+    .relative > .relative.flex.justify-center.text-sm::before,
+    .relative > .relative.flex.justify-center.text-sm::after {
+        content: "" !important;
+        position: absolute !important;
+        top: 50% !important;
+        height: 1px !important;
+        background: #e6e8eb !important; /* border-secondary-300 fallback */
+        width: calc(
+            50% - 56px
+        ) !important; /* leave room for the centered label */
+        transform: translateY(-50%) !important;
+        z-index: 15 !important;
+    }
+
+    .relative > .relative.flex.justify-center.text-sm::before {
+        left: 0 !important;
+    }
+    .relative > .relative.flex.justify-center.text-sm::after {
+        right: 0 !important;
+    }
+
+    /* Dark mode colors: match the card's dark border color */
+    .dark .relative > .relative.flex.justify-center.text-sm span {
+        background: #1f2937 !important; /* gray-800 */
+    }
+    .dark .relative > .relative.flex.justify-center.text-sm::before,
+    .dark .relative > .relative.flex.justify-center.text-sm::after {
+        background: #4b5563 !important; /* gray-600 */
     }
 }
 
@@ -2498,10 +2583,10 @@ img[src$="logo.png"].site-logo,
     body #notificationsDropdown {
         position: fixed !important;
         top: 76px !important; /* place below header and above the search row */
-        /* Center and make wider like desktop */
-        left: 50% !important;
-        right: auto !important;
-        transform: translateX(-50%) !important;
+        /* Position aligned to the right but shifted left like desktop */
+        left: auto !important;
+        right: 60px !important; /* moved left from bell icon to align dropdown left edge */
+        transform: none !important;
         z-index: 2147483647 !important; /* highest safe int to beat other header elements */
         background: #ffffff !important;
         box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18) !important;
@@ -2638,10 +2723,10 @@ img[src$="logo.png"].site-logo,
         width: 100% !important;
         box-sizing: border-box !important;
         text-align: center !important;
-        /* Shift the entire content more to the right */
-        padding-left: 1.75rem !important; /* more left padding to shift right */
-        padding-right: 0.5rem !important; /* less right padding */
-        transform: translateX(8px) !important; /* additional right shift */
+        /* Shift the entire content slightly to the right but not too far */
+        padding-left: 1.25rem !important; /* reduced left padding to move content left */
+        padding-right: 0.75rem !important; /* increased right padding */
+        transform: translateX(4px) !important; /* reduced horizontal shift */
     }
 
     /* Ensure Google icon is properly sized and positioned */
@@ -2760,5 +2845,50 @@ img[src$="logo.png"].site-logo,
     #profileDropdown a:last-child,
     #profileDropdown .dropdown-item:last-child {
         padding-left: 1rem !important;
+    }
+}
+
+/* Mobile: reduce font-size inside form inputs (email/password) and their placeholders
+   so the text fits better on narrow screens. Kept scoped to types to avoid surprising
+   global changes. */
+@media (max-width: 767px) {
+    input[type="email"],
+    input[type="password"],
+    input[type="text"],
+    textarea {
+        font-size: 13px !important; /* slightly smaller input text on mobile */
+        line-height: 1.12 !important;
+        padding-top: 0.4rem !important; /* shave a bit of vertical padding */
+        padding-bottom: 0.4rem !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Slightly smaller placeholder text so it doesn't dominate the field */
+    input[type="email"]::placeholder,
+    input[type="password"]::placeholder,
+    input[type="text"]::placeholder,
+    textarea::placeholder {
+        font-size: 12px !important;
+        opacity: 0.85 !important;
+    }
+
+    /* Extra specificity for form inputs to override utility classes if present */
+    form input[type="email"],
+    form input[type="password"],
+    form input[type="text"] {
+        font-size: 13px !important;
+    }
+
+    /* Reduce font size for 'Remember me' label and 'Forgot password' link on mobile */
+    form label[for="remember"],
+    form .text-sm a {
+        font-size: 11px !important;
+        line-height: 1 !important;
+    }
+
+    /* Make sure the checkbox label doesn't wrap awkwardly on very narrow screens */
+    form .flex.items-center {
+        gap: 0.4rem !important;
+        align-items: center !important;
     }
 }
