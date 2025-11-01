@@ -50,16 +50,31 @@ class CategoryController extends Controller
     /**
      * Hiển thị chuyên mục được chỉ định.
      */
-    public function show(Category $category)
+    public function show(Request $request, Category $category)
     {
-        $posts = $category->posts()
+        $query = $category->posts()
             ->with(['user', 'images' => function ($query) {
                 $query->where('is_featured', true)->orWhere('sort_order', 0);
             }])
-            ->published()
-            ->latest()
-            ->paginate(10);
-        return view('categories.show', compact('category', 'posts'));
+            ->published();
+
+        // Xử lý sắp xếp
+        $sort = $request->get('sort', 'latest');
+        switch ($sort) {
+            case 'oldest':
+                $query->oldest();
+                break;
+            case 'most_viewed':
+                $query->orderBy('view_count', 'desc');
+                break;
+            case 'latest':
+            default:
+                $query->latest();
+                break;
+        }
+
+        $posts = $query->paginate(9)->appends(['sort' => $sort]);
+        return view('categories.show', compact('category', 'posts', 'sort'));
     }
 
     /**
