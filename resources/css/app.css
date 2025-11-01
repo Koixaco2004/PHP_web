@@ -29,6 +29,99 @@
     }
 }
 
+/* Hide thumbnails inside the 'Bài viết gần đây' / recent-posts widget and
+   collapse leftover spacing so the text uses the full width of the item. */
+/* This targets the #posts container used in templates and a fallback .recent-posts
+   class if present. Kept very specific to avoid affecting other thumbnail lists. */
+#posts .ml-4.flex-shrink-0,
+.recent-posts .ml-4.flex-shrink-0,
+#posts .recent-thumb,
+.recent-posts .recent-thumb {
+    display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Ensure any img inside those containers is hidden as well */
+#posts img,
+.recent-posts img,
+#posts .ml-4.flex-shrink-0 img,
+.recent-posts .ml-4.flex-shrink-0 img {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* Make the text column occupy full width when the thumbnail is hidden */
+#posts .flex-1.min-w-0,
+.recent-posts .flex-1.min-w-0,
+#posts .post-meta,
+.recent-posts .post-meta {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* If the widget uses a small card wrapper, ensure it doesn't reserve right padding */
+#posts .card,
+.recent-posts .card,
+#posts article,
+.recent-posts article {
+    padding-right: 0.6rem !important;
+}
+
+/* Final, strongest mobile-only override placed at file end to guarantee
+   profile dropdown overlays the search input on small screens. This is
+   scoped to mobile and uses very high specificity and !important so it
+   doesn't affect desktop layouts. */
+@media (max-width: 767px) {
+    /* make the dropdown fixed to viewport and highest z-index */
+    body #profileDropdown,
+    #profileDropdown {
+        position: fixed !important;
+        top: 80px !important; /* moved down slightly to avoid overlap */
+        right: 12px !important;
+        z-index: 2147483647 !important; /* maximum safe 32-bit int */
+        background: #ffffff !important; /* ensure solid background */
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18) !important;
+        border-radius: 10px !important;
+        min-width: 220px !important;
+        max-width: calc(100% - 24px) !important;
+        overflow: hidden !important;
+    }
+
+    /* force search wrapper and its children below the dropdown on mobile */
+    body header .flex-1.max-w-md.mx-8,
+    body header .flex-1.max-w-md.mx-8 * {
+        z-index: 0 !important;
+        position: relative !important;
+    }
+}
+
+/* Mobile: make the edit-page subtitle smaller and allow wrapping so long titles
+   like "Xu hướng công nghệ năm 2025 114" show correctly. This only applies
+   on small screens and won't affect desktop. */
+@media (max-width: 767px) {
+    /* Target the header card used on the edit page (p.s. the paragraph carries "truncate") */
+    .bg-white.rounded-xl.shadow-sm.p-6 .flex-1.min-w-0 > p.truncate,
+    .bg-white.dark\:bg-gray-800.rounded-xl.shadow-sm.p-6
+        .flex-1.min-w-0
+        > p.truncate {
+        font-size: 13px !important; /* slightly smaller than text-sm */
+        line-height: 1.25 !important;
+        white-space: normal !important; /* allow wrapping */
+        overflow: visible !important;
+        text-overflow: clip !important;
+        display: block !important;
+        margin-top: 0.15rem !important;
+        max-height: none !important;
+    }
+}
+
 /* Mobile: place post meta (date / views) on two lines so the eye icon and
    view count are fully visible on very small screens. Scoped to the main
    articles column to avoid affecting other header/metadata areas. */
@@ -1127,6 +1220,103 @@ img[src$="logo.png"].site-logo,
     /* if there's a notification/icon wrapper, keep it compact */
     header .notification-icon {
         margin-right: 0.25rem !important;
+    }
+}
+
+/* Mobile: compact the 'Quay lại' back button in profile edit header to avoid wrapping */
+@media (max-width: 767px) {
+    /* Narrow target: header area inside the profile edit page */
+    .min-h-screen .max-w-4xl .mb-8 > .flex > a.inline-flex {
+        /* stronger left nudge: reduce left padding and apply a small negative margin */
+        padding-left: 2px !important; /* move content further left */
+        padding-right: 8px !important;
+        padding-top: 6px !important;
+        padding-bottom: 6px !important;
+        margin-left: -12px !important; /* stronger left shift */
+        font-size: 11px !important; /* slightly smaller */
+        line-height: 1 !important;
+        height: 36px !important;
+        min-width: 0 !important;
+        white-space: nowrap !important; /* prevent the label from wrapping */
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 0.06rem !important; /* very tight gap between icon and text */
+        border-radius: 8px !important;
+        box-sizing: border-box !important;
+        transform: translateX(-6px) !important; /* stronger left nudge */
+        position: relative !important; /* allow ::before to extend hit area */
+    }
+
+    /* Expand clickable/tap area to the left using a transparent pseudo-element */
+    .min-h-screen .max-w-4xl .mb-8 > .flex > a.inline-flex::before {
+        content: "" !important;
+        position: absolute !important;
+        left: -20px !important; /* extend 20px to the left */
+        top: 0 !important;
+        bottom: 0 !important;
+        width: 20px !important;
+        background: transparent !important;
+        pointer-events: auto !important; /* ensure it captures taps */
+    }
+
+    .min-h-screen .max-w-4xl .mb-8 > .flex > a.inline-flex svg {
+        width: 13px !important;
+        height: 13px !important;
+        margin-right: 0.08rem !important; /* reduce space to pull text left */
+        flex-shrink: 0 !important;
+    }
+
+    /* Extremely small screens: tighten further so the button remains compact */
+    @media (max-width: 360px) {
+        .min-h-screen .max-w-4xl .mb-8 > .flex > a.inline-flex {
+            padding-left: 2px !important; /* keep left nudge on very small screens */
+            padding-right: 6px !important;
+            margin-left: -18px !important; /* much stronger left shift on extra-small phones */
+            font-size: 10px !important; /* tiny screens: 10px */
+            height: 34px !important;
+            gap: 0.08rem !important; /* tighten further */
+            transform: translateX(-8px) !important;
+            position: relative !important; /* allow ::before to extend hit area */
+        }
+
+        .min-h-screen .max-w-4xl .mb-8 > .flex > a.inline-flex::before {
+            content: "" !important;
+            position: absolute !important;
+            left: -26px !important; /* extend 26px left on very small screens */
+            top: 0 !important;
+            bottom: 0 !important;
+            width: 26px !important;
+            background: transparent !important;
+            pointer-events: auto !important;
+        }
+
+        .min-h-screen .max-w-4xl .mb-8 > .flex > a.inline-flex svg {
+            width: 12px !important;
+            height: 12px !important;
+            margin-right: 0.06rem !important;
+        }
+    }
+}
+
+/* Reduce the profile edit header subtitle size on tablet and mobile so long lines fit better */
+@media (max-width: 1024px) {
+    .min-h-screen .max-w-4xl .mb-8 > .flex > .flex-1 > p,
+    .min-h-screen .max-w-4xl .mb-8 > .flex > .flex-1 p {
+        font-size: 15px !important; /* slightly smaller on tablet */
+        line-height: 1.3 !important;
+        margin-top: 0.15rem !important;
+        max-width: 100% !important;
+        white-space: normal !important;
+        overflow: visible !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .min-h-screen .max-w-4xl .mb-8 > .flex > .flex-1 > p,
+    .min-h-screen .max-w-4xl .mb-8 > .flex > .flex-1 p {
+        font-size: 13px !important; /* smaller on mobile */
+        line-height: 1.25 !important;
+        margin-top: 0.12rem !important;
     }
 }
 
@@ -2263,5 +2453,165 @@ img[src$="logo.png"].site-logo,
         height: 12px !important;
         margin-right: 0 !important;
         display: inline-block !important;
+    }
+}
+
+/* Mobile only: Force profile dropdown above search bar */
+@media (max-width: 767px) {
+    /* Force header to have lower z-index on mobile */
+    header {
+        z-index: 40 !important;
+    }
+
+    /* Force search container to have lower z-index on mobile */
+    header .flex-1.max-w-md.mx-8 {
+        z-index: 0 !important;
+        position: relative !important;
+    }
+
+    header .flex-1.max-w-md.mx-8 form,
+    header .flex-1.max-w-md.mx-8 .relative,
+    header .flex-1.max-w-md.mx-8 input,
+    header .flex-1.max-w-md.mx-8 button {
+        z-index: 0 !important;
+    }
+
+    /* Force profile dropdown to highest z-index on mobile - override template z-50 */
+    #profileDropdown {
+        z-index: 99999 !important;
+        position: absolute !important;
+    }
+
+    /* Extra force: search form elements to stay below */
+    form[action*="search"],
+    form[action*="search"] *,
+    input[name="q"],
+    input[placeholder*="Tìm kiếm"] {
+        z-index: 0 !important;
+    }
+}
+
+/* Mobile: ensure notifications dropdown overlays the search input and stays tappable */
+@media (max-width: 767px) {
+    /* make the notifications dropdown fixed to viewport and highest z-index */
+    #notificationsDropdown,
+    body #notificationsDropdown {
+        position: fixed !important;
+        top: 76px !important; /* place below header and above the search row */
+        right: 12px !important;
+        z-index: 2147483647 !important; /* highest safe int to beat other header elements */
+        background: #ffffff !important;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18) !important;
+        border-radius: 10px !important;
+        width: auto !important;
+        max-width: calc(100% - 24px) !important;
+        min-width: 200px !important;
+        overflow: auto !important;
+    }
+
+    /* if JS toggles hidden class, ensure display toggles respect it */
+    #notificationsDropdown.hidden {
+        display: none !important;
+        visibility: hidden !important;
+    }
+
+    #notificationsDropdown:not(.hidden) {
+        display: block !important;
+        visibility: visible !important;
+    }
+
+    /* force search container and its children to stay below dropdown on mobile */
+    body header .flex-1.max-w-md.mx-8,
+    body header .flex-1.max-w-md.mx-8 * {
+        z-index: 0 !important;
+        position: relative !important;
+    }
+}
+
+/* Mobile: shrink the form action buttons (Hủy / Cập nhật / Xóa) on the edit page
+   without affecting desktop. Targets buttons inside the edit form action block. */
+@media (max-width: 767px) {
+    /* Narrow scope to the edit form's action card to avoid global changes */
+    form#editForm .mt-6 .flex.space-x-3 > button,
+    form#editForm .mt-6 .flex.space-x-3 > .btn-primary,
+    form#editForm .mt-6 .flex.space-x-3 > .btn-secondary {
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+        padding-top: 6px !important;
+        padding-bottom: 6px !important;
+        font-size: 13px !important; /* slightly smaller */
+        line-height: 1 !important;
+        height: 36px !important;
+        min-width: 0 !important;
+        border-radius: 8px !important;
+        gap: 0.4rem !important;
+    }
+
+    /* Shrink the svg icons inside these buttons */
+    form#editForm .mt-6 .flex.space-x-3 > button svg {
+        width: 14px !important;
+        height: 14px !important;
+        margin-right: 0.35rem !important;
+    }
+
+    /* If the delete button uses text-red utility, keep color but reduce weight/spacing */
+    form#editForm .mt-6 .flex.space-x-3 > button.text-red-600,
+    form#editForm .mt-6 .flex.space-x-3 > button.text-red-600:hover {
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+        font-size: 13px !important;
+    }
+
+    /* Reduce gap between buttons to fit on narrow screens */
+    form#editForm .mt-6 .flex.space-x-3 {
+        gap: 0.5rem !important;
+    }
+}
+
+/* Mobile: nudge profile dropdown items (icon + label) a bit to the right and
+   ensure consistent alignment across all entries (only affects small screens) */
+@media (max-width: 767px) {
+    /* Make each dropdown item a compact flex row and add left padding so items
+       appear slightly shifted to the right compared with desktop */
+    #profileDropdown a,
+    #profileDropdown button,
+    #profileDropdown .dropdown-item,
+    #profileDropdown .flex.items-center {
+        display: flex !important;
+        align-items: center !important;
+        gap: 0.5rem !important; /* spacing between icon and text */
+        padding-left: 0.9rem !important; /* nudge whole row to the right */
+        padding-right: 0.9rem !important;
+        min-height: 44px !important; /* ensure tappable area */
+        box-sizing: border-box !important;
+    }
+
+    /* Ensure icons inside the dropdown are consistent size and slightly inset */
+    #profileDropdown a svg,
+    #profileDropdown button svg,
+    #profileDropdown .dropdown-item svg {
+        width: 18px !important;
+        height: 18px !important;
+        flex-shrink: 0 !important;
+        margin-right: 0.45rem !important; /* keep a small gap */
+        margin-left: 0 !important; /* prevent negative offsets */
+    }
+
+    /* Ensure the label text vertically centers and doesn't wrap unnecessarily */
+    #profileDropdown a span,
+    #profileDropdown button span,
+    #profileDropdown .dropdown-item span {
+        display: inline-block !important;
+        vertical-align: middle !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+
+    /* If a specific item still looks off, this will add a tiny extra nudge for touch
+       targets only; keeps desktop unaffected. */
+    #profileDropdown a:last-child,
+    #profileDropdown .dropdown-item:last-child {
+        padding-left: 1rem !important;
     }
 }
