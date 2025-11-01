@@ -29,6 +29,61 @@
     }
 }
 
+/* Mobile: place post meta (date / views) on two lines so the eye icon and
+   view count are fully visible on very small screens. Scoped to the main
+   articles column to avoid affecting other header/metadata areas. */
+@media (max-width: 420px) {
+    /* target both common small/text size variants used in templates */
+    .lg\:col-span-8 article .flex.items-center.text-xs,
+    .lg\:col-span-8 article .flex.items-center.text-sm,
+    .lg\:col-span-8 article .flex.items-center.text-secondary-600,
+    .lg\:col-span-8 article .flex.items-center.text-secondary-500 {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.15rem !important;
+    }
+
+    /* make each inner info group take full width and keep icon+number inline */
+    .lg\:col-span-8 article .flex.items-center > .flex.items-center {
+        width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 0.35rem !important;
+        white-space: nowrap !important;
+        overflow: visible !important;
+        box-sizing: border-box !important;
+    }
+
+    /* slightly shrink the small inline svgs to help fit */
+    .lg\:col-span-8 article .flex.items-center > .flex.items-center svg {
+        width: 14px !important;
+        height: 14px !important;
+        margin-right: 0.25rem !important;
+        flex-shrink: 0 !important;
+    }
+}
+
+/* Mobile: move the 'Đọc tiếp' action to its own row under the author/excerpt
+   but keep it aligned to the right for familiarity (so it appears below but
+   in the same visual position). Scoped to main article column. */
+@media (max-width: 420px) {
+    .lg\:col-span-8 article .flex.items-center.justify-between {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.4rem !important;
+    }
+
+    .lg\:col-span-8 article a.inline-flex.items-center.text-primary-600,
+    .lg\:col-span-8
+        article
+        a.inline-flex.items-center.text-primary-600.dark\:text-primary-400 {
+        display: inline-flex !important;
+        align-self: flex-end !important; /* keep link visually on the right but on its own line */
+        margin-top: 0.15rem !important;
+        transform: none !important;
+    }
+}
+
 /* Make the right-side category stats visible on small screens and scale them down
    so they don't overflow the header. This overrides the `hidden md:flex` utility
    without touching templates. */
@@ -123,7 +178,7 @@
 
     .bg-gradient-to-br .hidden.md\:flex > .text-center:last-child .text-2xl,
     .max-w-4xl .hidden.md\:flex > .text-center:last-child .text-2xl {
-        transform: translateY(-34px) !important; /* stronger upward nudge */
+        transform: translateY(-41px) !important; /* stronger upward nudge */
         margin-top: 0 !important;
         line-height: 1 !important;
         display: inline-block !important;
@@ -132,7 +187,7 @@
     .bg-gradient-to-br .hidden.md\:flex > .text-center:last-child .text-sm,
     .max-w-4xl .hidden.md\:flex > .text-center:last-child .text-sm {
         transform: translateY(
-            -34px
+            -41px
         ) !important; /* move label up to align with number */
         line-height: 1 !important;
         display: inline-block !important;
@@ -270,6 +325,32 @@ img[src$="logo.png"].site-logo,
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
+    }
+
+    /* Fix: prevent the eye icon / view count in post cards from being clipped
+       at the right edge on very small screens. Allow the article and the
+       inner content to show overflow and give a small right padding so the
+       inline icons and numbers have breathing room. This is low-risk and
+       limited to very small viewports. */
+    .lg\:col-span-8 article,
+    .lg\:col-span-8 article .flex-1.min-w-0 {
+        overflow: visible !important;
+        padding-right: 0.6rem !important; /* small buffer from edge */
+        box-sizing: border-box !important;
+    }
+
+    /* If space is very tight, allow the meta row to shrink but avoid clipping */
+    .lg\:col-span-8 article .flex.items-center.justify-between {
+        flex-wrap: nowrap !important;
+    }
+
+    .lg\:col-span-8
+        article
+        .flex.items-center.justify-between
+        > .flex.items-center {
+        min-width: 0 !important;
+        overflow: visible !important;
+        white-space: nowrap !important;
     }
 
     header .notification-icon {
@@ -479,6 +560,7 @@ img[src$="logo.png"].site-logo,
     @media (max-width: 640px) {
         .scroll-to-top-btn {
             @apply bottom-6 right-6 p-3;
+            display: inline-flex !important;
         }
     }
     /* Animation for button appearance */
@@ -1982,21 +2064,20 @@ img[src$="logo.png"].site-logo,
     .bg-gradient-to-br h1.font-heading,
     .max-w-4xl h1.text-3xl,
     .max-w-4xl h1.font-heading {
-        font-size: 1.15rem !important; /* ~18.5px to keep it compact */
+        font-size: 1.05rem !important; /* slightly smaller on very small phones (~16.8px) */
         line-height: 1.05 !important;
-        white-space: nowrap !important; /* keep title on single horizontal line */
-        overflow: hidden !important;
-        text-overflow: ellipsis !important; /* graceful truncation if still too long */
-        max-width: calc(
-            100% - 56px
-        ) !important; /* leave room for the icon at left */
+        /* allow the title to wrap so the full category name is visible */
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+        max-width: 100% !important; /* use full width */
         display: block !important;
     }
 
     /* If utilities like .text-3xl are applied directly inside the card, catch them too */
     .bg-gradient-to-br .text-3xl,
     .bg-gradient-to-br .text-4xl {
-        font-size: 1.15rem !important;
+        font-size: 1.05rem !important;
         line-height: 1.05 !important;
         white-space: nowrap !important;
         overflow: hidden !important;
@@ -2119,6 +2200,38 @@ img[src$="logo.png"].site-logo,
     .bg-gradient-to-br .mt-2.text-secondary-600 > span,
     .max-w-4xl .mt-2.text-secondary-600 > span {
         display: none !important;
+    }
+}
+
+/* Mobile: put the "Đọc tiếp" link on its own row under the excerpt/content
+   make it horizontal and centered within the article for readability */
+@media (max-width: 420px) {
+    .lg\:col-span-8 article a.inline-flex.items-center.text-primary-600,
+    .lg\:col-span-8
+        article
+        a.inline-flex.items-center.text-primary-600.dark\:text-primary-400 {
+        display: inline-flex !important;
+        align-items: center !important;
+        white-space: nowrap !important; /* keep label and arrow on same line */
+        gap: 0.35rem !important;
+        margin-top: 0.5rem !important;
+        transform: none !important;
+        padding-left: 0 !important;
+        justify-content: center !important;
+    }
+
+    /* ensure the small arrow svg sits to the right and doesn't wrap */
+    .lg\:col-span-8 article a.inline-flex.items-center.text-primary-600 svg,
+    .lg\:col-span-8
+        article
+        a.inline-flex.items-center.text-primary-600.dark\:text-primary-400
+        svg {
+        margin-left: 0.35rem !important;
+        margin-right: 0 !important;
+        vertical-align: middle !important;
+        width: 16px !important;
+        height: 16px !important;
+        flex-shrink: 0 !important;
     }
 }
 
