@@ -105,10 +105,10 @@
 
             <!-- Replies (nested comments) -->
             @if($comment->children->count() > 0)
-                <div class="mt-4 ml-8 border-l-2 border-primary-200 dark:border-gray-600 pl-4" id="replies-{{ $comment->id }}" x-data="{ showAllReplies: false }">
+                <div class="mt-4 ml-8 border-l-2 border-primary-200 dark:border-gray-600 pl-4" id="replies-{{ $comment->id }}" x-data="{ visibleReplies: 3 }">
                     <div class="space-y-4">
                         @foreach($comment->children as $index => $reply)
-                            <div x-show="showAllReplies || {{ $index }} < 3">
+                            <div x-show="{{ $index }} < visibleReplies">
                                 @include('partials.reply', ['reply' => $reply, 'post' => $post])
                             </div>
                         @endforeach
@@ -117,10 +117,12 @@
                     <!-- Load More Replies Button -->
                     @if($comment->children->count() > 3)
                         <div class="mt-4">
-                            <button @click="showAllReplies = !showAllReplies" 
+                            <button @click="visibleReplies = visibleReplies >= {{ $comment->children->count() }} ? 3 : visibleReplies + 3" 
                                     class="text-sm px-4 py-1.5 bg-secondary-100 dark:bg-gray-700 text-secondary-700 dark:text-gray-300 rounded-lg hover:bg-secondary-200 dark:hover:bg-gray-600 transition-colors duration-200 font-medium">
-                                <span x-show="!showAllReplies">Xem thêm câu trả lời ({{ $comment->children->count() - 3 }})</span>
-                                <span x-show="showAllReplies">Thu gọn câu trả lời</span>
+                                <span x-show="visibleReplies < {{ $comment->children->count() }}">
+                                    Xem thêm (<span x-text="Math.min(3, {{ $comment->children->count() }} - visibleReplies)"></span>)
+                                </span>
+                                <span x-show="visibleReplies >= {{ $comment->children->count() }}">Thu gọn</span>
                             </button>
                         </div>
                     @endif

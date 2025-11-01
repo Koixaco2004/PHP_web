@@ -280,10 +280,10 @@
                 @endauth
 
                 <!-- Comments List -->
-                <div x-data="{ showAllComments: false }">
+                <div x-data="{ visibleComments: 3 }">
                     <div class="space-y-6" id="comments-list">
                         @forelse($post->comments->whereNull('parent_id')->sortByDesc('created_at') as $index => $comment)
-                            <div x-show="showAllComments || {{ $index }} < 3">
+                            <div x-show="{{ $index }} < visibleComments">
                                 @include('partials.comment', ['comment' => $comment, 'post' => $post])
                             </div>
                         @empty
@@ -300,10 +300,12 @@
                     <!-- Load More Comments Button -->
                     @if($post->comments->whereNull('parent_id')->count() > 3)
                         <div class="mt-6 text-center">
-                            <button @click="showAllComments = !showAllComments" 
+                            <button @click="visibleComments = visibleComments >= {{ $post->comments->whereNull('parent_id')->count() }} ? 3 : visibleComments + 3" 
                                     class="px-6 py-2 bg-secondary-100 dark:bg-gray-700 text-secondary-700 dark:text-gray-300 rounded-lg hover:bg-secondary-200 dark:hover:bg-gray-600 transition-colors duration-200 font-medium">
-                                <span x-show="!showAllComments">Xem thêm bình luận ({{ $post->comments->whereNull('parent_id')->count() - 3 }})</span>
-                                <span x-show="showAllComments">Thu gọn bình luận</span>
+                                <span x-show="visibleComments < {{ $post->comments->whereNull('parent_id')->count() }}">
+                                    Xem thêm bình luận (<span x-text="Math.min(3, {{ $post->comments->whereNull('parent_id')->count() }} - visibleComments)"></span>)
+                                </span>
+                                <span x-show="visibleComments >= {{ $post->comments->whereNull('parent_id')->count() }}">Thu gọn bình luận</span>
                             </button>
                         </div>
                     @endif
