@@ -29,6 +29,141 @@
     }
 }
 
+/* Make the right-side category stats visible on small screens and scale them down
+   so they don't overflow the header. This overrides the `hidden md:flex` utility
+   without touching templates. */
+@media (max-width: 420px) {
+    .bg-gradient-to-br .hidden.md\:flex,
+    .max-w-4xl .hidden.md\:flex {
+        display: flex !important;
+        gap: 0.75rem !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        /* nudge the stats left into the header so they are not clipped on very small screens */
+        transform: translateX(
+            -64px
+        ) !important; /* move further left into the card */
+        max-width: 36% !important; /* allow more room for large numbers */
+        flex-shrink: 1 !important; /* allow the block to shrink when space is tight */
+        min-width: 0 !important;
+        overflow: visible !important;
+    }
+
+    /* scale the big numbers down so they fit next to the heading */
+    .bg-gradient-to-br .hidden.md\:flex .text-2xl,
+    .max-w-4xl .hidden.md\:flex .text-2xl {
+        font-size: 0.78rem !important; /* slightly smaller to fit full digits */
+        line-height: 1 !important;
+        white-space: nowrap !important; /* keep digits on one line */
+        overflow: visible !important; /* show full number */
+        text-overflow: clip !important;
+    }
+
+    .bg-gradient-to-br .hidden.md\:flex .text-sm,
+    .max-w-4xl .hidden.md\:flex .text-sm {
+        font-size: 0.65rem !important; /* smaller labels */
+    }
+
+    /* Make the number and its label appear on one line (horizontal) */
+    .bg-gradient-to-br .hidden.md\:flex .text-center,
+    .max-w-4xl .hidden.md\:flex .text-center {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 0.25rem !important;
+        text-align: left !important;
+    }
+
+    .bg-gradient-to-br .hidden.md\:flex .text-center .text-2xl,
+    .max-w-4xl .hidden.md\:flex .text-center .text-2xl {
+        margin: 0 !important;
+        line-height: 1 !important;
+    }
+
+    .bg-gradient-to-br .hidden.md\:flex .text-center .text-sm,
+    .max-w-4xl .hidden.md\:flex .text-center .text-sm {
+        margin: 0 !important;
+    }
+
+    /* Hide the right-side green '7 bài viết' statistic on very small screens
+       instead of the inline info under the heading. */
+    .bg-gradient-to-br .hidden.md\:flex .text-center:first-child,
+    .max-w-4xl .hidden.md\:flex .text-center:first-child {
+        display: none !important;
+    }
+
+    /* Ensure the visible stats blocks render the number and label horizontally
+       (number left, label right) on small screens. Use a direct child selector
+       and !important to override utility classes. */
+    .bg-gradient-to-br .hidden.md\:flex > .text-center,
+    .max-w-4xl .hidden.md\:flex > .text-center {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 0.25rem !important;
+        text-align: left !important;
+        min-width: 0 !important;
+    }
+
+    .bg-gradient-to-br .hidden.md\:flex > .text-center .text-2xl,
+    .max-w-4xl .hidden.md\:flex > .text-center .text-2xl {
+        margin: 0 !important;
+        margin-right: 0.35rem !important;
+        line-height: 1 !important;
+    }
+
+    /* Raise the views number more and align number+label on the same baseline */
+    .bg-gradient-to-br .hidden.md\:flex > .text-center:last-child,
+    .max-w-4xl .hidden.md\:flex > .text-center:last-child {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: baseline !important; /* align number and label by baseline */
+        gap: 0.25rem !important;
+    }
+
+    .bg-gradient-to-br .hidden.md\:flex > .text-center:last-child .text-2xl,
+    .max-w-4xl .hidden.md\:flex > .text-center:last-child .text-2xl {
+        transform: translateY(-34px) !important; /* stronger upward nudge */
+        margin-top: 0 !important;
+        line-height: 1 !important;
+        display: inline-block !important;
+    }
+
+    .bg-gradient-to-br .hidden.md\:flex > .text-center:last-child .text-sm,
+    .max-w-4xl .hidden.md\:flex > .text-center:last-child .text-sm {
+        transform: translateY(
+            -34px
+        ) !important; /* move label up to align with number */
+        line-height: 1 !important;
+        display: inline-block !important;
+    }
+
+    .bg-gradient-to-br .hidden.md\:flex > .text-center .text-sm,
+    .max-w-4xl .hidden.md\:flex > .text-center .text-sm {
+        margin: 0 !important;
+        white-space: nowrap !important;
+    }
+
+    /* Ensure any stacked stats (number above label) have extra vertical spacing
+       regardless of which container they live in. This targets both the
+       `.text-center` blocks and any direct `.text-2xl/.text-sm` usages. */
+    .bg-gradient-to-br .text-center .text-2xl,
+    .bg-gradient-to-br .text-2xl,
+    .max-w-4xl .text-center .text-2xl,
+    .max-w-4xl .text-2xl {
+        line-height: 1.15 !important;
+    }
+
+    .bg-gradient-to-br .text-center .text-sm,
+    .bg-gradient-to-br .text-sm,
+    .max-w-4xl .text-center .text-sm,
+    .max-w-4xl .text-sm {
+        margin-top: 0.25rem !important;
+        display: block !important;
+        line-height: 1 !important;
+    }
+}
+
 /* Expand reply bubble horizontally to the left on mobile, without covering avatar */
 @media (max-width: 767px) {
     /* Make the threaded container use relative positioning so children can shift safely */
@@ -1368,7 +1503,7 @@ img[src$="logo.png"].site-logo,
     /* Shrink name, timestamp and comment text slightly for mobile */
     .comment-item h5 {
         font-size: 14px !important;
-        line-height: 1.1 !important;
+        line-height: 2px !important;
     }
 
     .comment-item time {
@@ -1781,21 +1916,239 @@ img[src$="logo.png"].site-logo,
     }
 }
 
-
-    /* Very specific mobile override: ensure reply author name equals parent size
+/* Very specific mobile override: ensure reply author name equals parent size
        Targets h5 elements inside reply containers even if they carry Tailwind
        utility classes like text-sm. Only applies to mobile viewports. Placed
        at file end to win in cascade. */
-    @media (max-width: 767px) {
-        /* match parent comment (text-base / 1rem) */
-        [data-reply-id] h5.text-sm,
-        [data-reply-id] h5[class*="text-sm"],
-        .reply-content-display h5.text-sm,
-        .reply-content-display h5[class*="text-sm"],
-        [class^="reply-content-display-"] h5.text-sm,
-        [class*=" reply-content-display-"] h5.text-sm {
-            font-size: 1rem !important;
-            line-height: 1.2 !important;
-            font-weight: 600 !important;
-        }
+@media (max-width: 767px) {
+    /* match parent comment (text-base / 1rem) */
+    [data-reply-id] h5.text-sm,
+    [data-reply-id] h5[class*="text-sm"],
+    .reply-content-display h5.text-sm,
+    .reply-content-display h5[class*="text-sm"],
+    [class^="reply-content-display-"] h5.text-sm,
+    [class*=" reply-content-display-"] h5.text-sm {
+        font-size: 1rem !important;
+        line-height: 1.2 !important;
+        font-weight: 600 !important;
     }
+}
+
+/* Mobile: shrink category/hero title so long titles (eg. "Thiết kế UI/UX") fit on one line
+   without touching desktop styles. Targets common card/hero selectors used in templates. */
+@media (max-width: 420px) {
+    .category-hero h1,
+    .category-hero h2,
+    .category-card .card-title,
+    .category-card h1,
+    .category-card h2,
+    .card .card-title,
+    .post-card .title,
+    .page-hero h1,
+    .page-hero h2,
+    .bg-primary-50 h1,
+    .bg-primary-50 h2 {
+        font-size: 1.15rem !important; /* ~18px */
+        line-height: 1.05 !important;
+        white-space: nowrap !important; /* keep title on a single line */
+        overflow: hidden !important;
+        text-overflow: ellipsis !important; /* truncate if still too long */
+        max-width: 100% !important;
+        display: block !important;
+    }
+
+    /* Also catch large utility classes inside the green card */
+    .bg-primary-50 .text-3xl,
+    .bg-primary-50 .text-4xl,
+    .category-card .text-3xl,
+    .category-card .text-4xl {
+        font-size: 1.15rem !important;
+        line-height: 1.05 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        max-width: calc(
+            100% - 56px
+        ) !important; /* leave space for icon/avatar at left */
+    }
+}
+
+/* More specific mobile fix: target the category header h1 rendered in
+   resources/views/categories/show.blade.php so it fits horizontally on small phones */
+@media (max-width: 420px) {
+    /* exact h1 used: <h1 class="text-3xl md:text-4xl font-heading font-bold ..."> */
+    .bg-gradient-to-br h1.text-3xl,
+    .bg-gradient-to-br h1.md\:text-4xl,
+    .bg-gradient-to-br h1.font-heading,
+    .max-w-4xl h1.text-3xl,
+    .max-w-4xl h1.font-heading {
+        font-size: 1.15rem !important; /* ~18.5px to keep it compact */
+        line-height: 1.05 !important;
+        white-space: nowrap !important; /* keep title on single horizontal line */
+        overflow: hidden !important;
+        text-overflow: ellipsis !important; /* graceful truncation if still too long */
+        max-width: calc(
+            100% - 56px
+        ) !important; /* leave room for the icon at left */
+        display: block !important;
+    }
+
+    /* If utilities like .text-3xl are applied directly inside the card, catch them too */
+    .bg-gradient-to-br .text-3xl,
+    .bg-gradient-to-br .text-4xl {
+        font-size: 1.15rem !important;
+        line-height: 1.05 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+}
+
+/* Mobile tweak: make the category icon (green rounded square) a bit smaller and tighter on very small phones */
+@media (max-width: 420px) {
+    /* container (was w-12 h-12) */
+    .bg-gradient-to-br .w-12.h-12,
+    .max-w-4xl .w-12.h-12,
+    .bg-gradient-to-br > .max-w-4xl .w-12.h-12 {
+        width: 44px !important; /* slightly smaller */
+        height: 44px !important;
+        min-width: 44px !important;
+        min-height: 44px !important;
+        border-radius: 0.6rem !important; /* keep rounded corners */
+        padding: 6px !important; /* small inner padding so svg breathes */
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex-shrink: 0 !important;
+    }
+
+    /* SVG inside the icon */
+    .bg-gradient-to-br .w-12.h-12 svg,
+    .max-w-4xl .w-12.h-12 svg {
+        width: 18px !important;
+        height: 18px !important;
+    }
+
+    /* Reduce spacing between icon and heading text so title has more room */
+    .bg-gradient-to-br .flex.items-center.space-x-3,
+    .max-w-4xl .flex.items-center.space-x-3 {
+        gap: 0.5rem !important; /* ~8px */
+    }
+
+    /* Ensure heading aligns vertically with smaller icon */
+    .bg-gradient-to-br h1,
+    .max-w-4xl h1 {
+        align-self: center !important;
+        margin-top: 0 !important;
+    }
+}
+
+/* Mobile: reduce metadata font-size and prevent number from stacking on its own line */
+@media (max-width: 420px) {
+    /* target the small info row inside the category header */
+    .bg-gradient-to-br .mt-2.text-secondary-600,
+    .max-w-4xl .mt-2.text-secondary-600 {
+        font-size: 13px !important; /* slightly smaller */
+        line-height: 1 !important;
+        color: inherit !important;
+    }
+
+    /* ensure each info group (icon + number + label) stays on one line */
+    .bg-gradient-to-br .mt-2.text-secondary-600 > .flex.items-center,
+    .max-w-4xl .mt-2.text-secondary-600 > .flex.items-center {
+        display: inline-flex !important;
+        white-space: nowrap !important;
+        gap: 0.35rem !important;
+        align-items: center !important;
+        vertical-align: middle !important;
+    }
+
+    /* shrink the small inline svg icons */
+    .bg-gradient-to-br .mt-2.text-secondary-600 svg,
+    .max-w-4xl .mt-2.text-secondary-600 svg {
+        width: 14px !important;
+        height: 14px !important;
+        margin-right: 0.25rem !important;
+        flex-shrink: 0 !important;
+    }
+
+    /* tighten spacing around the dot separator so it doesn't force wraps */
+    .bg-gradient-to-br .mt-2.text-secondary-600 span,
+    .max-w-4xl .mt-2.text-secondary-600 span {
+        display: inline-block !important;
+        margin: 0 0.35rem !important;
+        line-height: 1 !important;
+    }
+}
+
+/* Mobile layout: stack the metadata lines under the heading and align them to the left
+   so "Cập nhật ..." starts under "7 bài viết". Hide the middle dot to avoid awkward single-line separators. */
+@media (max-width: 420px) {
+    .bg-gradient-to-br .mt-2.text-secondary-600,
+    .max-w-4xl .mt-2.text-secondary-600 {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.15rem !important;
+    }
+
+    /* keep each info row inline (icon + text) but stacked vertically */
+    .bg-gradient-to-br .mt-2.text-secondary-600 > .flex.items-center,
+    .max-w-4xl .mt-2.text-secondary-600 > .flex.items-center {
+        display: flex !important;
+        align-items: center !important;
+        gap: 0.35rem !important;
+        white-space: nowrap !important;
+        width: auto !important;
+    }
+
+    /* increase vertical spacing between number and label for the left stats */
+    .bg-gradient-to-br .hidden.md\:flex .text-2xl,
+    .max-w-4xl .hidden.md\:flex .text-2xl {
+        line-height: 1.1 !important;
+    }
+
+    .bg-gradient-to-br .hidden.md\:flex .text-sm,
+    .max-w-4xl .hidden.md\:flex .text-sm {
+        margin-top: 0.15rem !important;
+        display: block !important;
+        line-height: 1 !important;
+    }
+
+    /* hide the dot separator used on desktop */
+    .bg-gradient-to-br .mt-2.text-secondary-600 > span,
+    .max-w-4xl .mt-2.text-secondary-600 > span {
+        display: none !important;
+    }
+}
+
+/* Align the second metadata row's text (Cập nhật ...) with the first row's text on very small screens
+   by hiding its leading icon and adding left padding equal to the icon+gap. */
+@media (max-width: 420px) {
+    /* keep the small icon visible but position it absolutely so the text lines up
+       with the first metadata line (after the icon). This preserves the icon while
+       aligning the date text under the "7 bài viết" text start. */
+    .bg-gradient-to-br
+        .mt-2.text-secondary-600
+        > .flex.items-center:nth-child(3),
+    .max-w-4xl .mt-2.text-secondary-600 > .flex.items-center:nth-child(3) {
+        position: relative !important;
+        padding-left: 2px !important; /* move left more so date text aligns under first row */
+        align-items: center !important;
+    }
+
+    .bg-gradient-to-br
+        .mt-2.text-secondary-600
+        > .flex.items-center:nth-child(3)
+        svg,
+    .max-w-4xl .mt-2.text-secondary-600 > .flex.items-center:nth-child(3) svg {
+        position: absolute !important;
+        left: -13px !important; /* move icon further left; padding-left ensures a ~4px gap to the date */
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        width: 12px !important; /* slightly smaller so text can move left */
+        height: 12px !important;
+        margin-right: 0 !important;
+        display: inline-block !important;
+    }
+}
