@@ -144,25 +144,6 @@
                             </div>
                         </div>
 
-                        <div class="relative">
-                            <div class="flex items-center space-x-3 cursor-pointer" onclick="toggleProfileDropdown()">
-                                <div class="w-10 h-10 rounded-full overflow-hidden ring-2 ring-primary-500">
-                                    @if(Auth::user()->avatar)
-                                        @if(Str::startsWith(Auth::user()->avatar, ['http://', 'https://']))
-                                            <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}" class="w-full h-full object-cover" onerror="this.src='{{ asset('hello.png') }}'">
-                                        @else
-                                            <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="{{ Auth::user()->name }}" class="w-full h-full object-cover" onerror="this.src='{{ asset('hello.png') }}'">
-                                        @endif
-                                    @else
-                                        <img src="{{ asset('hello.png') }}" alt="Default Avatar" class="w-full h-full object-cover">
-                                    @endif
-                                </div>
-                                <span class="text-sm font-medium text-primary-900 hidden sm:inline dark:text-primary-400-dark">{{ Auth::user()->name }}</span>
-                                <svg class="w-4 h-4 text-primary-600 dark:text-primary-400-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                </svg>
-                        </div>
-
                         <!-- Avatar - Desktop Only -->
                         <div class="relative hidden sm:block">
                             <div class="flex items-center space-x-2 cursor-pointer" onclick="toggleProfileDropdown()">
