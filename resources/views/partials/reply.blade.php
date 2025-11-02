@@ -1,56 +1,66 @@
-<div class="flex space-x-3" data-reply-id="{{ $reply->id }}" x-data="{ showToxic: false }">
+<div class="flex space-x-2" data-reply-id="{{ $reply->id }}" x-data="{ showToxic: false }">
     <div class="flex-shrink-0">
-        <div class="w-10 h-10 bg-gradient-to-br from-primary-400 to-primary-500 rounded-full flex items-center justify-center">
-            <span class="text-white font-semibold">{{ substr($reply->user->name, 0, 1) }}</span>
+        <div class="w-8 h-8 sm:w-9 sm:h-9 bg-gradient-to-br from-primary-400 to-primary-500 rounded-full flex items-center justify-center">
+            <span class="text-white font-semibold text-xs sm:text-sm">{{ substr($reply->user->name, 0, 1) }}</span>
         </div>
     </div>
-    <div class="flex-1">
-        <div class="bg-primary-50 dark:bg-gray-700/50 rounded-lg p-3 border border-primary-100 dark:border-gray-600">
-            <div class="flex items-center justify-between mb-2">
-                <div class="flex items-center space-x-2">
-                    <h5 class="font-semibold text-secondary-900 dark:text-primary-400-dark text-sm">{{ $reply->user->name }}</h5>
-                    <span class="text-xs text-primary-600 dark:text-primary-400-dark bg-primary-100 dark:bg-primary-900-dark px-2 py-0.5 rounded-full">Trả lời</span>
+    <div class="flex-1 min-w-0">
+        <div class="bg-primary-50 dark:bg-gray-700/50 rounded-lg p-2.5 sm:p-3 border border-primary-100 dark:border-gray-600">
+            <!-- Mobile Layout: Name on first line, badge + time on second line -->
+            <div class="sm:hidden">
+                <h5 class="font-semibold text-secondary-900 dark:text-primary-400-dark text-[13px] mb-1">{{ $reply->user->name }}</h5>
+                <div class="flex items-center justify-between mb-1.5 gap-2">
+                    <span class="text-[10px] text-primary-600 dark:text-primary-400-dark bg-primary-100 dark:bg-primary-900-dark px-1.5 py-0.5 rounded-full flex-shrink-0">Trả lời</span>
+                    <time class="text-[10px] text-secondary-500 dark:text-gray-400 flex-shrink-0">{{ $reply->created_at->format('d/m/y H:i') }}</time>
                 </div>
-                <time class="text-xs text-secondary-500 dark:text-gray-400">{{ $reply->created_at->format('d/m/Y H:i') }}</time>
+            </div>
+            
+            <!-- Desktop Layout: All on one line -->
+            <div class="hidden sm:flex items-center justify-between mb-1.5 sm:mb-2 gap-2">
+                <div class="flex items-center space-x-1.5 min-w-0 flex-1">
+                    <h5 class="font-semibold text-secondary-900 dark:text-primary-400-dark text-sm truncate">{{ $reply->user->name }}</h5>
+                    <span class="text-xs text-primary-600 dark:text-primary-400-dark bg-primary-100 dark:bg-primary-900-dark px-1.5 py-0.5 rounded-full flex-shrink-0">Trả lời</span>
+                </div>
+                <time class="text-xs text-secondary-500 dark:text-gray-400 flex-shrink-0">{{ $reply->created_at->format('d/m/Y H:i') }}</time>
             </div>
             
             <!-- Reply Content Display -->
             <div class="reply-content-display-{{ $reply->id }}">
                 @if($reply->is_toxic)
                     <!-- Toxic reply with blur effect -->
-                    <div class="relative mb-2">
-                        <p class="text-secondary-700 dark:text-gray-300 text-sm transition-all duration-300" :class="!showToxic ? 'blur-sm select-none' : ''">
+                    <div class="relative mb-1.5">
+                        <p class="text-secondary-700 dark:text-gray-300 text-[13px] sm:text-sm transition-all duration-300 break-words leading-relaxed" :class="!showToxic ? 'blur-sm select-none' : ''">
                             {{ $reply->content }}
                         </p>
                     </div>
                     <button 
                         @click="showToxic = !showToxic" 
-                        class="text-xs text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 mb-2"
+                        class="text-[11px] sm:text-xs text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 mb-1.5"
                     >
                         <span x-show="!showToxic">Hiển thị</span>
                         <span x-show="showToxic">Ẩn</span>
                     </button>
                 @else
                     <!-- Normal reply -->
-                    <p class="text-secondary-700 dark:text-gray-300 text-sm">{{ $reply->content }}</p>
+                    <p class="text-secondary-700 dark:text-gray-300 text-[13px] sm:text-sm break-words leading-relaxed">{{ $reply->content }}</p>
                 @endif
             </div>
             
             <!-- Reply Edit Form (Initially Hidden) -->
-            <div class="reply-edit-form-{{ $reply->id }} hidden mb-2">
-                <textarea class="w-full px-3 py-2 text-sm border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400" rows="2">{{ $reply->content }}</textarea>
-                <div class="mt-2 flex items-center space-x-2">
-                    <button onclick="saveEditReply({{ $reply->id }})" class="px-3 py-1.5 text-sm bg-primary-600 dark:bg-primary-100-dark text-white dark:text-primary-900-dark rounded-lg hover:bg-primary-700 dark:hover:bg-primary-200-dark transition-colors duration-200">
+            <div class="reply-edit-form-{{ $reply->id }} hidden mb-1.5 mt-1.5">
+                <textarea class="w-full px-2.5 sm:px-3 py-1.5 sm:py-2 text-[13px] sm:text-sm border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400" rows="2">{{ $reply->content }}</textarea>
+                <div class="mt-1.5 flex items-center space-x-2">
+                    <button onclick="saveEditReply({{ $reply->id }})" class="px-3 py-1.5 text-[13px] sm:text-sm bg-primary-600 dark:bg-primary-100-dark text-white dark:text-primary-900-dark rounded-lg hover:bg-primary-700 dark:hover:bg-primary-200-dark transition-colors duration-200">
                         Lưu
                     </button>
-                    <button onclick="cancelEditReply({{ $reply->id }})" class="px-3 py-1.5 text-sm bg-secondary-200 dark:bg-gray-600 text-secondary-700 dark:text-gray-300 rounded-lg hover:bg-secondary-300 dark:hover:bg-gray-500 transition-colors duration-200">
+                    <button onclick="cancelEditReply({{ $reply->id }})" class="px-3 py-1.5 text-[13px] sm:text-sm bg-secondary-200 dark:bg-gray-600 text-secondary-700 dark:text-gray-300 rounded-lg hover:bg-secondary-300 dark:hover:bg-gray-500 transition-colors duration-200">
                         Hủy
                     </button>
                 </div>
             </div>
             
             @can('update', $reply)
-                <button onclick="showEditReply({{ $reply->id }})" class="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium flex items-center mt-2">
+                <button onclick="showEditReply({{ $reply->id }})" class="text-[13px] sm:text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium flex items-center mt-1.5 min-h-[28px] sm:min-h-0">
                     <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                     </svg>

@@ -227,33 +227,33 @@
 
         <!-- Comments Section -->
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 overflow-hidden">
-            <div class="p-6 border-b border-secondary-200 dark:border-gray-700 bg-secondary-50 dark:bg-gray-700">
-                <h3 class="text-xl font-heading font-semibold text-secondary-900 dark:text-primary-400-dark flex items-center">
-                    <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="p-4 sm:p-6 border-b border-secondary-200 dark:border-gray-700 bg-secondary-50 dark:bg-gray-700">
+                <h3 class="text-lg sm:text-xl font-heading font-semibold text-secondary-900 dark:text-primary-400-dark flex items-center">
+                    <svg class="w-4 h-4 sm:w-5 sm:h-5 text-primary-600 dark:text-primary-400-dark mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                     </svg>
                     Bình luận (<span id="comments-count">{{ $post->comments->count() }}</span>)
                 </h3>
             </div>
 
-            <div class="p-6">
+            <div class="p-4 sm:p-6">
                 @auth
                     <!-- Comment Form for Logged-in Users -->
-                    <div class="mb-8 p-6 bg-gradient-to-r from-primary-50 dark:from-gray-700 to-primary-100 dark:to-gray-600 rounded-xl">
-                        <h4 class="text-lg font-semibold text-secondary-900 dark:text-primary-400-dark mb-4">Để lại bình luận của bạn</h4>
-                        <form method="POST" action="{{ route('comments.store', $post) }}" id="main-comment-form" class="space-y-4">
+                    <div class="mb-6 sm:mb-8 p-4 sm:p-6 bg-gradient-to-r from-primary-50 dark:from-gray-700 to-primary-100 dark:to-gray-600 rounded-xl">
+                        <h4 class="text-base sm:text-lg font-semibold text-secondary-900 dark:text-primary-400-dark mb-3 sm:mb-4">Để lại bình luận của bạn</h4>
+                        <form method="POST" action="{{ route('comments.store', $post) }}" id="main-comment-form" class="space-y-3 sm:space-y-4">
                             @csrf
-                            <div class="flex items-start space-x-4">
+                            <div class="flex items-start space-x-3 sm:space-x-4">
                                 <div class="flex-shrink-0">
-                                    <div class="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center">
-                                        <span class="text-white font-semibold">{{ substr(auth()->user()->name, 0, 1) }}</span>
+                                    <div class="w-9 h-9 sm:w-10 sm:h-10 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center">
+                                        <span class="text-white font-semibold text-sm sm:text-base">{{ substr(auth()->user()->name, 0, 1) }}</span>
                                     </div>
                                 </div>
-                                <div class="flex-1">
-                                    <textarea name="content" rows="3" class="w-full px-4 py-2 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400" placeholder="Viết bình luận của bạn..." required></textarea>
+                                <div class="flex-1 min-w-0">
+                                    <textarea name="content" rows="3" class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400" placeholder="Viết bình luận của bạn..." required></textarea>
                                     <input type="hidden" name="parent_id" id="parent_id" value="">
-                                    <div class="mt-3 flex justify-end">
-                                        <button type="submit" class="px-4 py-2 bg-primary-600 dark:bg-primary-100-dark text-white dark:text-primary-900-dark rounded-lg hover:bg-primary-700 dark:hover:bg-primary-200-dark transition-colors duration-200">
+                                    <div class="mt-2 sm:mt-3 flex justify-end">
+                                        <button type="submit" class="px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base bg-primary-600 dark:bg-primary-100-dark text-white dark:text-primary-900-dark rounded-lg hover:bg-primary-700 dark:hover:bg-primary-200-dark transition-colors duration-200">
                                             Gửi bình luận
                                         </button>
                                     </div>
@@ -263,13 +263,13 @@
                     </div>
                 @else
                     <!-- Login Prompt for Guests -->
-                    <div class="mb-8 p-6 bg-secondary-50 dark:bg-gray-700 rounded-xl text-center">
+                    <div class="mb-6 sm:mb-8 p-4 sm:p-6 bg-secondary-50 dark:bg-gray-700 rounded-xl text-center">
                         <div class="flex flex-col items-center justify-center space-y-2">
-                            <svg class="w-12 h-12 text-secondary-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-10 h-10 sm:w-12 sm:h-12 text-secondary-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                             </svg>
-                            <p class="text-secondary-700 dark:text-gray-300 font-medium">Bạn cần đăng nhập để bình luận</p>
-                            <p class="text-secondary-500 dark:text-gray-400 text-sm">
+                            <p class="text-sm sm:text-base text-secondary-700 dark:text-gray-300 font-medium">Bạn cần đăng nhập để bình luận</p>
+                            <p class="text-xs sm:text-sm text-secondary-500 dark:text-gray-400">
                                 <a href="{{ route('login') }}" class="text-primary-600 dark:text-primary-400-dark hover:text-primary-700 dark:hover:text-primary-300-dark font-medium">Đăng nhập</a>
                                 hoặc
                                 <a href="{{ route('register') }}" class="text-primary-600 dark:text-primary-400-dark hover:text-primary-700 dark:hover:text-primary-300-dark font-medium">tạo tài khoản</a>
@@ -281,27 +281,27 @@
 
                 <!-- Comments List -->
                 <div x-data="{ visibleComments: 3 }">
-                    <div class="space-y-6" id="comments-list">
+                    <div class="space-y-4 sm:space-y-6" id="comments-list">
                         @forelse($post->comments->whereNull('parent_id')->sortByDesc('created_at') as $index => $comment)
                             <div x-show="{{ $index }} < visibleComments">
                                 @include('partials.comment', ['comment' => $comment, 'post' => $post])
                             </div>
                         @empty
-                            <div class="text-center py-8" id="no-comments-message">
-                                <svg class="w-16 h-16 text-secondary-300 dark:text-gray-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="text-center py-6 sm:py-8" id="no-comments-message">
+                                <svg class="w-12 h-12 sm:w-16 sm:h-16 text-secondary-300 dark:text-gray-600 mx-auto mb-3 sm:mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                                 </svg>
-                                <h4 class="text-lg font-medium text-secondary-900 dark:text-primary-400-dark mb-2">Chưa có bình luận nào</h4>
-                                <p class="text-secondary-500 dark:text-gray-400">Hãy là người đầu tiên bình luận về bài viết này!</p>
+                                <h4 class="text-base sm:text-lg font-medium text-secondary-900 dark:text-primary-400-dark mb-2">Chưa có bình luận nào</h4>
+                                <p class="text-sm sm:text-base text-secondary-500 dark:text-gray-400">Hãy là người đầu tiên bình luận về bài viết này!</p>
                             </div>
                         @endforelse
                     </div>
                     
                     <!-- Load More Comments Button -->
                     @if($post->comments->whereNull('parent_id')->count() > 3)
-                        <div class="mt-6 text-center">
+                        <div class="mt-4 sm:mt-6 text-center">
                             <button @click="visibleComments = visibleComments >= {{ $post->comments->whereNull('parent_id')->count() }} ? 3 : visibleComments + 3" 
-                                    class="px-6 py-2 bg-secondary-100 dark:bg-gray-700 text-secondary-700 dark:text-gray-300 rounded-lg hover:bg-secondary-200 dark:hover:bg-gray-600 transition-colors duration-200 font-medium">
+                                    class="px-4 sm:px-6 py-1.5 sm:py-2 text-sm sm:text-base bg-secondary-100 dark:bg-gray-700 text-secondary-700 dark:text-gray-300 rounded-lg hover:bg-secondary-200 dark:hover:bg-gray-600 transition-colors duration-200 font-medium">
                                 <span x-show="visibleComments < {{ $post->comments->whereNull('parent_id')->count() }}">
                                     Xem thêm bình luận (<span x-text="Math.min(3, {{ $post->comments->whereNull('parent_id')->count() }} - visibleComments)"></span>)
                                 </span>

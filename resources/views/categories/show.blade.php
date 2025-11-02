@@ -60,8 +60,8 @@
                 </select>
             </div>
             
-            <!-- View Mode Toggle -->
-            <div class="flex items-center space-x-2 bg-white dark:bg-gray-800 rounded-lg border border-primary-200 dark:border-gray-700 p-1">
+            <!-- View Mode Toggle (Desktop Only) -->
+            <div class="hidden lg:flex items-center space-x-2 bg-white dark:bg-gray-800 rounded-lg border border-primary-200 dark:border-gray-700 p-1">
                 <button @click="viewMode = 'list'" 
                         :class="viewMode === 'list' ? 'bg-primary-600 text-white dark:bg-primary-500' : 'text-primary-600 dark:text-gray-400 hover:text-primary-900 dark:hover:text-primary-300-dark'"
                         class="p-2 rounded transition-all duration-200"
@@ -83,7 +83,7 @@
     </div>
 
     <!-- Articles List View -->
-    <div x-show="viewMode === 'list'" class="space-y-6">
+    <div x-show="viewMode === 'list'" class="hidden lg:block space-y-6">
         @forelse($posts as $index => $post)
             <article class="bg-white dark:bg-gray-800 rounded-lg border border-primary-200 dark:border-gray-700 hover:shadow-md dark:hover:shadow-gray-900/20 transition-all duration-200 overflow-hidden">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-0">

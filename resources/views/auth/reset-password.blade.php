@@ -3,22 +3,22 @@
 @section('title', 'Đặt lại mật khẩu')
 
 @section('content')
-<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 via-white to-accent-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full space-y-8">
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 via-white to-accent-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-6 sm:py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-6 sm:space-y-8">
         <!-- Logo & Header -->
         <div class="text-center">
-            <div class="mx-auto h-20 w-20 bg-gradient-to-br from-primary-600 to-primary-700 dark:from-primary-100-dark dark:to-primary-200-dark rounded-2xl flex items-center justify-center shadow-lg">
-                <svg class="h-10 w-10 text-white dark:text-primary-900-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="mx-auto h-16 w-16 sm:h-20 sm:w-20 bg-gradient-to-br from-primary-600 to-primary-700 dark:from-primary-100-dark dark:to-primary-200-dark rounded-2xl flex items-center justify-center shadow-lg">
+                <svg class="h-8 w-8 sm:h-10 sm:w-10 text-white dark:text-primary-900-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-11.255 3M5 10a2 2 0 012-2m6 4a2 2 0 100-4m0 4a2 2 0 100 4m0-4v8a2 2 0 002 2h8a2 2 0 002-2v-8m0 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v1"/>
                 </svg>
             </div>
-            <h2 class="mt-6 text-3xl font-heading font-bold text-secondary-900 dark:text-primary-400-dark">Đặt lại mật khẩu</h2>
-            <p class="mt-2 text-sm text-secondary-600 dark:text-gray-300">Tạo mật khẩu mới cho tài khoản của bạn</p>
+            <h2 class="mt-4 sm:mt-6 text-2xl sm:text-3xl font-heading font-bold text-secondary-900 dark:text-primary-400-dark">Đặt lại mật khẩu</h2>
+            <p class="mt-1 sm:mt-2 text-xs sm:text-sm text-secondary-600 dark:text-gray-300">Tạo mật khẩu mới cho tài khoản của bạn</p>
         </div>
 
         <!-- Reset Password Form -->
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-secondary-100 dark:border-gray-700 p-8">
-            <form method="POST" action="{{ route('password.store') }}" class="space-y-6" id="resetForm">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-secondary-100 dark:border-gray-700 p-6 sm:p-8">
+            <form method="POST" action="{{ route('password.store') }}" class="space-y-5 sm:space-y-6" id="resetForm">
                 @csrf
                 <input type="hidden" name="token" value="{{ $request->route('token') }}">
                 
@@ -34,7 +34,7 @@
                             </svg>
                         </div>
                         <input type="email" 
-                               class="block w-full pl-10 pr-3 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg bg-secondary-50 dark:bg-gray-700 text-secondary-600 dark:text-gray-300 cursor-not-allowed @error('email') !border-red-500 !bg-red-50 dark:!bg-red-900/20 @enderror" 
+                               class="block w-full pl-10 pr-3 py-2.5 sm:py-3 text-sm border border-secondary-300 dark:border-gray-600 rounded-lg bg-secondary-50 dark:bg-gray-700 text-secondary-600 dark:text-gray-300 cursor-not-allowed @error('email') !border-red-500 !bg-red-50 dark:!bg-red-900/20 @enderror" 
                                id="email" 
                                name="email" 
                                value="{{ old('email', $request->email) }}" 
@@ -62,7 +62,7 @@
                             </svg>
                         </div>
                         <input type="password" 
-                               class="block w-full pl-10 pr-12 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400 transition-colors duration-200 @error('password') !border-red-500 !focus:ring-red-500 !focus:border-red-500 dark:!bg-red-900/20 @enderror" 
+                               class="block w-full pl-10 pr-12 py-2.5 sm:py-3 text-sm border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400 transition-colors duration-200 @error('password') !border-red-500 !focus:ring-red-500 !focus:border-red-500 dark:!bg-red-900/20 @enderror" 
                                id="password" 
                                name="password" 
                                placeholder="Nhập mật khẩu mới"
@@ -109,7 +109,7 @@
                             </svg>
                         </div>
                         <input type="password" 
-                               class="block w-full pl-10 pr-12 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400 transition-colors duration-200" 
+                               class="block w-full pl-10 pr-12 py-2.5 sm:py-3 text-sm border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400 transition-colors duration-200" 
                                id="password_confirmation" 
                                name="password_confirmation" 
                                placeholder="Nhập lại mật khẩu mới"

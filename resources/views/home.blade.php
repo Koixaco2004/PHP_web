@@ -34,7 +34,7 @@
                                                 {{ Str::limit($post->title, 70) }}
                                             </h2>
                                             @if($post->excerpt)
-                                                <p class="text-base lg:text-lg text-white text-opacity-90 mb-6 leading-relaxed">
+                                                <p class="text-base lg:text-lg text-white text-opacity-90 mb-6 leading-relaxed line-clamp-2">
                                                     {{ Str::limit($post->excerpt, 120) }}
                                                 </p>
                                             @endif
@@ -105,11 +105,11 @@
 <!-- Main Content Section -->
 <div x-data="{ viewMode: 'grid' }">
     <!-- Section Header with View Toggle -->
-    <div class="mb-8 flex items-center justify-between">
+    <div class="mb-8 flex items-center justify-between flex-wrap gap-4">
         <h1 class="text-2xl font-bold text-primary-900 dark:text-primary-400-dark">Tin tức mới nhất</h1>
         
-        <!-- View Mode Toggle -->
-        <div class="flex items-center space-x-2 bg-white dark:bg-gray-800 rounded-lg border border-primary-200 dark:border-gray-700 p-1">
+        <!-- View Mode Toggle (Desktop Only) -->
+        <div class="hidden lg:flex items-center space-x-2 bg-white dark:bg-gray-800 rounded-lg border border-primary-200 dark:border-gray-700 p-1">
             <button @click="viewMode = 'list'" 
                     :class="viewMode === 'list' ? 'bg-primary-600 text-white dark:bg-primary-500' : 'text-primary-600 dark:text-gray-400 hover:text-primary-900 dark:hover:text-primary-300-dark'"
                     class="p-2 rounded transition-all duration-200"
@@ -129,8 +129,8 @@
         </div>
     </div>
 
-    <!-- Articles List View -->
-    <div x-show="viewMode === 'list'" class="space-y-6">
+    <!-- Articles List View (Desktop Only) -->
+    <div x-show="viewMode === 'list'" class="hidden lg:block space-y-6">
         @forelse($posts as $index => $post)
             <article class="bg-white dark:bg-gray-800 rounded-lg border border-primary-200 dark:border-gray-700 hover:shadow-md dark:hover:shadow-gray-900/20 transition-all duration-200 overflow-hidden">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-0">
@@ -185,8 +185,15 @@
                 </div>
             </article>
         @empty
-            <div class="text-center py-12">
-                <p class="text-primary-500 dark:text-gray-400">Không có bài viết nào.</p>
+            <!-- Empty State -->
+            <div class="text-center py-16">
+                <div class="w-20 h-20 bg-secondary-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-10 h-10 text-secondary-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-heading font-semibold text-secondary-900 dark:text-primary-400-dark mb-2">Chưa có bài viết nào</h3>
+                <p class="text-secondary-500 dark:text-gray-400">Hiện chưa có bài viết nào được đăng.</p>
             </div>
         @endforelse
     </div>
@@ -254,25 +261,73 @@
     <!-- Pagination -->
     @if($posts->hasPages())
         <div class="mt-8 flex justify-center">
-            <nav class="flex items-center space-x-2">
+            <nav class="flex flex-wrap items-center justify-center gap-2">
                 @if ($posts->onFirstPage())
-                    <span class="px-3 py-2 text-sm text-primary-400 dark:text-gray-500 cursor-not-allowed">← Trước</span>
+                    <span class="px-2 sm:px-3 py-2 text-xs sm:text-sm text-primary-400 dark:text-gray-500 cursor-not-allowed">← Trước</span>
                 @else
-                    <a href="{{ $posts->previousPageUrl() }}" class="px-3 py-2 text-sm text-primary-600 dark:text-primary-400-dark hover:text-primary-900 dark:hover:text-primary-300-dark">← Trước</a>
+                    <a href="{{ $posts->previousPageUrl() }}" class="px-2 sm:px-3 py-2 text-xs sm:text-sm text-primary-600 dark:text-primary-400-dark hover:text-primary-900 dark:hover:text-primary-300-dark">← Trước</a>
                 @endif
 
-                @foreach ($posts->getUrlRange(1, $posts->lastPage()) as $page => $url)
-                    @if ($page == $posts->currentPage())
-                        <span class="px-3 py-2 text-sm bg-primary-900 dark:bg-primary-100-dark text-white dark:text-primary-900-dark rounded">{{ $page }}</span>
+                @php
+                    $currentPage = $posts->currentPage();
+                    $lastPage = $posts->lastPage();
+                    $start = max(1, $currentPage - 1);
+                    $end = min($lastPage, $currentPage + 1);
+                    
+                    // Always show first page
+                    $pages = [1];
+                    
+                    // Add second page if exists and needed
+                    if ($lastPage >= 2 && $start > 2) {
+                        $pages[] = 2;
+                    }
+                    
+                    // Add ellipsis or pages after first pages
+                    if ($start > 3) {
+                        $pages[] = '...';
+                    }
+                    
+                    // Add middle pages
+                    for ($i = $start; $i <= $end; $i++) {
+                        if ($i > 2 && $i < $lastPage - 1) {
+                            $pages[] = $i;
+                        } elseif ($i == 2 && $start <= 2) {
+                            $pages[] = $i;
+                        } elseif ($i == $lastPage - 1 && $end >= $lastPage - 1) {
+                            $pages[] = $i;
+                        }
+                    }
+                    
+                    // Add ellipsis or pages before last pages
+                    if ($end < $lastPage - 2) {
+                        $pages[] = '...';
+                    }
+                    
+                    // Add second to last page if exists and needed
+                    if ($lastPage >= 2 && $end < $lastPage - 1) {
+                        $pages[] = $lastPage - 1;
+                    }
+                    
+                    // Always show last page if there's more than 1 page
+                    if ($lastPage > 1) {
+                        $pages[] = $lastPage;
+                    }
+                @endphp
+
+                @foreach ($pages as $page)
+                    @if ($page === '...')
+                        <span class="px-2 sm:px-3 py-2 text-xs sm:text-sm text-primary-400 dark:text-gray-500">...</span>
+                    @elseif ($page == $currentPage)
+                        <span class="px-2 sm:px-3 py-2 text-xs sm:text-sm bg-primary-900 dark:bg-primary-100-dark text-white dark:text-primary-900-dark rounded">{{ $page }}</span>
                     @else
-                        <a href="{{ $url }}" class="px-3 py-2 text-sm text-primary-600 dark:text-primary-400-dark hover:text-primary-900 dark:hover:text-primary-300-dark">{{ $page }}</a>
+                        <a href="{{ $posts->url($page) }}" class="px-2 sm:px-3 py-2 text-xs sm:text-sm text-primary-600 dark:text-primary-400-dark hover:text-primary-900 dark:hover:text-primary-300-dark">{{ $page }}</a>
                     @endif
                 @endforeach
 
                 @if ($posts->hasMorePages())
-                    <a href="{{ $posts->nextPageUrl() }}" class="px-3 py-2 text-sm text-primary-600 dark:text-primary-400-dark hover:text-primary-900 dark:hover:text-primary-300-dark">Tiếp →</a>
+                    <a href="{{ $posts->nextPageUrl() }}" class="px-2 sm:px-3 py-2 text-xs sm:text-sm text-primary-600 dark:text-primary-400-dark hover:text-primary-900 dark:hover:text-primary-300-dark">Tiếp →</a>
                 @else
-                    <span class="px-3 py-2 text-sm text-primary-400 dark:text-gray-500 cursor-not-allowed">Tiếp →</span>
+                    <span class="px-2 sm:px-3 py-2 text-xs sm:text-sm text-primary-400 dark:text-gray-500 cursor-not-allowed">Tiếp →</span>
                 @endif
             </nav>
         </div>
