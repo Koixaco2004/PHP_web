@@ -3,22 +3,22 @@
 @section('title', 'Đăng nhập')
 
 @section('content')
-<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 via-white to-accent-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full space-y-8">
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 via-white to-accent-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-6 sm:py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-6 sm:space-y-8">
         <!-- Logo & Header -->
         <div class="text-center">
-            <div class="mx-auto h-20 w-20 bg-gradient-to-br from-primary-600 to-primary-700 dark:from-primary-100-dark dark:to-primary-200-dark rounded-2xl flex items-center justify-center shadow-lg">
-                <svg class="h-10 w-10 text-white dark:text-primary-900-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="mx-auto h-16 w-16 sm:h-20 sm:w-20 bg-gradient-to-br from-primary-600 to-primary-700 dark:from-primary-100-dark dark:to-primary-200-dark rounded-2xl flex items-center justify-center shadow-lg">
+                <svg class="h-8 w-8 sm:h-10 sm:w-10 text-white dark:text-primary-900-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                 </svg>
             </div>
-            <h2 class="mt-6 text-3xl font-heading font-bold text-secondary-900 dark:text-primary-400-dark">Chào mừng trở lại!</h2>
-            <p class="mt-2 text-sm text-secondary-600 dark:text-gray-300">Đăng nhập vào tài khoản của bạn để tiếp tục</p>
+            <h2 class="mt-4 sm:mt-6 text-2xl sm:text-3xl font-heading font-bold text-secondary-900 dark:text-primary-400-dark">Chào mừng trở lại!</h2>
+            <p class="mt-1 sm:mt-2 text-xs sm:text-sm text-secondary-600 dark:text-gray-300">Đăng nhập vào tài khoản của bạn để tiếp tục</p>
         </div>
 
         <!-- Login Form -->
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-secondary-100 dark:border-gray-700 p-8">
-            <form method="POST" action="{{ route('login') }}" class="space-y-6">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-secondary-100 dark:border-gray-700 p-6 sm:p-8">
+            <form method="POST" action="{{ route('login') }}" class="space-y-5 sm:space-y-6">
                 @csrf
                 
                 <!-- Email Field -->
@@ -33,7 +33,7 @@
                             </svg>
                         </div>
                         <input type="email" 
-                               class="block w-full pl-10 pr-3 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400 transition-colors duration-200 @error('email') !border-red-500 !focus:ring-red-500 !focus:border-red-500 dark:!bg-red-900/20 @enderror" 
+                               class="block w-full pl-10 pr-3 py-2.5 sm:py-3 text-sm border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400 transition-colors duration-200 @error('email') !border-red-500 !focus:ring-red-500 !focus:border-red-500 dark:!bg-red-900/20 @enderror" 
                                id="email" 
                                name="email" 
                                value="{{ old('email') }}" 
@@ -62,7 +62,7 @@
                             </svg>
                         </div>
                         <input type="password" 
-                               class="block w-full pl-10 pr-12 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400 transition-colors duration-200 @error('password') !border-red-500 !focus:ring-red-500 !focus:border-red-500 dark:!bg-red-900/20 @enderror" 
+                               class="block w-full pl-10 pr-12 py-2.5 sm:py-3 text-sm border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400 transition-colors duration-200 @error('password') !border-red-500 !focus:ring-red-500 !focus:border-red-500 dark:!bg-red-900/20 @enderror" 
                                id="password" 
                                name="password" 
                                placeholder="Nhập mật khẩu của bạn"
@@ -87,7 +87,7 @@
                 </div>
 
                 <!-- Remember Me & Forgot Password -->
-                <div class="flex items-center justify-between">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
                     <div class="flex items-center">
                         <input type="checkbox" 
                                class="h-4 w-4 text-primary-600 dark:text-primary-400-dark focus:ring-primary-500 dark:focus:ring-primary-400-dark border-secondary-300 dark:border-gray-600 rounded transition-colors duration-200" 
@@ -107,7 +107,7 @@
                 <!-- Submit Button -->
                 <div>
                     <button type="submit" 
-                            class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-primary-600 to-primary-700 dark:from-primary-100-dark dark:to-primary-200-dark hover:from-primary-700 hover:to-primary-800 dark:hover:from-primary-200-dark dark:hover:to-primary-300-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:focus:ring-primary-400-dark transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                            class="group relative w-full flex justify-center py-2.5 sm:py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-primary-600 to-primary-700 dark:from-primary-100-dark dark:to-primary-200-dark hover:from-primary-700 hover:to-primary-800 dark:hover:from-primary-200-dark dark:hover:to-primary-300-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:focus:ring-primary-400-dark transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
                         <span class="absolute left-0 inset-y-0 flex items-center pl-3">
                             <svg class="h-5 w-5 text-primary-200 dark:text-primary-700-dark group-hover:text-primary-100 dark:group-hover:text-primary-600-dark transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
@@ -120,7 +120,7 @@
         </div>
 
         <!-- Social Login -->
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-secondary-100 dark:border-gray-700 p-6">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-secondary-100 dark:border-gray-700 p-5 sm:p-6">
             <div class="relative">
                 <div class="absolute inset-0 flex items-center">
                     <div class="w-full border-t border-secondary-300 dark:border-gray-600"></div>
@@ -131,7 +131,7 @@
             </div>
 
             <div class="mt-6">
-                <a href="{{ route('google.redirect') }}" class="w-full inline-flex justify-center py-3 px-4 border border-secondary-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-700 text-sm font-medium text-secondary-700 dark:text-gray-300 hover:bg-secondary-50 dark:hover:bg-gray-600 transition-colors duration-200">
+                <a href="{{ route('google.redirect') }}" class="w-full inline-flex justify-center py-2.5 sm:py-3 px-4 border border-secondary-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-700 text-sm font-medium text-secondary-700 dark:text-gray-300 hover:bg-secondary-50 dark:hover:bg-gray-600 transition-colors duration-200">
                     <svg class="h-5 w-5" viewBox="0 0 24 24">
                         <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                         <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>

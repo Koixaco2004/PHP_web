@@ -3,17 +3,17 @@
 @section('title', 'Quên mật khẩu')
 
 @section('content')
-<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-secondary-50 via-white to-primary-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full space-y-8">
+<div class="min-h-[calc(100vh-4rem)] sm:min-h-screen flex items-center justify-center bg-gradient-to-br from-secondary-50 via-white to-primary-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-4 sm:py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-4 sm:space-y-8 my-4 sm:my-0">
         <!-- Logo & Header -->
         <div class="text-center">
-            <div class="mx-auto h-20 w-20 bg-gradient-to-br from-primary-600 to-primary-700 dark:from-primary-100-dark dark:to-primary-200-dark rounded-2xl flex items-center justify-center shadow-lg">
-                <svg class="h-10 w-10 text-white dark:text-primary-900-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="mx-auto h-16 w-16 sm:h-20 sm:w-20 bg-gradient-to-br from-primary-600 to-primary-700 dark:from-primary-100-dark dark:to-primary-200-dark rounded-2xl flex items-center justify-center shadow-lg">
+                <svg class="h-8 w-8 sm:h-10 sm:w-10 text-white dark:text-primary-900-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                 </svg>
             </div>
-            <h2 class="mt-6 text-3xl font-heading font-bold text-secondary-900 dark:text-primary-400-dark">Quên mật khẩu?</h2>
-            <p class="mt-2 text-sm text-secondary-600 dark:text-gray-300">Không sao! Chúng tôi sẽ gửi link đặt lại mật khẩu cho bạn</p>
+            <h2 class="mt-4 sm:mt-6 text-2xl sm:text-3xl font-heading font-bold text-secondary-900 dark:text-primary-400-dark">Quên mật khẩu?</h2>
+            <p class="mt-1 sm:mt-2 text-xs sm:text-sm text-secondary-600 dark:text-gray-300">Không sao! Chúng tôi sẽ gửi link đặt lại mật khẩu cho bạn</p>
         </div>
 
         <!-- Status Message -->
@@ -33,8 +33,8 @@
         @endif
 
         <!-- Reset Password Form -->
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-secondary-100 dark:border-gray-700 p-8">
-            <form method="POST" action="{{ route('password.email') }}" class="space-y-6">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-secondary-100 dark:border-gray-700 p-6 sm:p-8">
+            <form method="POST" action="{{ route('password.email') }}" class="space-y-5 sm:space-y-6">
                 @csrf
                 
                 <!-- Email Field -->
@@ -49,7 +49,7 @@
                             </svg>
                         </div>
                         <input type="email" 
-                               class="block w-full pl-10 pr-3 py-3 border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400 transition-colors duration-200 @error('email') !border-red-500 !focus:ring-red-500 !focus:border-red-500 dark:!bg-red-900/20 @enderror" 
+                               class="block w-full pl-10 pr-3 py-2.5 sm:py-3 text-sm border border-secondary-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark bg-white dark:bg-gray-700 dark:text-primary-400-dark dark:placeholder-gray-400 transition-colors duration-200 @error('email') !border-red-500 !focus:ring-red-500 !focus:border-red-500 dark:!bg-red-900/20 @enderror" 
                                id="email" 
                                name="email" 
                                value="{{ old('email') }}" 
@@ -71,7 +71,7 @@
                 <!-- Submit Button -->
                 <div>
                     <button type="submit" 
-                            class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-primary-600 to-primary-700 dark:from-primary-100-dark dark:to-primary-200-dark hover:from-primary-700 hover:to-primary-800 dark:hover:from-primary-200-dark dark:hover:to-primary-300-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:focus:ring-primary-400-dark transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                            class="group relative w-full flex justify-center py-2.5 sm:py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-primary-600 to-primary-700 dark:from-primary-100-dark dark:to-primary-200-dark hover:from-primary-700 hover:to-primary-800 dark:hover:from-primary-200-dark dark:hover:to-primary-300-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:focus:ring-primary-400-dark transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
                         <span class="absolute left-0 inset-y-0 flex items-center pl-3">
                             <svg class="h-5 w-5 text-primary-200 dark:text-primary-700-dark group-hover:text-primary-100 dark:group-hover:text-primary-600-dark transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
