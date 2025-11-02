@@ -3,17 +3,17 @@
 @section('title', 'Chỉnh sửa hồ sơ')
 
 @section('content')
-<div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-8">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Header -->
-        <div class="mb-8">
-            <div class="flex items-center justify-between">
+        <div class="mb-6 sm:mb-8">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
                 <div>
-                    <h1 class="text-3xl font-bold text-gray-900 dark:text-primary-400-dark">Chỉnh sửa hồ sơ</h1>
-                    <p class="text-gray-600 dark:text-gray-300 mt-1">Cập nhật thông tin cá nhân của bạn</p>
+                    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-primary-400-dark">Chỉnh sửa hồ sơ</h1>
+                    <p class="text-sm sm:text-base text-gray-600 dark:text-gray-300 mt-1">Cập nhật thông tin cá nhân của bạn</p>
                 </div>
-                <a href="{{ route('profile.show') }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-150">
-                    <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <a href="{{ route('profile.show') }}" class="inline-flex items-center px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-150">
+                    <svg class="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"></path>
                     </svg>
                     Quay lại
@@ -23,20 +23,20 @@
 
         <!-- Success Message -->
         @if(session('success'))
-            <div class="mb-6 bg-primary-50 dark:bg-primary-900-dark dark:border-primary-700-dark dark:text-primary-400-dark px-4 py-3 rounded-lg">
+            <div class="mb-4 sm:mb-6 bg-primary-50 dark:bg-primary-900-dark dark:border-primary-700-dark dark:text-primary-400-dark px-3 sm:px-4 py-2 sm:py-3 rounded-lg text-sm sm:text-base">
                 {{ session('success') }}
             </div>
         @endif
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
             <!-- Avatar Section -->
             <div class="lg:col-span-1">
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-                    <h2 class="text-lg font-medium text-gray-900 dark:text-primary-400-dark mb-4">Ảnh đại diện</h2>
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 sm:p-6">
+                    <h2 class="text-base sm:text-lg font-medium text-gray-900 dark:text-primary-400-dark mb-3 sm:mb-4">Ảnh đại diện</h2>
                     
                     <div class="flex flex-col items-center">
                         <div class="relative">
-                            <div class="w-32 h-32 rounded-full overflow-hidden bg-gray-100 dark:bg-gray-700 border-4 border-white dark:border-gray-800 shadow-lg">
+                            <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden bg-gray-100 dark:bg-gray-700 border-2 sm:border-4 border-white dark:border-gray-800 shadow-lg">
                                 @if($user->avatar)
                                     @if(Str::startsWith($user->avatar, ['http://', 'https://']))
                                         <img id="avatar-preview" src="{{ $user->avatar }}" alt="{{ $user->name }}"
@@ -55,15 +55,15 @@
                             </div>
                         </div>
                         
-                        <form action="{{ route('profile.avatar') }}" method="POST" enctype="multipart/form-data" class="mt-4 w-full">
+                        <form action="{{ route('profile.avatar') }}" method="POST" enctype="multipart/form-data" class="mt-3 sm:mt-4 w-full">
                             @csrf
-                            <div class="flex flex-col space-y-3">
+                            <div class="flex flex-col space-y-2 sm:space-y-3">
                                 <input type="file" name="avatar" id="avatar-input" accept="image/*" class="hidden">
                                 <button type="button" onclick="document.getElementById('avatar-input').click()"
-                                        class="w-full px-4 py-2 bg-primary-600 dark:bg-primary-500-dark text-white text-sm font-medium rounded-lg hover:bg-primary-700 dark:hover:bg-primary-400-dark transition duration-150">
+                                        class="w-full px-3 sm:px-4 py-1.5 sm:py-2 bg-primary-600 dark:bg-primary-500-dark text-white text-xs sm:text-sm font-medium rounded-lg hover:bg-primary-700 dark:hover:bg-primary-400-dark transition duration-150">
                                     Chọn ảnh mới
                                 </button>
-                                <button type="submit" id="upload-btn" class="w-full px-4 py-2 bg-primary-600 dark:bg-primary-500-dark text-white text-sm font-medium rounded-lg hover:bg-primary-700 dark:hover:bg-primary-400-dark transition duration-150 hidden">
+                                <button type="submit" id="upload-btn" class="w-full px-3 sm:px-4 py-1.5 sm:py-2 bg-primary-600 dark:bg-primary-500-dark text-white text-xs sm:text-sm font-medium rounded-lg hover:bg-primary-700 dark:hover:bg-primary-400-dark transition duration-150 hidden">
                                     Tải lên
                                 </button>
                             </div>
@@ -78,20 +78,20 @@
             <!-- Profile Form -->
             <div class="lg:col-span-2">
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                        <h2 class="text-lg font-medium text-gray-900 dark:text-primary-400-dark">Thông tin cá nhân</h2>
+                    <div class="px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-200 dark:border-gray-700">
+                        <h2 class="text-base sm:text-lg font-medium text-gray-900 dark:text-primary-400-dark">Thông tin cá nhân</h2>
                     </div>
                     
-                    <form action="{{ route('profile.update') }}" method="POST" class="p-6 space-y-6">
+                    <form action="{{ route('profile.update') }}" method="POST" class="p-4 sm:p-6 space-y-4 sm:space-y-6">
                         @csrf
                         @method('PUT')
                         
                         <!-- Name & Email -->
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                             <div>
-                                <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Họ và tên</label>
+                                <label for="name" class="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">Họ và tên</label>
                                 <input type="text" name="name" id="name" value="{{ old('name', $user->name) }}" required
-                                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400-dark focus:border-transparent">
+                                       class="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400-dark focus:border-transparent">
                                 @error('name')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
