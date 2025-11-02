@@ -272,10 +272,11 @@
         <div id="mobileMenuOverlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden" onclick="toggleMobileMenu()"></div>
         
         <!-- Mobile Menu Sidebar -->
-        <div id="mobileMenu" class="hidden fixed top-0 right-0 h-full w-80 bg-white dark:bg-gray-800 shadow-2xl z-50 overflow-y-auto lg:hidden transform transition-transform duration-300">
-            <div class="p-4">
+        <div id="mobileMenu" class="hidden fixed top-0 right-0 h-full w-80 bg-white dark:bg-gray-800 shadow-2xl z-50 lg:hidden transform transition-transform duration-300" style="display: none; flex-direction: column;">
+            <!-- Fixed Header -->
+            <div class="flex-shrink-0 p-4 border-b border-gray-200 dark:border-gray-700">
                 <!-- Close Button -->
-                <div class="flex justify-between items-center mb-6">
+                <div class="flex justify-between items-center">
                     <h2 class="text-xl font-bold text-primary-900 dark:text-primary-400-dark">Menu</h2>
                     <button onclick="toggleMobileMenu()" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
                         <svg class="w-6 h-6 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -283,7 +284,10 @@
                         </svg>
                     </button>
                 </div>
+            </div>
 
+            <!-- Scrollable Content -->
+            <div class="flex-1 overflow-y-auto p-4">
                 @auth
                     <!-- User Profile Section -->
                     <div class="mb-6 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
@@ -342,11 +346,11 @@
                     </div>
                 </div>
 
-                <!-- Categories with Fixed Height and Scroll -->
+                <!-- Categories -->
                 @if(isset($navigationCategories) && $navigationCategories->count() > 0)
                     <div class="mb-6">
                         <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase mb-3">Chuyên mục</h3>
-                        <div class="max-h-80 overflow-y-auto space-y-2 pr-2" style="scrollbar-width: thin; scrollbar-color: rgba(156, 163, 175, 0.5) transparent;">
+                        <div class="space-y-2">
                             @foreach($navigationCategories as $category)
                                 <a href="{{ route('categories.show', $category) }}" 
                                    class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg {{ request()->route('category') && request()->route('category')->id == $category->id ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
@@ -357,21 +361,21 @@
                         </div>
                     </div>
                 @endif
-
-                @auth
-                    <!-- Logout -->
-                    <div class="pt-6 border-t border-gray-200 dark:border-gray-700">
-                        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="block px-4 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-gray-700 rounded-lg">
-                            <div class="flex items-center">
-                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-                                </svg>
-                                Đăng xuất
-                            </div>
-                        </a>
-                    </div>
-                @endauth
             </div>
+
+            <!-- Fixed Footer -->
+            @auth
+                <div class="flex-shrink-0 p-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="block px-4 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-gray-700 rounded-lg">
+                        <div class="flex items-center">
+                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                            </svg>
+                            Đăng xuất
+                        </div>
+                    </a>
+                </div>
+            @endauth
         </div>
         
         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
@@ -714,13 +718,16 @@
             const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
             const mobileMenuIcon = document.getElementById('mobileMenuIcon');
             
-            mobileMenu.classList.toggle('hidden');
-            mobileMenuOverlay.classList.toggle('hidden');
-            
-            // Toggle icon
-            if (mobileMenu.classList.contains('hidden')) {
+            // Toggle display flex/none for mobile menu
+            if (mobileMenu.style.display === 'flex') {
+                mobileMenu.style.display = 'none';
+                mobileMenu.classList.add('hidden');
+                mobileMenuOverlay.classList.add('hidden');
                 mobileMenuIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>';
             } else {
+                mobileMenu.style.display = 'flex';
+                mobileMenu.classList.remove('hidden');
+                mobileMenuOverlay.classList.remove('hidden');
                 mobileMenuIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>';
             }
         }
