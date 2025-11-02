@@ -350,14 +350,18 @@
                 @if(isset($navigationCategories) && $navigationCategories->count() > 0)
                     <div class="mb-6">
                         <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase mb-3">Chuyên mục</h3>
-                        <div class="space-y-2">
-                            @foreach($navigationCategories as $category)
-                                <a href="{{ route('categories.show', $category) }}" 
-                                   class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg {{ request()->route('category') && request()->route('category')->id == $category->id ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
-                                   onclick="toggleMobileMenu()">
-                                    {{ $category->name }}
-                                </a>
-                            @endforeach
+                        <div class="relative">
+                            <div class="max-h-[300px] overflow-y-auto space-y-2 pr-2" style="scrollbar-width: thin; scrollbar-color: rgba(156, 163, 175, 0.5) transparent;">
+                                @foreach($navigationCategories as $category)
+                                    <a href="{{ route('categories.show', $category) }}" 
+                                       class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg {{ request()->route('category') && request()->route('category')->id == $category->id ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
+                                       onclick="toggleMobileMenu()">
+                                        {{ $category->name }}
+                                    </a>
+                                @endforeach
+                            </div>
+                            <!-- Gradient fade overlay -->
+                            <div class="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white dark:from-gray-800 to-transparent pointer-events-none"></div>
                         </div>
                     </div>
                 @endif
