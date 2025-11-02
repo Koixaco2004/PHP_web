@@ -28,18 +28,18 @@
 <body class="bg-secondary-50 min-h-screen transition-colors duration-300 dark:bg-gray-900 dark:text-white overflow-x-hidden" id="app-body">
     <!-- Clean Header -->
     <header class="bg-white border-b border-primary-200 sticky top-0 z-50 dark:bg-gray-800 dark:border-gray-700">
-        <div class="px-8 sm:px-12 lg:px-20 xl:px-28">
-            <div class="flex items-center justify-between h-16" style="align-items: center;">
+        <div class="px-4 sm:px-8 lg:px-20 xl:px-28">
+            <div class="flex items-center justify-between h-16">
                 <!-- Logo -->
-                <div class="flex items-center">
-                    <a href="{{ route('home') }}" class="flex items-center space-x-0">
-                        <img src="{{ asset('logo.png') }}" alt="SmurfExpress Logo" class="w-10 h-10 rounded">
-                        <span class="text-xl font-bold text-primary-900 dark:text-primary-400-dark ml-0">SmurfExpress</span>
+                <div class="flex items-center flex-shrink-0">
+                    <a href="{{ route('home') }}" class="flex items-center space-x-1">
+                        <img src="{{ asset('logo.png') }}" alt="SmurfExpress Logo" class="w-8 h-8 sm:w-10 sm:h-10 rounded">
+                        <span class="text-base sm:text-xl font-bold text-primary-900 dark:text-primary-400-dark">SmurfExpress</span>
                     </a>
                 </div>
 
-                <!-- Search -->
-                <div class="flex-1 max-w-md mx-8 hidden md:flex items-center justify-center">
+                <!-- Desktop Search -->
+                <div class="flex-1 max-w-md mx-8 hidden lg:flex items-center justify-center">
                     <form method="GET" action="{{ route('search') }}" class="w-full flex items-center">
                         <div class="relative w-full flex items-center">
                             <input type="text" name="q"
@@ -55,8 +55,15 @@
                     </form>
                 </div>
 
-                <!-- Navigation -->
-                <div class="flex items-center space-x-6">
+                <!-- Right Side Icons -->
+                <div class="flex items-center space-x-2 sm:space-x-3">
+                    <!-- Mobile Search Icon (visible on mobile only) -->
+                    <button onclick="toggleMobileSearch()" class="lg:hidden p-2 rounded-lg transition-all duration-200 hover:bg-primary-100 dark:hover:bg-primary-800-dark">
+                        <svg class="w-5 h-5 text-primary-600 dark:text-primary-400-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </button>
+                    
                     <!-- Dark Mode Toggle -->
                     <button onclick="toggleDarkMode()" id="darkModeToggle" class="dark-mode-toggle p-2 rounded-lg transition-all duration-200 hover:bg-primary-100 dark:hover:bg-primary-800-dark" title="Chuyển đổi chế độ tối/sáng">
                         <svg id="darkModeIcon" class="w-5 h-5 text-primary-600 dark:text-primary-400-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -65,28 +72,6 @@
                     </button>
 
                     @auth
-                        @if(Auth::user()->isAdmin())
-                            <a href="{{ route('posts.create') }}" class="text-primary-600 hover:text-primary-900 font-medium text-sm dark:text-primary-400-dark dark:hover:text-primary-300-dark">
-                                Viết bài
-                            </a>
-                            <a href="{{ route('admin.dashboard') }}" class="text-primary-600 hover:text-primary-900 font-medium text-sm dark:text-primary-400-dark dark:hover:text-primary-300-dark">
-                                Dashboard
-                            </a>
-                        @else
-                            <a href="{{ route('posts.create') }}" class="text-primary-600 hover:text-primary-900 font-medium text-sm dark:text-primary-400-dark dark:hover:text-primary-300-dark">
-                                Viết bài
-                            </a>
-                        @endif
-                    @endauth
-
-                    @guest
-                        <a href="{{ route('login') }}" class="text-primary-600 hover:text-primary-900 font-medium text-sm dark:text-primary-400-dark dark:hover:text-primary-300-dark">
-                            Đăng nhập
-                        </a>
-                        <a href="{{ route('register') }}" class="btn-primary text-sm">
-                            Đăng ký
-                        </a>
-                    @else
                         <!-- Notifications Dropdown -->
                         <div class="relative">
                             <button onclick="toggleNotificationsDropdown()" class="p-2 rounded-lg transition-all duration-200 hover:bg-primary-100 dark:hover:bg-primary-800-dark relative notification-icon">
@@ -99,7 +84,7 @@
                             </button>
                             
                             <!-- Notifications Dropdown Menu -->
-                            <div id="notificationsDropdown" class="hidden absolute right-0 mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-50 dark:bg-gray-800 dark:border-gray-700 max-h-96 overflow-y-auto" style="z-index: 60;">
+                            <div id="notificationsDropdown" class="hidden absolute right-0 mt-2 w-80 sm:w-96 bg-white border border-gray-200 rounded-lg shadow-lg z-50 dark:bg-gray-800 dark:border-gray-700 max-h-96 overflow-y-auto" style="z-index: 60;">
                                 <div class="py-2">
                                     <div class="px-4 py-2 border-b border-gray-100 dark:border-gray-600 flex items-center justify-between">
                                         <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Thông báo</h3>
@@ -176,95 +161,246 @@
                                 <svg class="w-4 h-4 text-primary-600 dark:text-primary-400-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                 </svg>
+                        </div>
+
+                        <!-- Avatar - Desktop Only -->
+                        <div class="relative hidden sm:block">
+                            <div class="flex items-center space-x-2 cursor-pointer" onclick="toggleProfileDropdown()">
+                                <div class="w-8 h-8 rounded-full overflow-hidden ring-2 ring-primary-500 flex-shrink-0">
+                                    @if(Auth::user()->avatar)
+                                        @if(Str::startsWith(Auth::user()->avatar, ['http://', 'https://']))
+                                            <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}" class="w-full h-full object-cover" onerror="this.src='{{ asset('hello.png') }}'">
+                                        @else
+                                            <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="{{ Auth::user()->name }}" class="w-full h-full object-cover" onerror="this.src='{{ asset('hello.png') }}'">
+                                        @endif
+                                    @else
+                                        <img src="{{ asset('hello.png') }}" alt="Default Avatar" class="w-full h-full object-cover">
+                                    @endif
+                                </div>
+                                <svg class="w-4 h-4 text-primary-600 dark:text-primary-400-dark hidden lg:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
                             </div>
                             
-                            <!-- Dropdown Menu -->
+                            <!-- Profile Dropdown Menu -->
                             <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-50 dark:bg-gray-800 dark:border-gray-700">
-                                <div class="py-1">
-                                    <a href="{{ route('profile.show') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
-                                        <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                                        </svg>
-                                        Hồ sơ của tôi
+                                <div class="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+                                    <div class="flex items-center space-x-3">
+                                        @if(Auth::user()->avatar)
+                                            @if(Str::startsWith(Auth::user()->avatar, ['http://', 'https://']))
+                                                <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}" class="w-10 h-10 rounded-full object-cover" onerror="this.src='{{ asset('hello.png') }}'">
+                                            @else
+                                                <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="{{ Auth::user()->name }}" class="w-10 h-10 rounded-full object-cover" onerror="this.src='{{ asset('hello.png') }}'">
+                                            @endif
+                                        @else
+                                            <img src="{{ asset('hello.png') }}" alt="Default Avatar" class="w-10 h-10 rounded-full object-cover">
+                                        @endif
+                                        <div>
+                                            <div class="font-medium text-gray-900 dark:text-white">{{ Auth::user()->name }}</div>
+                                            <div class="text-sm text-gray-500 dark:text-gray-400">{{ Auth::user()->email }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="py-2">
+                                    <a href="{{ route('users.show', Auth::user()) }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                        <div class="flex items-center">
+                                            <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                            </svg>
+                                            Trang cá nhân
+                                        </div>
                                     </a>
-                                    <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
-                                        <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                        </svg>
-                                        Chỉnh sửa hồ sơ
+                                    <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                        <div class="flex items-center">
+                                            <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                            </svg>
+                                            Cài đặt tài khoản
+                                        </div>
+                                    </a>
+                                    <a href="{{ route('posts.my-posts') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                        <div class="flex items-center">
+                                            <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                            </svg>
+                                            Bài viết của tôi
+                                        </div>
                                     </a>
                                     @if(Auth::user()->isAdmin())
-                                        <div class="border-t border-gray-100 my-1 dark:border-gray-600"></div>
-                                        <a href="{{ route('profile.posts') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
-                                            <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                                            </svg>
-                                            Bài viết của tôi
-                                        </a>
-                                        <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
-                                            <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                                            </svg>
-                                            Dashboard
-                                        </a>
-                                        <a href="{{ route('admin.users.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
-                                            <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
-                                            </svg>
-                                            Quản lý người dùng
-                                        </a>
-                                        <a href="{{ route('admin.comments.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
-                                            <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-                                            </svg>
-                                            Quản lý bình luận
-                                        </a>
-                                        <a href="{{ route('posts.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
-                                            <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3v9M9 3h6v3H9V3z"/>
-                                            </svg>
-                                            Quản lý bài viết
-                                        </a>
-                                        <a href="{{ route('categories.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
-                                            <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
-                                            </svg>
-                                            Quản lý chuyên mục
-                                        </a>
-                                    @else
-                                        <div class="border-t border-gray-100 my-1 dark:border-gray-600"></div>
-                                        <a href="{{ route('profile.posts') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
-                                            <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                                            </svg>
-                                            Bài viết của tôi
+                                        <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                            <div class="flex items-center">
+                                                <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                                                </svg>
+                                                Quản trị
+                                            </div>
                                         </a>
                                     @endif
-                                    <div class="border-t border-gray-100 my-1 dark:border-gray-600"></div>
-                                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" 
-                                       class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900 dark:hover:bg-opacity-20">
-                                        <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-                                        </svg>
-                                        Đăng xuất
+                                </div>
+                                <div class="border-t border-gray-200 dark:border-gray-700">
+                                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="block px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                        <div class="flex items-center">
+                                            <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                                            </svg>
+                                            Đăng xuất
+                                        </div>
                                     </a>
                                 </div>
                             </div>
                         </div>
-                            </a>
-                        </div>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
-                            @csrf
-                        </form>
-                    @endguest
+                    @else
+                        <!-- Guest Actions - Desktop Only -->
+                        <a href="{{ route('login') }}" class="hidden lg:block text-primary-600 hover:text-primary-900 font-medium text-sm dark:text-primary-400-dark dark:hover:text-primary-300-dark">
+                            Đăng nhập
+                        </a>
+                        <a href="{{ route('register') }}" class="hidden lg:block btn-primary text-sm">
+                            Đăng ký
+                        </a>
+                    @endauth
+
+                    <!-- Mobile Menu Button -->
+                    <button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-lg transition-all duration-200 hover:bg-primary-100 dark:hover:bg-primary-800-dark">
+                        <svg id="mobileMenuIcon" class="w-6 h-6 text-primary-600 dark:text-primary-400-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
                 </div>
             </div>
         </div>
+
+        <!-- Mobile Search Bar (slides down) -->
+        <div id="mobileSearchBar" class="hidden lg:hidden bg-white dark:bg-gray-800 border-t border-primary-200 dark:border-gray-700 px-4 py-3">
+            <form method="GET" action="{{ route('search') }}" class="w-full">
+                <div class="relative w-full flex items-center">
+                    <input type="text" name="q"
+                           class="w-full h-10 pl-4 pr-10 border border-primary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:outline-none text-sm bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-primary-400-dark dark:focus:border-primary-400-dark"
+                           placeholder="Tìm kiếm..."
+                           value="{{ request('q') }}">
+                    <button type="submit" class="absolute right-3 top-1/2 transform -translate-y-1/2 p-1 hover:bg-gray-100 rounded flex items-center justify-center dark:hover:bg-gray-600">
+                        <svg class="w-4 h-4 text-primary-500 dark:text-primary-400-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobileMenuOverlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden" onclick="toggleMobileMenu()"></div>
+        
+        <!-- Mobile Menu Sidebar -->
+        <div id="mobileMenu" class="hidden fixed top-0 right-0 h-full w-80 bg-white dark:bg-gray-800 shadow-2xl z-50 overflow-y-auto lg:hidden transform transition-transform duration-300">
+            <div class="p-4">
+                <!-- Close Button -->
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-primary-900 dark:text-primary-400-dark">Menu</h2>
+                    <button onclick="toggleMobileMenu()" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <svg class="w-6 h-6 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+
+                @auth
+                    <!-- User Profile Section -->
+                    <div class="mb-6 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                        <div class="flex items-center space-x-3 mb-4">
+                            @if(Auth::user()->avatar)
+                                @if(Str::startsWith(Auth::user()->avatar, ['http://', 'https://']))
+                                    <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}" class="w-12 h-12 rounded-full object-cover" onerror="this.src='{{ asset('hello.png') }}'">
+                                @else
+                                    <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="{{ Auth::user()->name }}" class="w-12 h-12 rounded-full object-cover" onerror="this.src='{{ asset('hello.png') }}'">
+                                @endif
+                            @else
+                                <img src="{{ asset('hello.png') }}" alt="Default Avatar" class="w-12 h-12 rounded-full object-cover">
+                            @endif
+                            <div>
+                                <div class="font-medium text-gray-900 dark:text-white">{{ Auth::user()->name }}</div>
+                                <div class="text-sm text-gray-500 dark:text-gray-400 truncate">{{ Auth::user()->email }}</div>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <a href="{{ route('users.show', Auth::user()) }}" class="block text-sm text-primary-600 dark:text-primary-400-dark hover:underline">Trang cá nhân</a>
+                            <a href="{{ route('profile.edit') }}" class="block text-sm text-primary-600 dark:text-primary-400-dark hover:underline">Cài đặt tài khoản</a>
+                        </div>
+                    </div>
+                @else
+                    <!-- Guest Actions -->
+                    <div class="mb-6 space-y-2">
+                        <a href="{{ route('login') }}" class="block w-full text-center px-4 py-2 text-primary-600 dark:text-primary-400-dark border border-primary-600 dark:border-primary-400-dark rounded-lg hover:bg-primary-50 dark:hover:bg-gray-700">
+                            Đăng nhập
+                        </a>
+                        <a href="{{ route('register') }}" class="block w-full text-center px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700">
+                            Đăng ký
+                        </a>
+                    </div>
+                @endauth
+
+                <!-- Navigation Links -->
+                <div class="mb-6">
+                    <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase mb-3">Điều hướng</h3>
+                    <div class="space-y-2">
+                        <a href="{{ route('home') }}" class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg {{ request()->routeIs('home') ? 'bg-gray-100 dark:bg-gray-700' : '' }}" onclick="toggleMobileMenu()">
+                            Trang chủ
+                        </a>
+                        @auth
+                            <a href="{{ route('posts.create') }}" class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg" onclick="toggleMobileMenu()">
+                                Viết bài
+                            </a>
+                            <a href="{{ route('posts.my-posts') }}" class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg" onclick="toggleMobileMenu()">
+                                Bài viết của tôi
+                            </a>
+                            @if(Auth::user()->isAdmin())
+                                <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg" onclick="toggleMobileMenu()">
+                                    Quản trị
+                                </a>
+                            @endif
+                        @endauth
+                    </div>
+                </div>
+
+                <!-- Categories with Fixed Height and Scroll -->
+                @if(isset($navigationCategories) && $navigationCategories->count() > 0)
+                    <div class="mb-6">
+                        <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase mb-3">Chuyên mục</h3>
+                        <div class="max-h-80 overflow-y-auto space-y-2 pr-2" style="scrollbar-width: thin; scrollbar-color: rgba(156, 163, 175, 0.5) transparent;">
+                            @foreach($navigationCategories as $category)
+                                <a href="{{ route('categories.show', $category) }}" 
+                                   class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg {{ request()->route('category') && request()->route('category')->id == $category->id ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
+                                   onclick="toggleMobileMenu()">
+                                    {{ $category->name }}
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
+                @auth
+                    <!-- Logout -->
+                    <div class="pt-6 border-t border-gray-200 dark:border-gray-700">
+                        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="block px-4 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-gray-700 rounded-lg">
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                                </svg>
+                                Đăng xuất
+                            </div>
+                        </a>
+                    </div>
+                @endauth
+            </div>
+        </div>
+        
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+            @csrf
+        </form>
     </header>
 
-    <!-- Navigation Bar -->
-    <nav class="bg-primary-900 border-b border-primary-800 dark:bg-primary-100-dark dark:border-primary-200-dark">
-        <div class="px-8 sm:px-12 lg:px-20 xl:px-28">
+    <!-- Navigation Bar - Desktop Only -->
+    <nav class="bg-primary-900 border-b border-primary-800 dark:bg-primary-100-dark dark:border-primary-200-dark hidden lg:block">
+        <div class="px-4 sm:px-8 lg:px-20 xl:px-28">
             <div class="flex items-center justify-between py-3">
                 <div class="flex items-center space-x-8">
                     <a href="{{ route('home') }}" class="text-white hover:text-primary-200 text-sm font-medium whitespace-nowrap transition-colors duration-200 dark:text-primary-900-dark dark:hover:text-primary-700-dark {{ request()->routeIs('home') ? 'text-primary-200 dark:text-primary-700-dark' : '' }}">
@@ -320,40 +456,12 @@
                         @endif
                     @endif
                 </div>
-                
-                <!-- Mobile Menu Toggle -->
-                <div class="md:hidden">
-                    <button onclick="toggleMobileNav()" class="text-white hover:text-primary-200 focus:outline-none dark:text-primary-900-dark dark:hover:text-primary-700-dark">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Mobile Navigation -->
-            <div id="mobileNav" class="hidden md:hidden pb-3 dark:bg-primary-100-dark">
-                <div class="flex flex-col space-y-2">
-                    @if(isset($navigationCategories))
-                        @foreach($navigationCategories as $category)
-                            <a href="{{ route('categories.show', $category) }}" 
-                               class="text-white hover:text-primary-200 text-sm font-medium py-2 transition-colors duration-200 dark:text-primary-900-dark dark:hover:text-primary-700-dark {{ request()->route('category')?->id == $category->id ? 'text-primary-200 dark:text-primary-700-dark' : '' }}">
-                                @if($category->icon)
-                                    <i class="{{ $category->icon }} w-4 h-4 mr-2"></i>
-                                @endif
-                                {{ $category->name }}
-                            </a>
-                        @endforeach
-                    @endif
-                </div>
             </div>
         </div>
     </nav>
 
-    <!-- Đã bỏ thông báo xác thực email -->
-
     <!-- Main Content -->
-    <main class="px-8 sm:px-12 lg:px-20 xl:px-28 py-8">
+    <main class="px-4 sm:px-8 lg:px-20 xl:px-28 py-8">
         @yield('content')
     </main>
 
@@ -490,12 +598,12 @@
             </div>
 
             <!-- Footer Bottom -->
-            <div class="border-t border-gray-200 dark:border-gray-700 py-8">
-                <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-                    <div class="text-gray-600 dark:text-gray-400 text-sm">
+            <div class="border-t border-gray-200 dark:border-gray-700 py-6 sm:py-8">
+                <div class="flex flex-col sm:flex-row justify-between items-center space-y-3 sm:space-y-0">
+                    <div class="text-gray-600 dark:text-gray-400 text-xs sm:text-sm text-center sm:text-left">
                         © {{ date('Y') }} <span class="font-semibold text-gray-900 dark:text-white">SmurfExpress</span>. All rights reserved.
                     </div>
-                    <div class="flex items-center space-x-6 text-sm">
+                    <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-6 text-xs sm:text-sm">
                         <a href="{{ route('privacy-policy') }}" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200">Chính sách bảo mật</a>
                         <a href="{{ route('terms-of-service') }}" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200">Điều khoản sử dụng</a>
                         <a href="{{ route('support') }}" class="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200">Hỗ trợ</a>
@@ -620,11 +728,26 @@
             dropdown.classList.toggle('hidden');
         }
 
-        function toggleMobileNav() {
-            const mobileNav = document.getElementById('mobileNav');
-            mobileNav.classList.toggle('hidden');
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+            const mobileMenuIcon = document.getElementById('mobileMenuIcon');
+            
+            mobileMenu.classList.toggle('hidden');
+            mobileMenuOverlay.classList.toggle('hidden');
+            
+            // Toggle icon
+            if (mobileMenu.classList.contains('hidden')) {
+                mobileMenuIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>';
+            } else {
+                mobileMenuIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>';
+            }
         }
 
+        function toggleMobileSearch() {
+            const searchBar = document.getElementById('mobileSearchBar');
+            searchBar.classList.toggle('hidden');
+        }
 
         function markAsReadOnly(notificationId) {
             fetch(`/notifications/${notificationId}/mark-as-read-only`, {
