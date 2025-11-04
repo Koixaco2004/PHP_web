@@ -169,16 +169,16 @@
                                     <div class="flex items-center space-x-3">
                                         @if(Auth::user()->avatar)
                                             @if(Str::startsWith(Auth::user()->avatar, ['http://', 'https://']))
-                                                <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}" class="w-10 h-10 rounded-full object-cover" onerror="this.src='{{ asset('hello.png') }}'">
+                                                <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}" class="w-10 h-10 rounded-full object-cover flex-shrink-0" onerror="this.src='{{ asset('hello.png') }}'">
                                             @else
-                                                <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="{{ Auth::user()->name }}" class="w-10 h-10 rounded-full object-cover" onerror="this.src='{{ asset('hello.png') }}'">
+                                                <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="{{ Auth::user()->name }}" class="w-10 h-10 rounded-full object-cover flex-shrink-0" onerror="this.src='{{ asset('hello.png') }}'">
                                             @endif
                                         @else
-                                            <img src="{{ asset('hello.png') }}" alt="Default Avatar" class="w-10 h-10 rounded-full object-cover">
+                                            <img src="{{ asset('hello.png') }}" alt="Default Avatar" class="w-10 h-10 rounded-full object-cover flex-shrink-0">
                                         @endif
-                                        <div>
-                                            <div class="font-medium text-gray-900 dark:text-white">{{ Auth::user()->name }}</div>
-                                            <div class="text-sm text-gray-500 dark:text-gray-400">{{ Auth::user()->email }}</div>
+                                        <div class="flex-1 min-w-0">
+                                            <div class="font-medium text-gray-900 dark:text-white truncate">{{ Auth::user()->name }}</div>
+                                            <div class="text-sm text-gray-500 dark:text-gray-400 truncate">{{ Auth::user()->email }}</div>
                                         </div>
                                     </div>
                                 </div>
