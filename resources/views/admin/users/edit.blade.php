@@ -31,7 +31,7 @@
 
 <!-- Edit Form -->
 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-secondary-200 dark:border-gray-700 p-8">
-    <form method="POST" action="{{ route('admin.users.update', $user) }}" class="space-y-6" onsubmit="showConfirmationModal('Xác nhận cập nhật', 'Bạn có chắc chắn muốn cập nhật thông tin người dùng này?', 'Cập nhật', function() { this.submit(); }); return false;">
+    <form method="POST" action="{{ route('admin.users.update', $user) }}" class="space-y-6" onsubmit="event.preventDefault(); const form = this; showConfirmationModal('Xác nhận cập nhật', 'Bạn có chắc chắn muốn cập nhật thông tin người dùng này?', 'Cập nhật', () => { form.submit(); }); return false;">
         @csrf
         @method('PUT')
 
@@ -119,7 +119,7 @@
                         @method('DELETE')
                         <button type="submit"
                                 class="btn-danger"
-                                onclick="showConfirmationModal('Xác nhận xóa', 'Bạn có chắc chắn muốn xóa người dùng này? Hành động này không thể hoàn tác.', 'Xóa', function() { this.closest('form').submit(); }); return false;">
+                                onclick="event.preventDefault(); const form = this.closest('form'); showConfirmationModal('Xác nhận xóa', 'Bạn có chắc chắn muốn xóa người dùng này? Hành động này không thể hoàn tác.', 'Xóa', () => { form.submit(); }); return false;">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                             </svg>
